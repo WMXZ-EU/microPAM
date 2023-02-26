@@ -1,36 +1,33 @@
 
-//#include <Audio.h>
+#include <Audio.h>
 #include <Wire.h>
 #include <SPI.h>
 #include <SD.h>
-//#include <SerialFlash.h>
+#include <SerialFlash.h>
 
 #include <TimeLib.h>
 #include <CrashReport.h>
 
-#include <usb_audio.h>
+#define NCHAN_I2S 2
+#define NCHAN_ACQ 1
+
 #include "I2S_32.h"
-#include "record_queue.h"
+#include "logger.h"
 
 // GUItool: begin automatically generated code
 //AudioInputI2S            acq;           //xy=221.23077011108398,209.23077774047852
-I2S_32                   acq;           //xy=221.23077011108398,209.23077774047852
-//AudioInputPDM            acq;           //xy=238.23077392578125,285.2307662963867
-AudioOutputUSB           usb1;           //xy=543.2307739257812,207.23076629638672
-AudioRecordQueue         queue1;         //xy=550.2307739257812,276.2307662963867
+I2S_32                  acq;           //xy=221.23077011108398,209.23077774047852
+AudioOutputUSB          usb1;           //xy=543.2307739257812,207.23076629638672
 
-AudioConnection          patchCord1(acq, 0, queue1, 0);
-AudioConnection          patchCord2(acq, 0, usb1, 0);
-AudioConnection          patchCord3(acq, 1, usb1, 1);
-
+AudioConnection         patchCord2(acq, 0, usb1, 0);
+AudioConnection         patchCord3(acq, 1, usb1, 1);
 // GUItool: end automatically generated code
 
-// custom audiobuffer macro (in lieu of stock AudioMemory
-
-  #define ExtAudioMemory(num) ({ \
-  static EXTMEM audio_block_t data[num]; \
-  AudioStream::initialize_memory(data, num); \
-  })
+uint32_t SerNum =0;
+int32_t fsamp=44100;
+int32_t t_acq=60,t_on=300,t_off=0;
+int32_t shift = 8;
+int32_t proc = 0;
 
 #define SDCARD_CS_PIN    BUILTIN_SDCARD
 time_t getTime() { return Teensy3Clock.get(); }
@@ -46,8 +43,8 @@ void setup() {
 
   set_arm_clock(24000000);
   
-  AudioMemory(60);
-//  acq.digitalShift(8);
+  AudioMemory(10);
+  acq.digitalShift(shift);
 
   while(!Serial);
   if(CrashReport) Serial.print(CrashReport);
@@ -58,22 +55,21 @@ void setup() {
     Serial.println("Unable to access the SD card");
     //while(1);
   }
-  Serial.println("SD card found");
+  else
+    Serial.println("SD card found");
   
-  queue1.begin();
+  pinMode(13,OUTPUT);
 }
 
-#include "logger.h"
-
 extern uint32_t disk_count;
-extern char diskBuffer[];
-int16_t *data=(int16_t *) diskBuffer;
+extern uint32_t diskBuffer[];
+int32_t *data= (int32_t *)diskBuffer;
 //
 void loop() {
   // put your main code here, to run repeatedly:
   static int16_t status=0;
 
-  int m_sec=(second() % 60); // close file every 60 seconds (on the minute)
+  int m_sec=(second() % t_acq); // close file every t_acq (60) seconds (on the minute)
   static int m_seco=0;
   if( (m_seco>0) && (m_sec<m_seco)) status=DOCLOSE;
   m_seco=m_sec; 
@@ -83,7 +79,7 @@ void loop() {
   static uint32_t t0=0;
   static uint32_t ic=0;
   if(millis()-t0>1000)
-  {
+  { digitalWriteFast(13,!digitalReadFast(13));
     t0=millis();
     Serial.printf("\n%10d %2d %2d %10d %10d",ic++, second(), disk_count, data[0],data[1]);
     disk_count=0;

@@ -75,7 +75,7 @@ LIBS_LOCAL_BASE := $(ROOT0)\Arduino\libraries
 LIBS_LOCAL      := 
 
 LIBS_SHARED_BASE  := $(ARDUINO)\teensy\avr\libraries
-LIBS_SHARED       := Time Wire SPI SD SdFat
+LIBS_SHARED       := Audio SerialFlash Time Wire SPI SD SdFat
 
 CORE_BASE        := $(ARDUINO)\teensy\avr\cores\$(Family)
 GCC_BASE         := $(ARDUINO)\tools\arm\bin
@@ -87,7 +87,7 @@ $(info GCC base = $(GCC_BASE))
 #******************************************************************************
 # Flags and Defines
 #******************************************************************************
-FLAGS_OPT   := -Os
+FLAGS_OPT   := -O3
 FLAGS_COM   := -g -Wall -ffunction-sections -fdata-sections -nostdlib -MMD
 FLAGS_LSP   := 
 

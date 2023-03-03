@@ -87,7 +87,7 @@ $(info GCC base = $(GCC_BASE))
 #******************************************************************************
 # Flags and Defines
 #******************************************************************************
-FLAGS_OPT   := -O3
+FLAGS_OPT   := -O2
 FLAGS_COM   := -g -Wall -ffunction-sections -fdata-sections -nostdlib -MMD
 FLAGS_LSP   := 
 

@@ -39,8 +39,6 @@
 
 #include "i2s_mods.h"
 
-#include "process.h"
-
 class I2S_32 : public AudioStream
 {
 public:
@@ -56,6 +54,8 @@ protected:
   static void isr32(void);
   
 private:
+  static int32_t DC_left;
+  static int32_t DC_right;
   static int16_t shift;
   static audio_block_t *block_left;
   static audio_block_t *block_right;
@@ -64,12 +64,13 @@ private:
   void config_i2s(void);
 };
 
-// for 32 bit I2S we need doubled buffer
-#define AUDIO_BLOCK_SAMPLES_NCH (NCHAN_I2S*AUDIO_BLOCK_SAMPLES)
-static uint32_t i2s_rx_buffer_32[2*AUDIO_BLOCK_SAMPLES_NCH]; 
-static uint32_t acq_buffer_32[AUDIO_BLOCK_SAMPLES_NCH]; 
+#define NAVG 16
 
+// for 32 bit I2S we need doubled buffer
+static uint32_t i2s_rx_buffer_32[2*AUDIO_BLOCK_SAMPLES];
 int16_t I2S_32::shift=8; //8 shifts 24 bit data to LSB
+int32_t I2S_32::DC_left=0;
+int32_t I2S_32::DC_right=0;
 
 audio_block_t * I2S_32:: block_left = NULL;
 audio_block_t * I2S_32:: block_right = NULL;
@@ -100,7 +101,7 @@ void I2S_32::begin(void)
   dma.TCD->SLAST = 0;
   dma.TCD->DADDR = i2s_rx_buffer_32;
   dma.TCD->DOFF = 4;
-  dma.TCD->CITER_ELINKNO = sizeof(i2s_rx_buffer_32) / 4; 
+  dma.TCD->CITER_ELINKNO = sizeof(i2s_rx_buffer_32) / 4;
   dma.TCD->DLASTSGA = -sizeof(i2s_rx_buffer_32);
   dma.TCD->BITER_ELINKNO = sizeof(i2s_rx_buffer_32) / 4;
   dma.TCD->CSR = DMA_TCD_CSR_INTHALF | DMA_TCD_CSR_INTMAJOR;
@@ -124,8 +125,10 @@ void I2S_32::begin(void)
 
 void I2S_32::isr32(void)
 {
-  uint32_t daddr;
+  uint32_t daddr, offset;
   const int32_t *src, *end;
+
+//  char * dest_left, *dest_right;
   
   int16_t *dest_left, *dest_right; 
   audio_block_t *left, *right;
@@ -137,36 +140,55 @@ void I2S_32::isr32(void)
   if (daddr < (uint32_t)i2s_rx_buffer_32 + sizeof(i2s_rx_buffer_32) / 2) {
     // DMA is receiving to the first half of the buffer
     // need to remove data from the second half
-    src = (int32_t *)&i2s_rx_buffer_32[AUDIO_BLOCK_SAMPLES_NCH];
-    end = (int32_t *)&i2s_rx_buffer_32[2*AUDIO_BLOCK_SAMPLES_NCH];
+    src = (int32_t *)&i2s_rx_buffer_32[AUDIO_BLOCK_SAMPLES];
+    end = (int32_t *)&i2s_rx_buffer_32[AUDIO_BLOCK_SAMPLES*2];
     if (I2S_32::update_responsibility) AudioStream::update_all();
   } else {
     // DMA is receiving to the second half of the buffer
     // need to remove data from the first half
     src = (int32_t *)&i2s_rx_buffer_32[0];
-    end = (int32_t *)&i2s_rx_buffer_32[AUDIO_BLOCK_SAMPLES_NCH];
+    end = (int32_t *)&i2s_rx_buffer_32[AUDIO_BLOCK_SAMPLES];
   }
 
-  for(int ii=0; ii<AUDIO_BLOCK_SAMPLES_NCH;ii++) acq_buffer_32[ii]= src[ii]>>I2S_32::shift;
-  int32_t *iptr = (int32_t *) acq_buffer_32;
+  // remove DC from data
+  int32_t *data = (int32_t *) src;
+  int32_t dc0=0,dc1=0;
+  for(int ii=0; ii<AUDIO_BLOCK_SAMPLES/2;ii++)
+  {
+    dc0 +=data[0+2*ii];
+    dc1 +=data[1+2*ii];
+  }
+  dc0 /=AUDIO_BLOCK_SAMPLES/2;
+  dc1 /=AUDIO_BLOCK_SAMPLES/2;
 
-   // extract 16 bit from 32 bit I2S buffer but shift to right first
+  for(int ii=0; ii<AUDIO_BLOCK_SAMPLES/2;ii++)
+  {
+    data[0+2*ii] -= I2S_32::DC_left;
+    data[1+2*ii] -= I2S_32::DC_right;
+  }
+
+  int32_t dco0=I2S_32::DC_left;
+  int32_t dco1=I2S_32::DC_right;
+  I2S_32::DC_left  = (NAVG * dco0 +(dc0-dco0))/NAVG;
+  I2S_32::DC_right = (NAVG * dco1 +(dc0-dco1))/NAVG;
+
+   // extract 16/32 bit from 32 bit I2S buffer but shift to right first
+   // there will be two buffers with each having "AUDIO_BLOCK_SAMPLES_NCH" samples
   left  = I2S_32::block_left;
   right = I2S_32::block_right;
   if (left != NULL && right != NULL) {
-      dest_left  = &(left->data[0]);
-      dest_right = &(right->data[0]);
-      do {
-        *dest_left++  = (*iptr++); // left side is 16 bit
-        *dest_right++ = (*iptr++);
-      } while (iptr < end);
-  }
+    offset = I2S_32::block_offset;
+    if (offset <= AUDIO_BLOCK_SAMPLES/2) {
+      dest_left  = &(left->data[offset]);
+      dest_right = &(right->data[offset]);
+      I2S_32::block_offset = offset + AUDIO_BLOCK_SAMPLES/2; 
 
-  #if NCHAN_ACQ==1
-    // compact data stereo to mono
-    for(int ii=0; ii<NBUF_ACQ; ii++) acq_buffer_32[ii]= acq_buffer_32[2*ii]; 
-  #endif
-  process((void *)acq_buffer_32);
+      do {
+        *dest_left++  = (*src++)>>I2S_32::shift; // left side may be 16 or 32 bit
+        *dest_right++ = (*src++)>>I2S_32::shift;
+      } while (src < end);
+    }
+  }
 }
 
 void I2S_32::update(void)
@@ -182,9 +204,11 @@ void I2S_32::update(void)
       new_left = NULL;
     }
   }
+  __disable_irq();
+  if (block_offset >= AUDIO_BLOCK_SAMPLES) {
     // the DMA filled 2 blocks, so grab them and get the
     // 2 new blocks to the DMA, as quickly as possible
-  __disable_irq();
+
     out_left = block_left;
     block_left = new_left;
     out_right = block_right;
@@ -197,6 +221,27 @@ void I2S_32::update(void)
     release(out_left);
     transmit(out_right, 1);
     release(out_right);
+  } else if (new_left != NULL) {
+    // the DMA didn't fill blocks, but we allocated blocks
+    if (block_left == NULL) {
+      // the DMA doesn't have any blocks to fill, so
+      // give it the ones we just allocated
+      block_left = new_left;
+      block_right = new_right;
+      block_offset = 0;
+      __enable_irq();
+    } else {
+      // the DMA already has blocks, doesn't need these
+      __enable_irq();
+      release(new_left);
+      release(new_right);
+    }
+  } else {
+    // The DMA didn't fill blocks, and we could not allocate
+    // memory... the system is likely starving for memory!
+    // Sadly, there's nothing we can do.
+    __enable_irq();
+  }
 }
 
 #if defined(KINETISK)

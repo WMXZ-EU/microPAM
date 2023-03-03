@@ -26,9 +26,6 @@
 #include <SD.h>
 #include <SerialFlash.h>
 
-#include <TimeLib.h>
-time_t getTime() { return Teensy3Clock.get(); }
-
 #define START_MODE -1
 
 #define NSAMP 128
@@ -64,7 +61,6 @@ void setup() {
   AudioMemory(60);
   acq.digitalShift(shift);
 
-  setSyncProvider(getTime);
   SerNum=getTeensySerial();
   
   #if STARTMODE==-1
@@ -113,7 +109,10 @@ void loop() {
   
   if(millis()-t0>1000)
   { t0=millis();
-    Serial.printf("\n%10d %2d %3d %d",ic++, second(), AudioMemoryUsageMax(), status);
+    Serial.printf("\n%10d %2d %3d %.2f %d",
+        ic++, rtc_get()%60, AudioMemoryUsageMax(), 
+        (float) fsamp/(float)(disk_count*NBUF*NSAMP), status);
     AudioMemoryUsageMaxReset();
+    disk_count=0;
   }
 }

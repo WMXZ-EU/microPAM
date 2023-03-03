@@ -23,6 +23,8 @@
 #ifndef _FILING_H
 #define _FILING_H
 
+#include <TimeLib.h>
+
 int16_t diskBuffer[NBUF*NSAMP];
 int16_t haveSD=0;
 
@@ -37,11 +39,13 @@ uint32_t getTeensySerial(void);
 int16_t checkEndOfFile(int16_t status);
 int16_t newDay(void);
 int16_t newHour(void);
-int16_t checkDiskSpace(void);
+//int16_t checkDiskSpace(void);
 int16_t newDirectory(char *dirName);
 int16_t newFileName(char *fileName);
 int16_t makeHeader(char *header);
 int16_t storeData(int status);
+
+uint32_t disk_count=0;
 
 uint32_t tx_ = 0;
 int16_t checkEndOfFile(int16_t status)
@@ -192,6 +196,7 @@ int16_t storeData(int status)
           break;
     case 2:
           // write data
+          disk_count++;
           if(file.write((const void *)diskBuffer, nbuf) < (size_t) nbuf) return ErrorMsg("Error Data");
           break;
     case 3:

@@ -26,7 +26,7 @@
 #include <SD.h>
 #include <SerialFlash.h>
 
-#define START_MODE -1
+#define START_MODE 0
 
 #define NSAMP 128
 #define NBUF 10

@@ -46,7 +46,7 @@ public:
 	I2S_32(void) : AudioStream(0, NULL) {begin();}
   void begin(void);
   virtual void update(void);
-  void digitalShift(int16_t val){I2S_32::shift=val;}
+  void digitalShift(int32_t val){I2S_32::shift=val;}
   
 protected:  
   static bool update_responsibility;
@@ -56,7 +56,7 @@ protected:
 private:
   static int32_t DC_left;
   static int32_t DC_right;
-  static int16_t shift;
+  static int32_t shift;
   static audio_block_t *block_left;
   static audio_block_t *block_right;
   static uint16_t block_offset;
@@ -68,7 +68,7 @@ private:
 
 // for 32 bit I2S we need doubled buffer
 static uint32_t i2s_rx_buffer_32[2*AUDIO_BLOCK_SAMPLES];
-int16_t I2S_32::shift=8; //8 shifts 24 bit data to LSB
+int32_t I2S_32::shift=8; //8 shifts 24 bit data to LSB
 int32_t I2S_32::DC_left=0;
 int32_t I2S_32::DC_right=0;
 
@@ -123,6 +123,8 @@ void I2S_32::begin(void)
   dma.attachInterrupt(isr32); 
 }
 
+int16_t srcData;
+int32_t acqData;
 void I2S_32::isr32(void)
 {
   uint32_t daddr, offset;
@@ -150,6 +152,7 @@ void I2S_32::isr32(void)
     end = (int32_t *)&i2s_rx_buffer_32[AUDIO_BLOCK_SAMPLES];
   }
 
+/*
   // remove DC from data
   int32_t *data = (int32_t *) src;
   int32_t dc0=0,dc1=0;
@@ -171,6 +174,7 @@ void I2S_32::isr32(void)
   int32_t dco1=I2S_32::DC_right;
   I2S_32::DC_left  = (NAVG * dco0 +(dc0-dco0))/NAVG;
   I2S_32::DC_right = (NAVG * dco1 +(dc0-dco1))/NAVG;
+*/
 
    // extract 16/32 bit from 32 bit I2S buffer but shift to right first
    // there will be two buffers with each having "AUDIO_BLOCK_SAMPLES_NCH" samples
@@ -183,10 +187,12 @@ void I2S_32::isr32(void)
       dest_right = &(right->data[offset]);
       I2S_32::block_offset = offset + AUDIO_BLOCK_SAMPLES/2; 
 
+acqData=*src;
       do {
         *dest_left++  = (*src++)>>I2S_32::shift; // left side may be 16 or 32 bit
         *dest_right++ = (*src++)>>I2S_32::shift;
       } while (src < end);
+srcData=left->data[offset];
     }
   }
 }

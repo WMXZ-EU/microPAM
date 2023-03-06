@@ -132,13 +132,15 @@ int16_t makeHeader(char *header)
     //float *fptr = (float *) ptr;
     
     // to be filled in
-    iptr[0] = 1;                    // SW version
+    iptr[0] = 10;                   // SW version
     iptr[1] = (int32_t)SerNum;      // serial number
     iptr[2] = fsamp;
     iptr[3] = nch;
     iptr[4] = t_acq;
     iptr[5] = t_on;
     iptr[6] = t_off;
+    iptr[7] = DO_COMPRESS;
+    iptr[8] = shift;
 
     uint32_t *uptr = (uint32_t*) header;
     uptr[127] = 0x55555555;
@@ -153,16 +155,19 @@ int16_t ErrorMsg(const char *txt)
 
 void storeBegin(void)
 {
-  if((!(SD.begin(BUILTIN_SDCARD)) && !(SD.begin( BUILTIN_SDCARD)))) 
-  { // stop here if no SD card, but print a message
-    Serial.println("Unable to access the SD card");
-    //while(1);
+  for(int ii=0;ii<5;ii++)
+  {
+    if(!(SD.begin(BUILTIN_SDCARD))) 
+    { // stop here if no SD card, but print a message
+      Serial.println("Unable to access the SD card");
+      delay(100);
+    }
+    else
+    { Serial.println("SD card found");
+      haveSD=1;
+      break;
+    }
   }
-  else
-  { Serial.println("SD card found");
-    haveSD=1;
-  }
-
 }
 
 int16_t storeData(int status)

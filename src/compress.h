@@ -68,11 +68,13 @@ uint16_t AudioCompress::pushData(void * src)
 #define NX 16
 #define NCH 1
 
+#define NBLOCK NSAMP
 static uint16_t tempData[NSAMP];
 static uint16_t outData[NSAMP];
-static uint16_t dout[NSAMP];
+static uint16_t dout[NBLOCK];
 
 int16_t *tempDatai=(int16_t*) tempData;
+int16_t tempData0[NCH];
 
 uint32_t proc_stat[MB];
 
@@ -82,15 +84,13 @@ int AudioCompress::compress(void *inp)
   uint32_t to = rtc_get();
   uint32_t t1 = micros();
 
-    static int nout=0;
-
-    int16_t *din = (int16_t *) inp;
-    //
-    // copy reference (first sample of all channels)
-  for (int  ii = 0; ii < NCH; ii++) tempDatai[ii] = din[ii];
-        
+  int16_t *din = (int16_t *) inp;
+  //
+  // copy reference (first sample of all channels)
+  for (int  ii = 0; ii < NCH; ii++) tempData0[ii]=tempDatai[ii] = din[ii];
+  
   //differentiate (equiv 6 dB/Octave HP filter)
-  for (int  ii = NCH; ii < NSAMP; ii++) tempDatai[ii] = (din[ii] - din[ii - 1]);
+  for (int  ii = NCH; ii < NSAMP; ii++) tempDatai[ii] = (din[ii] - din[ii - NCH]);
 
   // find maximum in filtered data
   int32_t mx = 0;
@@ -101,20 +101,24 @@ int AudioCompress::compress(void *inp)
     if(dd>mx) mx = dd;
   }
 
-  // estimate mask (allow only 'nice' values)
+  // estimate mask (allow only values > 2)
     int nb;
     for(nb=2; nb<MB; nb++) if(mx < (1<<(nb-1))) break;
     // compression factor (16/nb)
-
+    
     proc_stat[nb-1]++;
-
+    
   // mask data (all but first sample) (mask needed for negative numbers)
   uint32_t msk = (1 << nb) - 1;
-  for (int ii = 1; ii < NSAMP; ii++) { tempData[ii] &= (uint16_t)msk; }
+  for (int ii = NCH; ii < NSAMP; ii++) { tempData[ii] &= (uint16_t)msk; }
 
   // pack all data
   int ncmp = (NSAMP*nb) / NX;
   int ndat = NH+NCH + ncmp;
+  int ndat0 = ndat; 
+
+  // ensure that ndat is even (to allow fast access to header)
+  ndat= ((ndat>>1) + 1)<<1;
 
     // clean data store
   for (int ii = 0; ii < NSAMP; ii++) outData[ii]=0;
@@ -149,16 +153,17 @@ int AudioCompress::compress(void *inp)
             outData[kk] = (tempData[ii] << nx);
         }
     }
-       
+
     // store actual data
-    if ((nout + ndat) <= NSAMP)
+    static int nout=0;
+
+    if ((nout + ndat) <= NBLOCK)
     { // all data fit in current block
         for (int ii = 0; ii < ndat; ii++) dout[nout++] = outData[ii];
-        //
     }
-    else if ((nout + NH) > NSAMP) //avoid partial header (special case)
+    else if ((nout + NH) > NBLOCK) //avoid partial header (special case)
     {
-        while(nout<NSAMP) dout[nout++] = 0; // fill rest of block with zero
+        while(nout<NBLOCK) dout[nout++] = 0; // fill rest of block with zero
         // store data
         if(!pushData(dout)) ret = 0;
         //
@@ -169,20 +174,22 @@ int AudioCompress::compress(void *inp)
     else
     { // data crosses two blocks
         int ii=0;
-        int nr = NSAMP-nout;  //remaining data
+        int nr = NBLOCK-nout;  //remaining data
         uint32_t *iptr = (uint32_t *) outData;
+        // correct header
         iptr[5] = (iptr[5]<<16) | (nr-NH);  //orig remaining data | actual remaining data after header 
 
-        while (nout < NSAMP ) dout[nout++] = outData[ii++];
+        while (nout < NBLOCK) dout[nout++] = outData[ii++];
         // store data
         if(!pushData(dout)) ret = 0;
         //
         // store rest in next block
-        nr=ndat-ii;
+        nr=ndat0-ii; // for header
         // add blockHeader continuation
         iptr[5]=(iptr[5] & 0xffff0000) | nr; //orig remaining data | actual remaining data after header
-
-        for(nout=0;nout<12;nout++) dout[nout] = outData[nout];
+        // copy first header
+        for(nout=0;nout<NH;nout++) dout[nout] = outData[nout];
+        // followed by rest of data
         while (ii < ndat) dout[nout++] = outData[ii++];
     }
     return ret;

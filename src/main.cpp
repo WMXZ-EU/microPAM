@@ -28,15 +28,16 @@
 
 #define START_MODE 0
 
+#define DO_COMPRESS 1
 #define NSAMP 128
-#define NBUF 10
+#define NBUF 16
 
 const int32_t fsamp=44100;
 const int32_t nch=1;
 const int32_t t_acq=60;
 const int32_t t_on=300;
 const int32_t t_off=0;
-const int32_t shift=10;
+const int32_t shift=14;
 
 
 const char *DirPrefix = "D";
@@ -49,12 +50,18 @@ const char *FilePrefix = "F";
 I2S_32                   acq; 
 AudioOutputUSB           usb1; 
 AudioRecordQueue         queue1;
-AudioCompress            proc;
+#if DO_COMPRESS==1
+  AudioCompress            proc;
+#endif
 
 AudioConnection          patchCord1(acq, 0, usb1, 0);
 AudioConnection          patchCord2(acq, 1, usb1, 1);
-AudioConnection          patchCord3(acq,  0, proc, 0);
-AudioConnection          patchCord4(proc, 0, queue1, 0);
+#if DO_COMPRESS==1
+  AudioConnection          patchCord3(acq,  0, proc, 0);
+  AudioConnection          patchCord4(proc, 0, queue1, 0);
+#else
+  AudioConnection          patchCord4(acq, 0, queue1, 0);
+#endif
 
 void setup() {
   // put your setup code here, to run once:
@@ -72,6 +79,13 @@ void setup() {
   queue1.begin();
 }
 
+  #define CPU_RESTART_ADDR (uint32_t *)0xE000ED0C
+  #define CPU_RESTART_VAL 0x5FA0004
+  #define CPU_RESTART (*CPU_RESTART_ADDR = CPU_RESTART_VAL)
+
+extern int16_t srcData;
+extern int32_t acqData;
+extern int16_t tempData0[];
 void loop() {
   // put your main code here, to run repeatedly:
 
@@ -83,6 +97,8 @@ void loop() {
     char ch=Serial.read();
     if(ch=='s') status=0;
     if(ch=='e') status=4;
+    if(ch=='x') CPU_RESTART;
+    if(ch=='b') _reboot_Teensyduino_();
     while(Serial.available()) Serial.read();
   }
 
@@ -109,9 +125,9 @@ void loop() {
   
   if(millis()-t0>1000)
   { t0=millis();
-    Serial.printf("\n%10d %2d %3d %.2f %d",
+    Serial.printf("\n%10d %2d %3d %.2f %6d %8x %8x %d",
         ic++, rtc_get()%60, AudioMemoryUsageMax(), 
-        (float) fsamp/(float)(disk_count*NBUF*NSAMP), status);
+        (float) fsamp/(float)(disk_count*NBUF*NSAMP), tempData0[0],acqData,srcData,status);
     AudioMemoryUsageMaxReset();
     disk_count=0;
   }

@@ -123,8 +123,6 @@ void I2S_32::begin(void)
   dma.attachInterrupt(isr32); 
 }
 
-int16_t srcData;
-int32_t acqData;
 void I2S_32::isr32(void)
 {
   uint32_t daddr, offset;
@@ -186,13 +184,10 @@ void I2S_32::isr32(void)
       dest_left  = &(left->data[offset]);
       dest_right = &(right->data[offset]);
       I2S_32::block_offset = offset + AUDIO_BLOCK_SAMPLES/2; 
-
-acqData=*src;
-      do {
+      do { 
         *dest_left++  = (*src++)>>I2S_32::shift; // left side may be 16 or 32 bit
         *dest_right++ = (*src++)>>I2S_32::shift;
       } while (src < end);
-srcData=left->data[offset];
     }
   }
 }

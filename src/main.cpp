@@ -26,11 +26,15 @@
 #include <SD.h>
 #include <SerialFlash.h>
 
-#define START_MODE 0
+#define START_MODE 0 // set to -1 to wait
 
 #define DO_COMPRESS 1
 #define NSAMP 128
 #define NBUF 16
+
+#define CPU_RESTART_ADDR (uint32_t *)0xE000ED0C
+#define CPU_RESTART_VAL 0x5FA0004
+#define CPU_RESTART (*CPU_RESTART_ADDR = CPU_RESTART_VAL)
 
 const int32_t fsamp=44100;
 const int32_t nch=1;
@@ -38,7 +42,6 @@ const int32_t t_acq=60;
 const int32_t t_on=300;
 const int32_t t_off=0;
 const int32_t shift=14;
-
 
 const char *DirPrefix = "D";
 const char *FilePrefix = "F";
@@ -70,7 +73,7 @@ void setup() {
 
   SerNum=getTeensySerial();
   
-  #if STARTMODE==-1
+  #if START_MODE==-1
     while(!Serial);
   #endif
 
@@ -79,12 +82,6 @@ void setup() {
   queue1.begin();
 }
 
-  #define CPU_RESTART_ADDR (uint32_t *)0xE000ED0C
-  #define CPU_RESTART_VAL 0x5FA0004
-  #define CPU_RESTART (*CPU_RESTART_ADDR = CPU_RESTART_VAL)
-
-extern int16_t srcData;
-extern int32_t acqData;
 extern int16_t tempData0[];
 void loop() {
   // put your main code here, to run repeatedly:
@@ -97,8 +94,8 @@ void loop() {
     char ch=Serial.read();
     if(ch=='s') status=0;
     if(ch=='e') status=4;
-    if(ch=='x') CPU_RESTART;
-    if(ch=='b') _reboot_Teensyduino_();
+    if(ch=='b') CPU_RESTART;
+    if(ch=='z') _reboot_Teensyduino_();
     while(Serial.available()) Serial.read();
   }
 
@@ -122,12 +119,16 @@ void loop() {
   // print some statistics every second
   static uint32_t t0=0;
   static uint32_t ic=0;
-  
+  #if DO_COMPRESS==1
+    int32_t data = tempData0[0];
+  #else
+    int32_t data = diskBuffer[0];
+  #endif
   if(millis()-t0>1000)
   { t0=millis();
-    Serial.printf("\n%10d %2d %3d %.2f %6d %8x %8x %d",
+    Serial.printf("\n%10d %2d %3d %.2f %6d %d",
         ic++, rtc_get()%60, AudioMemoryUsageMax(), 
-        (float) fsamp/(float)(disk_count*NBUF*NSAMP), tempData0[0],acqData,srcData,status);
+        (float) fsamp/(float)(disk_count*NBUF*NSAMP), data, status);
     AudioMemoryUsageMaxReset();
     disk_count=0;
   }

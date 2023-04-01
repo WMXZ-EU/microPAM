@@ -121,7 +121,9 @@ uint8_t *setRTC(uint8_t *buffer, uint16_t nbuf)
 }
 
 /******************************************************************/
+#include "mConfig.h"
 #include "mRTC.h"
+
 
 #define YEAR0 1970
 #define LEAP_YEAR(Y)     ( ((YEAR0+(Y))>0) && !((YEAR0+(Y))%4) && ( ((YEAR0+(Y))%100) || !((YEAR0+(Y))%400) ) )
@@ -278,7 +280,7 @@ void time2date(uint32_t time, datetime_t *tm)
 
     //to be sure:
     uint16_t days=date2days(rtcBuffer[6], rtcBuffer[5]&0x7f, rtcBuffer[4]);
-    t.dotw = ((days + 6) % 7) ;  // Sunday is day 0 // 1-1-2000 was Saturday
+    t.dotw = ((days + 1) % 7) ;  // Sunday is day 0 // 1-1-2000 was Saturday
 
     if(!rtc_set_datetime(&t)) return 0;
     return 1;

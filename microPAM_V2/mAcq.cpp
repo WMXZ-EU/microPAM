@@ -22,15 +22,16 @@
 
 #include "Arduino.h"
 
+#include "mConfig.h"
 #include "mQueue.h"
 #include "mCompress.h"
 #include "mAcq.h"
 
-#ifndef NBUF_ACQ
+#ifndef NBUF_ACQ        // should be defined in mQueue.h
   #define NBUF_ACQ 128
 #endif
 
-#define NBUF_I2S (2*NBUF_ACQ) //for stereo
+#define NBUF_I2S (2*NBUF_ACQ) //for stereo I2S
 
 uint32_t procCount=0;
 uint32_t procMiss=0;
@@ -46,7 +47,7 @@ static void process(uint32_t * buffer);
   pin_size_t _pinBCLK =1;
 
   int _freq=FSAMP;
-  int _bps=32;
+  int _bps =MBIT;
   int off=0;
 
   PIOProgram *_i2s;
@@ -237,9 +238,9 @@ static void process(uint32_t * buffer);
     I2S1_RCR2 = I2S_RCR2_SYNC(0) | I2S_RCR2_BCP  
               | (I2S_RCR2_BCD | I2S_RCR2_DIV((1)) | I2S_RCR2_MSEL(1));
     I2S1_RCR3 = I2S_RCR3_RCE;
-    I2S1_RCR4 = I2S_RCR4_FRSZ((2-1)) | I2S_RCR4_SYWD((32-1)) | I2S_RCR4_MF
+    I2S1_RCR4 = I2S_RCR4_FRSZ((2-1)) | I2S_RCR4_SYWD((MBIT-1)) | I2S_RCR4_MF
           | I2S_RCR4_FSE | I2S_RCR4_FSP | I2S_RCR4_FSD;
-    I2S1_RCR5 = I2S_RCR5_WNW((32-1)) | I2S_RCR5_W0W((32-1)) | I2S_RCR5_FBT((32-1));
+    I2S1_RCR5 = I2S_RCR5_WNW((MBIT-1)) | I2S_RCR5_W0W((MBIT-1)) | I2S_RCR5_FBT((MBIT-1));
 
     I2S1_RCSR = I2S_RCSR_RE | I2S_RCSR_BCE | I2S_RCSR_FRDE | I2S_RCSR_FR;
 
@@ -259,10 +260,10 @@ static void process(uint32_t * buffer);
     dma.TCD->SADDR = (void *)((uint32_t)&I2S1_RDR0);
     dma.TCD->SOFF = 0;
     dma.TCD->ATTR = DMA_TCD_ATTR_SSIZE(2) | DMA_TCD_ATTR_DSIZE(2);
-    dma.TCD->NBYTES_MLNO = 4;
+    dma.TCD->NBYTES_MLNO = (MBIT/8);
     dma.TCD->SLAST = 0;
     dma.TCD->DADDR = i2s_buffer;
-    dma.TCD->DOFF = 4;
+    dma.TCD->DOFF = (MBIT/8);
     dma.TCD->CITER_ELINKNO = 2*NBUF_I2S;
     dma.TCD->DLASTSGA = -sizeof(i2s_buffer);
     dma.TCD->BITER_ELINKNO = dma.TCD->CITER_ELINKNO;
@@ -304,8 +305,9 @@ static void process(uint32_t * buffer)
 { procCount++;
   int32_t *inp = (int32_t *)buffer;
   for(int ii=0; ii<NBUF_ACQ; ii++) acqBuffer[ii]= inp[2*ii]>>shift;
-  if(proc==0)
+  #if PROC_MODE==0
     if(!pushData((uint32_t *)acqBuffer)) procMiss++;
-  else
-    if(!compress(acqBuffer)) procMiss++;
+  #elif PROC_MODE==1
+    if(!compress((void *)acqBuffer)) procMiss++;
+  #endif    
 }

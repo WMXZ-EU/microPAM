@@ -23,7 +23,16 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "mConfig.h"
 #include "mQueue.h"
+
+  #ifndef NBUF_ACQ
+    #define NBUF_ACQ 128
+  #endif
+
+  #ifndef MAXBUF
+    #define MAXBUF 128      // Queue length
+  #endif
 
 #if 1
   static uint32_t data_buffer[MAXBUF][NBUF_ACQ];

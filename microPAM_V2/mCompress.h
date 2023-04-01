@@ -25,4 +25,6 @@
 
 int compress(void *inp);
 
+extern uint32_t proc_stat[];
+extern uint32_t max_stat;
 #endif

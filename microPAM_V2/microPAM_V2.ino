@@ -28,9 +28,12 @@
 #if defined(TARGET_RP2040)
   #include "pico/stdlib.h"
 #endif
-#include "mAcq.h"
+
+#include "mConfig.h"
 #include "mQueue.h"
+#include "mAcq.h"
 #include "mRTC.h"
+#include "mCompress.h"
 #include "mFiling.h"
 
 /***************************************************************************/
@@ -42,20 +45,24 @@ void setup()
   #endif
   Serial.begin(115200);
 
+  // wait for a minute to allow USB-Serial connection
   while(millis()<60000) if(Serial) break;
 
+  // Teensy has a crash report
   #if defined(__IMXRT1062__)
     if(CrashReport) Serial.print(CrashReport);
   #endif
 
   if(!rtc_setup()) Serial.println("RTC Lost Power");
+
   i2s_setup();
   dma_setup();
 
   uint32_t to= rtc_get();
-  datetime_t t;
+  //datetime_t t;
   time2date(to, &t);
-  Serial.printf("Now: %4d-%02d-%02d %02d:%02d:%02d",t.year,t.month,t.day,t.hour,t.min,t.sec); Serial.println();
+  Serial.printf("Now: %4d-%02d-%02d %02d:%02d:%02d",
+                      t.year,t.month,t.day,t.hour,t.min,t.sec); Serial.println();
   Serial.print("Week Day "); Serial.println(t.dotw);
 
   filing_init();
@@ -78,34 +85,44 @@ void loop()
     if(ch=='e') status=MUSTSTOP;
   }
 
+  // obtain some statistics on Queue usage
   static uint16_t mxb=0;
   uint16_t nb = getDataCount();
   if(nb>mxb) mxb=nb;
 
-  // check end of file
+  // save data (filing will be handled inside saveData)
   status=saveData(status);  
 
-
+  // once a second provide some information to User
   static uint32_t t0=0;
   uint32_t t1;
   if((t1=millis())>(t0+1000))
   { datetime_t t;
     rtc_get_datetime(&t);
 
-    Serial.printf("\n%4d-%02d-%02d %02d:%02d:%02d %d",t.year,t.month,t.day,t.hour,t.min,t.sec,t.dotw); Serial.print(" : ");
+    Serial.printf("\n%4d-%02d-%02d %02d:%02d:%02d %d",
+                   t.year,t.month,t.day,t.hour,t.min,t.sec,t.dotw); Serial.print(" : ");
 
     Serial.print(loopCount); Serial.print(" ");
     Serial.print(procCount); Serial.print(" ");
     Serial.print(procMiss); Serial.print(" ");
     Serial.printf("%3d",mxb); Serial.print("  ");
     Serial.print(status); Serial.print(" ");
-    
-    for(int ii=0; ii<8;ii++){ Serial.printf("%8X ",logBuffer[ii]);}
-    
+
     loopCount=0;
     procCount=0;
     procMiss=0;
     mxb=0;
+
+    #if PROC_MODE==0
+      for(int ii=0; ii<8;ii++){ Serial.printf("%8X ",logBuffer[ii]);}
+    #else
+      for(int ii=0; ii<MB;ii++){ Serial.printf("%2d ",proc_stat[ii]);}
+      Serial.printf("%2d",max_stat);
+
+      for(int ii=0; ii<MB;ii++){ proc_stat[ii]=0;}
+      max_stat=0;
+    #endif
 
     t0=t1;
   }

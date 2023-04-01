@@ -20,14 +20,19 @@
  * THE SOFTWARE.
  */
  
+#include <stdint.h>
+#include <string.h>
+
+//#include "api/ArduinoAPI.h"
 #include "Arduino.h"
+
+#include "mConfig.h"
 #include "mQueue.h"
+#include "mACQ.h"
 #include "mCompress.h"
 #include "mRTC.h"
-#include "mACQ.h"
 
 
-#define MB 24
 #define NH 6
 
 #if defined(NBUF_ACQ)
@@ -36,6 +41,7 @@
   #define NSAMP 128
 #endif
 #define NBLOCK NSAMP
+
 static uint32_t tempData[NSAMP];
 static uint32_t outData[NSAMP];
 static uint32_t dout[NBLOCK];
@@ -44,7 +50,7 @@ int32_t *tempDatai=(int32_t*) tempData;
 int32_t tempData0[NCH];
 
 uint32_t proc_stat[MB];
-
+uint32_t max_stat;
 int compress(void *inp)
 {   
   int ret=1;
@@ -72,8 +78,8 @@ int compress(void *inp)
     int nb;
     for(nb=2; nb<MB; nb++) if(mx < (1<<(nb-1))) break;
     // compression factor (32/nb)
-    
     proc_stat[nb-1]++;
+    if(nb>max_stat) max_stat=nb;
     
   // mask data (all but first sample) (mask needed for negative numbers)
   uint32_t msk = (1 << nb) - 1;

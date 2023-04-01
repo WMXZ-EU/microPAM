@@ -22,15 +22,16 @@
  
 #include <SdFat.h>
 
-#include "mRTC.h"
+#include "mConfig.h"
 #include "mQueue.h"
+#include "mAcq.h"
+#include "mRTC.h"
 #include "mFiling.h"
 
-#define MIN_SPACE 2000
-#define DirPrefix "D"
-#define FilePrefix "F"
 
 uint32_t t_acq=60;
+uint32_t t_on=300;
+uint32_t t_off=0;
 
 #if SDFAT_FILE_TYPE != 3
  #error "SDFAT_FILE_TYPE != 3: edit SdFatConfig.h"
@@ -66,6 +67,17 @@ uint32_t SerNum=0;
 uint32_t diskBuffer[MAX_DISK_BUFFER];
 uint32_t disk_count=0;
 
+// Call back for file timestamps.  Only called for file create and sync(). needed by SDFat
+void dateTime(uint16_t* date, uint16_t* time, uint8_t* ms10) 
+{
+    datetime_t t;
+    rtc_get_datetime(&t);
+
+    *date = FS_DATE(t.year,t.month,t.day);
+    *time = FS_TIME(t.hour,t.min,t.sec);
+    *ms10 = 0;
+}
+
 int16_t filing_init(void)
 {
   #if defined(TARGET_RP2040)
@@ -73,9 +85,10 @@ int16_t filing_init(void)
     SPI.setTX(_MOSI);
     SPI.setSCK(_SCK);
     SPI.setCS(_CS);
-  #endif
 
-//  Serial.println(sd.cardBegin(SD_CONFIG));  Serial.println(sd.volumeBegin());  while(1);
+    FsDateTime::callback = dateTime;
+
+  #endif
 
   for(int ii=0; ii<5;ii++)
   {
@@ -95,7 +108,8 @@ int16_t filing_init(void)
   return 0;
 }
 
-int16_t makeHeader(char *header)
+
+int16_t makeHeader(int32_t *header)
 {
     /**
      * @brief Make file header
@@ -103,53 +117,24 @@ int16_t makeHeader(char *header)
      * 
      */
     #define MAGIC "WMXZ"
-
     datetime_t t;
     rtc_get_datetime(&t);
 
-    sprintf(header,"%s%04d%02d%02d_%02d%02d%02d",
+    sprintf((char *)header,"%s%04d%02d%02d_%02d%02d%02d",
             MAGIC,t.year,t.month,t.day,t.hour,t.min,t.sec);
-    //char *ptr = header+20;
-    //int32_t *iptr = (int32_t *) ptr;
-    //float *fptr = (float *) ptr;
-//    iptr[0] = 4;                    // SW version
-//    iptr[1] = (int32_t)SerNum;      // serial number
-//    iptr[2] = FSAMP;
-//    iptr[3] = NCHAN_ACQ;
-//    iptr[4] = t_acq;
-//    iptr[5] = t_on;
-//    iptr[6] = t_off;
-//    iptr[7] = proc;
-//    iptr[8] = shift;
-//    iptr[9] = 5;                    // IMU model
-//    iptr[10] = K_MAX;
-//
-//    #if DO_PRESSURE>0
-//        doReadPressure=1;
-//        pressure_read();
-//    #endif
-//
-//    fptr[17]=thresh;
-//    iptr[18]=gain;
-//    fptr[19]=2.75f;
 
-    uint32_t *uptr = (uint32_t*) header;
-    uptr[127] = 0x55555555;
-    //
+    header[5] = 12;          // SW version
+    header[6] = SerNum;      // serial number
+    header[7] = FSAMP;
+    header[8] = NCH;
+    header[9] = t_acq;
+    header[10] = t_on;
+    header[11] = t_off;
+    header[12] = PROC_MODE;
+    header[13] = shift;
+
+    header[127]=0x55555555;
     return 1;
-}
-
-
-// Call back for file timestamps.  Only called for file create and sync(). needed by SDFat
-
-void dateTime(uint16_t* date, uint16_t* time, uint8_t* ms10) 
-{
-    datetime_t t;
-    rtc_get_datetime(&t);
-
-    *date = FS_DATE(t.year,t.month,t.day);
-    *time = FS_TIME(t.hour,t.min,t.sec);
-    *ms10 = 0;
 }
 
 int16_t checkEndOfFile(int16_t status)
@@ -202,7 +187,7 @@ int16_t newFileName(char *fileName)
 
 static char dirName[80];
 static char fileName[80];
-static char header[512];
+static int32_t fileHeader[128];
 
 /**************** main data filing routine ************************/
 int16_t storeData(int16_t status)
@@ -220,7 +205,8 @@ int16_t storeData(int16_t status)
         {   
             file = sd.open(fileName, FILE_WRITE); 
             if(file) 
-                status = OPENED; 
+            { status = OPENED; 
+            }
             else 
             {   Serial.println("Failing open file");
                 return STOPPED; 
@@ -232,8 +218,8 @@ int16_t storeData(int16_t status)
     }
     //
     if(status==OPENED) // file is open: write first record (header)
-    {   makeHeader(header);
-        if(file.write((const void*)header,512) < 512) 
+    {   makeHeader(fileHeader);
+        if(file.write((const void *)fileHeader,512) < 512) 
         { status = DOCLOSE;
         } 
         else status=RUNNING;
@@ -249,12 +235,12 @@ int16_t storeData(int16_t status)
     // following is done independent of data availability
     if(status==DOCLOSE) // should close file
     {   if(file)
-        {
-            file.flush();
+        {   file.flush();
             file.close();
         }
         status = CLOSED;
     }
+    //
     if(status==MUSTSTOP) // should close file and stop
     {   if(file)
         {

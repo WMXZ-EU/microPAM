@@ -37,6 +37,9 @@
 #include "mFiling.h"
 
 /***************************************************************************/
+volatile int ready=0;
+void setup1();
+//
 void setup() 
 {
   // put your setup code here, to run once:
@@ -55,18 +58,20 @@ void setup()
 
   if(!rtc_setup()) Serial.println("RTC Lost Power");
 
-  i2s_setup();
-  dma_setup();
-
-  uint32_t to= rtc_get();
-  //datetime_t t;
-  time2date(to, &t);
+  datetime_t t;
+  time2date(rtc_get(), &t);
   Serial.printf("Now: %4d-%02d-%02d %02d:%02d:%02d",
                       t.year,t.month,t.day,t.hour,t.min,t.sec); Serial.println();
   Serial.print("Week Day "); Serial.println(t.dotw);
-
+  Serial.println("filing_init");
   filing_init();
   Serial.println("Setup done");
+  ready=1;
+
+  // in case of single core teensy 4.1 start acquisition
+  #if defined(__IMXRT1062__)
+    setup1();
+  #endif
 }
 
 void loop() 
@@ -75,20 +80,19 @@ void loop()
   static uint32_t loopCount=0;
   loopCount++;
 
-  static int16_t status=STOPPED;
+  // obtain some statistics on Queue usage
+  static uint16_t mxb=0;
+  uint16_t nb = getDataCount();
+  if(nb>mxb) mxb=nb;
 
-  // basic menu to start and stop archiving
+  static volatile int16_t status=STOPPED;
+  // basic menu to start and stop archiving  
   if(Serial.available())
   {
     char ch=Serial.read();
     if(ch=='s') status=CLOSED;
     if(ch=='e') status=MUSTSTOP;
   }
-
-  // obtain some statistics on Queue usage
-  static uint16_t mxb=0;
-  uint16_t nb = getDataCount();
-  if(nb>mxb) mxb=nb;
 
   // save data (filing will be handled inside saveData)
   status=saveData(status);  
@@ -107,12 +111,13 @@ void loop()
     Serial.print(procCount); Serial.print(" ");
     Serial.print(procMiss); Serial.print(" ");
     Serial.printf("%3d",mxb); Serial.print("  ");
-    Serial.print(status); Serial.print(" ");
+    Serial.print(disk_count); Serial.print("  ; ");
 
     loopCount=0;
     procCount=0;
     procMiss=0;
     mxb=0;
+    disk_count=0;
 
     #if PROC_MODE==0
       for(int ii=0; ii<8;ii++){ Serial.printf("%8X ",logBuffer[ii]);}
@@ -127,4 +132,15 @@ void loop()
     t0=t1;
   }
 }
+
+// rp2040 has dial core. let acq run on own core
+void setup1()
+{ while(!ready) {delay(1);} // wait for setup() to finish
+  i2s_setup();
+  dma_setup();
+
+  Serial.println("Setup1 done");
+}
+
+void loop1(){}  // nothing to be done here
 

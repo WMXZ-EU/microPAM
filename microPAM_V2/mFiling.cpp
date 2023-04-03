@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
- 
+
 #include <SdFat.h>
 
 #include "mConfig.h"
@@ -29,9 +29,9 @@
 #include "mFiling.h"
 
 
-uint32_t t_acq=60;
-uint32_t t_on=300;
-uint32_t t_off=0;
+volatile uint32_t t_acq=60;
+volatile uint32_t t_on=300;
+volatile uint32_t t_off=0;
 
 #if SDFAT_FILE_TYPE != 3
  #error "SDFAT_FILE_TYPE != 3: edit SdFatConfig.h"
@@ -50,6 +50,9 @@ uint32_t t_off=0;
   // Try max SPI clock for an SD. Reduce SPI_CLOCK if errors occur.
   #define SD_CONFIG SdSpiConfig(_CS, DEDICATED_SPI, SD_SCK_MHZ(16))
 
+  extern "C" void flash_get_unique_id(uint8_t *p);
+  uint32_t UniqueID[2];
+
 #elif defined(__IMXRT1062__)
   #define SD_CONFIG SdioConfig(FIFO_SDIO)
 #endif
@@ -57,15 +60,16 @@ uint32_t t_off=0;
 SdFs sd;
 FsFile file;
 
-static int haveStore=0;
+volatile int haveStore=0;
 uint32_t diskSpace=0;
 uint32_t diskSize=0;
-uint32_t SerNum=0;
 
 #define NDBL 8
 #define MAX_DISK_BUFFER (NDBL*NBUF_ACQ)
 uint32_t diskBuffer[MAX_DISK_BUFFER];
 uint32_t disk_count=0;
+
+uint32_t SerNum=0;
 
 // Call back for file timestamps.  Only called for file create and sync(). needed by SDFat
 void dateTime(uint16_t* date, uint16_t* time, uint8_t* ms10) 
@@ -88,6 +92,10 @@ int16_t filing_init(void)
 
     FsDateTime::callback = dateTime;
 
+    flash_get_unique_id((uint8_t *) UniqueID);
+    SerNum=UniqueID[1];
+  #else
+    SerNum = HW_OCOTP_MAC0 & 0xFFFFFF;
   #endif
 
   for(int ii=0; ii<5;ii++)
@@ -138,7 +146,7 @@ int16_t makeHeader(int32_t *header)
 }
 
 int16_t checkEndOfFile(int16_t status)
-{ static uint32_t tx_=0;
+{ static volatile uint32_t tx_=0;
   uint32_t tx=rtc_get();
   tx = tx % t_acq;
   if((status>OPENED) && (tx_>0) && (tx < tx_)) status=DOCLOSE;
@@ -228,7 +236,7 @@ int16_t storeData(int16_t status)
     if(status==RUNNING) // file is open, header written: store data records
     {   uint32_t nd;
         if((nd=file.write((const void *)diskBuffer,4*MAX_DISK_BUFFER)) < 4*MAX_DISK_BUFFER) 
-        { Serial.print(">"); Serial.println(status); status=DOCLOSE; }
+        { Serial.print(">"); Serial.print(nd); Serial.print(" "); Serial.println(status); status=DOCLOSE; }
         disk_count++;
     }    
 
@@ -252,7 +260,7 @@ int16_t storeData(int16_t status)
     return status;
 }
 //
-uint32_t logBuffer[8];
+volatile uint32_t logBuffer[8];
 int16_t saveData(int16_t status)
 {
     if(status==STOPPED) 
@@ -261,7 +269,9 @@ int16_t saveData(int16_t status)
     }
     if(status<CLOSED) return status; // we are stopped: don't do anything
 
+    int16_t oldStat=status;
     status=checkEndOfFile(status);
+//    if(status != oldStat) {Serial.print(oldStat); Serial.print(" "); Serial.println(status);}
 
     if(getDataCount()>=NDBL)
     {

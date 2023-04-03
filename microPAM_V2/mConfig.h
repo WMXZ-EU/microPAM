@@ -35,12 +35,13 @@
   #define FilePrefix "F"  // prefix fir fileName
 
   // for mQueue
-  #define MAXBUF 64       // Queue length
+  #define MAXBUF 128       // Queue length
 
   // pocess mode
   #define PROC_MODE 1        // 0: raw data 1; compress
   #define MB 24
 
-
-
+  #if defined(__IMXRT1062__)
+    #define __not_in_flash_func(func_name) func_name
+  #endif
 #endif

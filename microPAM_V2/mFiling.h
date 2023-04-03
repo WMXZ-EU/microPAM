@@ -38,6 +38,7 @@ int16_t filing_init(void);
 
 int16_t saveData(int16_t status);
 
-extern uint32_t logBuffer[];
+extern uint32_t disk_count;
+extern volatile uint32_t logBuffer[];
 
 #endif

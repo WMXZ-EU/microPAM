@@ -36,7 +36,7 @@
 uint32_t procCount=0;
 uint32_t procMiss=0;
 int32_t acqBuffer[NBUF_ACQ]; 
-int16_t shift=8;
+int16_t shift=(8+4);
 int16_t proc=1;
 static void process(uint32_t * buffer);
 

@@ -23,6 +23,8 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "Arduino.h"
+
 #include "mConfig.h"
 #include "mQueue.h"
 
@@ -35,28 +37,33 @@
   #endif
 
 #if 1
+  volatile int busy=0;
   static uint32_t data_buffer[MAXBUF][NBUF_ACQ];
-  static int head=0;
-  static int tail=0;
+  volatile int head=0;
+  volatile int tail=0;
   
-  bool full(void)  { return (tail+1)%MAXBUF == head; }
-  bool empty(void) { return head==tail; }
-  uint16_t getDataCount(void) { int num = tail-head; return num<0 ? num+MAXBUF : num; }
+  bool __not_in_flash_func(full)(void)  { return (tail+1)%MAXBUF == head; }
+  bool __not_in_flash_func(empty)(void) { return head==tail; }
+  uint16_t __not_in_flash_func(getDataCount)(void) { int num = tail-head; return num<0 ? num+MAXBUF : num; }
   
   
-  uint16_t pushData(uint32_t *data)
+  uint16_t __not_in_flash_func(pushData)(uint32_t *data)
   {
     if ( full() ) return 0;
-    memcpy(data_buffer[tail],data,4*NBUF_ACQ);
+    while(busy); busy=1;
+    for(int ii=0;ii<NBUF_ACQ;ii++)data_buffer[tail][ii]=data[ii];
     tail = (tail+1)%MAXBUF;
+    busy=0;
     return 1; // signal success.
   }
   
-  uint16_t pullData(uint32_t *data)
+  uint16_t __not_in_flash_func(pullData)(uint32_t *data)
   {
     if ( empty() ) return 0;
-    memcpy(data,data_buffer[head],4*NBUF_ACQ);
+    while(busy); busy=1;
+    for(int ii=0;ii<NBUF_ACQ;ii++)data[ii]=data_buffer[tail][ii];
     head = (head+1)%MAXBUF;
+    busy=0;
     return 1;
   }
 

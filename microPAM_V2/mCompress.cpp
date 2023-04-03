@@ -51,7 +51,7 @@ int32_t tempData0[NCH];
 
 uint32_t proc_stat[MB];
 uint32_t max_stat;
-int compress(void *inp)
+int __not_in_flash_func(compress)(void *inp)
 {   
   int ret=1;
   uint32_t to = rtc_get();
@@ -75,12 +75,12 @@ int compress(void *inp)
   }
 
   // estimate mask (allow only values > 2)
-    int nb;
-    for(nb=2; nb<MB; nb++) if(mx < (1<<(nb-1))) break;
-    // compression factor (32/nb)
-    proc_stat[nb-1]++;
-    if(nb>max_stat) max_stat=nb;
-    
+  int nb;
+  for(nb=2; nb<MB; nb++) if(mx < (1<<(nb-1))) break;
+  // compression factor (32/nb)
+  proc_stat[nb-1]++;
+  if(nb>max_stat) max_stat=nb;
+
   // mask data (all but first sample) (mask needed for negative numbers)
   uint32_t msk = (1 << nb) - 1;
   for (int ii = NCH; ii < NSAMP; ii++) { tempData[ii] &= (uint32_t)msk; }
@@ -109,61 +109,61 @@ int compress(void *inp)
   outData[kk++] = tempData[0]; tempData[0] = 0;
 
   // pack data
-    // 
-    int nx = MBIT;
-    for (int ii = 0; ii < NSAMP; ii ++)
-    {   nx -= nb;
-        if(nx > 0)
-        {   outData[kk] |= (tempData[ii] << nx);
-        }
-        else if(nx==0) 
-        {   outData[kk++] |= tempData[ii];
-            nx=MBIT;
-        } 
-        else    // nx is < 0
-        {   outData[kk++] |= (tempData[ii] >> (-nx));
-            nx += MBIT;
-            outData[kk] = (tempData[ii] << nx);
-        }
-    }
+  // 
+  int nx = MBIT;
+  for (int ii = 0; ii < NSAMP; ii ++)
+  {   nx -= nb;
+      if(nx > 0)
+      {   outData[kk] |= (tempData[ii] << nx);
+      }
+      else if(nx==0) 
+      {   outData[kk++] |= tempData[ii];
+          nx=MBIT;
+      } 
+      else    // nx is < 0
+      {   outData[kk++] |= (tempData[ii] >> (-nx));
+          nx += MBIT;
+          outData[kk] = (tempData[ii] << nx);
+      }
+  }
 
-    // store actual data
-    static int nout=0;
+  // store actual data
+  static int nout=0;
 
-    if ((nout + ndat) <= NBLOCK)
-    { // all data fit in current block
-        for (int ii = 0; ii < ndat; ii++) dout[nout++] = outData[ii];
-    }
-    else if ((nout + NH) > NBLOCK) //avoid partial header (special case)
-    {
-        while(nout<NBLOCK) dout[nout++] = 0; // fill rest of block with zero
-        // store data
-        if(!pushData(dout)) ret = 0;
-        //
-        // store data in next block
-        nout=0;
-        for (int ii=0; ii < ndat; ii++) dout[nout++] = outData[ii];
-    }
-    else
-    { // data crosses two blocks
-        int ii=0;
-        int nr = NBLOCK-nout;  //remaining data
-        uint32_t *iptr = (uint32_t *) outData;
-        // correct header
-        iptr[5] = (iptr[5]<<16) | (nr-NH);  //orig remaining data | actual remaining data after header 
+  if ((nout + ndat) <= NBLOCK)
+  { // all data fit in current block
+      for (int ii = 0; ii < ndat; ii++) dout[nout++] = outData[ii];
+  }
+  else if ((nout + NH) > NBLOCK) //avoid partial header (special case)
+  {
+      while(nout<NBLOCK) dout[nout++] = 0; // fill rest of block with zero
+      // store data
+      if(!pushData(dout)) ret = 0;
+      //
+      // store data in next block
+      nout=0;
+      for (int ii=0; ii < ndat; ii++) dout[nout++] = outData[ii];
+  }
+  else
+  { // data crosses two blocks
+      int ii=0;
+      int nr = NBLOCK-nout;  //remaining data
+      uint32_t *iptr = (uint32_t *) outData;
+      // correct header
+      iptr[5] = (iptr[5]<<16) | (nr-NH);  //orig remaining data | actual remaining data after header 
 
-        while (nout < NBLOCK) dout[nout++] = outData[ii++];
-        // store data
-        if(!pushData(dout)) ret = 0;
-        //
-        // store rest in next block
-        nr=ndat0-ii; // for header
-        // add blockHeader continuation
-        iptr[5]=(iptr[5] & 0xffff0000) | nr; //orig remaining data | actual remaining data after header
-        // copy first header
-        for(nout=0;nout<NH;nout++) dout[nout] = outData[nout];
-        // followed by rest of data
-        while (ii < ndat) dout[nout++] = outData[ii++];
-    }
-    return ret;
+      while (nout < NBLOCK) dout[nout++] = outData[ii++];
+      // store data
+      if(!pushData(dout)) ret = 0;
+      //
+      // store rest in next block
+      nr=ndat0-ii; // for header
+      // add blockHeader continuation
+      iptr[5]=(iptr[5] & 0xffff0000) | nr; //orig remaining data | actual remaining data after header
+      // copy first header
+      for(nout=0;nout<NH;nout++) dout[nout] = outData[nout];
+      // followed by rest of data
+      while (ii < ndat) dout[nout++] = outData[ii++];
+  }
+  return ret;
 }

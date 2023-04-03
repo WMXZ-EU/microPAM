@@ -100,7 +100,7 @@ int16_t lostPowerRTC(void)
   return i2c_read_register(address,DS3231_STATUSREG) >> 7;
 }
 
-uint8_t *getRTC(uint8_t *buffer,uint16_t nbuf)
+uint8_t *mgetRTC(uint8_t *buffer,uint16_t nbuf)
 {
   i2c_read_data(address,DS3231_TIME,buffer,nbuf);
   for(int ii=0;ii<nbuf;ii++) buffer[ii]=bcd2bin(buffer[ii]);
@@ -108,7 +108,7 @@ uint8_t *getRTC(uint8_t *buffer,uint16_t nbuf)
   return buffer;
 }
 
-uint8_t *setRTC(uint8_t *buffer, uint16_t nbuf)
+uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
 {
   for(int ii=0;ii<nbuf;ii++) buffer[ii]=bin2bcd(buffer[ii]);
   i2c_write_data(address,DS3231_TIME,buffer,nbuf);
@@ -255,7 +255,7 @@ void time2date(uint32_t time, datetime_t *tm)
 
     rtcBuffer[3] = 0;
 
-    setRTC(rtcBuffer, 7);
+    msetRTC(rtcBuffer, 7);
   }
 
   int16_t rtc_setup(uint8_t sda, uint8_t scl)
@@ -264,10 +264,11 @@ void time2date(uint32_t time, datetime_t *tm)
 
     rtc_init();
 
-    if(lostPowerRTC())adjustRTC((char*)__DATE__,(char*)__TIME__); 
+
+    if(lostPowerRTC())adjustRTC((char*)__DATE__,(char*)__TIME__); // needs touch mRTC.cpp
 
     uint8_t rtcBuffer[7];
-    getRTC(rtcBuffer,7);
+    mgetRTC(rtcBuffer,7);
 
     datetime_t t;
     t.year=rtcBuffer[6]+2000;
@@ -278,25 +279,23 @@ void time2date(uint32_t time, datetime_t *tm)
     t.min=rtcBuffer[1];
     t.sec=rtcBuffer[0] &0xff;
 
+    Serial.printf("RTC: %4d-%02d-%02d %02d:%02d:%02d",
+                      t.year,t.month,t.day,t.hour,t.min,t.sec); Serial.println();
+
     //to be sure:
     uint16_t days=date2days(rtcBuffer[6], rtcBuffer[5]&0x7f, rtcBuffer[4]);
-    t.dotw = ((days + 1) % 7) ;  // Sunday is day 0 // 1-1-2000 was Saturday
+    t.dotw = ((days + 5) % 7) ;  // Sunday is day 0 // 1-1-2000 was Saturday
 
     if(!rtc_set_datetime(&t)) return 0;
     return 1;
   }
 
-  uint32_t rtc2seconds(void)
-  {
-    uint8_t rtcBuffer[7];
-    getRTC(rtcBuffer,7);
-    uint16_t days=date2days(rtcBuffer[6], rtcBuffer[5]&0x7f, rtcBuffer[4]);
-    return time2seconds(days,rtcBuffer[2], rtcBuffer[1], rtcBuffer[0] &0xff);
-  }
-
   uint32_t rtc_get(void)
   {
-    return rtc2seconds();
+    datetime_t t;
+    rtc_get_datetime(&t);    
+    uint16_t days=date2days(t.year, t.month, t.day);
+    return time2seconds(days,t.hour, t.min, t.sec);
   }
 
 #elif defined(__IMXRT1062__)

@@ -54,8 +54,8 @@ uint32_t max_stat;
 int __not_in_flash_func(compress)(void *inp)
 {   
   int ret=1;
-  uint32_t to = rtc_get();
-  uint32_t t1 = micros();
+  static uint32_t to = rtc_get();
+  static uint32_t t1 = micros();
 
   int32_t *din = (int32_t *) inp;
   //

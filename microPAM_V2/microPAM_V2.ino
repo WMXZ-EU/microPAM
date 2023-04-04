@@ -29,12 +29,13 @@
   #include "pico/stdlib.h"
 #endif
 
-#include "mConfig.h"
-#include "mQueue.h"
-#include "mAcq.h"
-#include "mRTC.h"
-#include "mCompress.h"
-#include "mFiling.h"
+#include "src/mConfig.h"
+#include "src/mQueue.h"
+#include "src/mAcq.h"
+#include "src/mRTC.h"
+#include "src/mCompress.h"
+#include "src/mFiling.h"
+#include "src/menue.h"
 
 /***************************************************************************/
 volatile int ready=0;
@@ -46,8 +47,8 @@ void setup()
   #if defined(TARGET_RP2040)
     set_sys_clock_khz(48000, true);
   #endif
-  Serial.begin(115200);
 
+  Serial.begin(115200);
   // wait for a minute to allow USB-Serial connection
   while(millis()<60000) if(Serial) break;
 
@@ -56,13 +57,20 @@ void setup()
     if(CrashReport) Serial.print(CrashReport);
   #endif
 
-  if(!rtc_setup()) Serial.println("RTC Lost Power");
+  rtc_setup();
+  Serial.println("rtc_setup() done");
 
   datetime_t t;
-  time2date(rtc_get(), &t);
-  Serial.printf("Now: %4d-%02d-%02d %02d:%02d:%02d",
+  if(!rtc_get_datetime(&t)) Serial.println("failing get_datetime");
+  Serial.printf("RTC-main: %4d-%02d-%02d %02d:%02d:%02d",
                       t.year,t.month,t.day,t.hour,t.min,t.sec); Serial.println();
-  Serial.print("Week Day "); Serial.println(t.dotw);
+
+  Serial.println("checking rtc_get()");
+  time2date(rtc_get(), &t);
+  Serial.printf("Now-sec: %4d-%02d-%02d %02d:%02d:%02d",
+                      t.year,t.month,t.day,t.hour,t.min,t.sec); Serial.println();
+  Serial.print("Week Day (may not be correct)"); Serial.println(t.dotw);
+
   Serial.println("filing_init");
   filing_init();
   Serial.println("Setup done");
@@ -92,6 +100,7 @@ void loop()
     char ch=Serial.read();
     if(ch=='s') status=CLOSED;
     if(ch=='e') status=MUSTSTOP;
+    if(ch==':') menue();
   }
 
   // save data (filing will be handled inside saveData)
@@ -133,7 +142,7 @@ void loop()
   }
 }
 
-// rp2040 has dial core. let acq run on own core
+// rp2040 has dial core. let acq run on its own core
 void setup1()
 { while(!ready) {delay(1);} // wait for setup() to finish
   i2s_setup();

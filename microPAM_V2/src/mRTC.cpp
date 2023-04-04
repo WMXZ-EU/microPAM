@@ -124,8 +124,11 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
 #include "mConfig.h"
 #include "mRTC.h"
 
-
-#define YEAR0 1970
+#if defined(TARGET_RP2040)
+  #define YEAR0 2000
+#elif defined(__IMXRT1062__)
+  #define YEAR0 1970
+#endif
 #define LEAP_YEAR(Y)     ( ((YEAR0+(Y))>0) && !((YEAR0+(Y))%4) && ( ((YEAR0+(Y))%100) || !((YEAR0+(Y))%400) ) )
 
 static  const uint8_t monthDays[]={31,28,31,30,31,30,31,31,30,31,30,31}; // API starts months from 1, this array starts from 0
@@ -260,17 +263,19 @@ void time2date(uint32_t time, datetime_t *tm)
 
   int16_t rtc_setup(uint8_t sda, uint8_t scl)
   {
-    initRTC(sda, scl);
+    static datetime_t t;
+    static uint8_t rtcBuffer[7] = {0,27,15,1,3,4,23}; // adapt to better time (secs,min, ...., year)
 
-    rtc_init();
+    rtc_init(); // hardware rtc
+    initRTC(sda, scl); // external rtc clock
+    delay(10);
 
+// to set external rtc clock
+#if 0
+    msetRTC(rtcBuffer,7);
+#endif
 
-    if(lostPowerRTC())adjustRTC((char*)__DATE__,(char*)__TIME__); // needs touch mRTC.cpp
-
-    uint8_t rtcBuffer[7];
     mgetRTC(rtcBuffer,7);
-
-    datetime_t t;
     t.year=rtcBuffer[6]+2000;
     t.month=rtcBuffer[5]&0x7f;
     t.day=rtcBuffer[4];
@@ -279,14 +284,19 @@ void time2date(uint32_t time, datetime_t *tm)
     t.min=rtcBuffer[1];
     t.sec=rtcBuffer[0] &0xff;
 
-    Serial.printf("RTC: %4d-%02d-%02d %02d:%02d:%02d",
+    Serial.printf("RTC init: %4d-%02d-%02d %02d:%02d:%02d",
                       t.year,t.month,t.day,t.hour,t.min,t.sec); Serial.println();
 
-    //to be sure:
-    uint16_t days=date2days(rtcBuffer[6], rtcBuffer[5]&0x7f, rtcBuffer[4]);
-    t.dotw = ((days + 5) % 7) ;  // Sunday is day 0 // 1-1-2000 was Saturday
+    while(!rtc_set_datetime(&t));
+    delay(10); // give some time to settle
 
-    if(!rtc_set_datetime(&t)) return 0;
+/*
+    delay(10);
+    datetime_t t1;
+    rtc_get_datetime(&t1);
+    Serial.printf("RTC check: %4d-%02d-%02d %02d:%02d:%02d",
+                      t1.year,t1.month,t1.day,t1.hour,t1.min,t1.sec); Serial.println();
+*/
     return 1;
   }
 

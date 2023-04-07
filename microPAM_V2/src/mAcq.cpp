@@ -27,18 +27,22 @@
 #include "mCompress.h"
 #include "mAcq.h"
 
-#ifndef NBUF_ACQ        // should be defined in mQueue.h
+#ifndef NBUF_ACQ        // should be defined in config.h
   #define NBUF_ACQ 128
 #endif
 
-#define NBUF_I2S (2*NBUF_ACQ) //for stereo I2S
+#ifndef NBUF_I2S        // should be defined in config.h
+  #define NBUF_I2S (2*NBUF_ACQ) //for stereo I2S
+#endif
 
 uint32_t procCount=0;
 uint32_t procMiss=0;
 int32_t acqBuffer[NBUF_ACQ]; 
-int16_t shift=(8+4);
-int16_t proc=1;
-static void process(uint32_t * buffer);
+
+int32_t fsamp=FSAMP;
+int16_t shift=SHIFT;
+int16_t proc=PROC_MODE;
+static void process(int32_t * buffer);
 
 /*======================================================================================*/
 #if defined(TARGET_RP2040)
@@ -46,7 +50,7 @@ static void process(uint32_t * buffer);
   pin_size_t _pinDOUT =0;
   pin_size_t _pinBCLK =1;
 
-  int _freq=FSAMP;
+  int _freq=fsamp;
   int _bps =MBIT;
   int off=0;
 
@@ -116,7 +120,7 @@ static void process(uint32_t * buffer);
   #include "hardware/dma.h"
 
   int _channelDMA[2];
-  uint32_t i2s_buffer[2][NBUF_I2S];
+  int32_t i2s_buffer[2][NBUF_I2S];
 
   int _wordsPerBuffer=NBUF_I2S;
 
@@ -221,7 +225,7 @@ static void process(uint32_t * buffer);
     // if receiver is enabled, do nothing
     if (I2S1_RCSR & I2S_RCSR_RE) return;
   //PLL:
-    int fs = FSAMP;
+    int fs = fsamp;
   
     setAudioFrequency(fs);
 
@@ -275,10 +279,14 @@ static void process(uint32_t * buffer);
     dma.enable();
   }
 
+  #if defined(AUDIO_INTERFACE)
+    #include "mAudioIF.h"
+  #endif
+
   static void acq_isr(void)
   {
     uint32_t daddr;
-    uint32_t *src;
+    int32_t *src;
   
     daddr = (uint32_t)(dma.TCD->DADDR);
 
@@ -288,26 +296,47 @@ static void process(uint32_t * buffer);
     {
       // DMA is receiving to the first half of the buffer
       // need to remove data from the second half
-      src = (uint32_t *)&i2s_buffer[NBUF_I2S];
+      src = (int32_t *)&i2s_buffer[NBUF_I2S];
     }
     else
     {
     // DMA is receiving to the second half of the buffer
     // need to remove data from the first half
-      src = (uint32_t *)&i2s_buffer[0];
+      src = (int32_t *)&i2s_buffer[0];
     }
+
+    #if NCH==1
+      for(int ii=0; ii<NBUF_ACQ; ii++) src[2*ii+ICH]  = (src[2*ii+ICH]-BIAS) >> shift;
+    #else
+      for(int ii=0; ii<NBUF_I2S; ii++) src[ii]  = (src[ii]-BIAS) >> shift;
+    #endif
+
     process(src);
+
+    #if defined(AUDIO_INTERFACE)
+      putAudio(src);
+    #endif
   }
+
 #endif
 
+int32_t acqbias=0;
 /***************************************************************************/
-static void process(uint32_t * buffer)
+static void process(int32_t * buffer)
 { procCount++;
-  int32_t *inp = (int32_t *)buffer;
-  for(int ii=0; ii<NBUF_ACQ; ii++) acqBuffer[ii]= inp[2*ii]>>shift;
-  #if PROC_MODE==0
+
+  for(int ii=0; ii<NBUF_ACQ; ii++) acqBuffer[ii]= buffer[2*ii+ICH];
+  
+  float tmp=0.0f;
+  for(int ii=0; ii<NBUF_ACQ; ii++) tmp +=(float)acqBuffer[ii]/(float)NBUF_ACQ;
+  acqbias=(int32_t) tmp;
+
+  if(proc==0)
+  {
     if(!pushData((uint32_t *)acqBuffer)) procMiss++;
-  #elif PROC_MODE==1
-    if(!compress((void *)acqBuffer)) procMiss++;
-  #endif    
+  }
+  else if(proc==1)
+  {
+   if(!compress((void *)acqBuffer)) procMiss++;
+  }
 }

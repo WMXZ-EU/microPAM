@@ -21,7 +21,7 @@
  */
  
 #include <stdint.h>
-#include <string.h>
+//#include <string.h>
 
 #include "Arduino.h"
 
@@ -42,14 +42,11 @@
   volatile int head=0;
   volatile int tail=0;
   
-  bool __not_in_flash_func(full)(void)  { return (tail+1)%MAXBUF == head; }
-  bool __not_in_flash_func(empty)(void) { return head==tail; }
   uint16_t __not_in_flash_func(getDataCount)(void) { int num = tail-head; return num<0 ? num+MAXBUF : num; }
-  
   
   uint16_t __not_in_flash_func(pushData)(uint32_t *data)
   {
-    if ( full() ) return 0;
+    if ( (tail+1)%MAXBUF == head ) return 0;
     while(busy); busy=1;
     for(int ii=0;ii<NBUF_ACQ;ii++)data_buffer[tail][ii]=data[ii];
     tail = (tail+1)%MAXBUF;
@@ -59,9 +56,9 @@
   
   uint16_t __not_in_flash_func(pullData)(uint32_t *data)
   {
-    if ( empty() ) return 0;
+    if ( head==tail ) return 0;
     while(busy); busy=1;
-    for(int ii=0;ii<NBUF_ACQ;ii++)data[ii]=data_buffer[tail][ii];
+    for(int ii=0;ii<NBUF_ACQ;ii++)data[ii]=data_buffer[head][ii];
     head = (head+1)%MAXBUF;
     busy=0;
     return 1;

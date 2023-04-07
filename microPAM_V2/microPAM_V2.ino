@@ -25,6 +25,7 @@
   #include <CrashReport.h>
 #endif
 
+
 #if defined(TARGET_RP2040)
   #include "pico/stdlib.h"
 #endif
@@ -35,7 +36,20 @@
 #include "src/mRTC.h"
 #include "src/mCompress.h"
 #include "src/mFiling.h"
-#include "src/menue.h"
+#include "src/menu.h"
+
+#if defined(__IMXRT1062__) && defined(AUDIO_INTERFACE)
+  #include "AudioStream.h"
+  #include "usb_audio.h"
+  #include "src/mAudioTrigger.h"
+  #include "src/mAudioIF.h"
+
+  AudioTrigger trigger;
+  AudioIF         acqIF(FSAMP);
+  AudioOutputUSB  usb; 
+  AudioConnection patchCord1(acqIF, 0, usb, 0);
+  AudioConnection patchCord2(acqIF, 1, usb, 1);
+#endif
 
 /***************************************************************************/
 volatile int ready=0;
@@ -55,6 +69,9 @@ void setup()
   // Teensy has a crash report
   #if defined(__IMXRT1062__)
     if(CrashReport) Serial.print(CrashReport);
+    #if defined(AUDIO_INTERFACE)
+      AudioMemory(8);
+    #endif
   #endif
 
   rtc_setup();
@@ -93,19 +110,22 @@ void loop()
   uint16_t nb = getDataCount();
   if(nb>mxb) mxb=nb;
 
-  static volatile int16_t status=STOPPED;
+  static volatile int16_t status=START_MODE;
   // basic menu to start and stop archiving  
   if(Serial.available())
   {
     char ch=Serial.read();
     if(ch=='s') status=CLOSED;
     if(ch=='e') status=MUSTSTOP;
-    if(ch==':') menue();
+    if(ch==':') menu1(); // returns only when menu1 gets not handled character
+    if(ch=='?') menu2(); // returns only when menu2 gets not handled character
+    if(ch=='!') menu3(); // returns only when menu3 gets not handled character
   }
 
   // save data (filing will be handled inside saveData)
   status=saveData(status);  
 
+//  if(status<0) return;
   // once a second provide some information to User
   static uint32_t t0=0;
   uint32_t t1;
@@ -120,6 +140,7 @@ void loop()
     Serial.print(procCount); Serial.print(" ");
     Serial.print(procMiss); Serial.print(" ");
     Serial.printf("%3d",mxb); Serial.print("  ");
+    Serial.printf("%4d",acqbias); Serial.print(" ");
     Serial.print(disk_count); Serial.print("  ; ");
 
     loopCount=0;
@@ -141,7 +162,7 @@ void loop()
     t0=t1;
   }
 }
-
+/**********************************************************************************/
 // rp2040 has dial core. let acq run on its own core
 void setup1()
 { while(!ready) {delay(1);} // wait for setup() to finish

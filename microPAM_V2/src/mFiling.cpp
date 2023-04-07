@@ -131,7 +131,7 @@ int16_t makeHeader(int32_t *header)
     sprintf((char *)header,"%s%04d%02d%02d_%02d%02d%02d",
             MAGIC,t.year,t.month,t.day,t.hour,t.min,t.sec);
 
-    header[5] = 12;          // SW version
+    header[5] = 20;          // SW version
     header[6] = SerNum;      // serial number
     header[7] = FSAMP;
     header[8] = NCH;

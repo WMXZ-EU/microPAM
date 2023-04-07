@@ -21,13 +21,19 @@
  */
 #ifndef mConfig_H
 #define mCONFIG_H
+  #include <stdint.h>
+  
+  #define START_MODE 0  // -1 is stopped; 0 is closed (ready to open file)
+  #define ICS3434 0     // use 0 when Adafruit I2S MEMS
 
   // for mAcq
-  #define FSAMP 48000 // sampling frequency
+  #define FSAMP 44100 // sampling frequency
   #define MBIT 32     // number of bits / sample
   #define NCH 1       // number of channels
+  #define ICH 0       // selected channel
 
   #define NBUF_ACQ 128  // number of samples in acq buffer
+  #define NBUF_I2S (2*NBUF_ACQ)
 
   // for mFiling
   #define MIN_SPACE 2000  // number of disk clusters to keep free
@@ -38,10 +44,25 @@
   #define MAXBUF 128       // Queue length
 
   // pocess mode
-  #define PROC_MODE 1        // 0: raw data 1; compress
+  #define PROC_MODE 0        // 0: raw data 1; compress
   #define MB 24
+
+  // mAcq
+  #define SHIFT (8+4)
+  #if ICS3434==1
+    #define BIAS (0)
+  #else
+    #define BIAS (-27000<<SHIFT)
+  #endif
 
   #if defined(__IMXRT1062__)
     #define __not_in_flash_func(func_name) func_name
   #endif
+
+  // extern (global) parameters
+  extern int32_t fsamp;  // mAcq.cpp
+  extern int16_t shift;  // mAcq.cpp
+  extern int16_t proc;   // mAcq.cpp
+
+  extern class AudioIF acqIF;
 #endif

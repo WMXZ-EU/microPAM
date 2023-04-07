@@ -19,9 +19,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
- 
-#ifndef _MENUE_H
-#define _MENUE_H
-  void syncRTC(void);
-  void menue(void);
+#ifndef mAUDIOIF_H
+#define mAUDIOIF_H
+
+  #if defined(__IMXRT1062__)
+    #include <Arduino.h>
+    #if defined(AUDIO_INTERFACE)
+      #include "AudioStream.h"
+
+      #include "mConfig.h"
+
+      int16_t __not_in_flash_func(putAudio)(int32_t *data);
+      int16_t __not_in_flash_func(getAudio)(int32_t *data);
+
+      class AudioIF : public AudioStream
+      {
+      public:
+        AudioIF(int fsamp) : AudioStream(0, NULL) { this->fsamp=fsamp;}
+        virtual void update(void);
+      private:
+        int32_t fsamp;
+
+      };
+    #endif
+  #endif
 #endif

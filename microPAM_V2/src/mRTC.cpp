@@ -321,5 +321,9 @@ void time2date(uint32_t time, datetime_t *tm)
     time2date(rtc_get(), t);
     return 1;
   }
+  bool rtc_set_datetime(datetime_t *t)
+  {
+    return 1;
+  }
 #endif
     

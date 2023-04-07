@@ -28,7 +28,7 @@
 
 #define START_MODE 0 // set to -1 to wait
 
-#define DO_COMPRESS 1
+#define DO_COMPRESS 0
 #define NSAMP 128
 #define NBUF 16
 

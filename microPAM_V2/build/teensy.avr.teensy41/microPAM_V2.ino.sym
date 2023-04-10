@@ -46,10 +46,10 @@ SYMBOL TABLE:
 2000c6f8 l     O .bss	00000008 endpoint0_setupdata
 200216e0 l     O .bss	00000004 endpointN_notify_mask
 20022024 l     O .bss	00000008 reply_buffer
-20022606 l     O .bss	00000001 sof_usage
-20022614 l     O .bss	00000001 usb_reboot_timer
+20022608 l     O .bss	00000001 sof_usage
+20022616 l     O .bss	00000001 usb_reboot_timer
 00000000 l    df *ABS*	00000000 analog.c
-20022600 l     O .bss	00000001 calibrating
+20022602 l     O .bss	00000001 calibrating
 00000000 l    df *ABS*	00000000 crti.o
 00000000 l    df *ABS*	00000000 crtn.o
 00000000 l    df *ABS*	00000000 crtstuff.c
@@ -61,9 +61,9 @@ SYMBOL TABLE:
 000002d0 l     F .text.itcm	00000114 _GLOBAL__sub_I_trigger
 20020184 l     O .bss	00000004 loop::t0
 200225e2 l     O .bss	00000002 loop::mxb
-200225e4 l     O .bss	00000002 loop::monitor
+200225e4 l     O .bss	00000002 loop::status
+200225e6 l     O .bss	00000002 loop::monitor
 20020188 l     O .bss	00000004 loop::loopCount
-20008ec2 l     O .data	00000002 loop::status
 20200000 l     O .bss.dma	00000820 setup::data
 00000000 l    df *ABS*	00000000 mAcq.cpp
 000005c8 l     F .text.itcm	000000f0 acq_isr()
@@ -138,20 +138,20 @@ SYMBOL TABLE:
 00005ba0 l     F .text.itcm	0000002c isBusyCMD13()
 00005d58 l     F .text.itcm	0000011c cardCMD6(unsigned long, unsigned char*)
 00005f70 l     F .text.itcm	0000015c rdWrSectors(unsigned long, unsigned long, unsigned char*, unsigned int)
-200225f4 l     O .bss	00000001 m_initDone
+200225f6 l     O .bss	00000001 m_initDone
 2000cdbc l     O .bss	00000004 m_sdClkKhz
-200225f5 l     O .bss	00000001 m_version2
+200225f7 l     O .bss	00000001 m_version2
 2001d1c0 l     O .bss	00000004 m_errorLine
-200225f6 l     O .bss	00000001 m_highCapacity
-200225f7 l     O .bss	00000001 m_transferActive
+200225f8 l     O .bss	00000001 m_highCapacity
+200225f9 l     O .bss	00000001 m_transferActive
 2001fbd4 l     O .bss	00000010 m_cid
 2001fbe4 l     O .bss	00000010 m_csd
 2001fbf4 l     O .bss	00000004 m_ocr
 2001fbf8 l     O .bss	00000004 m_rca
 2002009c l     O .bss	00000004 m_busyFcn
-200225f8 l     O .bss	00000001 m_dmaBusy
+200225fa l     O .bss	00000001 m_dmaBusy
 200200a0 l     O .bss	00000004 m_irqstat
-20008ec8 l     O .data	00000001 m_errorCode
+20008ec6 l     O .data	00000001 m_errorCode
 00000000 l    df *ABS*	00000000 SdSpiChipSelect.cpp
 00000000 l    df *ABS*	00000000 SdSpiTeensy3.cpp
 00000000 l    df *ABS*	00000000 FsCache.cpp
@@ -189,17 +189,17 @@ SYMBOL TABLE:
 00009a8c l     F .text.itcm	00000064 rx_event
 2002202c l     O .bss	00000004 rx_available
 20022034 l     O .bss	0000000c rx_count
-20022602 l     O .bss	00000001 rx_head
+20022604 l     O .bss	00000001 rx_head
 20022050 l     O .bss	0000000c rx_index
 2002206c l     O .bss	00000007 rx_list
-200225e8 l     O .bss	00000002 rx_packet_size
-20022604 l     O .bss	00000001 rx_tail
+200225ea l     O .bss	00000002 rx_packet_size
+20022606 l     O .bss	00000001 rx_tail
 2000a340 l     O .bss	000000c0 rx_transfer
-20022607 l     O .bss	00000001 transmit_previous_timeout
-200225ec l     O .bss	00000002 tx_available
-20022609 l     O .bss	00000001 tx_head
-2002260b l     O .bss	00000001 tx_noautoflush
-200225f0 l     O .bss	00000002 tx_packet_size
+20022609 l     O .bss	00000001 transmit_previous_timeout
+200225ee l     O .bss	00000002 tx_available
+2002260b l     O .bss	00000001 tx_head
+2002260d l     O .bss	00000001 tx_noautoflush
+200225f2 l     O .bss	00000002 tx_packet_size
 2000a540 l     O .bss	00000080 tx_transfer
 20200b20 l     O .bss.dma	00000c00 rx_buffer
 20201720 l     O .bss.dma	00000800 txbuffer
@@ -212,20 +212,20 @@ SYMBOL TABLE:
 00009dfc l     F .text.itcm	000001b8 usb_serial_write.part.0
 20022030 l     O .bss	00000004 rx_available
 20022040 l     O .bss	00000010 rx_count
-20022603 l     O .bss	00000001 rx_head
+20022605 l     O .bss	00000001 rx_head
 2002205c l     O .bss	00000010 rx_index
 20022074 l     O .bss	00000009 rx_list
-200225ea l     O .bss	00000002 rx_packet_size
-20022605 l     O .bss	00000001 rx_tail
+200225ec l     O .bss	00000002 rx_packet_size
+20022607 l     O .bss	00000001 rx_tail
 2000a400 l     O .bss	00000100 rx_transfer
-20022608 l     O .bss	00000001 transmit_previous_timeout
-200225ee l     O .bss	00000002 tx_available
-2002260a l     O .bss	00000001 tx_head
-2002260c l     O .bss	00000001 tx_noautoflush
-200225f2 l     O .bss	00000002 tx_packet_size
+2002260a l     O .bss	00000001 transmit_previous_timeout
+200225f0 l     O .bss	00000002 tx_available
+2002260c l     O .bss	00000001 tx_head
+2002260e l     O .bss	00000001 tx_noautoflush
+200225f4 l     O .bss	00000002 tx_packet_size
 2000a5c0 l     O .bss	00000080 tx_transfer
 00000000 l    df *ABS*	00000000 yield.cpp
-200225ff l     O .bss	00000001 yield::running
+20022601 l     O .bss	00000001 yield::running
 00000000 l    df *ABS*	00000000 pwm.c
 00000000 l    df *ABS*	00000000 serialEvent.cpp
 00000000 l    df *ABS*	00000000 sm_pool.c
@@ -367,7 +367,7 @@ SYMBOL TABLE:
 00003a34 g     F .text.itcm	000001b4 FatFile::write(void const*, unsigned int)
 2000c640 g     O .bss	000000b4 usb_audio_transmit_buffer
 6000286c g     O .text.progmem	00000018 usb_string_manufacturer_name_default
-20008ec4 g     O .data	00000002 proc
+20008ec2 g     O .data	00000002 proc
 000075dc g     F .text.itcm	00000018 AudioConnection::AudioConnection()
 60002018 g     F .text.code	00000384 configure_external_ram
 00004b44  w    F .text.itcm	00000004 DedicatedSpiCard::isDedicatedSpi()
@@ -377,12 +377,12 @@ SYMBOL TABLE:
 00003dc8 g     F .text.itcm	00000168 FatFile::makeSFN(FatLfn_t*)
 20021fb8 g     O .bss	00000004 procCount
 0000471c g     F .text.itcm	00000124 FatPartition::init(FsBlockDeviceInterface*, unsigned char)
-200225f9 g     O .bss	00000001 AudioStream::update_scheduled
+200225fb g     O .bss	00000001 AudioStream::update_scheduled
 60002844  w    O .text.progmem	00000001 _serialEventUSB2_default
 200200a4 g     O .bss	00000004 FsDateTime::callback
 20020330 g     O .bss	00000001 __lock___atexit_recursive_mutex
 00013094 g     F .text.itcm	0000004c _wcrtomb_r
-20022610 g     O .bss	00000001 usb_audio_transmit_setting
+20022612 g     O .bss	00000001 usb_audio_transmit_setting
 00003f30 g     F .text.itcm	000000b4 FatFile::makeUniqueSfn(FatLfn_t*)
 000052a8 g     F .text.itcm	00000068 SharedSpiCard::writeStart(unsigned long)
 00007be4 g     F .text.itcm	0000001c Print::println()
@@ -406,7 +406,7 @@ SYMBOL TABLE:
 0000c620 g     F .text.itcm	0000004a _vdprintf_r
 00004f80 g     F .text.itcm	00000076 SharedSpiCard::readOCR(unsigned long*)
 000013a0 g     F .text.itcm	000000b0 saveData(short)
-20008ec6 g     O .data	00000002 shift
+20008ec4 g     O .data	00000002 shift
 200088c0 g     O .data	00000004 F_CPU_ACTUAL
 000134a4 g     F .text.itcm	000000b4 _sfread_r
 2002012c g     O .bss	00000004 AudioInputUSB::ready_right
@@ -417,7 +417,7 @@ SYMBOL TABLE:
 000152ac g       .ARM.exidx	00000000 __exidx_end
 200216f8 g     O .bss	00000004 feedback_accumulator
 000046c4 g     F .text.itcm	00000056 FatPartition::freeChain(unsigned long)
-200225fd g     O .bss	00000001 EventResponder::runningFromYield
+200225ff g     O .bss	00000001 EventResponder::runningFromYield
 000096b4 g     F .text.itcm	0000001c AudioOutputUSB::begin()
 00006bd8 g     F .text.itcm	00000016 SdSpiArduinoDriver::receive()
 00004a20 g     F .text.itcm	000000e4 FsVolume::begin(FsBlockDeviceInterface*, bool, unsigned char)
@@ -476,7 +476,7 @@ SYMBOL TABLE:
 00000294 g     F .text.itcm	0000003c setup1()
 20020138 g     O .bss	00000004 AudioOutputUSB::left_1st
 0000a6d8 g     F .text.itcm	00000000 .hidden __aeabi_uldivmod
-20022612 g     O .bss	00000001 usb_configuration
+20022614 g     O .bss	00000001 usb_configuration
 00004b2c  w    F .text.itcm	00000006 SdCardInterface::status()
 0000a5fc g     F .text.itcm	0000004c sm_align_pool
 60000000 g     O .text.headers	00000200 FlexSPI_NOR_Config
@@ -543,7 +543,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 200216e8 g     O .bss	00000010 extmem_smalloc_pool
 20020364 g     O .bss	00000004 __malloc_max_sbrked_mem
 00005170 g     F .text.itcm	0000005c DedicatedSpiCard::readSectors(unsigned long, unsigned char*, unsigned int)
-200225fc g     O .bss	00000001 AudioOutputUSB::update_responsibility
+200225fe g     O .bss	00000001 AudioOutputUSB::update_responsibility
 00008294 g     F .text.itcm	00000070 pinMode
 00007c60 g     F .text.itcm	00000164 Print::printFloat(double, unsigned char)
 00015154 g     F .text.itcm	00000042 .hidden __extendsfdf2
@@ -584,11 +584,11 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 60017df0 g       *ABS*	00000000 _sdataload
 0000e0f8 g     F .text.itcm	00000042 __mcmp
 200088ec g     O .data	00000004 __brkval
-20022611 g     O .bss	00000001 usb_cdc_line_rtsdtr
+20022613 g     O .bss	00000001 usb_cdc_line_rtsdtr
 600026b8 g     F .text.code	00000000 _init
 00009fb4 g     F .text.itcm	00000002 usb_serial_reset
 2000082c g     O .data	00000070 SPIClass::spiclass_lpspi1_hardware
-2002260e g     O .bss	00000001 usb_audio_sync_nbytes
+20022610 g     O .bss	00000001 usb_audio_sync_nbytes
 60001654 g     F .text.code	000000c8 AudioStream::initialize_memory(audio_block_struct*, unsigned int)
 00015238 g     F .text.itcm	00000040 .hidden __aeabi_d2ulz
 60002888 g     O .text.progmem	00000155 usb_config_descriptor_12
@@ -654,7 +654,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 20021750 g     O .bss	00000004 head
 00007778 g     F .text.itcm	00000034 AudioConnection::~AudioConnection()
 00007b44  w    F .text.itcm	00000006 usb_serial_class::write(unsigned char)
-2002260d g     O .bss	00000001 usb_audio_receive_setting
+2002260f g     O .bss	00000001 usb_audio_receive_setting
 60001f10  w    F .text.code	00000002 startup_early_hook
 00002418 g     F .text.itcm	00000092 ExFatFile::addCluster()
 00004d44 g     F .text.itcm	0000008c SharedSpiCard::readData(unsigned char*, unsigned int)
@@ -766,10 +766,10 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 00003fe4 g     F .text.itcm	00000298 FatFile::open(FatFile*, FatLfn_t*, int)
 20008e98 g     O .data	00000008 t1
 20008ea0 g     O .data	00000004 t_acq
-20008ec9 g     O .data	00000001 yield_active_check_flags
+20008ec7 g     O .data	00000001 yield_active_check_flags
 000025e4 g     F .text.itcm	0000005e ExFatFile::sync()
 0000cb0c g     F .text.itcm	00000002 __retarget_lock_acquire_recursive
-20022613 g     O .bss	00000001 usb_high_speed
+20022615 g     O .bss	00000001 usb_high_speed
 00005b04 g     F .text.itcm	0000007c SdioCard::isBusy()
 200009ac  w    O .data	0000000c vtable for AudioTrigger
 0000c844 g     F .text.itcm	000000a4 memset
@@ -789,9 +789,9 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 00011f00 g     F .text.itcm	00000cec _dtoa_r
 0000a9f4 g     F .text.itcm	00000560 _malloc_r
 00005240 g     F .text.itcm	00000068 DedicatedSpiCard::readSector(unsigned long, unsigned char*)
-200225fe g     O .bss	00000001 HardwareSerial::s_count_serials_with_serial_events
+20022600 g     O .bss	00000001 HardwareSerial::s_count_serials_with_serial_events
 0000e5b0 g     F .text.itcm	0000001a __ascii_wctomb
-2002260f g     O .bss	00000001 usb_audio_sync_rshift
+20022611 g     O .bss	00000001 usb_audio_sync_rshift
 000151a8 g     F .text.itcm	0000005a .hidden __aeabi_l2d
 2002017c g     O .bss	00000004 FatVolume::m_cwv
 00001978 g     F .text.itcm	00000012 menu1()
@@ -816,7 +816,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 60002848  w    O .text.progmem	00000024 usb_string_product_name
 00008144 g     F .text.itcm	000000a8 delay
 00015238 g     F .text.itcm	00000040 .hidden __fixunsdfdi
-200225e6 g     O .bss	00000002 dma_channel_allocated_mask
+200225e8 g     O .bss	00000002 dma_channel_allocated_mask
 000152a0 g     F .fini	00000000 _fini
 000071f8 g     F .text.itcm	0000002a TwoWire::write(unsigned char)
 00004cc4 g     F .text.itcm	0000007e SharedSpiCard::isBusy()
@@ -887,11 +887,11 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 20008e70 g     O .data	0000000c __sglue
 00009fb8 g     F .text.itcm	000000ec usb_serial_configure
 00007224 g     F .text.itcm	0000003c TwoWire::write(unsigned char const*, unsigned int)
-200225fb g     O .bss	00000001 AudioInputUSB::receive_flag
+200225fd g     O .bss	00000001 AudioInputUSB::receive_flag
 00007c00  w    F .text.itcm	0000001c _write
 200092c0 g       .data	00000000 _edata
 00002f00 g     F .text.itcm	00000040 ExFatPartition::fatPut(unsigned long, unsigned long)
-20022601 g     O .bss	00000001 external_psram_size
+20022603 g     O .bss	00000001 external_psram_size
 00005838  w    F .text.itcm	00000002 SdioCard::~SdioCard()
 00006d20 g     F .text.itcm	0000004c FsName::get16()
 00004bb8  w    F .text.itcm	00000002 DedicatedSpiCard::~DedicatedSpiCard()
@@ -951,7 +951,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 00004bbc  w    F .text.itcm	00000006 SharedSpiCard::end()
 0000cec0 g     F .text.itcm	000000dc strlen
 20022020 g     O .bss	00000004 ready
-200225fa g     O .bss	00000001 AudioTrigger::update_responsibility
+200225fc g     O .bss	00000001 AudioTrigger::update_responsibility
 00000068  w    F .text.itcm	00000002 AudioTrigger::update()
 00003894 g     F .text.itcm	000000ae FatFile::seekSet(unsigned long)
 00000a4c  w    F .text.itcm	0000000c IntervalTimer::~IntervalTimer()

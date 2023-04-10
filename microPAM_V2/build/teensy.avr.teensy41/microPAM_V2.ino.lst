@@ -471,7 +471,7 @@ static inline void attachInterruptVector(IRQ_NUMBER_t irq, void (*function)(void
 600016f8:	200200a8 	.word	0x200200a8
 600016fc:	200225dc 	.word	0x200225dc
 60001700:	200200b0 	.word	0x200200b0
-60001704:	200225f9 	.word	0x200225f9
+60001704:	200225fb 	.word	0x200225fb
 60001708:	000073e1 	.word	0x000073e1
 6000170c:	0001101b 	.word	0x0001101b
 60001710:	20009000 	.word	0x20009000
@@ -2182,7 +2182,7 @@ FLASHMEM void startup_debug_reset(void) { __asm__ volatile("nop"); }
 60002358:	00030004 	.word	0x00030004
 6000235c:	70000000 	.word	0x70000000
 60002360:	70000000 	.word	0x70000000
-60002364:	20022601 	.word	0x20022601
+60002364:	20022603 	.word	0x20022603
 60002368:	200216e8 	.word	0x200216e8
 	FLEXSPI2_IPCR0 = addr;
 6000236c:	f44f 0400 	mov.w	r4, #8388608	; 0x800000
@@ -2745,7 +2745,7 @@ FLASHMEM void _reboot_Teensyduino_(void)
 600026a8:	400fc000 	.word	0x400fc000
 600026ac:	400c4000 	.word	0x400c4000
 600026b0:	400c8000 	.word	0x400c8000
-600026b4:	20022600 	.word	0x20022600
+600026b4:	20022602 	.word	0x20022602
 
 600026b8 <_init>:
 600026b8:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
@@ -3287,9 +3287,9 @@ inline void setLe16(uint8_t* dst, uint16_t src) {
      236:	bf00      	nop
      238:	20020188 	.word	0x20020188
      23c:	200225e2 	.word	0x200225e2
-     240:	20008ec2 	.word	0x20008ec2
+     240:	200225e4 	.word	0x200225e4
      244:	20022564 	.word	0x20022564
-     248:	200225e4 	.word	0x200225e4
+     248:	200225e6 	.word	0x200225e6
      24c:	20021fb8 	.word	0x20021fb8
      250:	20021fbc 	.word	0x20021fbc
      254:	200216d0 	.word	0x200216d0
@@ -3730,8 +3730,8 @@ void loop1(){}  // nothing to be done here
      582:	f007 fb2f 	bl	7be4 <Print::println()>
      586:	e77c      	b.n	482 <setup+0x9e>
      588:	20022564 	.word	0x20022564
-     58c:	20022612 	.word	0x20022612
-     590:	20022611 	.word	0x20022611
+     58c:	20022614 	.word	0x20022614
+     590:	20022613 	.word	0x20022613
      594:	200088b8 	.word	0x200088b8
      598:	20200000 	.word	0x20200000
      59c:	20007d50 	.word	0x20007d50
@@ -3886,7 +3886,7 @@ static void process(int32_t * buffer)
      67e:	bf00      	nop
      680:	2001f9c4 	.word	0x2001f9c4
      684:	20021b54 	.word	0x20021b54
-     688:	20008ec6 	.word	0x20008ec6
+     688:	20008ec4 	.word	0x20008ec4
      68c:	400e8000 	.word	0x400e8000
      690:	06978000 	.word	0x06978000
      694:	20021fb8 	.word	0x20021fb8
@@ -3894,7 +3894,7 @@ static void process(int32_t * buffer)
      69c:	200206a8 	.word	0x200206a8
      6a0:	00000000 	.word	0x00000000
      6a4:	3c000000 	.word	0x3c000000
-     6a8:	20008ec4 	.word	0x20008ec4
+     6a8:	20008ec2 	.word	0x20008ec2
      6ac:	200206c8 	.word	0x200206c8
      6b0:	200204ac 	.word	0x200204ac
      6b4:	20021fbc 	.word	0x20021fbc
@@ -4414,7 +4414,7 @@ static void process(int32_t * buffer)
     }
      a44:	4770      	bx	lr
      a46:	bf00      	nop
-     a48:	200225fa 	.word	0x200225fa
+     a48:	200225fc 	.word	0x200225fc
 
 00000a4c <IntervalTimer::~IntervalTimer()>:
 	~IntervalTimer() {
@@ -4490,7 +4490,7 @@ static void process(int32_t * buffer)
     }
      aa6:	bd38      	pop	{r3, r4, r5, pc}
      aa8:	20008e98 	.word	0x20008e98
-     aac:	200225fa 	.word	0x200225fa
+     aac:	200225fc 	.word	0x200225fc
      ab0:	0001100f 	.word	0x0001100f
      ab4:	00000a35 	.word	0x00000a35
      ab8:	bff7bf00 	.word	0xbff7bf00
@@ -4910,7 +4910,7 @@ int __not_in_flash_func(compress)(void *inp)
      dc8:	20021f74 	.word	0x20021f74
      dcc:	2001fe9c 	.word	0x2001fe9c
      dd0:	2001fc4c 	.word	0x2001fc4c
-     dd4:	20008ec6 	.word	0x20008ec6
+     dd4:	20008ec4 	.word	0x20008ec4
      dd8:	20020198 	.word	0x20020198
      ddc:	2001f9cc 	.word	0x2001f9cc
      de0:	ffff0000 	.word	0xffff0000
@@ -5329,7 +5329,7 @@ int16_t makeHeader(int32_t *header)
     1054:	20008ea4 	.word	0x20008ea4
     1058:	2002256c 	.word	0x2002256c
     105c:	2000c7f0 	.word	0x2000c7f0
-    1060:	20008ec6 	.word	0x20008ec6
+    1060:	20008ec4 	.word	0x20008ec4
 
 00001064 <newDirectory(char*)>:
   ho=h;
@@ -6886,9 +6886,9 @@ void menu2(void)
     1ac0:	2000055c 	.word	0x2000055c
     1ac4:	20008e94 	.word	0x20008e94
     1ac8:	2000056c 	.word	0x2000056c
-    1acc:	20008ec6 	.word	0x20008ec6
+    1acc:	20008ec4 	.word	0x20008ec4
     1ad0:	2000057c 	.word	0x2000057c
-    1ad4:	20008ec4 	.word	0x20008ec4
+    1ad4:	20008ec2 	.word	0x20008ec2
     1ad8:	2000058c 	.word	0x2000058c
     1adc:	200005a8 	.word	0x200005a8
 
@@ -7006,8 +7006,8 @@ void menu3(void)
     1b98:	200088c4 	.word	0x200088c4
     1b9c:	20000734 	.word	0x20000734
     1ba0:	20008e94 	.word	0x20008e94
-    1ba4:	20008ec6 	.word	0x20008ec6
-    1ba8:	20008ec4 	.word	0x20008ec4
+    1ba4:	20008ec4 	.word	0x20008ec4
+    1ba8:	20008ec2 	.word	0x20008ec2
 
 00001bac <ExFatFile::dirCache(unsigned char, unsigned char)>:
 uint8_t* ExFatFile::dirCache(uint8_t set, uint8_t options) {
@@ -16594,7 +16594,7 @@ static void sdIrs() {
     56ce:	4770      	bx	lr
     56d0:	402c0000 	.word	0x402c0000
     56d4:	200200a0 	.word	0x200200a0
-    56d8:	200225f8 	.word	0x200225f8
+    56d8:	200225fa 	.word	0x200225fa
 
 000056dc <isBusyDat()>:
 static bool isBusyCommandInhibit() {
@@ -16621,7 +16621,7 @@ static bool isBusyDMA() {
 }
     56f4:	4770      	bx	lr
     56f6:	bf00      	nop
-    56f8:	200225f8 	.word	0x200225f8
+    56f8:	200225fa 	.word	0x200225fa
 
 000056fc <setSdclk(unsigned long)>:
   uint32_t divider = ((CCM_CSCDR1 >> 11) & 0x7) + 1;
@@ -16777,7 +16777,7 @@ uint8_t SdioCard::errorCode() const {
     57ca:	7818      	ldrb	r0, [r3, #0]
     57cc:	4770      	bx	lr
     57ce:	bf00      	nop
-    57d0:	20008ec8 	.word	0x20008ec8
+    57d0:	20008ec6 	.word	0x20008ec6
 
 000057d4 <SdioCard::errorData() const>:
 //------------------------------------------------------------------------------
@@ -16892,8 +16892,8 @@ uint8_t SdioCard::type() const {
           SD_CARD_TYPE_SDHC : SD_CARD_TYPE_SD2 : SD_CARD_TYPE_SD1;
 }
     585e:	4770      	bx	lr
-    5860:	200225f5 	.word	0x200225f5
-    5864:	200225f6 	.word	0x200225f6
+    5860:	200225f7 	.word	0x200225f7
+    5864:	200225f8 	.word	0x200225f8
 
 00005868 <SdioCard::sectorCount()>:
   if (csd->v1.csd_ver == 0) {
@@ -17039,10 +17039,10 @@ static bool waitTransferComplete() {
     5936:	bf00      	nop
     5938:	402c0000 	.word	0x402c0000
     593c:	117f0002 	.word	0x117f0002
-    5940:	200225f7 	.word	0x200225f7
+    5940:	200225f9 	.word	0x200225f9
     5944:	200200a0 	.word	0x200200a0
     5948:	117f0000 	.word	0x117f0000
-    594c:	20008ec8 	.word	0x20008ec8
+    594c:	20008ec6 	.word	0x20008ec6
     5950:	2001d1c0 	.word	0x2001d1c0
     5954:	000f4240 	.word	0x000f4240
 
@@ -17160,9 +17160,9 @@ bool SdioCard::writeData(const uint8_t* src) {
     59f2:	601a      	str	r2, [r3, #0]
 }
     59f4:	e8bd 83f8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-    59f8:	200225f7 	.word	0x200225f7
+    59f8:	200225f9 	.word	0x200225f9
     59fc:	402c0000 	.word	0x402c0000
-    5a00:	20008ec8 	.word	0x20008ec8
+    5a00:	20008ec6 	.word	0x20008ec6
     5a04:	2001d1c0 	.word	0x2001d1c0
     5a08:	000f4240 	.word	0x000f4240
 
@@ -17373,10 +17373,10 @@ bool SdioCard::isBusy() {
     5b5e:	f3c4 2400 	ubfx	r4, r4, #8, #1
     5b62:	e7e2      	b.n	5b2a <SdioCard::isBusy()+0x26>
     5b64:	2002009c 	.word	0x2002009c
-    5b68:	200225f7 	.word	0x200225f7
+    5b68:	200225f9 	.word	0x200225f9
     5b6c:	402c0000 	.word	0x402c0000
     5b70:	117f0002 	.word	0x117f0002
-    5b74:	200225f4 	.word	0x200225f4
+    5b74:	200225f6 	.word	0x200225f6
     5b78:	2001fbf8 	.word	0x2001fbf8
     5b7c:	0d1a0000 	.word	0x0d1a0000
 
@@ -17539,9 +17539,9 @@ bool SdioCard::writeStart(uint32_t sector) {
     5c7c:	2001fbf8 	.word	0x2001fbf8
     5c80:	0d1a0000 	.word	0x0d1a0000
     5c84:	000f4240 	.word	0x000f4240
-    5c88:	200225f6 	.word	0x200225f6
+    5c88:	200225f8 	.word	0x200225f8
     5c8c:	193a0020 	.word	0x193a0020
-    5c90:	20008ec8 	.word	0x20008ec8
+    5c90:	20008ec6 	.word	0x20008ec6
     5c94:	2001d1c0 	.word	0x2001d1c0
     5c98:	2002009c 	.word	0x2002009c
     5c9c:	402c0000 	.word	0x402c0000
@@ -17651,7 +17651,7 @@ bool SdioCard::readStop() {
     5d3a:	bf00      	nop
     5d3c:	402c0000 	.word	0x402c0000
     5d40:	0cdb0000 	.word	0x0cdb0000
-    5d44:	20008ec8 	.word	0x20008ec8
+    5d44:	20008ec6 	.word	0x20008ec6
     5d48:	2001d1c0 	.word	0x2001d1c0
     5d4c:	000056dd 	.word	0x000056dd
     5d50:	000f4240 	.word	0x000f4240
@@ -17808,12 +17808,12 @@ static bool cardCMD6(uint32_t arg, uint8_t* status) {
     5e3c:	2001fbf8 	.word	0x2001fbf8
     5e40:	0d1a0000 	.word	0x0d1a0000
     5e44:	000f4240 	.word	0x000f4240
-    5e48:	200225f8 	.word	0x200225f8
+    5e48:	200225fa 	.word	0x200225fa
     5e4c:	200200a0 	.word	0x200200a0
     5e50:	063a0011 	.word	0x063a0011
     5e54:	00010040 	.word	0x00010040
     5e58:	117f0002 	.word	0x117f0002
-    5e5c:	20008ec8 	.word	0x20008ec8
+    5e5c:	20008ec6 	.word	0x20008ec6
     5e60:	2001d1c0 	.word	0x2001d1c0
     5e64:	000056f1 	.word	0x000056f1
     5e68:	117f0000 	.word	0x117f0000
@@ -17952,9 +17952,9 @@ bool SdioCard::erase(uint32_t firstSector, uint32_t lastSector) {
     5f40:	e7c3      	b.n	5eca <SdioCard::erase(unsigned long, unsigned long)+0x56>
     5f42:	bf00      	nop
     5f44:	2001fbe4 	.word	0x2001fbe4
-    5f48:	20008ec8 	.word	0x20008ec8
+    5f48:	20008ec6 	.word	0x20008ec6
     5f4c:	2001d1c0 	.word	0x2001d1c0
-    5f50:	200225f6 	.word	0x200225f6
+    5f50:	200225f8 	.word	0x200225f8
     5f54:	201a0000 	.word	0x201a0000
     5f58:	211a0000 	.word	0x211a0000
     5f5c:	261b0000 	.word	0x261b0000
@@ -18139,14 +18139,14 @@ bool SdioCard::erase(uint32_t firstSector, uint32_t lastSector) {
     608a:	bf08      	it	eq
     608c:	464c      	moveq	r4, r9
     608e:	e785      	b.n	5f9c <rdWrSectors(unsigned long, unsigned long, unsigned char*, unsigned int)+0x2c>
-    6090:	20008ec8 	.word	0x20008ec8
+    6090:	20008ec6 	.word	0x20008ec6
     6094:	2001d1c0 	.word	0x2001d1c0
     6098:	00005ba1 	.word	0x00005ba1
     609c:	2002009c 	.word	0x2002009c
     60a0:	1fff0000 	.word	0x1fff0000
-    60a4:	200225f8 	.word	0x200225f8
+    60a4:	200225fa 	.word	0x200225fa
     60a8:	117f0002 	.word	0x117f0002
-    60ac:	200225f6 	.word	0x200225f6
+    60ac:	200225f8 	.word	0x200225f8
     60b0:	000056f1 	.word	0x000056f1
     60b4:	000f4240 	.word	0x000f4240
     60b8:	117f0000 	.word	0x117f0000
@@ -18239,7 +18239,7 @@ bool SdioCard::readSectors(uint32_t sector, uint8_t* dst, size_t n) {
 }
     6146:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
     6148:	123a0037 	.word	0x123a0037
-    614c:	20008ec8 	.word	0x20008ec8
+    614c:	20008ec6 	.word	0x20008ec6
     6150:	2001d1c0 	.word	0x2001d1c0
 
 00006154 <SdioCard::writeSectors(unsigned long, unsigned char const*, unsigned int)>:
@@ -18326,7 +18326,7 @@ bool SdioCard::writeSectors(uint32_t sector, const uint8_t* src, size_t n) {
 }
     61ce:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
     61d0:	193a0027 	.word	0x193a0027
-    61d4:	20008ec8 	.word	0x20008ec8
+    61d4:	20008ec6 	.word	0x20008ec6
     61d8:	2001d1c0 	.word	0x2001d1c0
 
 000061dc <SdioCard::begin(SdioConfig)>:
@@ -18721,9 +18721,9 @@ static inline void attachInterruptVector(IRQ_NUMBER_t irq, void (*function)(void
     6480:	e752      	b.n	6328 <SdioCard::begin(SdioConfig)+0x14c>
     6482:	bf00      	nop
     6484:	400d8000 	.word	0x400d8000
-    6488:	20008ec8 	.word	0x20008ec8
-    648c:	200225f6 	.word	0x200225f6
-    6490:	200225f5 	.word	0x200225f5
+    6488:	20008ec6 	.word	0x20008ec6
+    648c:	200225f8 	.word	0x200225f8
+    6490:	200225f7 	.word	0x200225f7
     6494:	401f8000 	.word	0x401f8000
     6498:	01008000 	.word	0x01008000
     649c:	117f000b 	.word	0x117f000b
@@ -18744,7 +18744,7 @@ static inline void attachInterruptVector(IRQ_NUMBER_t irq, void (*function)(void
     64d8:	2001fbd4 	.word	0x2001fbd4
     64dc:	0a090000 	.word	0x0a090000
     64e0:	071b0000 	.word	0x071b0000
-    64e4:	200225f4 	.word	0x200225f4
+    64e4:	200225f6 	.word	0x200225f6
     64e8:	081a0000 	.word	0x081a0000
     64ec:	29020000 	.word	0x29020000
     64f0:	000f4240 	.word	0x000f4240
@@ -18992,7 +18992,7 @@ bool SdioCard::readData(uint8_t* dst) {
     66a0:	117f0002 	.word	0x117f0002
     66a4:	200200a0 	.word	0x200200a0
     66a8:	117f0000 	.word	0x117f0000
-    66ac:	20008ec8 	.word	0x20008ec8
+    66ac:	20008ec6 	.word	0x20008ec6
     66b0:	2001d1c0 	.word	0x2001d1c0
     66b4:	000f4240 	.word	0x000f4240
 
@@ -19099,9 +19099,9 @@ bool SdioCard::readStart(uint32_t sector) {
     6768:	2001fbf8 	.word	0x2001fbf8
     676c:	0d1a0000 	.word	0x0d1a0000
     6770:	000f4240 	.word	0x000f4240
-    6774:	200225f6 	.word	0x200225f6
+    6774:	200225f8 	.word	0x200225f8
     6778:	123a0030 	.word	0x123a0030
-    677c:	20008ec8 	.word	0x20008ec8
+    677c:	20008ec6 	.word	0x20008ec6
     6780:	2001d1c0 	.word	0x2001d1c0
     6784:	2002009c 	.word	0x2002009c
     6788:	402c0000 	.word	0x402c0000
@@ -19199,7 +19199,7 @@ bool SdioCard::stopTransmission(bool blocking) {
     6806:	e7d7      	b.n	67b8 <SdioCard::stopTransmission(bool)+0x2c>
     6808:	402c0000 	.word	0x402c0000
     680c:	0cdb0000 	.word	0x0cdb0000
-    6810:	20008ec8 	.word	0x20008ec8
+    6810:	20008ec6 	.word	0x20008ec6
     6814:	2001d1c0 	.word	0x2001d1c0
     6818:	000056dd 	.word	0x000056dd
     681c:	2002009c 	.word	0x2002009c
@@ -19236,7 +19236,7 @@ bool SdioCard::syncDevice() {
     6848:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
     return stopTransmission(true);
     684c:	f7ff bf9e 	b.w	678c <SdioCard::stopTransmission(bool)>
-    6850:	200225f7 	.word	0x200225f7
+    6850:	200225f9 	.word	0x200225f9
 
 00006854 <SdioCard::readSector(unsigned long, unsigned char*)>:
 bool SdioCard::readSector(uint32_t sector, uint8_t* dst) {
@@ -19380,9 +19380,9 @@ bool SdioCard::readSector(uint32_t sector, uint8_t* dst) {
     694e:	bf00      	nop
     6950:	113a0011 	.word	0x113a0011
     6954:	00006825 	.word	0x00006825
-    6958:	20008ec8 	.word	0x20008ec8
+    6958:	20008ec6 	.word	0x20008ec6
     695c:	2001d1c0 	.word	0x2001d1c0
-    6960:	200225f7 	.word	0x200225f7
+    6960:	200225f9 	.word	0x200225f9
 
 00006964 <SdioCard::writeSector(unsigned long, unsigned char const*)>:
 bool SdioCard::writeSector(uint32_t sector, const uint8_t* src) {
@@ -19517,9 +19517,9 @@ bool SdioCard::writeSector(uint32_t sector, const uint8_t* src) {
     6a40:	d0b3      	beq.n	69aa <SdioCard::writeSector(unsigned long, unsigned char const*)+0x46>
     6a42:	e7c7      	b.n	69d4 <SdioCard::writeSector(unsigned long, unsigned char const*)+0x70>
     6a44:	183a0001 	.word	0x183a0001
-    6a48:	20008ec8 	.word	0x20008ec8
+    6a48:	20008ec6 	.word	0x20008ec6
     6a4c:	2001d1c0 	.word	0x2001d1c0
-    6a50:	200225f7 	.word	0x200225f7
+    6a50:	200225f9 	.word	0x200225f9
     6a54:	00006825 	.word	0x00006825
 
 00006a58 <sdCsWrite(unsigned char, bool)>:
@@ -21972,7 +21972,7 @@ AudioConnection::~AudioConnection()
 }
     77dc:	4770      	bx	lr
     77de:	bf00      	nop
-    77e0:	200225f9 	.word	0x200225f9
+    77e0:	200225fb 	.word	0x200225fb
     77e4:	20009000 	.word	0x20009000
     77e8:	000073ed 	.word	0x000073ed
     77ec:	e000e400 	.word	0xe000e400
@@ -22078,7 +22078,7 @@ AudioConnection::~AudioConnection()
 		return;
     7890:	e7c5      	b.n	781e <DMAChannel::begin(bool)+0x2e>
     7892:	bf00      	nop
-    7894:	200225e6 	.word	0x200225e6
+    7894:	200225e8 	.word	0x200225e8
     7898:	02007480 	.word	0x02007480
     789c:	400fc000 	.word	0x400fc000
     78a0:	400e8000 	.word	0x400e8000
@@ -22114,7 +22114,7 @@ AudioConnection::~AudioConnection()
 }
     78ce:	4770      	bx	lr
     78d0:	400e8000 	.word	0x400e8000
-    78d4:	200225e6 	.word	0x200225e6
+    78d4:	200225e8 	.word	0x200225e8
 
 000078d8 <EventResponder::triggerEventNotImmediate()>:
 	static EventResponder *lastInterrupt;
@@ -25000,7 +25000,7 @@ static void endpoint0_transmit(const void *data, uint32_t len, int notify)
 }
     89a4:	4770      	bx	lr
     89a6:	bf00      	nop
-    89a8:	20022606 	.word	0x20022606
+    89a8:	20022608 	.word	0x20022608
     89ac:	402e0000 	.word	0x402e0000
 
 000089b0 <usb_isr>:
@@ -25350,11 +25350,11 @@ static void endpoint0_transmit(const void *data, uint32_t len, int notify)
     8c68:	200216e0 	.word	0x200216e0
     8c6c:	200225cc 	.word	0x200225cc
     8c70:	200225d0 	.word	0x200225d0
-    8c74:	20022613 	.word	0x20022613
-    8c78:	20022614 	.word	0x20022614
+    8c74:	20022615 	.word	0x20022615
+    8c78:	20022616 	.word	0x20022616
     8c7c:	20022024 	.word	0x20022024
     8c80:	200216d4 	.word	0x200216d4
-    8c84:	20022612 	.word	0x20022612
+    8c84:	20022614 	.word	0x20022614
     8c88:	402e01c0 	.word	0x402e01c0
 	switch (setup.wRequestAndType) {
     8c8c:	f240 3321 	movw	r3, #801	; 0x321
@@ -25760,9 +25760,9 @@ static void endpoint0_transmit(const void *data, uint32_t len, int notify)
     8f80:	2000c6f8 	.word	0x2000c6f8
     8f84:	200216d4 	.word	0x200216d4
     8f88:	200092e0 	.word	0x200092e0
-    8f8c:	2002260d 	.word	0x2002260d
+    8f8c:	2002260f 	.word	0x2002260f
     8f90:	20022024 	.word	0x20022024
-    8f94:	20022613 	.word	0x20022613
+    8f94:	20022615 	.word	0x20022615
     8f98:	402e0000 	.word	0x402e0000
     8f9c:	00cc0002 	.word	0x00cc0002
     8fa0:	20008708 	.word	0x20008708
@@ -25771,7 +25771,7 @@ static void endpoint0_transmit(const void *data, uint32_t len, int notify)
     8fac:	202009c0 	.word	0x202009c0
     8fb0:	20022564 	.word	0x20022564
     8fb4:	200225c8 	.word	0x200225c8
-    8fb8:	20022611 	.word	0x20022611
+    8fb8:	20022613 	.word	0x20022613
 				endpoint0_notify_mask = 0;
     8fbc:	2100      	movs	r1, #0
 	if (setup.wRequestAndType == 0x2021 && setup.wIndex == CDC_STATUS_INTERFACE) {
@@ -25924,14 +25924,14 @@ static void endpoint0_transmit(const void *data, uint32_t len, int notify)
     90c0:	02010121 	.word	0x02010121
     90c4:	01000121 	.word	0x01000121
     90c8:	200216d4 	.word	0x200216d4
-    90cc:	20022613 	.word	0x20022613
+    90cc:	20022615 	.word	0x20022615
     90d0:	600029e0 	.word	0x600029e0
     90d4:	60002888 	.word	0x60002888
     90d8:	200225c0 	.word	0x200225c0
-    90dc:	20022606 	.word	0x20022606
-    90e0:	20022614 	.word	0x20022614
+    90dc:	20022608 	.word	0x20022608
+    90e0:	20022616 	.word	0x20022616
     90e4:	200092e0 	.word	0x200092e0
-    90e8:	20022610 	.word	0x20022610
+    90e8:	20022612 	.word	0x20022612
     90ec:	202009c0 	.word	0x202009c0
 
 000090f0 <usb_config_rx>:
@@ -26411,10 +26411,10 @@ static void copy_to_buffers(const uint32_t *src, int16_t *left, int16_t *right, 
     93d8:	e8bd 4038 	ldmia.w	sp!, {r3, r4, r5, lr}
 	usb_transmit(AUDIO_SYNC_ENDPOINT, &sync_transfer);
     93dc:	f7ff bf6c 	b.w	92b8 <usb_transmit>
-    93e0:	2002260f 	.word	0x2002260f
+    93e0:	20022611 	.word	0x20022611
     93e4:	200216f8 	.word	0x200216f8
     93e8:	20200820 	.word	0x20200820
-    93ec:	2002260e 	.word	0x2002260e
+    93ec:	20022610 	.word	0x20022610
     93f0:	2000a500 	.word	0x2000a500
 
 000093f4 <AudioOutputUSB::update()>:
@@ -26622,7 +26622,7 @@ void AudioOutputUSB::update(void)
     94f0:	e8bd 4038 	ldmia.w	sp!, {r3, r4, r5, lr}
 			release(left);
     94f4:	f7fe b802 	b.w	74fc <AudioStream::release(audio_block_struct*)>
-    94f8:	20022610 	.word	0x20022610
+    94f8:	20022612 	.word	0x20022612
     94fc:	20020138 	.word	0x20020138
     9500:	2002013c 	.word	0x2002013c
     9504:	20020144 	.word	0x20020144
@@ -26819,7 +26819,7 @@ void AudioOutputUSB::update(void)
     9638:	007b      	lsls	r3, r7, #1
     963a:	f8df b01c 	ldr.w	fp, [pc, #28]	; 9658 <usb_audio_receive_callback+0x148>
     963e:	e7ee      	b.n	961e <usb_audio_receive_callback+0x10e>
-    9640:	200225fb 	.word	0x200225fb
+    9640:	200225fd 	.word	0x200225fd
     9644:	200225de 	.word	0x200225de
     9648:	20020134 	.word	0x20020134
     964c:	20020128 	.word	0x20020128
@@ -26890,7 +26890,7 @@ void AudioOutputUSB::update(void)
     96c0:	6013      	str	r3, [r2, #0]
 }
     96c2:	4770      	bx	lr
-    96c4:	200225fc 	.word	0x200225fc
+    96c4:	200225fe 	.word	0x200225fe
     96c8:	20020138 	.word	0x20020138
     96cc:	20020140 	.word	0x20020140
 
@@ -27112,7 +27112,7 @@ void AudioOutputUSB::update(void)
 	usb_transmit(AUDIO_TX_ENDPOINT, &tx_transfer);
     981c:	f7ff bd4c 	b.w	92b8 <usb_transmit>
     9820:	200216f8 	.word	0x200216f8
-    9824:	2002260f 	.word	0x2002260f
+    9824:	20022611 	.word	0x20022611
     9828:	2000c640 	.word	0x2000c640
     982c:	20200820 	.word	0x20200820
     9830:	2000a520 	.word	0x2000a520
@@ -27228,11 +27228,11 @@ void AudioOutputUSB::update(void)
     98e0:	f7ff bf78 	b.w	97d4 <tx_event(transfer_struct*)>
     98e4:	200225b8 	.word	0x200225b8
     98e8:	200225bc 	.word	0x200225bc
-    98ec:	20022613 	.word	0x20022613
+    98ec:	20022615 	.word	0x20022615
     98f0:	200216f8 	.word	0x200216f8
     98f4:	2c19999a 	.word	0x2c19999a
-    98f8:	2002260e 	.word	0x2002260e
-    98fc:	2002260f 	.word	0x2002260f
+    98f8:	20022610 	.word	0x20022610
+    98fc:	20022611 	.word	0x20022611
     9900:	2000a320 	.word	0x2000a320
     9904:	00009661 	.word	0x00009661
     9908:	20200840 	.word	0x20200840
@@ -27530,7 +27530,7 @@ static void rx_queue_transfer(int i)
     9a7e:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
     9a80:	20200b20 	.word	0x20200b20
     9a84:	2000a340 	.word	0x2000a340
-    9a88:	200225e8 	.word	0x200225e8
+    9a88:	200225ea 	.word	0x200225ea
 
 00009a8c <rx_event>:
 
@@ -27601,9 +27601,9 @@ static void rx_event(transfer_t *t)
 		rx_queue_transfer(i);
     9ad2:	f7ff bfab 	b.w	9a2c <rx_queue_transfer>
     9ad6:	bf00      	nop
-    9ad8:	200225e8 	.word	0x200225e8
+    9ad8:	200225ea 	.word	0x200225ea
     9adc:	20022034 	.word	0x20022034
-    9ae0:	20022602 	.word	0x20022602
+    9ae0:	20022604 	.word	0x20022604
     9ae4:	20022050 	.word	0x20022050
     9ae8:	2002202c 	.word	0x2002202c
     9aec:	2002206c 	.word	0x2002206c
@@ -27710,21 +27710,21 @@ static void rx_event(transfer_t *t)
     9b72:	2340      	movs	r3, #64	; 0x40
     9b74:	461e      	mov	r6, r3
     9b76:	e7c3      	b.n	9b00 <usb_midi_configure+0x10>
-    9b78:	20022613 	.word	0x20022613
-    9b7c:	200225e8 	.word	0x200225e8
-    9b80:	200225f0 	.word	0x200225f0
+    9b78:	20022615 	.word	0x20022615
+    9b7c:	200225ea 	.word	0x200225ea
+    9b80:	200225f2 	.word	0x200225f2
     9b84:	2000a540 	.word	0x2000a540
-    9b88:	20022609 	.word	0x20022609
-    9b8c:	200225ec 	.word	0x200225ec
+    9b88:	2002260b 	.word	0x2002260b
+    9b8c:	200225ee 	.word	0x200225ee
     9b90:	2000a340 	.word	0x2000a340
     9b94:	20022034 	.word	0x20022034
     9b98:	20022050 	.word	0x20022050
-    9b9c:	20022602 	.word	0x20022602
-    9ba0:	20022604 	.word	0x20022604
+    9b9c:	20022604 	.word	0x20022604
+    9ba0:	20022606 	.word	0x20022606
     9ba4:	2002202c 	.word	0x2002202c
     9ba8:	00009a8d 	.word	0x00009a8d
-    9bac:	20022607 	.word	0x20022607
-    9bb0:	2002260b 	.word	0x2002260b
+    9bac:	20022609 	.word	0x20022609
+    9bb0:	2002260d 	.word	0x2002260d
 
 00009bb4 <usb_midi_flush_output>:
 {
@@ -27805,12 +27805,12 @@ static void rx_event(transfer_t *t)
     9c38:	e8bd 43f8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 		usb_stop_sof_interrupts(MIDI_INTERFACE);
     9c3c:	f7fe bea2 	b.w	8984 <usb_stop_sof_interrupts>
-    9c40:	2002260b 	.word	0x2002260b
-    9c44:	200225ec 	.word	0x200225ec
+    9c40:	2002260d 	.word	0x2002260d
+    9c44:	200225ee 	.word	0x200225ee
     9c48:	2000a540 	.word	0x2000a540
     9c4c:	20201720 	.word	0x20201720
-    9c50:	200225f0 	.word	0x200225f0
-    9c54:	20022609 	.word	0x20022609
+    9c50:	200225f2 	.word	0x200225f2
+    9c54:	2002260b 	.word	0x2002260b
 
 00009c58 <rx_queue_transfer>:
 /*************************************************************************/
@@ -27872,7 +27872,7 @@ static void rx_queue_transfer(int i)
     9caa:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
     9cac:	20009320 	.word	0x20009320
     9cb0:	2000a400 	.word	0x2000a400
-    9cb4:	200225ea 	.word	0x200225ea
+    9cb4:	200225ec 	.word	0x200225ec
 
 00009cb8 <rx_event>:
 
@@ -27996,9 +27996,9 @@ static void rx_event(transfer_t *t)
     9d46:	6013      	str	r3, [r2, #0]
 				rx_queue_transfer(i);
     9d48:	f7ff bf86 	b.w	9c58 <rx_queue_transfer>
-    9d4c:	200225ea 	.word	0x200225ea
-    9d50:	20022603 	.word	0x20022603
-    9d54:	20022605 	.word	0x20022605
+    9d4c:	200225ec 	.word	0x200225ec
+    9d50:	20022605 	.word	0x20022605
+    9d54:	20022607 	.word	0x20022607
     9d58:	20022040 	.word	0x20022040
     9d5c:	20022074 	.word	0x20022074
     9d60:	2002205c 	.word	0x2002205c
@@ -28082,10 +28082,10 @@ static void usb_serial_flush_callback(void)
 }
     9dde:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
     9de2:	4770      	bx	lr
-    9de4:	2002260c 	.word	0x2002260c
-    9de8:	20022612 	.word	0x20022612
-    9dec:	200225ee 	.word	0x200225ee
-    9df0:	2002260a 	.word	0x2002260a
+    9de4:	2002260e 	.word	0x2002260e
+    9de8:	20022614 	.word	0x20022614
+    9dec:	200225f0 	.word	0x200225f0
+    9df0:	2002260c 	.word	0x2002260c
     9df4:	2000a5c0 	.word	0x2000a5c0
     9df8:	2000a640 	.word	0x2000a640
 
@@ -28326,15 +28326,15 @@ int usb_serial_write(const void *buffer, uint32_t size)
 	return sent;
     9f8c:	e7e5      	b.n	9f5a <usb_serial_write.part.0+0x15e>
     9f8e:	bf00      	nop
-    9f90:	2002260c 	.word	0x2002260c
+    9f90:	2002260e 	.word	0x2002260e
     9f94:	20022564 	.word	0x20022564
     9f98:	2000a5c0 	.word	0x2000a5c0
-    9f9c:	2002260a 	.word	0x2002260a
-    9fa0:	20022612 	.word	0x20022612
+    9f9c:	2002260c 	.word	0x2002260c
+    9fa0:	20022614 	.word	0x20022614
     9fa4:	2000a640 	.word	0x2000a640
     9fa8:	402e0000 	.word	0x402e0000
-    9fac:	200225ee 	.word	0x200225ee
-    9fb0:	20022608 	.word	0x20022608
+    9fac:	200225f0 	.word	0x200225f0
+    9fb0:	2002260a 	.word	0x2002260a
 
 00009fb4 <usb_serial_reset>:
 }
@@ -28456,18 +28456,18 @@ int usb_serial_write(const void *buffer, uint32_t size)
 }
     a060:	bd70      	pop	{r4, r5, r6, pc}
     a062:	bf00      	nop
-    a064:	20022613 	.word	0x20022613
+    a064:	20022615 	.word	0x20022615
     a068:	2000a5c0 	.word	0x2000a5c0
-    a06c:	200225f2 	.word	0x200225f2
-    a070:	200225ea 	.word	0x200225ea
-    a074:	2002260a 	.word	0x2002260a
-    a078:	200225ee 	.word	0x200225ee
+    a06c:	200225f4 	.word	0x200225f4
+    a070:	200225ec 	.word	0x200225ec
+    a074:	2002260c 	.word	0x2002260c
+    a078:	200225f0 	.word	0x200225f0
     a07c:	2000a400 	.word	0x2000a400
     a080:	20022040 	.word	0x20022040
     a084:	2002205c 	.word	0x2002205c
-    a088:	20022603 	.word	0x20022603
+    a088:	20022605 	.word	0x20022605
     a08c:	20022030 	.word	0x20022030
-    a090:	20022605 	.word	0x20022605
+    a090:	20022607 	.word	0x20022607
     a094:	00009cb9 	.word	0x00009cb9
     a098:	402e0000 	.word	0x402e0000
     a09c:	200225cc 	.word	0x200225cc
@@ -28600,12 +28600,12 @@ int usb_serial_write(const void *buffer, uint32_t size)
 	while (count < size && tail != rx_head) {
     a164:	4608      	mov	r0, r1
     a166:	e7e1      	b.n	a12c <usb_serial_read+0x88>
-    a168:	20022603 	.word	0x20022603
+    a168:	20022605 	.word	0x20022605
     a16c:	20009320 	.word	0x20009320
     a170:	20022074 	.word	0x20022074
     a174:	20022040 	.word	0x20022040
     a178:	20022030 	.word	0x20022030
-    a17c:	20022605 	.word	0x20022605
+    a17c:	20022607 	.word	0x20022607
     a180:	2002205c 	.word	0x2002205c
 
 0000a184 <usb_serial_peekchar>:
@@ -28645,8 +28645,8 @@ int usb_serial_write(const void *buffer, uint32_t size)
     a1ae:	f04f 30ff 	mov.w	r0, #4294967295
 }
     a1b2:	4770      	bx	lr
-    a1b4:	20022603 	.word	0x20022603
-    a1b8:	20022605 	.word	0x20022605
+    a1b4:	20022605 	.word	0x20022605
+    a1b8:	20022607 	.word	0x20022607
     a1bc:	20022074 	.word	0x20022074
     a1c0:	20009320 	.word	0x20009320
     a1c4:	2002205c 	.word	0x2002205c
@@ -28716,8 +28716,8 @@ int usb_serial_write(const void *buffer, uint32_t size)
     a232:	d1e5      	bne.n	a200 <usb_serial_flush_input+0x20>
 }
     a234:	e8bd 8ff8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, r9, sl, fp, pc}
-    a238:	20022605 	.word	0x20022605
-    a23c:	20022603 	.word	0x20022603
+    a238:	20022607 	.word	0x20022607
+    a23c:	20022605 	.word	0x20022605
     a240:	2002205c 	.word	0x2002205c
     a244:	20022074 	.word	0x20022074
     a248:	20022030 	.word	0x20022030
@@ -28761,7 +28761,7 @@ int usb_serial_write(const void *buffer, uint32_t size)
     a28e:	f003 00ff 	and.w	r0, r3, #255	; 0xff
     a292:	b003      	add	sp, #12
     a294:	f85d fb04 	ldr.w	pc, [sp], #4
-    a298:	20022612 	.word	0x20022612
+    a298:	20022614 	.word	0x20022614
 
 0000a29c <usb_serial_write>:
 	if (!usb_configuration) return 0;
@@ -28774,7 +28774,7 @@ int usb_serial_write(const void *buffer, uint32_t size)
     a2aa:	4610      	mov	r0, r2
     a2ac:	4770      	bx	lr
     a2ae:	bf00      	nop
-    a2b0:	20022612 	.word	0x20022612
+    a2b0:	20022614 	.word	0x20022614
 
 0000a2b4 <usb_serial_write_buffer_free>:
 {
@@ -28821,8 +28821,8 @@ int usb_serial_write(const void *buffer, uint32_t size)
 }
     a2f4:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
     a2f8:	2000a5c0 	.word	0x2000a5c0
-    a2fc:	2002260a 	.word	0x2002260a
-    a300:	2002260c 	.word	0x2002260c
+    a2fc:	2002260c 	.word	0x2002260c
+    a300:	2002260e 	.word	0x2002260e
 
 0000a304 <usb_serial_flush_output>:
 {
@@ -28901,12 +28901,12 @@ int usb_serial_write(const void *buffer, uint32_t size)
     a37a:	703b      	strb	r3, [r7, #0]
 }
     a37c:	e8bd 83f8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-    a380:	20022612 	.word	0x20022612
-    a384:	200225ee 	.word	0x200225ee
-    a388:	2002260a 	.word	0x2002260a
+    a380:	20022614 	.word	0x20022614
+    a384:	200225f0 	.word	0x200225f0
+    a388:	2002260c 	.word	0x2002260c
     a38c:	2000a5c0 	.word	0x2000a5c0
     a390:	2000a640 	.word	0x2000a640
-    a394:	2002260c 	.word	0x2002260c
+    a394:	2002260e 	.word	0x2002260e
 
 0000a398 <yield>:
 
@@ -29070,13 +29070,13 @@ void yield(void)
     a462:	4b06      	ldr	r3, [pc, #24]	; (a47c <yield+0xe4>)
     a464:	601a      	str	r2, [r3, #0]
     a466:	e7c4      	b.n	a3f2 <yield+0x5a>
-    a468:	20008ec9 	.word	0x20008ec9
-    a46c:	200225ff 	.word	0x200225ff
+    a468:	20008ec7 	.word	0x20008ec7
+    a46c:	20022601 	.word	0x20022601
     a470:	20020148 	.word	0x20020148
-    a474:	200225fd 	.word	0x200225fd
+    a474:	200225ff 	.word	0x200225ff
     a478:	60002846 	.word	0x60002846
     a47c:	20020154 	.word	0x20020154
-    a480:	200225fe 	.word	0x200225fe
+    a480:	20022600 	.word	0x20022600
     a484:	20020158 	.word	0x20020158
 
 0000a488 <flexpwm_init>:

@@ -111,7 +111,7 @@ void loop()
   uint16_t nb = getDataCount();
   if(nb>mxb) mxb=nb;
 
-  static volatile int16_t status=STOPPED;
+  static volatile int16_t status=CLOSED;
   // basic menu to start and stop archiving  
   if(Serial.available())
   {

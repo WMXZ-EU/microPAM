@@ -79,7 +79,7 @@ int __not_in_flash_func(compress)(void *inp)
   for(nb=2; nb<MB; nb++) if(mx < (1<<(nb-1))) break;
   // compression factor (32/nb)
   proc_stat[nb-1]++;
-  if(nb>max_stat) max_stat=nb;
+  if((uint32_t)nb>max_stat) max_stat=nb;
 
   // mask data (all but first sample) (mask needed for negative numbers)
   uint32_t msk = (1 << nb) - 1;

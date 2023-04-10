@@ -55,8 +55,8 @@
   bool rtc_get_datetime(datetime_t *t);
 #endif
 
-uint8_t *mgetRTC(uint8_t *buffer, uint16_t nbuf);
-uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf);
+void rtcSetDate(int year,int month,int day);
+void rtcSetTime(int hour,int minutes,int seconds);
 int16_t rtc_setup(uint8_t sda=SDA, uint8_t scl=SCL);
 void time2date(uint32_t time, datetime_t *tm);
 

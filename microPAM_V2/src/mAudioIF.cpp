@@ -25,6 +25,7 @@
     #include "mConfig.h"
     #include "mAudioIF.h"
 
+    /*********************** Audio queue *************************************/
     #define MAUDIO 10
     static int32_t audio_buffer[MAUDIO][NBUF_I2S];
     static int head=0;
@@ -32,25 +33,33 @@
     
     int16_t __not_in_flash_func(putAudio)(int32_t *data)
     {
-      if ( (tail+1)%MAUDIO == head ) return 0;
+      if ( (tail+1)%MAUDIO == head ) return 0;    // queue is full
       for(int ii=0;ii<NBUF_I2S;ii++) audio_buffer[tail][ii]=data[ii];
       tail = (tail+1)%MAUDIO;
-      return 1; // signal success.
-    }
-    
-    int16_t __not_in_flash_func(getAudio)(int32_t *data)
-    {
-      if ( head==tail ) return 0;
-      for(int ii=0;ii<NBUF_I2S;ii++) data[ii]=audio_buffer[head][ii];
-      head = (head+1)%MAUDIO;
-      return 1;
+      return 1;   // signal success.
     }
 
+    int16_t __not_in_flash_func(getAudio)(int32_t *data)
+    {
+      if ( head==tail ) return 0;                 // queue is empty
+      for(int ii=0;ii<NBUF_I2S;ii++) data[ii]=audio_buffer[head][ii];
+      head = (head+1)%MAUDIO;
+      return 1;   // signal success.
+    }
+
+    /********************** Audio Interface **********************************/
+    void AudioIF::extract(int16_t *dst1, int16_t *dst2, const int32_t *src)
+    {
+      for(int ii=0,jj=0; ii<NBUF_ACQ; ii++) 
+      { dst1[ii]=(int16_t)src[jj++];   
+        dst2[ii]=(int16_t)src[jj++];  
+      }
+    }
+    //
     uint32_t usbCount=0;
     static int32_t src_buffer[NBUF_I2S];
     void AudioIF::update(void)
-    {	const int32_t *src;
-      int16_t *dst;
+    {	
       audio_block_t *left, *right;
       //
       if(!getAudio(src_buffer)) return;
@@ -58,15 +67,8 @@
       left  = allocate(); if (!left) return;
       right = allocate(); if (!right) {release(left); return;}
       usbCount++;
-      src = &src_buffer[0];
-      dst = left->data;
       //
-      for(int ii=0; ii<NBUF_ACQ; ii++) dst[ii]=(int16_t)src[2*ii];
-      
-      src = &src_buffer[1];
-      dst = right->data;
-      //
-      for(int ii=0; ii<NBUF_ACQ; ii++) dst[ii]=(int16_t)src[2*ii];
+      extract(left->data, right->data, src_buffer );
       
       transmit(left,0);
       transmit(right,1);

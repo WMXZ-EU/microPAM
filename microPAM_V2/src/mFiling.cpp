@@ -269,9 +269,7 @@ int16_t saveData(int16_t status)
     }
     if(status<CLOSED) return status; // we are stopped: don't do anything
 
-    int16_t oldStat=status;
     status=checkEndOfFile(status);
-//    if(status != oldStat) {Serial.print(oldStat); Serial.print(" "); Serial.println(status);}
 
     if(getDataCount()>=NDBL)
     {

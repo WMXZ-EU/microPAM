@@ -39,7 +39,7 @@
         virtual void update(void);
       private:
         int32_t fsamp;
-
+        void extract(int16_t *dst1, int16_t *dst2, const int32_t *src);
       };
     #endif
   #endif

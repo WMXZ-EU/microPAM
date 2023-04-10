@@ -39,8 +39,8 @@
 #include "src/menu.h"
 
 #if defined(__IMXRT1062__) && defined(AUDIO_INTERFACE)
-  #include "AudioStream.h"
-  #include "usb_audio.h"
+  #include <AudioStream.h>
+  #include <usb_audio.h>
   #include "src/mAudioTrigger.h"
   #include "src/mAudioIF.h"
 
@@ -104,19 +104,21 @@ void loop()
   // put your main code here, to run repeatedly:
   static uint32_t loopCount=0;
   loopCount++;
+  static int16_t monitor=0;
 
   // obtain some statistics on Queue usage
   static uint16_t mxb=0;
   uint16_t nb = getDataCount();
   if(nb>mxb) mxb=nb;
 
-  static volatile int16_t status=START_MODE;
+  static volatile int16_t status=STOPPED;
   // basic menu to start and stop archiving  
   if(Serial.available())
   {
     char ch=Serial.read();
     if(ch=='s') status=CLOSED;
     if(ch=='e') status=MUSTSTOP;
+    if(ch=='m') monitor=1-monitor;
     if(ch==':') menu1(); // returns only when menu1 gets not handled character
     if(ch=='?') menu2(); // returns only when menu2 gets not handled character
     if(ch=='!') menu3(); // returns only when menu3 gets not handled character
@@ -133,15 +135,28 @@ void loop()
   { datetime_t t;
     rtc_get_datetime(&t);
 
-    Serial.printf("\n%4d-%02d-%02d %02d:%02d:%02d %d",
-                   t.year,t.month,t.day,t.hour,t.min,t.sec,t.dotw); Serial.print(" : ");
+    if(monitor)
+    {
+      Serial.printf("\n%4d-%02d-%02d %02d:%02d:%02d %d",
+                    t.year,t.month,t.day,t.hour,t.min,t.sec,t.dotw); Serial.print(" : ");
 
-    Serial.print(loopCount); Serial.print(" ");
-    Serial.print(procCount); Serial.print(" ");
-    Serial.print(procMiss); Serial.print(" ");
-    Serial.printf("%3d",mxb); Serial.print("  ");
-    Serial.printf("%4d",acqbias); Serial.print(" ");
-    Serial.print(disk_count); Serial.print("  ; ");
+      Serial.print(loopCount); Serial.print(" ");
+      Serial.print(procCount); Serial.print(" ");
+      Serial.print(procMiss); Serial.print(" ");
+      Serial.printf("%3d",mxb); Serial.print("  ");
+      Serial.printf("%4d",acqbias); Serial.print(" ");
+      Serial.print(disk_count); Serial.print("  ; ");
+
+      #if PROC_MODE==0
+        for(int ii=0; ii<8;ii++){ Serial.printf("%8X ",logBuffer[ii]);}
+      #else
+        for(int ii=0; ii<MB;ii++){ Serial.printf("%2d ",proc_stat[ii]);}
+        Serial.printf("%2d",max_stat);
+
+        for(int ii=0; ii<MB;ii++){ proc_stat[ii]=0;}
+        max_stat=0;
+      #endif
+    }
 
     loopCount=0;
     procCount=0;
@@ -149,15 +164,6 @@ void loop()
     mxb=0;
     disk_count=0;
 
-    #if PROC_MODE==0
-      for(int ii=0; ii<8;ii++){ Serial.printf("%8X ",logBuffer[ii]);}
-    #else
-      for(int ii=0; ii<MB;ii++){ Serial.printf("%2d ",proc_stat[ii]);}
-      Serial.printf("%2d",max_stat);
-
-      for(int ii=0; ii<MB;ii++){ proc_stat[ii]=0;}
-      max_stat=0;
-    #endif
 
     t0=t1;
   }

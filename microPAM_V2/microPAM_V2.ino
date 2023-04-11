@@ -44,7 +44,7 @@
   #include "src/mAudioTrigger.h"
   #include "src/mAudioIF.h"
 
-  AudioTrigger trigger;
+  AudioTrigger    trigger;
   AudioIF         acqIF(FSAMP);
   AudioOutputUSB  usb; 
   AudioConnection patchCord1(acqIF, 0, usb, 0);
@@ -163,7 +163,6 @@ void loop()
     procMiss=0;
     mxb=0;
     disk_count=0;
-
 
     t0=t1;
   }

@@ -19,6 +19,7 @@ static int menuGetInt32(int32_t *val)
   while(!Serial.available()) continue;
   int count = Serial.readBytesUntil('\r',buffer,40);
   buffer[count]=0;
+  Serial.println(buffer);
   int tmp;
   sscanf(buffer,"%d",&tmp); *val=(int32_t) tmp;
   return 1;

@@ -2,6 +2,7 @@
 #include "mConfig.h"
 #include "menu.h"
 #include "mRTC.h"
+#include "mAcq.h"
 
 static int menuGetInt16(int16_t *val)
 { char buffer[40];
@@ -103,6 +104,7 @@ void menu3(void)
     else if(ch=='f')
     {
       menuGetInt32(&fsamp);
+      acqModifyFrequency(fsamp);
     }
     else if(ch=='s')
     {

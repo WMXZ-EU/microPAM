@@ -63,7 +63,8 @@
       audio_block_t *left, *right;
       //
       if(!getAudio(src_buffer)) return;
-      
+      if(fsamp != 44100) return;
+
       left  = allocate(); if (!left) return;
       right = allocate(); if (!right) {release(left); return;}
       usbCount++;

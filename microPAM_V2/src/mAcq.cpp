@@ -169,6 +169,10 @@ static void process(int32_t * buffer);
     }
   }
 
+  void asqModifyFrequency(uint32_t fsamp)
+  { // not implemented yet
+
+  }
 
 /*======================================================================================*/
 #elif defined(__IMXRT1062__)
@@ -316,6 +320,15 @@ static void process(int32_t * buffer);
     #if defined(AUDIO_INTERFACE)
       putAudio(src);
     #endif
+  }
+
+  void acqModifyFrequency(uint32_t fsamp)
+  {
+    // stop I2S
+    I2S1_RCSR &= ~(I2S_RCSR_RE | I2S_RCSR_BCE);
+    setAudioFrequency(fsamp);
+    //restart I2S
+    I2S1_RCSR |= I2S_RCSR_RE | I2S_RCSR_BCE;
   }
 
 #endif

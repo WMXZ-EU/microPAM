@@ -26,6 +26,7 @@
 
   void i2s_setup(void);
   void dma_setup(void);
+  void acqModifyFrequency(uint32_t fsamp);
 
   extern int16_t shift;
 

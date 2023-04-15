@@ -147,15 +147,18 @@ void loop()
       Serial.printf("%4d",acqbias); Serial.print(" ");
       Serial.print(disk_count); Serial.print("  ; ");
 
-      #if PROC_MODE==0
-        for(int ii=0; ii<8;ii++){ Serial.printf("%8X ",logBuffer[ii]);}
-      #else
+      if(proc==0)
+      {
+        for(int ii=0; ii<8;ii++){ Serial.printf("%8X ",logBuffer[ii]);}        
+      }
+      else
+      {
         for(int ii=0; ii<MB;ii++){ Serial.printf("%2d ",proc_stat[ii]);}
         Serial.printf("%2d",max_stat);
 
         for(int ii=0; ii<MB;ii++){ proc_stat[ii]=0;}
-        max_stat=0;
-      #endif
+        max_stat=0;        
+      }
     }
 
     loopCount=0;

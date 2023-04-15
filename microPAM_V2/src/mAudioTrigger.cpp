@@ -35,7 +35,7 @@
     bool AudioTrigger::update_responsibility = false;
 
     IntervalTimer t1;
-    const int period = (int) (128.0f/FSAMP*1000000.0f);
+    const int period = (int) (128.0f/44100*1000000.0f);
 
     void AudioTrigger::init(void)
     {	// check with AudioStream if we are responsable for updates

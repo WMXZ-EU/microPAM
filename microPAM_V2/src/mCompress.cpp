@@ -54,13 +54,13 @@ uint32_t max_stat;
 int __not_in_flash_func(compress)(void *inp)
 {   
   int ret=1;
-  static uint32_t to = rtc_get();
-  static uint32_t t1 = micros();
+  uint32_t to = rtc_get();
+  uint32_t t1 = micros();
 
   int32_t *din = (int32_t *) inp;
   //
   // copy reference (first sample of all channels)
-  for (int  ii = 0; ii < NCH; ii++) tempData0[ii]=tempDatai[ii] = din[ii];
+  for (int  ii = 0; ii < NCH; ii++) tempData0[ii] = tempDatai[ii] = din[ii];
   
   //differentiate (equiv 6 dB/Octave HP filter)
   for (int  ii = NCH; ii < NSAMP; ii++) tempDatai[ii] = (din[ii] - din[ii - NCH]);

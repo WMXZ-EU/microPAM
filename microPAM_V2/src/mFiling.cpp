@@ -48,7 +48,7 @@ volatile uint32_t t_off=0;
   const int _SCK  = 6;
 
   // Try max SPI clock for an SD. Reduce SPI_CLOCK if errors occur.
-  #define SD_CONFIG SdSpiConfig(_CS, DEDICATED_SPI, SD_SCK_MHZ(16))
+  #define SD_CONFIG SdSpiConfig(_CS, DEDICATED_SPI, SD_SCK_MHZ(25))
 
   extern "C" void flash_get_unique_id(uint8_t *p);
   uint32_t UniqueID[2];
@@ -66,7 +66,7 @@ uint32_t diskSize=0;
 
 #define NDBL 8
 #define MAX_DISK_BUFFER (NDBL*NBUF_ACQ)
-uint32_t diskBuffer[MAX_DISK_BUFFER];
+static uint32_t diskBuffer[MAX_DISK_BUFFER];
 uint32_t disk_count=0;
 
 uint32_t SerNum=0;

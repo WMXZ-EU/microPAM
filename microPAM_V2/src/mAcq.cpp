@@ -42,7 +42,7 @@ int32_t acqBuffer[NBUF_ACQ];
 int32_t fsamp=FSAMP;
 int16_t shift=SHIFT;
 int16_t proc=PROC_MODE;
-static void process(int32_t * buffer);
+static void __not_in_flash_func(process)(int32_t * buffer);
 
 /*======================================================================================*/
 #if defined(TARGET_RP2040)
@@ -124,7 +124,7 @@ static void process(int32_t * buffer);
 
   int _wordsPerBuffer=NBUF_I2S;
 
-  static void dma_irq(void);
+  static void __not_in_flash_func(dma_irq)(void);
 
   void dma_setup(void)
   {
@@ -155,21 +155,27 @@ static void process(int32_t * buffer);
       dma_channel_start(_channelDMA[0]);
   }
 
-  static void dma_irq(void)
-  {
+  static void __not_in_flash_func(dma_irq)(void)
+  { static int32_t val=0;
     for(int ii=0; ii<2; ii++)
     if(dma_channel_get_irq0_status(_channelDMA[ii]))
     { //Serial.print(ii);
       dma_channel_acknowledge_irq0(_channelDMA[ii]);
 
-      process(i2s_buffer[ii]);
+      int32_t * src = i2s_buffer[ii];
+      for(int ii=0; ii<_wordsPerBuffer; ii++) 
+      { if(!(src[ii]>>28 ^ 0x7)) src[ii] <<= 1;
+        src[ii]  >>= shift;
+      }
 
-      dma_channel_set_write_addr(_channelDMA[ii], i2s_buffer[ii], false);
+      process(src);
+
+      dma_channel_set_write_addr(_channelDMA[ii], src, false);
       dma_channel_set_trans_count(_channelDMA[ii], _wordsPerBuffer, false);
     }
   }
 
-  void asqModifyFrequency(uint32_t fsamp)
+  void acqModifyFrequency(uint32_t fsamp)
   { // not implemented yet
 
   }
@@ -335,7 +341,7 @@ static void process(int32_t * buffer);
 
 int32_t acqbias=0;
 /***************************************************************************/
-static void process(int32_t * buffer)
+static void __not_in_flash_func(process)(int32_t * buffer)
 { procCount++;
 
   for(int ii=0; ii<NBUF_ACQ; ii++) acqBuffer[ii]= buffer[2*ii+ICH];

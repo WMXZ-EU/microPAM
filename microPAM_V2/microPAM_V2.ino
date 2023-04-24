@@ -59,7 +59,7 @@ void setup()
 {
   // put your setup code here, to run once:
   #if defined(TARGET_RP2040)
-    set_sys_clock_khz(48000, true);
+  //  set_sys_clock_khz(48000, true);
   #endif
 
   Serial.begin(115200);
@@ -81,12 +81,15 @@ void setup()
   if(!rtc_get_datetime(&t)) Serial.println("failing get_datetime");
   Serial.printf("RTC-main: %4d-%02d-%02d %02d:%02d:%02d",
                       t.year,t.month,t.day,t.hour,t.min,t.sec); Serial.println();
+  #if 0
+    Serial.println("checking rtc_get()");
+    time2date(rtc_get(), &t);
+    Serial.printf("Now-sec: %4d-%02d-%02d %02d:%02d:%02d",
+                        t.year,t.month,t.day,t.hour,t.min,t.sec); Serial.println();
+    Serial.print("Week Day (may not be correct)"); Serial.println(t.dotw);
 
-  Serial.println("checking rtc_get()");
-  time2date(rtc_get(), &t);
-  Serial.printf("Now-sec: %4d-%02d-%02d %02d:%02d:%02d",
-                      t.year,t.month,t.day,t.hour,t.min,t.sec); Serial.println();
-  Serial.print("Week Day (may not be correct)"); Serial.println(t.dotw);
+    Serial.print("Bias "); Serial.println(BIAS);
+  #endif
 
   Serial.println("filing_init");
   filing_init();

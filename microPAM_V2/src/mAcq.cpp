@@ -164,7 +164,7 @@ static void __not_in_flash_func(process)(int32_t * buffer);
 
       int32_t * src = i2s_buffer[ii];
       for(int ii=0; ii<_wordsPerBuffer; ii++) 
-      { if(!(src[ii]>>28 ^ 0x7)) src[ii] <<= 1;
+      { if(!(src[ii]>>30 ^ 0x1)) src[ii] <<= 1;
         src[ii]  >>= shift;
       }
 

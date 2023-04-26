@@ -1,7 +1,7 @@
 {
   "env": {
     "ROOT": "${workspaceFolder}",
-    "ROOT0": "${ROOT}/../../arduino-1.8.19/hardware",
+    "ROOT0": "${ROOT}/../../../arduino-1.8.19/hardware",
     "ROOT1": "${ROOT0}/teensy/avr",
     "LOCAL_LIBRARIES": "${ROOT}/../libraries",
     "COMMON_LIBRARIES": [

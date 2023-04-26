@@ -20,7 +20,7 @@ TARGET_NAME     := $(PROJECT)_$(BOARD_ID)
 $(info Target is : $(TARGET_NAME))
 
 # adjust the following for the arduino path
-ROOT0 = $(ROOT)\..\..
+ROOT0 = $(ROOT)\..\..\..
 ARDUINO		:= $(ROOT0)\arduino-1.8.19\hardware
 
 USB_DEVICE		:= USB_MIDI_AUDIO_SERIAL

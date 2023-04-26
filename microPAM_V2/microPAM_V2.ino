@@ -59,12 +59,12 @@ void setup()
 {
   // put your setup code here, to run once:
   #if defined(TARGET_RP2040)
-  //  set_sys_clock_khz(48000, true);
+    set_sys_clock_khz(48000, true);
   #endif
 
   Serial.begin(115200);
-  // wait for a minute to allow USB-Serial connection
-  while(millis()<60000) if(Serial) break;
+  // wait for 10 s to allow USB-Serial connection
+  while(millis()<10000) if(Serial) break;
 
   // Teensy has a crash report
   #if defined(__IMXRT1062__)

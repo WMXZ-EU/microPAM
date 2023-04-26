@@ -24,10 +24,10 @@
   #include <stdint.h>
   
   #define START_MODE 0  // -1 is stopped; 0 is closed (ready to open file)
-  #define ICS3434 1     // use 0 when Adafruit I2S MEMS
+  #define ICS3434 0     // use 0 when Adafruit I2S MEMS
 
   // for mAcq
-  #define FSAMP 44100 // sampling frequency
+  #define FSAMP 48000 // sampling frequency
   #define MBIT 32     // number of bits / sample
   #define NCH 1       // number of channels
   #define ICH 0       // selected channel

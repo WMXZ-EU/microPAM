@@ -63,7 +63,7 @@ static void __not_in_flash_func(process)(int32_t * buffer);
   #define pio_i2s_in_wrap_target 0
   #define pio_i2s_in_wrap 7
 
-  static const uint16_t pio_i2s_in_program_instructions[] = {
+  static uint16_t pio_i2s_in_program_instructions[] = {
               //     .wrap_target
       0xa022, //  0: mov    x, y            side 0     
       0x4801, //  1: in     pins, 1         side 1     
@@ -76,7 +76,7 @@ static void __not_in_flash_func(process)(int32_t * buffer);
               //     .wrap
   };
 
-  static const struct pio_program pio_i2s_in_program = {
+  static struct pio_program pio_i2s_in_program = {
       .instructions = pio_i2s_in_program_instructions,
       .length = 8,
       .origin = -1,
@@ -164,7 +164,7 @@ static void __not_in_flash_func(process)(int32_t * buffer);
 
       int32_t * src = i2s_buffer[ii];
       for(int ii=0; ii<_wordsPerBuffer; ii++) 
-      { if(!(src[ii]>>30 ^ 0x1)) src[ii] <<= 1;
+      { if(!(src[ii]>>30 ^ 0x1)) src[ii] <<= 1; // workaround to is2 bit error in pio
         src[ii]  >>= shift;
       }
 
@@ -347,8 +347,8 @@ static void __not_in_flash_func(process)(int32_t * buffer)
   for(int ii=0; ii<NBUF_ACQ; ii++) acqBuffer[ii]= buffer[2*ii+ICH];
   
   float tmp=0.0f;
-  for(int ii=0; ii<NBUF_ACQ; ii++) tmp +=(float)acqBuffer[ii]/(float)NBUF_ACQ;
-  acqbias=(int32_t) tmp;
+  for(int ii=0; ii<NBUF_ACQ; ii++) tmp +=(float)acqBuffer[ii];
+  acqbias=(int32_t) (tmp/(float)NBUF_ACQ);
 
   if(proc==0)
   {

@@ -133,12 +133,12 @@ int16_t makeHeader(int32_t *header)
 
     header[5] = 20;          // SW version
     header[6] = SerNum;      // serial number
-    header[7] = FSAMP;
+    header[7] = fsamp;
     header[8] = NCH;
     header[9] = t_acq;
     header[10] = t_on;
     header[11] = t_off;
-    header[12] = PROC_MODE;
+    header[12] = proc;
     header[13] = shift;
 
     header[127]=0x55555555;

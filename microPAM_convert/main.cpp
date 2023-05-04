@@ -336,7 +336,7 @@ int main(int argc, char *argv[])
     ipf.lStructSize = sizeof(OPENFILENAMEA);
     ipf.lpstrFile = iFilestring;
     ipf.nMaxFile = MAX_PATH;
-    ipf.lpstrTitle = (char *) "Open bin file or directory (type x and press open)";
+    ipf.lpstrTitle = (char *) "Open bin file or folder (type x and press open)";
 
     char inFilePath[MAX_PATH];
 
@@ -346,7 +346,7 @@ int main(int argc, char *argv[])
     opf.lStructSize = sizeof(OPENFILENAMEA);
     opf.lpstrFile = oFilestring;
     opf.nMaxFile = MAX_PATH;
-    opf.lpstrTitle = (char *) "Open wav directory (type x and press open)";
+    opf.lpstrTitle = (char *) "Open wav folder (type x and press open)";
 
     char outFilePath[MAX_PATH];
 
@@ -397,9 +397,9 @@ int main(int argc, char *argv[])
     {
         printf("Format: microPAM_convert\n");
         printf("or\n");
-        printf("Format: microPAM_convert  bin-directory  wav-directory\n\n");
+        printf("Format: microPAM_convert  bin-folder  wav-folder\n\n");
         printf("or\n");
-        printf("Format: microPAM_convert  bin-file  wav-directory\n\n");
+        printf("Format: microPAM_convert  bin-file  wav-folder\n\n");
         return 0;
     }
     else

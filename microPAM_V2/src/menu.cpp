@@ -7,7 +7,8 @@
 static int menuGetInt16(int16_t *val)
 { char buffer[40];
   while(!Serial.available()) continue;
-  int count = Serial.readBytesUntil('\r',buffer,40);
+  int count;
+  count = Serial.readBytesUntil('\r',buffer,40);
   buffer[count]=0;
   Serial.println(buffer);
   int tmp;
@@ -18,7 +19,8 @@ static int menuGetInt16(int16_t *val)
 static int menuGetInt32(int32_t *val)
 { char buffer[40];
   while(!Serial.available()) continue;
-  int count = Serial.readBytesUntil('\r',buffer,40);
+  int count;
+  count = Serial.readBytesUntil('\r',buffer,40);
   buffer[count]=0;
   Serial.println(buffer);
   int tmp;
@@ -29,7 +31,8 @@ static int menuGetInt32(int32_t *val)
 static int menuGet3Int(int *val1, int *val2, int *val3)
 { char buffer[40];
   while(!Serial.available()) continue;
-  int count = Serial.readBytesUntil('\r',buffer,40);
+  int count;
+  count = Serial.readBytesUntil('\r',buffer,40);
   buffer[count]=0;
   Serial.println(buffer);
   char c1,c2;
@@ -39,7 +42,8 @@ static int menuGet3Int(int *val1, int *val2, int *val3)
 void menu1(void)
 {   // have ':'
     while(!Serial.available()) ;
-    char ch=Serial.read();
+    char ch;
+    ch=Serial.read();
     if(ch=='x') return;
 }
 
@@ -48,7 +52,8 @@ void menu2(void)
     datetime_t t;
 
     while(!Serial.available()) ;
-    char ch=Serial.read();
+    char ch;
+    ch=Serial.read();
     if(ch=='p') // get parameters
     {
       rtc_get_datetime(&t);
@@ -88,7 +93,8 @@ void menu3(void)
 {   // have '!'
 
     while(!Serial.available()) ;
-    char ch=Serial.read();
+    char ch;
+    ch=Serial.read();
     if(ch=='d') // set date
     { int year,month,day;
       menuGet3Int(&year,&month,&day);

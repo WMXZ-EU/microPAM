@@ -53,6 +53,7 @@
 
 /***************************************************************************/
 volatile int ready=0;
+volatile int termon=0;
 void setup1();
 //
 void setup() 
@@ -64,7 +65,7 @@ void setup()
 
   Serial.begin(115200);
   // wait for 10 s to allow USB-Serial connection
-  while(millis()<10000) if(Serial) break;
+  while(millis()<10000) if(Serial) { termon=1; break;}
 
   // Teensy has a crash report
   #if defined(__IMXRT1062__)
@@ -99,6 +100,7 @@ void setup()
   // in case of single core teensy 4.1 start acquisition
   #if defined(__IMXRT1062__)
     setup1();
+    pinMode(13,OUTPUT);
   #endif
 }
 
@@ -111,10 +113,11 @@ void loop()
 
   // obtain some statistics on Queue usage
   static uint16_t mxb=0;
-  uint16_t nb = getDataCount();
+  uint16_t nb;
+  nb = getDataCount();
   if(nb>mxb) mxb=nb;
 
-  static volatile int16_t status=CLOSED;
+  static volatile int16_t status=(termon==1)? STOPPED: CLOSED;
   // basic menu to start and stop archiving  
   if(Serial.available())
   {

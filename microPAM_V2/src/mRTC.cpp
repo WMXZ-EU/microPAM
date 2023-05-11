@@ -233,7 +233,8 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
   {
     datetime_t t;
     rtc_get_datetime(&t);    
-    uint16_t days=date2days(t.year, t.month, t.day);
+    uint16_t day;
+    days=date2days(t.year, t.month, t.day);
     return time2seconds(days,t.hour, t.min, t.sec);
   }
 

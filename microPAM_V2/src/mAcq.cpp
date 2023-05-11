@@ -130,12 +130,14 @@ static void __not_in_flash_func(process)(int32_t * buffer);
   {
       for (auto ii = 0; ii < 2; ii++) _channelDMA[ii] = dma_claim_unused_channel(true);
 
-      int dreq = pio_get_dreq(_pio, _sm, false);
+      int dreq;
+      dreq = pio_get_dreq(_pio, _sm, false);
       volatile void *pioFIFOAddr =(volatile void*)&_pio->rxf[_sm];
 
       for (auto ii = 0; ii < 2; ii++) 
       {  
-        dma_channel_config c = dma_channel_get_default_config(_channelDMA[ii]);
+        dma_channel_config c;
+        c = dma_channel_get_default_config(_channelDMA[ii]);
         channel_config_set_transfer_data_size(&c, DMA_SIZE_32); // 16b/32b transfers into PIO FIFO
         channel_config_set_read_increment(&c, false); // Reading same FIFO address
         channel_config_set_write_increment(&c, true); // Writing to incrememting buffers
@@ -264,7 +266,7 @@ static void __not_in_flash_func(process)(int32_t * buffer);
   #include "DMAChannel.h"
 
   static DMAChannel dma;
-  uint32_t i2s_buffer[2*NBUF_I2S];
+  DMAMEM __attribute__((aligned(32))) static  uint32_t i2s_buffer[2*NBUF_I2S];
   static void acq_isr(void);
 
   void dma_setup(void)
@@ -293,6 +295,7 @@ static void __not_in_flash_func(process)(int32_t * buffer);
     #include "mAudioIF.h"
   #endif
 
+  #define IMXRT_CACHE_ENABLED 2 // 0=disabled, 1=WT, 2= WB
   static void acq_isr(void)
   {
     uint32_t daddr;
@@ -315,6 +318,11 @@ static void __not_in_flash_func(process)(int32_t * buffer);
       src = (int32_t *)&i2s_buffer[0];
     }
 
+    #if IMXRT_CACHE_ENABLED >=1
+        arm_dcache_delete((void*)src, sizeof(i2s_buffer) / 2);
+    #endif
+
+    // extract data
     #if NCH==1
       for(int ii=0; ii<NBUF_ACQ; ii++) src[2*ii+ICH]  = (src[2*ii+ICH]-BIAS) >> shift;
     #else

@@ -44,7 +44,7 @@
   #define MAXBUF 128       // Queue length
 
   // pocess mode
-  #define PROC_MODE 1        // 0: raw data 1; compress
+  #define PROC_MODE 0        // 0: wav data 1; compress
   #define MB 24
 
   // mAcq

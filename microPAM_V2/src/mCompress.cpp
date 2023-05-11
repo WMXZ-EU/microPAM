@@ -54,8 +54,10 @@ uint32_t max_stat;
 int __not_in_flash_func(compress)(void *inp)
 {   
   int ret=1;
-  uint32_t to = rtc_get();
-  uint32_t t1 = micros();
+  uint32_t to;
+  to = rtc_get();
+  uint32_t t1;
+  t1 = micros();
 
   int32_t *din = (int32_t *) inp;
   //
@@ -147,7 +149,8 @@ int __not_in_flash_func(compress)(void *inp)
   else
   { // data crosses two blocks
       int ii=0;
-      int nr = NBLOCK-nout;  //remaining data
+      int nr;
+      nr = NBLOCK-nout;  //remaining data
       uint32_t *iptr = (uint32_t *) outData;
       // correct header
       iptr[5] = (iptr[5]<<16) | (nr-NH);  //orig remaining data | actual remaining data after header 

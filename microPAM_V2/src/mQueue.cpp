@@ -44,7 +44,7 @@
   
   uint16_t __not_in_flash_func(getDataCount)(void) { int num = tail-head; return num<0 ? num+MAXBUF : num; }
 
-  uint16_t __not_in_flash_func(queue_isBusy)(void) { return queue_busy; }
+  int __not_in_flash_func(queue_isBusy)(void) { return queue_busy; }
 
   uint16_t __not_in_flash_func(pushData)(uint32_t *data)
   {

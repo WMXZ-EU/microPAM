@@ -59,6 +59,7 @@ void menu2(void)
       rtc_get_datetime(&t);
       Serial.printf("\n%4d-%02d-%02d %02d:%02d:%02d %d\n",
                    t.year,t.month,t.day,t.hour,t.min,t.sec,t.dotw);
+      Serial.print("t_acq (a) = "); Serial.println(t_acq);
       Serial.print("fsamp (f) = "); Serial.println(fsamp);
       Serial.print("shift (s) = "); Serial.println(shift);
       Serial.print("proc  (c) = "); Serial.println(proc);
@@ -72,6 +73,10 @@ void menu2(void)
     {
       rtc_get_datetime(&t);
       Serial.printf("time (t) = %02d:%02d:%02d\n", t.hour,t.min,t.sec);
+    }
+    else if(ch=='a')
+    {
+      Serial.print("t_acq (a) = "); Serial.println(t_acq);
     }
     else if(ch=='f')
     {
@@ -107,6 +112,10 @@ void menu3(void)
       //
       rtcSetTime(hour,minutes,seconds);
     } 
+    else if(ch=='a')
+    {
+      menuGetInt32((int32_t *)&t_acq);
+    }
     else if(ch=='f')
     {
       menuGetInt32(&fsamp);

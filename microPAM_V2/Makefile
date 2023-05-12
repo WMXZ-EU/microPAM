@@ -31,7 +31,8 @@ LIBS_LOCAL_BASE := $(ROOT0)\libraries
 LIBS_LOCAL      := 
 
 LIBS_SHARED_BASE  := $(ROOT1)\libraries
-LIBS_SHARED       := Audio SerialFlash Time Wire SPI SD SdFat
+LIBS_SHARED       := Time Wire SPI SdFat
+#LIBS_SHARED       += Audio SerialFlash
 
 USB_DEVICE		:= USB_SERIAL
 

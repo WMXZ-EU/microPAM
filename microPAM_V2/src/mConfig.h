@@ -24,7 +24,7 @@
   #include <stdint.h>
   
   #define START_MODE 0  // -1 is stopped; 0 is closed (ready to open file)
-  #define ICS3434 0     // use 0 when Adafruit I2S MEMS
+  #define ICS43434 0     // use 0 when Adafruit I2S MEMS
 
   // for mAcq
   #define FSAMP 48000 // sampling frequency
@@ -44,15 +44,21 @@
   #define MAXBUF 128       // Queue length
 
   // pocess mode
-  #define PROC_MODE 0        // 0: wav data 1; compress
-  #define MB 24
+  #define PROC_MODE 0     // 0: wav data 1; compress
+  #define MB 24           // maximal bits for compression
 
   // mAcq
-  #define SHIFT (8+4)
-  #if ICS3434==1
+  #if PROC_MODE==0
+    #define SHIFT 0       // no shift is needed
+  #else
+    #define SHIFT (8+4)   // shift data to right to improve compression
+  #endif
+
+  // correct I2S-MEMS bias (not for ICS43434) 
+  #if ICS43434==1
     #define BIAS (0)
   #else
-    #define BIAS (-27000<<SHIFT)
+    #define BIAS (-27000<<(8+4))
   #endif
 
   #if defined(__IMXRT1062__)
@@ -63,6 +69,7 @@
   extern int32_t fsamp;  // mAcq.cpp
   extern int16_t shift;  // mAcq.cpp
   extern int16_t proc;   // mAcq.cpp
+  extern volatile uint32_t t_acq; // mFiling.cpp
 
   extern class AudioIF acqIF;
 #endif

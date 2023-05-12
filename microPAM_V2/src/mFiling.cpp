@@ -255,8 +255,8 @@ uint16_t checkDiskSpace(void)
     return 0;
 }
 
-uint16_t newHour(int h)
-{ static int ho=0;
+uint16_t newFolder(int h)
+{ static int ho=-1;
   if(h==ho) return 0;
   ho=h;
   return 1;
@@ -267,13 +267,27 @@ int16_t newDirectory(char *dirName)
     datetime_t t;
     rtc_get_datetime(&t);
 
-    if(newHour(t.hour))
-    {   
-        sprintf(dirName, "/%s%06x_%04d%02d%02d/%02d/", 
-            DirPrefix,(unsigned int)SerNum, t.year,t.month,t.day,t.hour);
-        //
-        Serial.println(); Serial.print(": "); Serial.print(dirName);
-        return 1;   // have new directory
+    if(t_acq<600)
+    {
+      if(newFolder(t.hour))
+      {   
+          sprintf(dirName, "/%s%06x_%04d%02d%02d/%02d/", 
+              DirPrefix,(unsigned int)SerNum, t.year,t.month,t.day,t.hour);
+          //
+          Serial.println(); Serial.print(": "); Serial.print(dirName);
+          return 1;   // have new directory
+      }
+    }
+    else
+    {
+      if(newFolder(t.day))
+      {   
+          sprintf(dirName, "/%s%06x_%04d%02d%02d/", 
+              DirPrefix,(unsigned int)SerNum, t.year,t.month,t.day);
+          //
+          Serial.println(); Serial.print(": "); Serial.print(dirName);
+          return 1;   // have new directory
+      }
     }
     return 0;       // keep old directory
 
@@ -376,6 +390,7 @@ int16_t saveData(int16_t status)
 {
     if(status==STOPPED) 
     { 
+      while(queue_isBusy()); //wait if acq writes to queue
       pullData(diskBuffer);
       for(int ii=0;ii<8;ii++) logBuffer[ii]=diskBuffer[ii];
       digitalWriteFast(13,HIGH);
@@ -390,7 +405,10 @@ int16_t saveData(int16_t status)
     if(getDataCount()>=NDBL)
     { 
       digitalWriteFast(13,HIGH);
-      for(int ii=0; ii<NDBL; ii++) pullData(&diskBuffer[ii*NBUF_ACQ]);
+      for(int ii=0; ii<NDBL; ii++)
+      { while(queue_isBusy()); //wait if acq writes to queue
+        pullData(&diskBuffer[ii*NBUF_ACQ]);
+      }
       for(int ii=0;ii<8;ii++) logBuffer[ii]=diskBuffer[ii];
       if(haveStore)
         status=storeData(status);

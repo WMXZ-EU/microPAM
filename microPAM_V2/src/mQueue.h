@@ -23,6 +23,7 @@
 #ifndef mQUEUE_H
 #define mQUEUE_H
 
+  int queue_isBusy(void);
   uint16_t getDataCount ();
   uint16_t pushData(uint32_t * src);
   uint16_t pullData(uint32_t * dst);

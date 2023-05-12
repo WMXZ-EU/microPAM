@@ -8,7 +8,7 @@
  - https://github.com/WMXZ-EU/microPAM/blob/main/microPAM_V2/build/teensy.avr.teensy41/microPAM_V2.ino.hex
 
  The actual default setting are
- - 10 min wav files 
+ - 10 min wav files (no compression)
  - 48 kHz sampling 
  - Adafruit I2S MEMS microphone
  - Store data in //day/file structure 

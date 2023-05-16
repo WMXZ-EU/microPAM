@@ -66,10 +66,10 @@ uint32_t diskSpace=0;
 uint32_t diskSize=0;
 
 #define MAX_TEMP_BUFFER (4*NDBL/3*NBUF_ACQ)
-static uint32_t tempBuffer[MAX_TEMP_BUFFER];
+static int32_t tempBuffer[MAX_TEMP_BUFFER];
 
 #define MAX_DISK_BUFFER (NDBL*NBUF_ACQ)
-static uint32_t diskBuffer[MAX_DISK_BUFFER];
+static int32_t diskBuffer[MAX_DISK_BUFFER];
 uint32_t disk_count=0;
 
 uint32_t SerNum=0;
@@ -385,7 +385,7 @@ int16_t storeData(int16_t status)
     return status;
 }
 //
-volatile uint32_t logBuffer[8];
+volatile int32_t logBuffer[8];
 int16_t saveData(int16_t status)
 {
     if(status==STOPPED) 
@@ -404,16 +404,16 @@ int16_t saveData(int16_t status)
 
     if(getDataCount()>=NDBL)
     { 
-      digitalWriteFast(13,HIGH);
+      //digitalWriteFast(13,HIGH);
       if(proc==0)
       { 
         if(NBITS==32)
         {
           for(int ii=0; ii<NDBL; ii++)
           { while(queue_isBusy()); //wait if acq writes to queue
-            pullData(&diskBuffer[ii*NBUF_ACQ]);
+            pullData((uint32_t *)&tempBuffer[ii*NBUF_ACQ]);
           }
-          /*
+          
           // differentiate
           static int32_t data0=0;
           diskBuffer[0] =tempBuffer[0]-data0;
@@ -424,7 +424,7 @@ int16_t saveData(int16_t status)
           diskBuffer[0]=diskBuffer[0]+data1;
           for(int ii=1;ii<MAX_DISK_BUFFER; ii++) diskBuffer[ii]=diskBuffer[ii]+diskBuffer[ii-1];
           data1=diskBuffer[MAX_DISK_BUFFER-1];
-          */
+          
           #
           for(int ii=0;ii<8;ii++) logBuffer[ii]=diskBuffer[ii];
         }

@@ -60,7 +60,8 @@
   #if ICS43434==1
     #define BIAS (0)
   #else
-    #define BIAS (-27000<<(8+4))
+//    #define BIAS (-27000<<(8+4))
+    #define BIAS (-57'000'000)
   #endif
 
   #if defined(__IMXRT1062__)

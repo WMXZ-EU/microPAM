@@ -348,23 +348,44 @@ static void __not_in_flash_func(process)(int32_t * buffer);
 
 #endif
 
-//int32_t acqbias=0;
+int32_t bias=0;
+
 /***************************************************************************/
 static void __not_in_flash_func(process)(int32_t * buffer)
 { procCount++;
 
-  for(int ii=0; ii<NBUF_ACQ; ii++) tmpBuffer[ii]= buffer[2*ii+ICH];
+
+  for(int ii=0; ii<NBUF_ACQ; ii++) acqBuffer[ii]= buffer[2*ii+ICH];   
+
+  int32_t tmp=0;  
+  for(int ii=0; ii<NBUF_ACQ; ii++) tmp+=acqBuffer[ii]/NBUF_ACQ;
+  bias=bias+(tmp-bias)/(1<<10);
+
+//  bias=(bias>>10)<<10;
+
+  for(int ii=0; ii<NBUF_ACQ; ii++) acqBuffer[ii]= (acqBuffer[ii] - bias)>>SHIFT;   
+
+  /*
+  for(int ii=0; ii<NBUF_ACQ; ii++) tmpBuffer[ii]= (buffer[2*ii+ICH] - BIAS);
 
   // remove bias
   static int32_t data0=0;
   static int32_t data1=0;
 
+  static int first=1;
+  if(first && tmpBuffer[0])
+  {
+    data0=tmpBuffer[0];
+    first=0;
+  }
+
   acqBuffer[0] = tmpBuffer[0] - data0;
-  for(int ii=0; ii<NBUF_ACQ;ii++) acqBuffer[ii]= tmpBuffer[ii] - tmpBuffer[ii-1];
+  for(int ii=1; ii<NBUF_ACQ;ii++) acqBuffer[ii]= tmpBuffer[ii] - tmpBuffer[ii-1];
   data0=tmpBuffer[NBUF_ACQ-1];
   acqBuffer[0] = acqBuffer[0] + data1;
-  for(int ii=0; ii<NBUF_ACQ;ii++) acqBuffer[ii]= acqBuffer[ii] + tmpBuffer[ii-1];
+  for(int ii=1; ii<NBUF_ACQ;ii++) acqBuffer[ii]= acqBuffer[ii] + acqBuffer[ii-1];
   data1=acqBuffer[NBUF_ACQ-1];
+  */
 
   if(proc==0)
   {

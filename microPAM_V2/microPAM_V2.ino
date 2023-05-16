@@ -154,7 +154,7 @@ void loop()
 
       if(proc==0)
       {
-        for(int ii=0; ii<8;ii++){ Serial.printf("%8X ",logBuffer[ii]);}        
+        for(int ii=0; ii<8;ii++){ Serial.printf("%9d ",logBuffer[ii]);}        
       }
       else
       {
@@ -164,6 +164,7 @@ void loop()
         for(int ii=0; ii<MB;ii++){ proc_stat[ii]=0;}
         max_stat=0;        
       }
+      Serial.printf("  %10d",bias); Serial.print("  ");
     }
 
     loopCount=0;

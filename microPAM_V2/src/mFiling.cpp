@@ -65,7 +65,9 @@ volatile int haveStore=0;
 uint32_t diskSpace=0;
 uint32_t diskSize=0;
 
-#define NDBL 8
+#define MAX_TEMP_BUFFER (4*NDBL/3*NBUF_ACQ)
+static uint32_t tempBuffer[MAX_TEMP_BUFFER];
+
 #define MAX_DISK_BUFFER (NDBL*NBUF_ACQ)
 static uint32_t diskBuffer[MAX_DISK_BUFFER];
 uint32_t disk_count=0;
@@ -150,7 +152,7 @@ char * headerInit(int32_t fsamp, int32_t nchan, int32_t nbits, int serNum)
   wav_hdr.nFormatTag=1;
   wav_hdr.nChannels=1;
   wav_hdr.nSamplesPerSec=fsamp;
-  wav_hdr.nAvgBytesPerSec=fsamp*nbytes;
+  wav_hdr.nAvgBytesPerSec=fsamp*nbytes*nchan;
   wav_hdr.nBlockAlign=nchan*nbytes;
   wav_hdr.nBitsPerSamples=nbits;
 
@@ -343,10 +345,8 @@ int16_t storeData(int16_t status)
     {   nbuf=0;
         char *hdr=0;
         if(proc==0)
-        { int nchan=NBUF_ACQ;
-          int nbits = 32;
-
-          hdr = headerInit(fsamp, nchan, nbits, SerNum);
+        { 
+          hdr = headerInit(fsamp, NCH, NBITS, SerNum);
         }  
         else
         {
@@ -391,8 +391,8 @@ int16_t saveData(int16_t status)
     if(status==STOPPED) 
     { 
       while(queue_isBusy()); //wait if acq writes to queue
-      pullData(diskBuffer);
-      for(int ii=0;ii<8;ii++) logBuffer[ii]=diskBuffer[ii];
+      pullData(tempBuffer);
+      for(int ii=0;ii<8;ii++) logBuffer[ii]=tempBuffer[ii];
       digitalWriteFast(13,HIGH);
     }
     else
@@ -405,11 +405,54 @@ int16_t saveData(int16_t status)
     if(getDataCount()>=NDBL)
     { 
       digitalWriteFast(13,HIGH);
-      for(int ii=0; ii<NDBL; ii++)
-      { while(queue_isBusy()); //wait if acq writes to queue
-        pullData(&diskBuffer[ii*NBUF_ACQ]);
+      if(proc==0)
+      { 
+        if(NBITS==32)
+        {
+          for(int ii=0; ii<NDBL; ii++)
+          { while(queue_isBusy()); //wait if acq writes to queue
+            pullData(&diskBuffer[ii*NBUF_ACQ]);
+          }
+          /*
+          // differentiate
+          static int32_t data0=0;
+          diskBuffer[0] =tempBuffer[0]-data0;
+          for(int ii=1;ii<MAX_DISK_BUFFER; ii++) diskBuffer[ii]=tempBuffer[ii]-tempBuffer[ii-1];
+          data0=tempBuffer[MAX_DISK_BUFFER-1];
+          // integrate
+          static int32_t data1=0;
+          diskBuffer[0]=diskBuffer[0]+data1;
+          for(int ii=1;ii<MAX_DISK_BUFFER; ii++) diskBuffer[ii]=diskBuffer[ii]+diskBuffer[ii-1];
+          data1=diskBuffer[MAX_DISK_BUFFER-1];
+          */
+          #
+          for(int ii=0;ii<8;ii++) logBuffer[ii]=diskBuffer[ii];
+        }
+        else if(NBITS==24)
+        { // wav mode; store only 24 bits
+          for(int ii=0; ii<4*NDBL/3; ii++)
+          { while(queue_isBusy()); //wait if acq writes to queue
+            pullData(&tempBuffer[ii*NBUF_ACQ]);
+          }
+          for(int ii=0;ii<8;ii++) logBuffer[ii]=tempBuffer[ii];
+
+          int jj=0;
+          for(int ii=0; ii<MAX_TEMP_BUFFER;ii+=4)
+          {
+            diskBuffer[jj++]=((tempBuffer[ii])       & 0xffffff00)| ((tempBuffer[ii+1]>>24) & 0x000000ff);
+            diskBuffer[jj++]=((tempBuffer[ii+1]<<8)  & 0xffff0000)| ((tempBuffer[ii+2]>>16) & 0x0000ffff);
+            diskBuffer[jj++]=((tempBuffer[ii+2]<<16) & 0xff000000)| ((tempBuffer[ii+3]>>8)  & 0x00ffffff);
+          }
+        }
       }
-      for(int ii=0;ii<8;ii++) logBuffer[ii]=diskBuffer[ii];
+      else
+      { // compressed mode; store all 32 bits
+        for(int ii=0; ii<NDBL; ii++)
+        { while(queue_isBusy()); //wait if acq writes to queue
+          pullData(&diskBuffer[ii*NBUF_ACQ]);
+        }
+        for(int ii=0;ii<8;ii++) logBuffer[ii]=diskBuffer[ii];
+      }
       if(haveStore)
         status=storeData(status);
     }

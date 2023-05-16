@@ -150,7 +150,6 @@ void loop()
       Serial.print(procCount); Serial.print(" ");
       Serial.print(procMiss); Serial.print(" ");
       Serial.printf("%3d",mxb); Serial.print("  ");
-      Serial.printf("%4d",acqbias); Serial.print(" ");
       Serial.print(disk_count); Serial.print("  ; ");
 
       if(proc==0)

@@ -39,10 +39,12 @@
   #define MIN_SPACE 2000  // number of disk clusters to keep free
   #define DirPrefix "D"   // prefix for directory
   #define FilePrefix "F"  // prefix fir fileName
+  #define NBITS 32
 
   // for mQueue
-  #define MAXBUF 128       // Queue length
-
+  #define NDBL 12
+  #define MAXBUF (16*NDBL)       // Queue length
+  
   // pocess mode
   #define PROC_MODE 0     // 0: wav data 1; compress
   #define MB 24           // maximal bits for compression

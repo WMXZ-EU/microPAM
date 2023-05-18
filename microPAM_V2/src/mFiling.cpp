@@ -391,7 +391,7 @@ int16_t saveData(int16_t status)
     if(status==STOPPED) 
     { 
       while(queue_isBusy()); //wait if acq writes to queue
-      pullData(tempBuffer);
+      pullData((uint32_t*)tempBuffer);
       for(int ii=0;ii<8;ii++) logBuffer[ii]=tempBuffer[ii];
       digitalWriteFast(13,HIGH);
     }
@@ -404,7 +404,7 @@ int16_t saveData(int16_t status)
 
     if(getDataCount()>=NDBL)
     { 
-      //digitalWriteFast(13,HIGH);
+      digitalWriteFast(13,HIGH);
       if(proc==0)
       { 
         if(NBITS==32)
@@ -432,7 +432,7 @@ int16_t saveData(int16_t status)
         { // wav mode; store only 24 bits
           for(int ii=0; ii<4*NDBL/3; ii++)
           { while(queue_isBusy()); //wait if acq writes to queue
-            pullData(&tempBuffer[ii*NBUF_ACQ]);
+            pullData((uint32_t *)&tempBuffer[ii*NBUF_ACQ]);
           }
           for(int ii=0;ii<8;ii++) logBuffer[ii]=tempBuffer[ii];
 
@@ -449,7 +449,7 @@ int16_t saveData(int16_t status)
       { // compressed mode; store all 32 bits
         for(int ii=0; ii<NDBL; ii++)
         { while(queue_isBusy()); //wait if acq writes to queue
-          pullData(&diskBuffer[ii*NBUF_ACQ]);
+          pullData((uint32_t *)&diskBuffer[ii*NBUF_ACQ]);
         }
         for(int ii=0;ii<8;ii++) logBuffer[ii]=diskBuffer[ii];
       }

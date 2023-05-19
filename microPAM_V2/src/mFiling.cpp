@@ -300,7 +300,7 @@ int16_t newFileName(char *fileName)
     datetime_t t;
     rtc_get_datetime(&t);
     if(proc==0)
-      sprintf(fileName, "%s_%02d%02d%02d.wav", FilePrefix, t.hour,t.min,t.sec);
+      sprintf(fileName, "%s%04d%02d%02d_%02d%02d%02d.wav", FilePrefix, t.year,t.month,t.day,t.hour,t.min,t.sec);
     else
       sprintf(fileName, "%s_%02d%02d%02d.bin", FilePrefix, t.hour,t.min,t.sec);
     //

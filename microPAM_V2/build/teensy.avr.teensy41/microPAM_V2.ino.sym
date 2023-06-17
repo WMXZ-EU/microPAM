@@ -103,7 +103,7 @@ SYMBOL TABLE:
 2000df48 l     O .bss	00018000 data_buffer
 2000df44 l     O .bss	00000004 queue_busy
 00000000 l    df *ABS*	00000000 mRTC.cpp
-20000574 l     O .data	0000000c monthDays
+20000578 l     O .data	0000000c monthDays
 00000000 l    df *ABS*	00000000 menu.cpp
 000019e4 l     F .text.itcm	00000054 menuGetInt32(long*) [clone .isra.0]
 00001a38 l     F .text.itcm	00000054 menuGetInt16(short*) [clone .isra.0]
@@ -340,7 +340,7 @@ SYMBOL TABLE:
 000051a8 g     F .text.itcm	00000068 SharedSpiCard::writeStart(unsigned long)
 00007944 g     F .text.itcm	0000001c Print::println()
 000075bc g     F .text.itcm	000000ac TwoWire::isr()
-20000714 g     O .data	00000074 vtable for DedicatedSpiCard
+20000718 g     O .data	00000074 vtable for DedicatedSpiCard
 2002aee8 g     O .bss	00000004 procMiss
 0000b7c0 g     F .text.itcm	00000020 __sseek
 0000b624 g     F .text.itcm	0000003c __sinit
@@ -380,7 +380,7 @@ SYMBOL TABLE:
 00014484 g     F .text.itcm	00000030 .hidden __aeabi_d2lz
 00008e18  w    F .text.itcm	00000008 usb_serial_class::write(unsigned char const*, unsigned int)
 000140bc g     F .text.itcm	0000002c _fstat_r
-200076a4 g     O .data	00000370 digital_pin_to_info_PGM
+200076a8 g     O .data	00000370 digital_pin_to_info_PGM
 2002ae38 g     O .bss	00000004 errno
 0000707c g     F .text.itcm	00000024 SdSpiArduinoDriver::receive(unsigned char*, unsigned int)
 600026c4 g     O .text.progmem	00000050 TwoWire::i2c3_hardware
@@ -428,7 +428,7 @@ SYMBOL TABLE:
 60002780  w    O .text.progmem	00000018 usb_string_manufacturer_name
 00009b9c g     F .text.itcm	00000010 malloc
 60002674 g     O .text.progmem	00000050 TwoWire::i2c1_hardware
-200007b0  w    O .data	00000024 vtable for FsFile
+200007b4  w    O .data	00000024 vtable for FsFile
 0000843c  w    F .text.itcm	0000000a _fstat
 00012378 g     F .text.itcm	00000006 iswspace
 2002ac24 g     O .bss	00000200 acqBuffer
@@ -498,7 +498,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 0000bc84 g     F .text.itcm	00000048 __libc_init_array
 000074a0  w    F .text.itcm	0000000c TwoWire::available()
 000025e0 g     F .text.itcm	0000000e ExFatFile::open(ExFatVolume*, char const*, int)
-20000934 g     O .data	00000100 __hexdig
+20000938 g     O .data	00000100 __hexdig
 0000281c g     F .text.itcm	000000ae ExFatFile::addDirCluster()
 00013d40 g     F .text.itcm	00000066 _fputwc_r
 000073dc  w    F .text.itcm	0000002c SPIClass::SPIClass(unsigned int, unsigned int)
@@ -514,10 +514,10 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 2002b4a6 g     O .bss	00000001 usb_cdc_line_rtsdtr
 600025f0 g     F .text.code	00000000 _init
 0000917c g     F .text.itcm	00000002 usb_serial_reset
-20000594 g     O .data	00000070 SPIClass::spiclass_lpspi1_hardware
+20000598 g     O .data	00000070 SPIClass::spiclass_lpspi1_hardware
 000144b8 g     F .text.itcm	00000040 .hidden __aeabi_d2ulz
 6000279c g     O .text.progmem	00000062 usb_config_descriptor_12
-200007d4 g     O .data	00000024 vtable for TwoWire
+200007d8 g     O .data	00000024 vtable for TwoWire
 0000a528 g     F .text.itcm	00000e70 _strtod_l
 0000cba8 g     F .text.itcm	00000036 __match
 2002b4e0 g       .bss	00000000 _ebss
@@ -551,7 +551,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 60020c00 g       .text.csf	00000000 __text_csf_end
 600022d4 g     F .text.code	0000005c usb_pll_start
 0000d1c8 g     F .text.itcm	000000c0 __pow5mult
-20000708 g     O .data	0000000c vtable for CrashReportClass
+2000070c g     O .data	0000000c vtable for CrashReportClass
 00014418 g     F .text.itcm	0000006a .hidden __aeabi_ul2d
 00007680 g     F .text.itcm	0000000c lpi2c4_isr()
 00004698 g     F .text.itcm	00000080 FatPartition::allocateCluster(unsigned long, unsigned long*)
@@ -624,7 +624,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 0000bb3c g     F .text.itcm	00000064 strncpy
 2002aab4 g     O .bss	00000028 __malloc_current_mallinfo
 0000063c g     F .text.itcm	0000008c i2s_setup()
-20000674 g     O .data	00000070 SPIClass::spiclass_lpspi4_hardware
+20000678 g     O .data	00000070 SPIClass::spiclass_lpspi4_hardware
 0000d638 g     F .text.itcm	000000d4 __d2b
 000056dc g     F .text.itcm	00000068 SharedSpiCard::writeData(unsigned char const*)
 2002a884 g     O .bss	00000020 HardwareSerial::s_serials_with_serial_events
@@ -647,7 +647,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 00007104 g     F .text.itcm	00000056 FsCache::sync()
 2000c088 g     O .bss	00000050 SPI
 0000b8b4 g     F .text.itcm	00000060 memcmp
-20000788  w    O .data	00000028 vtable for usb_serial_class
+2000078c  w    O .data	00000028 vtable for usb_serial_class
 000070a0 g     F .text.itcm	00000012 SdSpiArduinoDriver::send(unsigned char)
 0000bcd0 g     F .text.itcm	00000002 __retarget_lock_close_recursive
 00006ee4 g     F .text.itcm	00000004 sdCsWrite(unsigned char, bool)
@@ -698,7 +698,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 2002a8a8 g     O .bss	00000004 FatVolume::m_cwv
 00001af0 g     F .text.itcm	00000012 menu1()
 00013b50 g     F .text.itcm	00000076 __submore
-2000086c  w    O .data	00000010 SPIClass::beginTransaction(SPISettings)::clk_sel
+20000870  w    O .data	00000010 SPIClass::beginTransaction(SPISettings)::clk_sel
 000077b8 g     F .text.itcm	00000084 EventResponder::triggerEventNotImmediate()
 00007b2c g     F .text.itcm	00000088 Stream::readBytesUntil(char, char*, unsigned int)
 00007408 g     F .text.itcm	00000008 SPIClass::transfer(void const*, void*, unsigned int)
@@ -746,7 +746,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 20008b70 g     O .data	00000004 _impure_ptr
 0000200c g     F .text.itcm	0000002c ExFatFile::peek()
 00010cac g     F .text.itcm	00000130 __sflush_r
-200006e4  w    O .data	00000024 vtable for StreamFile<FsBaseFile, unsigned long long>
+200006e8  w    O .data	00000024 vtable for StreamFile<FsBaseFile, unsigned long long>
 000122c0 g     F .text.itcm	00000054 _mbrtowc_r
 2000c17c g     O .bss	00000140 Wire
 00004b58 g     F .text.itcm	00000028 FsVolume::open(char const*, int)
@@ -767,7 +767,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 000074cc  w    F .text.itcm	00000018 TwoWire::peek()
 000074e4  w    F .text.itcm	00000002 TwoWire::flush()
 0000030c g     F .text.itcm	0000016c setup
-200083f0 g     O .data	00000084 usb_descriptor_list
+200083f4 g     O .data	00000084 usb_descriptor_list
 00005eac g     F .text.itcm	00000020 SdioCard::status()
 0000c220 g     F .text.itcm	00000010 nan
 00003860 g     F .text.itcm	000001a8 FatFile::read(void*, unsigned int)
@@ -811,7 +811,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 0000d3bc g     F .text.itcm	00000154 __mdiff
 00001690 g     F .text.itcm	0000006c pullData(unsigned long*)
 00005aac g     F .text.itcm	00000010 SdioCard::readOCR(unsigned long*)
-20000604 g     O .data	00000070 SPIClass::spiclass_lpspi3_hardware
+20000608 g     O .data	00000070 SPIClass::spiclass_lpspi3_hardware
 0000301c g     F .text.itcm	00000082 ExFatPartition::dirSeek(DirPos_t*, unsigned long)
 00007224 g     F .text.itcm	000000dc _spi_dma_rxISR1()
 20008498 g     O .data	00000120 _impure_data
@@ -824,7 +824,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 00006094 g     F .text.itcm	000000b8 SdioCard::writeStop()
 00010e30 g     F .text.itcm	00000088 __sccl
 00001d90 g     F .text.itcm	00000014 ExFatFile::close()
-20000a98 g     O .data	00000101 _ctype_
+20000a9c g     O .data	00000101 _ctype_
 00008430  w    F .text.itcm	00000004 _read
 60002660 g       .text.code	00000000 __init_array_start
 00009b98  w    F .text.itcm	00000002 .hidden __aeabi_idiv0
@@ -848,7 +848,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 00005b34 g     F .text.itcm	00000060 SdioCard::sectorCount()
 00005ad0 g     F .text.itcm	00000034 SdioCard::readSDS(sds_t*)
 60001e4c  w    F .text.code	00000002 startup_middle_hook
-200007f8 g     O .data	00000074 vtable for SdioCard
+200007fc g     O .data	00000074 vtable for SdioCard
 000143d4 g     F .text.itcm	00000042 .hidden __aeabi_f2d
 60001e58 g     F .text.code	000000f8 configure_cache
 00005920  w    F .text.itcm	00000004 SdCardInterface::hasDedicatedSpi()

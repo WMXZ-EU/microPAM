@@ -641,22 +641,22 @@ static inline void arm_dcache_flush_delete(void *addr, uint32_t size)
 6000184c:	2027ff80 	.word	0x2027ff80
 60001850:	edb88320 	.word	0xedb88320
 60001854:	2027ffa8 	.word	0x2027ffa8
-60001858:	20008018 	.word	0x20008018
-6000185c:	20008030 	.word	0x20008030
-60001860:	2000807c 	.word	0x2000807c
-60001864:	200080c8 	.word	0x200080c8
-60001868:	200080f0 	.word	0x200080f0
-6000186c:	20008138 	.word	0x20008138
+60001858:	2000801c 	.word	0x2000801c
+6000185c:	20008034 	.word	0x20008034
+60001860:	20008080 	.word	0x20008080
+60001864:	200080cc 	.word	0x200080cc
+60001868:	200080f4 	.word	0x200080f4
+6000186c:	2000813c 	.word	0x2000813c
 60001870:	400f8000 	.word	0x400f8000
 60001874:	0bad00f1 	.word	0x0bad00f1
-60001878:	200081c4 	.word	0x200081c4
-6000187c:	2000839c 	.word	0x2000839c
-60001880:	200083a4 	.word	0x200083a4
-60001884:	200080c4 	.word	0x200080c4
+60001878:	200081c8 	.word	0x200081c8
+6000187c:	200083a0 	.word	0x200083a0
+60001880:	200083a8 	.word	0x200083a8
+60001884:	200080c8 	.word	0x200080c8
 60001888:	2027f000 	.word	0x2027f000
 6000188c:	2027ffc0 	.word	0x2027ffc0
 60001890:	2027ffa0 	.word	0x2027ffa0
-60001894:	2000838c 	.word	0x2000838c
+60001894:	20008390 	.word	0x20008390
 							  return write((const uint8_t *)str, strlen(str)); }
 60001898:	682b      	ldr	r3, [r5, #0]
 6000189a:	220c      	movs	r2, #12
@@ -1029,38 +1029,38 @@ static inline void arm_dcache_flush_delete(void *addr, uint32_t size)
 60001b42:	4920      	ldr	r1, [pc, #128]	; (60001bc4 <CrashReportClass::printTo(Print&) const+0x570>)
 60001b44:	e04d      	b.n	60001be2 <CrashReportClass::printTo(Print&) const+0x58e>
 60001b46:	bf00      	nop
-60001b48:	20007b00 	.word	0x20007b00
+60001b48:	20007b04 	.word	0x20007b04
 60001b4c:	88888889 	.word	0x88888889
-60001b50:	20007b10 	.word	0x20007b10
+60001b50:	20007b14 	.word	0x20007b14
 60001b54:	aaaaaaab 	.word	0xaaaaaaab
-60001b58:	20007b38 	.word	0x20007b38
-60001b5c:	20007b3c 	.word	0x20007b3c
+60001b58:	20007b3c 	.word	0x20007b3c
+60001b5c:	20007b40 	.word	0x20007b40
 60001b60:	2027ff00 	.word	0x2027ff00
-60001b64:	20007fc4 	.word	0x20007fc4
-60001b68:	20007fe8 	.word	0x20007fe8
-60001b6c:	20007ff0 	.word	0x20007ff0
+60001b64:	20007fc8 	.word	0x20007fc8
+60001b68:	20007fec 	.word	0x20007fec
+60001b6c:	20007ff4 	.word	0x20007ff4
 60001b70:	200085c0 	.word	0x200085c0
 60001b74:	431bde83 	.word	0x431bde83
-60001b78:	20008010 	.word	0x20008010
-60001b7c:	200082d4 	.word	0x200082d4
-60001b80:	200082f8 	.word	0x200082f8
+60001b78:	20008014 	.word	0x20008014
+60001b7c:	200082d8 	.word	0x200082d8
+60001b80:	200082fc 	.word	0x200082fc
 60001b84:	400f8000 	.word	0x400f8000
-60001b88:	20008324 	.word	0x20008324
-60001b8c:	20008348 	.word	0x20008348
+60001b88:	20008328 	.word	0x20008328
+60001b8c:	2000834c 	.word	0x2000834c
 60001b90:	400d4000 	.word	0x400d4000
 60001b94:	400ac000 	.word	0x400ac000
-60001b98:	200082b0 	.word	0x200082b0
-60001b9c:	20008284 	.word	0x20008284
-60001ba0:	2000825c 	.word	0x2000825c
-60001ba4:	20008230 	.word	0x20008230
-60001ba8:	20008208 	.word	0x20008208
-60001bac:	20008178 	.word	0x20008178
-60001bb0:	20007b64 	.word	0x20007b64
-60001bb4:	20007c14 	.word	0x20007c14
-60001bb8:	20007f74 	.word	0x20007f74
-60001bbc:	20007fa8 	.word	0x20007fa8
-60001bc0:	20007b70 	.word	0x20007b70
-60001bc4:	20007e38 	.word	0x20007e38
+60001b98:	200082b4 	.word	0x200082b4
+60001b9c:	20008288 	.word	0x20008288
+60001ba0:	20008260 	.word	0x20008260
+60001ba4:	20008234 	.word	0x20008234
+60001ba8:	2000820c 	.word	0x2000820c
+60001bac:	2000817c 	.word	0x2000817c
+60001bb0:	20007b68 	.word	0x20007b68
+60001bb4:	20007c18 	.word	0x20007c18
+60001bb8:	20007f78 	.word	0x20007f78
+60001bbc:	20007fac 	.word	0x20007fac
+60001bc0:	20007b74 	.word	0x20007b74
+60001bc4:	20007e3c 	.word	0x20007e3c
 60001bc8:	682b      	ldr	r3, [r5, #0]
 60001bca:	2226      	movs	r2, #38	; 0x26
 60001bcc:	495c      	ldr	r1, [pc, #368]	; (60001d40 <CrashReportClass::printTo(Print&) const+0x6ec>)
@@ -1258,29 +1258,29 @@ static inline void arm_dcache_flush_delete(void *addr, uint32_t size)
 60001d3a:	4798      	blx	r3
 60001d3c:	e785      	b.n	60001c4a <CrashReportClass::printTo(Print&) const+0x5f6>
 60001d3e:	bf00      	nop
-60001d40:	20007f80 	.word	0x20007f80
-60001d44:	20007d28 	.word	0x20007d28
-60001d48:	20007f58 	.word	0x20007f58
+60001d40:	20007f84 	.word	0x20007f84
+60001d44:	20007d2c 	.word	0x20007d2c
+60001d48:	20007f5c 	.word	0x20007f5c
 60001d4c:	2027ff00 	.word	0x2027ff00
-60001d50:	20007c40 	.word	0x20007c40
+60001d50:	20007c44 	.word	0x20007c44
 60001d54:	2002b4e0 	.word	0x2002b4e0
-60001d58:	20007e90 	.word	0x20007e90
-60001d5c:	20007e6c 	.word	0x20007e6c
-60001d60:	20007ee8 	.word	0x20007ee8
-60001d64:	20007c64 	.word	0x20007c64
-60001d68:	20007c84 	.word	0x20007c84
-60001d6c:	20007cc4 	.word	0x20007cc4
-60001d70:	20007bc0 	.word	0x20007bc0
-60001d74:	20007d7c 	.word	0x20007d7c
-60001d78:	20007d4c 	.word	0x20007d4c
-60001d7c:	20007b9c 	.word	0x20007b9c
-60001d80:	20007eb4 	.word	0x20007eb4
-60001d84:	20007e04 	.word	0x20007e04
-60001d88:	20007dc4 	.word	0x20007dc4
-60001d8c:	20007bec 	.word	0x20007bec
-60001d90:	20007f2c 	.word	0x20007f2c
-60001d94:	20007f14 	.word	0x20007f14
-60001d98:	20007ce4 	.word	0x20007ce4
+60001d58:	20007e94 	.word	0x20007e94
+60001d5c:	20007e70 	.word	0x20007e70
+60001d60:	20007eec 	.word	0x20007eec
+60001d64:	20007c68 	.word	0x20007c68
+60001d68:	20007c88 	.word	0x20007c88
+60001d6c:	20007cc8 	.word	0x20007cc8
+60001d70:	20007bc4 	.word	0x20007bc4
+60001d74:	20007d80 	.word	0x20007d80
+60001d78:	20007d50 	.word	0x20007d50
+60001d7c:	20007ba0 	.word	0x20007ba0
+60001d80:	20007eb8 	.word	0x20007eb8
+60001d84:	20007e08 	.word	0x20007e08
+60001d88:	20007dc8 	.word	0x20007dc8
+60001d8c:	20007bf0 	.word	0x20007bf0
+60001d90:	20007f30 	.word	0x20007f30
+60001d94:	20007f18 	.word	0x20007f18
+60001d98:	20007ce8 	.word	0x20007ce8
 
 60001d9c <CrashReportClass::clear()>:
 	info->len = 0;
@@ -3150,20 +3150,20 @@ static uint32_t priority(const DMAChannel &c)
      284:	2002b488 	.word	0x2002b488
      288:	2002aee8 	.word	0x2002aee8
      28c:	2002ae24 	.word	0x2002ae24
-     290:	20007a3c 	.word	0x20007a3c
+     290:	20007a40 	.word	0x20007a40
      294:	200085c4 	.word	0x200085c4
-     298:	20007a60 	.word	0x20007a60
-     29c:	2000044c 	.word	0x2000044c
-     2a0:	20007a64 	.word	0x20007a64
-     2a4:	20007a68 	.word	0x20007a68
-     2a8:	20007a6c 	.word	0x20007a6c
+     298:	20007a64 	.word	0x20007a64
+     29c:	20000450 	.word	0x20000450
+     2a0:	20007a68 	.word	0x20007a68
+     2a4:	20007a6c 	.word	0x20007a6c
+     2a8:	20007a70 	.word	0x20007a70
      2ac:	2002b48c 	.word	0x2002b48c
      2b0:	2002aea4 	.word	0x2002aea4
-     2b4:	20007a7c 	.word	0x20007a7c
-     2b8:	20007a84 	.word	0x20007a84
+     2b4:	20007a80 	.word	0x20007a80
+     2b8:	20007a88 	.word	0x20007a88
      2bc:	2002aeec 	.word	0x2002aeec
      2c0:	2002aee4 	.word	0x2002aee4
-     2c4:	20007a74 	.word	0x20007a74
+     2c4:	20007a78 	.word	0x20007a78
      2c8:	2002aee8 	.word	0x2002aee8
      2cc:	2002aec4 	.word	0x2002aec4
 
@@ -3205,7 +3205,7 @@ void setup1()
      2fa:	f007 bb23 	b.w	7944 <Print::println()>
      2fe:	bf00      	nop
      300:	2002af4c 	.word	0x2002af4c
-     304:	20000510 	.word	0x20000510
+     304:	20000514 	.word	0x20000514
      308:	200085c4 	.word	0x200085c4
 
 0000030c <setup>:
@@ -3378,13 +3378,13 @@ void setup1()
      44c:	2002b4a6 	.word	0x2002b4a6
      450:	2002b46c 	.word	0x2002b46c
      454:	200085b8 	.word	0x200085b8
-     458:	20007a94 	.word	0x20007a94
+     458:	20007a98 	.word	0x20007a98
      45c:	200085c4 	.word	0x200085c4
-     460:	20007ac0 	.word	0x20007ac0
-     464:	20007ae8 	.word	0x20007ae8
-     468:	20007af4 	.word	0x20007af4
+     460:	20007ac4 	.word	0x20007ac4
+     464:	20007aec 	.word	0x20007aec
+     468:	20007af8 	.word	0x20007af8
      46c:	2002af4c 	.word	0x2002af4c
-     470:	20007aa8 	.word	0x20007aa8
+     470:	20007aac 	.word	0x20007aac
      474:	2002b478 	.word	0x2002b478
 
 00000478 <acq_isr()>:
@@ -4396,7 +4396,7 @@ class FsFile : public StreamFile<FsBaseFile, uint64_t> {
      b0e:	4620      	mov	r0, r4
      b10:	bd10      	pop	{r4, pc}
      b12:	bf00      	nop
-     b14:	200006ec 	.word	0x200006ec
+     b14:	200006f0 	.word	0x200006f0
 
 00000b18 <StreamFile<FsBaseFile, unsigned long long>::read()>:
     return m_fFile   ? m_fFile->read(buf, count)
@@ -4717,7 +4717,7 @@ char * timeStamp(void)
      d30:	bd10      	pop	{r4, pc}
      d32:	bf00      	nop
      d34:	2002a8c4 	.word	0x2002a8c4
-     d38:	2000054c 	.word	0x2000054c
+     d38:	20000550 	.word	0x20000550
 
 00000d3c <headerInit(long, long, long, int)>:
 
@@ -4932,7 +4932,7 @@ void writeHeader(char * wav_hdr)
      e74:	e7c6      	b.n	e04 <writeHeader(char*)+0x10>
      e76:	bf00      	nop
      e78:	2002ae4c 	.word	0x2002ae4c
-     e7c:	20000444 	.word	0x20000444
+     e7c:	20000448 	.word	0x20000448
      e80:	200085c4 	.word	0x200085c4
 
 00000e84 <makeHeader(long*)>:
@@ -5110,10 +5110,10 @@ int16_t newDirectory(char *dirName)
      f86:	bd30      	pop	{r4, r5, pc}
      f88:	200085d8 	.word	0x200085d8
      f8c:	2000c178 	.word	0x2000c178
-     f90:	20000450 	.word	0x20000450
-     f94:	20000454 	.word	0x20000454
+     f90:	20000454 	.word	0x20000454
+     f94:	20000458 	.word	0x20000458
      f98:	200085c4 	.word	0x200085c4
-     f9c:	20000470 	.word	0x20000470
+     f9c:	20000474 	.word	0x20000474
 
 00000fa0 <newFileName(char*)>:
 
@@ -5128,12 +5128,12 @@ int16_t newFileName(char *fileName)
      fa8:	f000 fce0 	bl	196c <rtc_get_datetime(datetime_t*)>
     if(proc==0)
      fac:	4b1b      	ldr	r3, [pc, #108]	; (101c <newFileName(char*)+0x7c>)
-      sprintf(fileName, "%s%04d%02d%02d_%02d%02d%02d.wav", FilePrefix, t.year,t.month,t.day,t.hour,t.min,t.sec);
+      sprintf(fileName, "%s%04d_%02d_%02d_%02d%02d%02d.wav", FilePrefix, t.year,t.month,t.day,t.hour,t.min,t.sec);
      fae:	f99d 001f 	ldrsb.w	r0, [sp, #31]
     if(proc==0)
      fb2:	f9b3 3000 	ldrsh.w	r3, [r3]
      fb6:	bb23      	cbnz	r3, 1002 <newFileName(char*)+0x62>
-      sprintf(fileName, "%s%04d%02d%02d_%02d%02d%02d.wav", FilePrefix, t.year,t.month,t.day,t.hour,t.min,t.sec);
+      sprintf(fileName, "%s%04d_%02d_%02d_%02d%02d%02d.wav", FilePrefix, t.year,t.month,t.day,t.hour,t.min,t.sec);
      fb8:	f99d 301e 	ldrsb.w	r3, [sp, #30]
      fbc:	f99d 101d 	ldrsb.w	r1, [sp, #29]
      fc0:	f99d 201b 	ldrsb.w	r2, [sp, #27]
@@ -5179,8 +5179,8 @@ int16_t newFileName(char *fileName)
     1020:	2000040c 	.word	0x2000040c
     1024:	20000410 	.word	0x20000410
     1028:	200085c4 	.word	0x200085c4
-    102c:	20000470 	.word	0x20000470
-    1030:	20000430 	.word	0x20000430
+    102c:	20000474 	.word	0x20000474
+    1030:	20000434 	.word	0x20000434
 
 00001034 <storeData(short)>:
 static int32_t fileHeader[128];
@@ -5632,16 +5632,16 @@ class StreamFile : public stream_t, public BaseFile {
     1334:	2002a1c4 	.word	0x2002a1c4
     1338:	2002af9c 	.word	0x2002af9c
     133c:	2002a614 	.word	0x2002a614
-    1340:	200006ec 	.word	0x200006ec
-    1344:	20000534 	.word	0x20000534
+    1340:	200006f0 	.word	0x200006f0
+    1344:	20000538 	.word	0x20000538
     1348:	200085c4 	.word	0x200085c4
     134c:	2000dd40 	.word	0x2000dd40
     1350:	2002ae5c 	.word	0x2002ae5c
-    1354:	20000548 	.word	0x20000548
-    1358:	2000044c 	.word	0x2000044c
+    1354:	2000054c 	.word	0x2000054c
+    1358:	20000450 	.word	0x20000450
     135c:	2002a414 	.word	0x2002a414
-    1360:	2000051c 	.word	0x2000051c
-    1364:	20000528 	.word	0x20000528
+    1360:	20000520 	.word	0x20000520
+    1364:	2000052c 	.word	0x2000052c
 
 00001368 <saveData(short)>:
 //
@@ -5989,12 +5989,12 @@ FsFile file;
     15be:	bf00      	nop
     15c0:	2002af9c 	.word	0x2002af9c
     15c4:	003d0900 	.word	0x003d0900
-    15c8:	20000800 	.word	0x20000800
+    15c8:	20000804 	.word	0x20000804
     15cc:	200085e4 	.word	0x200085e4
-    15d0:	2000071c 	.word	0x2000071c
+    15d0:	20000720 	.word	0x20000720
     15d4:	00000a7d 	.word	0x00000a7d
     15d8:	2002ae4c 	.word	0x2002ae4c
-    15dc:	200007b8 	.word	0x200007b8
+    15dc:	200007bc 	.word	0x200007bc
     15e0:	00000b01 	.word	0x00000b01
 
 000015e4 <getDataCount()>:
@@ -6378,7 +6378,7 @@ FsFile file;
     185c:	aaaaaaab 	.word	0xaaaaaaab
     1860:	24924925 	.word	0x24924925
     1864:	51eb851f 	.word	0x51eb851f
-    1868:	20000574 	.word	0x20000574
+    1868:	20000578 	.word	0x20000578
     186c:	00a3d70a 	.word	0x00a3d70a
 
 00001870 <date2time(datetime_t*)>:
@@ -6520,7 +6520,7 @@ FsFile file;
     1950:	028f5c28 	.word	0x028f5c28
     1954:	00015180 	.word	0x00015180
     1958:	51eb851f 	.word	0x51eb851f
-    195c:	20000574 	.word	0x20000574
+    195c:	20000578 	.word	0x20000578
     1960:	00a3d70a 	.word	0x00a3d70a
     1964:	00263b80 	.word	0x00263b80
 
@@ -6668,7 +6668,7 @@ static int menuGetInt32(int32_t *val)
     1a2c:	b00c      	add	sp, #48	; 0x30
     1a2e:	bd10      	pop	{r4, pc}
     1a30:	200085c4 	.word	0x200085c4
-    1a34:	20000570 	.word	0x20000570
+    1a34:	20000574 	.word	0x20000574
 
 00001a38 <menuGetInt16(short*) [clone .isra.0]>:
 static int menuGetInt16(int16_t *val)
@@ -6713,7 +6713,7 @@ static int menuGetInt16(int16_t *val)
     1a80:	b00c      	add	sp, #48	; 0x30
     1a82:	bd10      	pop	{r4, pc}
     1a84:	200085c4 	.word	0x200085c4
-    1a88:	20000570 	.word	0x20000570
+    1a88:	20000574 	.word	0x20000574
 
 00001a8c <menuGet3Int(int*, int*, int*) [clone .isra.0]>:
 
@@ -6766,7 +6766,7 @@ static int menuGet3Int(int *val1, int *val2, int *val3)
     1ae4:	b010      	add	sp, #64	; 0x40
     1ae6:	bd70      	pop	{r4, r5, r6, pc}
     1ae8:	200085c4 	.word	0x200085c4
-    1aec:	20000568 	.word	0x20000568
+    1aec:	2000056c 	.word	0x2000056c
 
 00001af0 <menu1()>:
 
@@ -6972,17 +6972,17 @@ void menu2(void)
     1c68:	e76a      	b.n	1b40 <menu2()+0x3c>
     1c6a:	bf00      	nop
     1c6c:	200085c4 	.word	0x200085c4
-    1c70:	20000474 	.word	0x20000474
-    1c74:	20000498 	.word	0x20000498
+    1c70:	20000478 	.word	0x20000478
+    1c74:	2000049c 	.word	0x2000049c
     1c78:	20008bc8 	.word	0x20008bc8
-    1c7c:	200004a8 	.word	0x200004a8
+    1c7c:	200004ac 	.word	0x200004ac
     1c80:	20008b88 	.word	0x20008b88
-    1c84:	200004b8 	.word	0x200004b8
+    1c84:	200004bc 	.word	0x200004bc
     1c88:	2002b490 	.word	0x2002b490
-    1c8c:	200004c8 	.word	0x200004c8
+    1c8c:	200004cc 	.word	0x200004cc
     1c90:	2002b48c 	.word	0x2002b48c
-    1c94:	200004d8 	.word	0x200004d8
-    1c98:	200004f4 	.word	0x200004f4
+    1c94:	200004dc 	.word	0x200004dc
+    1c98:	200004f8 	.word	0x200004f8
 
 00001c9c <menu3()>:
 
@@ -10417,7 +10417,7 @@ fail:
     32c6:	f884 3444 	strb.w	r3, [r4, #1092]	; 0x444
 }
     32ca:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
-    32cc:	20000580 	.word	0x20000580
+    32cc:	20000584 	.word	0x20000584
 
 000032d0 <ExFatPartition::rootLength()>:
 //------------------------------------------------------------------------------
@@ -14531,7 +14531,7 @@ class FsFile : public StreamFile<FsBaseFile, uint64_t> {
     4b76:	4620      	mov	r0, r4
     4b78:	bd70      	pop	{r4, r5, r6, pc}
     4b7a:	bf00      	nop
-    4b7c:	200007b8 	.word	0x200007b8
+    4b7c:	200007bc 	.word	0x200007bc
 
 00004b80 <SdCardInterface::status()>:
    * \param[out] sds location for 64 status bytes.
@@ -20238,7 +20238,7 @@ private:
     6fe8:	461a      	mov	r2, r3
     6fea:	e7e4      	b.n	6fb6 <SPIClass::beginTransaction(SPISettings)+0xce>
     6fec:	400fc000 	.word	0x400fc000
-    6ff0:	2000086c 	.word	0x2000086c
+    6ff0:	20000870 	.word	0x20000870
     6ff4:	007f7fff 	.word	0x007f7fff
 
 00006ff8 <SdSpiArduinoDriver::activate()>:
@@ -21051,13 +21051,13 @@ SPIClass SPI2((uintptr_t)&IMXRT_LPSPI1_S, (uintptr_t)&SPIClass::spiclass_lpspi1_
 }
     7478:	bd08      	pop	{r3, pc}
     747a:	bf00      	nop
-    747c:	20000674 	.word	0x20000674
+    747c:	20000678 	.word	0x20000678
     7480:	403a0000 	.word	0x403a0000
     7484:	2000c088 	.word	0x2000c088
-    7488:	20000604 	.word	0x20000604
+    7488:	20000608 	.word	0x20000608
     748c:	4039c000 	.word	0x4039c000
     7490:	2000c0d8 	.word	0x2000c0d8
-    7494:	20000594 	.word	0x20000594
+    7494:	20000598 	.word	0x20000598
     7498:	40394000 	.word	0x40394000
     749c:	2000c128 	.word	0x2000c128
 
@@ -21225,7 +21225,7 @@ SPIClass SPI2((uintptr_t)&IMXRT_LPSPI1_S, (uintptr_t)&SPIClass::spiclass_lpspi1_
 	}
     75b4:	bd38      	pop	{r3, r4, r5, pc}
     75b6:	bf00      	nop
-    75b8:	200007dc 	.word	0x200007dc
+    75b8:	200007e0 	.word	0x200007e0
 
 000075bc <TwoWire::isr()>:
 }
@@ -22101,9 +22101,9 @@ size_t Print::printFloat(double number, uint8_t digits)
     7b0c:	c1efffff 	.word	0xc1efffff
     7b10:	9999999a 	.word	0x9999999a
     7b14:	3fb99999 	.word	0x3fb99999
-    7b18:	20000590 	.word	0x20000590
-    7b1c:	2000058c 	.word	0x2000058c
-    7b20:	20000588 	.word	0x20000588
+    7b18:	20000594 	.word	0x20000594
+    7b1c:	20000590 	.word	0x20000590
+    7b20:	2000058c 	.word	0x2000058c
 
 00007b24 <usb_serial_class::read()>:
         virtual int read() { return usb_serial_getchar(); }
@@ -22845,7 +22845,7 @@ uint32_t micros(void)
     7fe4:	601a      	str	r2, [r3, #0]
 }
     7fe6:	4770      	bx	lr
-    7fe8:	200076a4 	.word	0x200076a4
+    7fe8:	200076a8 	.word	0x200076a8
     7fec:	0001f038 	.word	0x0001f038
     7ff0:	00013038 	.word	0x00013038
 
@@ -22936,7 +22936,7 @@ void pinMode(uint8_t pin, uint8_t mode)
     804e:	4a04      	ldr	r2, [pc, #16]	; (8060 <pinMode+0x6c>)
     8050:	601a      	str	r2, [r3, #0]
     8052:	e7f2      	b.n	803a <pinMode+0x46>
-    8054:	200076a4 	.word	0x200076a4
+    8054:	200076a8 	.word	0x200076a8
     8058:	00013038 	.word	0x00013038
     805c:	00010038 	.word	0x00010038
     8060:	0001f038 	.word	0x0001f038
@@ -24342,7 +24342,7 @@ static void endpoint0_transmit(const void *data, uint32_t len, int notify)
     88bc:	2002b4a9 	.word	0x2002b4a9
     88c0:	2002ae30 	.word	0x2002ae30
     88c4:	2002af50 	.word	0x2002af50
-    88c8:	200083f0 	.word	0x200083f0
+    88c8:	200083f4 	.word	0x200083f4
     88cc:	6000279c 	.word	0x6000279c
     88d0:	60002800 	.word	0x60002800
     88d4:	20200800 	.word	0x20200800
@@ -28313,10 +28313,10 @@ void serialEvent() {
     a8d2:	bf00      	nop
     a8d4:	f3af 8000 	nop.w
 	...
-    a8e0:	20007d24 	.word	0x20007d24
+    a8e0:	20007d28 	.word	0x20007d28
     a8e4:	200002a8 	.word	0x200002a8
-    a8e8:	20000c28 	.word	0x20000c28
-    a8ec:	20008014 	.word	0x20008014
+    a8e8:	20000c2c 	.word	0x20000c2c
+    a8ec:	20008018 	.word	0x20008018
     a8f0:	9a0a      	ldr	r2, [sp, #40]	; 0x28
     a8f2:	1aeb      	subs	r3, r5, r3
     a8f4:	4413      	add	r3, r2
@@ -29111,10 +29111,10 @@ void serialEvent() {
     b1d4:	7ff00000 	.word	0x7ff00000
     b1d8:	00000000 	.word	0x00000000
     b1dc:	39500000 	.word	0x39500000
-    b1e0:	20007a14 	.word	0x20007a14
-    b1e4:	20007d24 	.word	0x20007d24
-    b1e8:	20000c1c 	.word	0x20000c1c
-    b1ec:	20000c20 	.word	0x20000c20
+    b1e0:	20007a18 	.word	0x20007a18
+    b1e4:	20007d28 	.word	0x20007d28
+    b1e8:	20000c20 	.word	0x20000c20
+    b1ec:	20000c24 	.word	0x20000c24
     b1f0:	7ff00000 	.word	0x7ff00000
     b1f4:	200002a8 	.word	0x200002a8
     b1f8:	000fffff 	.word	0x000fffff
@@ -29262,7 +29262,7 @@ void serialEvent() {
     b384:	e67d      	b.n	b082 <_strtod_l+0xb5a>
     b386:	bf00      	nop
     b388:	7ff00000 	.word	0x7ff00000
-    b38c:	20007a28 	.word	0x20007a28
+    b38c:	20007a2c 	.word	0x20007a2c
     b390:	20000280 	.word	0x20000280
     b394:	7fefffff 	.word	0x7fefffff
 
@@ -29391,7 +29391,7 @@ void serialEvent() {
     b4de:	d0d3      	beq.n	b488 <_strtol_l.constprop.0+0xe4>
     b4e0:	4698      	mov	r8, r3
     b4e2:	e781      	b.n	b3e8 <_strtol_l.constprop.0+0x44>
-    b4e4:	20000a99 	.word	0x20000a99
+    b4e4:	20000a9d 	.word	0x20000a9d
 
 0000b4e8 <_strtol_r>:
     b4e8:	f7ff bf5c 	b.w	b3a4 <_strtol_l.constprop.0>
@@ -31359,8 +31359,8 @@ void serialEvent() {
     c93c:	eb08 0087 	add.w	r0, r8, r7, lsl #2
     c940:	2100      	movs	r1, #0
     c942:	e007      	b.n	c954 <__gethex+0x340>
-    c944:	20007d24 	.word	0x20007d24
-    c948:	20000934 	.word	0x20000934
+    c944:	20007d28 	.word	0x20007d28
+    c948:	20000938 	.word	0x20000938
     c94c:	4298      	cmp	r0, r3
     c94e:	f843 1c04 	str.w	r1, [r3, #-4]
     c952:	d93f      	bls.n	c9d4 <__gethex+0x3c0>
@@ -31584,8 +31584,8 @@ void serialEvent() {
     cb98:	f8cb 2010 	str.w	r2, [fp, #16]
     cb9c:	e7cc      	b.n	cb38 <__gethex+0x524>
     cb9e:	bf00      	nop
-    cba0:	200008bc 	.word	0x200008bc
-    cba4:	200008d0 	.word	0x200008d0
+    cba0:	200008c0 	.word	0x200008c0
+    cba4:	200008d4 	.word	0x200008d4
 
 0000cba8 <__match>:
     cba8:	b410      	push	{r4}
@@ -31779,7 +31779,7 @@ void serialEvent() {
     cd86:	d3f4      	bcc.n	cd72 <__hexnan+0x192>
     cd88:	e775      	b.n	cc76 <__hexnan+0x96>
     cd8a:	bf00      	nop
-    cd8c:	20000934 	.word	0x20000934
+    cd8c:	20000938 	.word	0x20000938
 
 0000cd90 <__ascii_mbtowc>:
     cd90:	b082      	sub	sp, #8
@@ -31907,8 +31907,8 @@ void serialEvent() {
     ceb0:	21ba      	movs	r1, #186	; 0xba
     ceb2:	f004 f875 	bl	10fa0 <__assert_func>
     ceb6:	bf00      	nop
-    ceb8:	200008bc 	.word	0x200008bc
-    cebc:	20000a34 	.word	0x20000a34
+    ceb8:	200008c0 	.word	0x200008c0
+    cebc:	20000a38 	.word	0x20000a38
 
 0000cec0 <__s2b>:
     cec0:	e92d 43f8 	stmdb	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -31977,8 +31977,8 @@ void serialEvent() {
     cf5e:	21d3      	movs	r1, #211	; 0xd3
     cf60:	f004 f81e 	bl	10fa0 <__assert_func>
     cf64:	38e38e39 	.word	0x38e38e39
-    cf68:	200008bc 	.word	0x200008bc
-    cf6c:	20000a34 	.word	0x20000a34
+    cf68:	200008c0 	.word	0x200008c0
+    cf6c:	20000a38 	.word	0x20000a38
 
 0000cf70 <__hi0bits>:
     cf70:	0c03      	lsrs	r3, r0, #16
@@ -32094,8 +32094,8 @@ void serialEvent() {
     d05c:	2302      	movs	r3, #2
     d05e:	e9c0 2301 	strd	r2, r3, [r0, #4]
     d062:	e7de      	b.n	d022 <__i2b+0x12>
-    d064:	200008bc 	.word	0x200008bc
-    d068:	20000a34 	.word	0x20000a34
+    d064:	200008c0 	.word	0x200008c0
+    d068:	20000a38 	.word	0x20000a38
 
 0000d06c <__multiply>:
     d06c:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
@@ -32229,8 +32229,8 @@ void serialEvent() {
     d1b6:	f44f 71b1 	mov.w	r1, #354	; 0x162
     d1ba:	f003 fef1 	bl	10fa0 <__assert_func>
     d1be:	bf00      	nop
-    d1c0:	200008bc 	.word	0x200008bc
-    d1c4:	20000a34 	.word	0x20000a34
+    d1c0:	200008c0 	.word	0x200008c0
+    d1c4:	20000a38 	.word	0x20000a38
 
 0000d1c8 <__pow5mult>:
     d1c8:	f012 0303 	ands.w	r3, r2, #3
@@ -32304,9 +32304,9 @@ void serialEvent() {
     d272:	f240 1145 	movw	r1, #325	; 0x145
     d276:	f003 fe93 	bl	10fa0 <__assert_func>
     d27a:	bf00      	nop
-    d27c:	20007a88 	.word	0x20007a88
-    d280:	200008bc 	.word	0x200008bc
-    d284:	20000a34 	.word	0x20000a34
+    d27c:	20007a8c 	.word	0x20007a8c
+    d280:	200008c0 	.word	0x200008c0
+    d284:	20000a38 	.word	0x20000a38
 
 0000d288 <__lshift>:
     d288:	e92d 47f0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, lr}
@@ -32390,8 +32390,8 @@ void serialEvent() {
     d366:	4662      	mov	r2, ip
     d368:	f44f 71ef 	mov.w	r1, #478	; 0x1de
     d36c:	f003 fe18 	bl	10fa0 <__assert_func>
-    d370:	200008bc 	.word	0x200008bc
-    d374:	20000a34 	.word	0x20000a34
+    d370:	200008c0 	.word	0x200008c0
+    d374:	20000a38 	.word	0x20000a38
 
 0000d378 <__mcmp>:
     d378:	690b      	ldr	r3, [r1, #16]
@@ -32539,8 +32539,8 @@ void serialEvent() {
     d4fe:	464a      	mov	r2, r9
     d500:	f240 2137 	movw	r1, #567	; 0x237
     d504:	f003 fd4c 	bl	10fa0 <__assert_func>
-    d508:	200008bc 	.word	0x200008bc
-    d50c:	20000a34 	.word	0x20000a34
+    d508:	200008c0 	.word	0x200008c0
+    d50c:	20000a38 	.word	0x20000a38
 
 0000d510 <__ulp>:
     d510:	b082      	sub	sp, #8
@@ -32725,8 +32725,8 @@ void serialEvent() {
     d6fa:	4622      	mov	r2, r4
     d6fc:	f240 310f 	movw	r1, #783	; 0x30f
     d700:	f003 fc4e 	bl	10fa0 <__assert_func>
-    d704:	200008bc 	.word	0x200008bc
-    d708:	20000a34 	.word	0x20000a34
+    d704:	200008c0 	.word	0x200008c0
+    d708:	20000a38 	.word	0x20000a38
 
 0000d70c <__ratio>:
     d70c:	b5f0      	push	{r4, r5, r6, r7, lr}
@@ -33431,9 +33431,9 @@ void serialEvent() {
     de98:	f048 0880 	orr.w	r8, r8, #128	; 0x80
     de9c:	e534      	b.n	d908 <_svfprintf_r+0xb8>
     de9e:	bf00      	nop
-    dea0:	20000c2c 	.word	0x20000c2c
-    dea4:	2000058c 	.word	0x2000058c
-    dea8:	20000c34 	.word	0x20000c34
+    dea0:	20000c30 	.word	0x20000c30
+    dea4:	20000590 	.word	0x20000590
+    dea8:	20000c38 	.word	0x20000c38
     deac:	4649      	mov	r1, r9
     deae:	f811 3b01 	ldrb.w	r3, [r1], #1
     deb2:	2b2a      	cmp	r3, #42	; 0x2a
@@ -33793,9 +33793,9 @@ void serialEvent() {
     e274:	f10d 0a9c 	add.w	sl, sp, #156	; 0x9c
     e278:	e452      	b.n	db20 <_svfprintf_r+0x2d0>
     e27a:	bf00      	nop
-    e27c:	20000c64 	.word	0x20000c64
-    e280:	20008474 	.word	0x20008474
-    e284:	200026e0 	.word	0x200026e0
+    e27c:	20000c68 	.word	0x20000c68
+    e280:	20008478 	.word	0x20008478
+    e284:	200026e4 	.word	0x200026e4
     e288:	ee1b 1a10 	vmov	r1, s22
     e28c:	aa24      	add	r2, sp, #144	; 0x90
     e28e:	4658      	mov	r0, fp
@@ -34086,8 +34086,8 @@ void serialEvent() {
     e598:	464c      	mov	r4, r9
     e59a:	f7ff b98b 	b.w	d8b4 <_svfprintf_r+0x64>
     e59e:	bf00      	nop
-    e5a0:	200026e0 	.word	0x200026e0
-    e5a4:	20008474 	.word	0x20008474
+    e5a0:	200026e4 	.word	0x200026e4
+    e5a4:	20008478 	.word	0x20008478
     e5a8:	9b08      	ldr	r3, [sp, #32]
     e5aa:	f853 2b04 	ldr.w	r2, [r3], #4
     e5ae:	9308      	str	r3, [sp, #32]
@@ -34404,10 +34404,10 @@ void serialEvent() {
     e8fa:	4604      	mov	r4, r0
     e8fc:	e010      	b.n	e920 <_svfprintf_r+0x10d0>
     e8fe:	bf00      	nop
-    e900:	20000c34 	.word	0x20000c34
-    e904:	20000c48 	.word	0x20000c48
-    e908:	20000c5c 	.word	0x20000c5c
-    e90c:	20008474 	.word	0x20008474
+    e900:	20000c38 	.word	0x20000c38
+    e904:	20000c4c 	.word	0x20000c4c
+    e908:	20000c60 	.word	0x20000c60
+    e90c:	20008478 	.word	0x20008478
     e910:	cccccccd 	.word	0xcccccccd
     e914:	2a0a      	cmp	r2, #10
     e916:	f171 0100 	sbcs.w	r1, r1, #0
@@ -34748,8 +34748,8 @@ void serialEvent() {
     ecc4:	f04f 0c00 	mov.w	ip, #0
     ecc8:	e628      	b.n	e91c <_svfprintf_r+0x10cc>
     ecca:	bf00      	nop
-    eccc:	20000c64 	.word	0x20000c64
-    ecd0:	20008474 	.word	0x20008474
+    eccc:	20000c68 	.word	0x20000c68
+    ecd0:	20008478 	.word	0x20008478
     ecd4:	cccccccd 	.word	0xcccccccd
     ecd8:	ee1b 1a10 	vmov	r1, s22
     ecdc:	aa24      	add	r2, sp, #144	; 0x90
@@ -35230,9 +35230,9 @@ void serialEvent() {
     f1da:	9007      	str	r0, [sp, #28]
     f1dc:	e754      	b.n	f088 <_svfprintf_r+0x1838>
     f1de:	bf00      	nop
-    f1e0:	20000c48 	.word	0x20000c48
-    f1e4:	20000c34 	.word	0x20000c34
-    f1e8:	20008474 	.word	0x20008474
+    f1e0:	20000c4c 	.word	0x20000c4c
+    f1e4:	20000c38 	.word	0x20000c38
+    f1e8:	20008478 	.word	0x20008478
     f1ec:	66666667 	.word	0x66666667
     f1f0:	f8cd c088 	str.w	ip, [sp, #136]	; 0x88
     f1f4:	f812 1c01 	ldrb.w	r1, [r2, #-1]
@@ -35399,8 +35399,8 @@ void serialEvent() {
     f384:	8193      	strh	r3, [r2, #12]
     f386:	f7fe bec8 	b.w	e11a <_svfprintf_r+0x8ca>
     f38a:	bf00      	nop
-    f38c:	20000c30 	.word	0x20000c30
-    f390:	20000588 	.word	0x20000588
+    f38c:	20000c34 	.word	0x20000c34
+    f390:	2000058c 	.word	0x2000058c
 
 0000f394 <__ssvfscanf_r>:
     f394:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
@@ -35607,7 +35607,7 @@ void serialEvent() {
     f5e8:	01f1027b 	.word	0x01f1027b
     f5ec:	0008014b 	.word	0x0008014b
     f5f0:	200085e8 	.word	0x200085e8
-    f5f4:	20000a99 	.word	0x20000a99
+    f5f4:	20000a9d 	.word	0x20000a9d
     f5f8:	4648      	mov	r0, r9
     f5fa:	f001 fc8f 	bl	10f1c <_localeconv_r>
     f5fe:	6803      	ldr	r3, [r0, #0]
@@ -36237,9 +36237,9 @@ void serialEvent() {
     fcf6:	637b      	str	r3, [r7, #52]	; 0x34
     fcf8:	e555      	b.n	f7a6 <__ssvfscanf_r+0x412>
     fcfa:	bf00      	nop
-    fcfc:	20000a99 	.word	0x20000a99
+    fcfc:	20000a9d 	.word	0x20000a9d
     fd00:	200085e8 	.word	0x200085e8
-    fd04:	200026bc 	.word	0x200026bc
+    fd04:	200026c0 	.word	0x200026c0
     fd08:	6bfb      	ldr	r3, [r7, #60]	; 0x3c
     fd0a:	2b00      	cmp	r3, #0
     fd0c:	f000 81ff 	beq.w	1010e <__ssvfscanf_r+0xd7a>
@@ -36503,8 +36503,8 @@ void serialEvent() {
     ffce:	2300      	movs	r3, #0
     ffd0:	63fb      	str	r3, [r7, #60]	; 0x3c
     ffd2:	e461      	b.n	f898 <__ssvfscanf_r+0x504>
-    ffd4:	200026bc 	.word	0x200026bc
-    ffd8:	20000a99 	.word	0x20000a99
+    ffd4:	200026c0 	.word	0x200026c0
+    ffd8:	20000a9d 	.word	0x20000a9d
     ffdc:	00011fad 	.word	0x00011fad
     ffe0:	0000b4e9 	.word	0x0000b4e9
     ffe4:	06e6      	lsls	r6, r4, #27
@@ -36930,7 +36930,7 @@ void serialEvent() {
    1047a:	63fb      	str	r3, [r7, #60]	; 0x3c
    1047c:	f7ff b993 	b.w	f7a6 <__ssvfscanf_r+0x412>
    10480:	00011fad 	.word	0x00011fad
-   10484:	20000a90 	.word	0x20000a90
+   10484:	20000a94 	.word	0x20000a94
    10488:	0000b4e9 	.word	0x0000b4e9
    1048c:	f64f 72f6 	movw	r2, #65526	; 0xfff6
    10490:	4293      	cmp	r3, r2
@@ -37283,8 +37283,8 @@ void serialEvent() {
    1082e:	d1f7      	bne.n	10820 <__ssvfscanf_r+0x148c>
    10830:	f7fe bea5 	b.w	f57e <__ssvfscanf_r+0x1ea>
    10834:	00011fad 	.word	0x00011fad
-   10838:	20000a99 	.word	0x20000a99
-   1083c:	20008014 	.word	0x20008014
+   10838:	20000a9d 	.word	0x20000a9d
+   1083c:	20008018 	.word	0x20008018
    10840:	f014 0310 	ands.w	r3, r4, #16
    10844:	637b      	str	r3, [r7, #52]	; 0x34
    10846:	d05e      	beq.n	10906 <__ssvfscanf_r+0x1572>
@@ -38079,9 +38079,9 @@ void serialEvent() {
    10fcc:	e7f3      	b.n	10fb6 <__assert_func+0x16>
    10fce:	bf00      	nop
    10fd0:	20008b70 	.word	0x20008b70
-   10fd4:	2000087c 	.word	0x2000087c
-   10fd8:	2000088c 	.word	0x2000088c
-   10fdc:	20008014 	.word	0x20008014
+   10fd4:	20000880 	.word	0x20000880
+   10fd8:	20000890 	.word	0x20000890
+   10fdc:	20008018 	.word	0x20008018
 
 00010fe0 <_calloc_r>:
    10fe0:	b538      	push	{r3, r4, r5, lr}
@@ -38513,10 +38513,10 @@ void serialEvent() {
    114b0:	509f79fb 	.word	0x509f79fb
    114b4:	3fd34413 	.word	0x3fd34413
    114b8:	7ff00000 	.word	0x7ff00000
-   114bc:	20000c65 	.word	0x20000c65
+   114bc:	20000c69 	.word	0x20000c69
    114c0:	200002a8 	.word	0x200002a8
-   114c4:	20000b9c 	.word	0x20000b9c
-   114c8:	20000ba8 	.word	0x20000ba8
+   114c4:	20000ba0 	.word	0x20000ba0
+   114c8:	20000bac 	.word	0x20000bac
    114cc:	20000280 	.word	0x20000280
    114d0:	f10c 0c01 	add.w	ip, ip, #1
    114d4:	4594      	cmp	ip, r2
@@ -38848,7 +38848,7 @@ void serialEvent() {
    1185c:	e744      	b.n	116e8 <_dtoa_r+0x568>
    1185e:	bf00      	nop
    11860:	200002a8 	.word	0x200002a8
-   11864:	20000c64 	.word	0x20000c64
+   11864:	20000c68 	.word	0x20000c68
    11868:	4631      	mov	r1, r6
    1186a:	2300      	movs	r3, #0
    1186c:	220a      	movs	r2, #10
@@ -39278,7 +39278,7 @@ void serialEvent() {
    11cca:	4605      	mov	r5, r0
    11ccc:	e4fa      	b.n	116c4 <_dtoa_r+0x544>
    11cce:	bf00      	nop
-   11cd0:	20000ba8 	.word	0x20000ba8
+   11cd0:	20000bac 	.word	0x20000bac
    11cd4:	200002a8 	.word	0x200002a8
    11cd8:	20000280 	.word	0x20000280
    11cdc:	7ff00000 	.word	0x7ff00000
@@ -39414,9 +39414,9 @@ void serialEvent() {
    11e58:	e4f7      	b.n	1184a <_dtoa_r+0x6ca>
    11e5a:	bf00      	nop
    11e5c:	200002a8 	.word	0x200002a8
-   11e60:	200008bc 	.word	0x200008bc
-   11e64:	20000bac 	.word	0x20000bac
-   11e68:	20000b9c 	.word	0x20000b9c
+   11e60:	200008c0 	.word	0x200008c0
+   11e64:	20000bb0 	.word	0x20000bb0
+   11e68:	20000ba0 	.word	0x20000ba0
 
 00011e6c <_strtoul_l.constprop.0>:
    11e6c:	e92d 47f0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, lr}
@@ -39533,7 +39533,7 @@ void serialEvent() {
    11f9e:	4699      	mov	r9, r3
    11fa0:	e792      	b.n	11ec8 <_strtoul_l.constprop.0+0x5c>
    11fa2:	bf00      	nop
-   11fa4:	20000a99 	.word	0x20000a99
+   11fa4:	20000a9d 	.word	0x20000a9d
    11fa8:	19999999 	.word	0x19999999
 
 00011fac <_strtoul_r>:
@@ -39683,7 +39683,7 @@ void serialEvent() {
    12112:	46b9      	mov	r9, r7
    12114:	4647      	mov	r7, r8
    12116:	e774      	b.n	12002 <_strtoll_l.constprop.0+0x52>
-   12118:	20000a99 	.word	0x20000a99
+   12118:	20000a9d 	.word	0x20000a9d
 
 0001211c <_strtoll_r>:
    1211c:	f7ff bf48 	b.w	11fb0 <_strtoll_l.constprop.0>
@@ -39842,7 +39842,7 @@ void serialEvent() {
    122ac:	f04f 0a00 	mov.w	sl, #0
    122b0:	e773      	b.n	1219a <_strtoull_l.constprop.0+0x7a>
    122b2:	bf00      	nop
-   122b4:	20000a99 	.word	0x20000a99
+   122b4:	20000a9d 	.word	0x20000a9d
    122b8:	19999999 	.word	0x19999999
 
 000122bc <_strtoull_r>:
@@ -39885,7 +39885,7 @@ void serialEvent() {
    12308:	bd70      	pop	{r4, r5, r6, pc}
    1230a:	bf00      	nop
    1230c:	200085e8 	.word	0x200085e8
-   12310:	20008014 	.word	0x20008014
+   12310:	20008018 	.word	0x20008018
 
 00012314 <_wcrtomb_r>:
    12314:	b570      	push	{r4, r5, r6, lr}
@@ -40064,14 +40064,14 @@ void serialEvent() {
    124b4:	4a08      	ldr	r2, [pc, #32]	; (124d8 <__jp2uc+0x130>)
    124b6:	f832 0010 	ldrh.w	r0, [r2, r0, lsl #1]
    124ba:	4770      	bx	lr
-   124bc:	20005c28 	.word	0x20005c28
-   124c0:	20000f50 	.word	0x20000f50
-   124c4:	20000eac 	.word	0x20000eac
-   124c8:	20000e3c 	.word	0x20000e3c
-   124cc:	20000de0 	.word	0x20000de0
-   124d0:	20000d24 	.word	0x20000d24
-   124d4:	20000c68 	.word	0x20000c68
-   124d8:	20000f90 	.word	0x20000f90
+   124bc:	20005c2c 	.word	0x20005c2c
+   124c0:	20000f54 	.word	0x20000f54
+   124c4:	20000eb0 	.word	0x20000eb0
+   124c8:	20000e40 	.word	0x20000e40
+   124cc:	20000de4 	.word	0x20000de4
+   124d0:	20000d28 	.word	0x20000d28
+   124d4:	20000c6c 	.word	0x20000c6c
+   124d8:	20000f94 	.word	0x20000f94
 
 000124dc <_jp2uc_l>:
    124dc:	b538      	push	{r3, r4, r5, lr}
@@ -40106,10 +40106,10 @@ void serialEvent() {
    12528:	f7ff bf3e 	b.w	123a8 <__jp2uc>
    1252c:	4628      	mov	r0, r5
    1252e:	bd38      	pop	{r3, r4, r5, pc}
-   12530:	20000c08 	.word	0x20000c08
-   12534:	20000c0c 	.word	0x20000c0c
+   12530:	20000c0c 	.word	0x20000c0c
+   12534:	20000c10 	.word	0x20000c10
    12538:	20008712 	.word	0x20008712
-   1253c:	20000c14 	.word	0x20000c14
+   1253c:	20000c18 	.word	0x20000c18
 
 00012540 <fiprintf>:
    12540:	b40e      	push	{r1, r2, r3}
@@ -41320,9 +41320,9 @@ void serialEvent() {
    13216:	2510      	movs	r5, #16
    13218:	e00d      	b.n	13236 <_vfiprintf_r+0x9e6>
    1321a:	bf00      	nop
-   1321c:	20000c34 	.word	0x20000c34
-   13220:	20008484 	.word	0x20008484
-   13224:	200026f0 	.word	0x200026f0
+   1321c:	20000c38 	.word	0x20000c38
+   13220:	20008488 	.word	0x20008488
+   13224:	200026f4 	.word	0x200026f4
    13228:	1c88      	adds	r0, r1, #2
    1322a:	f109 0908 	add.w	r9, r9, #8
    1322e:	4611      	mov	r1, r2
@@ -41596,9 +41596,9 @@ void serialEvent() {
    13502:	9007      	str	r0, [sp, #28]
    13504:	e799      	b.n	1343a <_vfiprintf_r+0xbea>
    13506:	bf00      	nop
-   13508:	200026f0 	.word	0x200026f0
-   1350c:	20000c34 	.word	0x20000c34
-   13510:	20000c48 	.word	0x20000c48
+   13508:	200026f4 	.word	0x200026f4
+   1350c:	20000c38 	.word	0x20000c38
+   13510:	20000c4c 	.word	0x20000c4c
    13514:	9903      	ldr	r1, [sp, #12]
    13516:	9704      	str	r7, [sp, #16]
    13518:	ac44      	add	r4, sp, #272	; 0x110
@@ -41866,7 +41866,7 @@ void serialEvent() {
    137ce:	8193      	strh	r3, [r2, #12]
    137d0:	f7ff ba15 	b.w	12bfe <_vfiprintf_r+0x3ae>
    137d4:	cccccccd 	.word	0xcccccccd
-   137d8:	20000c5c 	.word	0x20000c5c
+   137d8:	20000c60 	.word	0x20000c60
 
 000137dc <__sbprintf>:
    137dc:	b570      	push	{r4, r5, r6, lr}
@@ -42633,7 +42633,7 @@ void serialEvent() {
    13f28:	bd70      	pop	{r4, r5, r6, pc}
    13f2a:	bf00      	nop
    13f2c:	000e01ef 	.word	0x000e01ef
-   13f30:	20002700 	.word	0x20002700
+   13f30:	20002704 	.word	0x20002704
 
 00013f34 <__smakebuf_r>:
    13f34:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}

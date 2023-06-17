@@ -24,7 +24,7 @@
   #include <stdint.h>
   
   #define START_MODE 0  // -1 is stopped; 0 is closed (ready to open file)
-  #define ICS43434 0     // use 0 when Adafruit I2S MEMS
+  //#define ICS43434 0     // use 0 when Adafruit I2S MEMS
 
   // for mAcq
   #define FSAMP 48000 // sampling frequency
@@ -39,7 +39,8 @@
   #define MIN_SPACE 2000  // number of disk clusters to keep free
   #define DirPrefix "D"   // prefix for directory
   #define FilePrefix "F"  // prefix fir fileName
-  #define NBITS 32
+  #define NBITS 24
+  #define HourDir 1
 
   // for mQueue
   #define NDBL 12
@@ -56,6 +57,7 @@
     #define SHIFT (8+4)   // shift data to right to improve compression
   #endif
 
+/*
   // correct I2S-MEMS bias (not for ICS43434) 
   #if ICS43434==1
     #define BIAS (0)
@@ -63,6 +65,7 @@
 //    #define BIAS (-27000<<(8+4))
     #define BIAS (-57'000'000)
   #endif
+*/
 
   #if defined(__IMXRT1062__)
     #define __not_in_flash_func(func_name) func_name

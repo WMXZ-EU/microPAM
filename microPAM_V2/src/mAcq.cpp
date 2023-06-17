@@ -37,7 +37,7 @@
 
 uint32_t procCount=0;
 uint32_t procMiss=0;
-int32_t tmpBuffer[NBUF_ACQ]; 
+//int32_t tmpBuffer[NBUF_ACQ]; 
 int32_t acqBuffer[NBUF_ACQ]; 
 
 int32_t fsamp=FSAMP;
@@ -323,13 +323,8 @@ static void __not_in_flash_func(process)(int32_t * buffer);
         arm_dcache_delete((void*)src, sizeof(i2s_buffer) / 2);
     #endif
 
-    // extract data
-    #if NCH==1
-      for(int ii=0; ii<NBUF_ACQ; ii++) src[2*ii+ICH]  = (src[2*ii+ICH]-BIAS) >> shift;
-    #else
-      for(int ii=0; ii<NBUF_I2S; ii++) src[ii]  = (src[ii]-BIAS) >> shift;
-    #endif
-
+/*
+*/
     process(src);
 
     #if defined(AUDIO_INTERFACE)
@@ -348,45 +343,14 @@ static void __not_in_flash_func(process)(int32_t * buffer);
 
 #endif
 
-int32_t bias=0;
+//int32_t bias=0;
 
 /***************************************************************************/
 static void __not_in_flash_func(process)(int32_t * buffer)
 { procCount++;
 
-
-  for(int ii=0; ii<NBUF_ACQ; ii++) acqBuffer[ii]= buffer[2*ii+ICH];   
-
-  int32_t tmp=0;  
-  for(int ii=0; ii<NBUF_ACQ; ii++) tmp+=acqBuffer[ii]/NBUF_ACQ;
-  bias=bias+(tmp-bias)/(1<<10);
-
-//  bias=(bias>>10)<<10;
-
-  for(int ii=0; ii<NBUF_ACQ; ii++) acqBuffer[ii]= (acqBuffer[ii] - bias)>>SHIFT;   
-
-  /*
-  for(int ii=0; ii<NBUF_ACQ; ii++) tmpBuffer[ii]= (buffer[2*ii+ICH] - BIAS);
-
-  // remove bias
-  static int32_t data0=0;
-  static int32_t data1=0;
-
-  static int first=1;
-  if(first && tmpBuffer[0])
-  {
-    data0=tmpBuffer[0];
-    first=0;
-  }
-
-  acqBuffer[0] = tmpBuffer[0] - data0;
-  for(int ii=1; ii<NBUF_ACQ;ii++) acqBuffer[ii]= tmpBuffer[ii] - tmpBuffer[ii-1];
-  data0=tmpBuffer[NBUF_ACQ-1];
-  acqBuffer[0] = acqBuffer[0] + data1;
-  for(int ii=1; ii<NBUF_ACQ;ii++) acqBuffer[ii]= acqBuffer[ii] + acqBuffer[ii-1];
-  data1=acqBuffer[NBUF_ACQ-1];
-  */
-
+  // extract data
+  for(int ii=0; ii<NBUF_ACQ; ii++) acqBuffer[ii]= buffer[2*ii+ICH]>>SHIFT;   
   if(proc==0)
   {
     if(!pushData((uint32_t *)acqBuffer)) procMiss++;

@@ -32,6 +32,6 @@
 
   extern uint32_t procCount;
   extern uint32_t procMiss;
-  extern int32_t bias;
+//  extern int32_t bias;
 
 #endif

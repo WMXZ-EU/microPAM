@@ -65,8 +65,20 @@ volatile int haveStore=0;
 uint32_t diskSpace=0;
 uint32_t diskSize=0;
 
-#define MAX_TEMP_BUFFER (4*NDBL/3*NBUF_ACQ)
-static int32_t tempBuffer[MAX_TEMP_BUFFER];
+// define the number of audio blocks to load for writing to disk
+// data are acquired always with 32 bit
+#if NBITS==32
+  const int nblocks=NDBL;
+#elif NBITS==24
+  const int nblocks=4*NDBL/3;
+#elif NBITS==16
+  const int nblocks=2*NDBL;
+#endif
+    
+
+#define MAX_TEMP_BUFFER (nblocks*NBUF_ACQ)
+static int32_t tempBuffer0[MAX_TEMP_BUFFER];
+static int32_t tempBuffer1[MAX_TEMP_BUFFER];
 
 #define MAX_DISK_BUFFER (NDBL*NBUF_ACQ)
 static int32_t diskBuffer[MAX_DISK_BUFFER];
@@ -269,7 +281,7 @@ int16_t newDirectory(char *dirName)
     datetime_t t;
     rtc_get_datetime(&t);
 
-    if(t_acq<600)
+    if(HourDir)
     {
       if(newFolder(t.hour))
       {   
@@ -391,8 +403,8 @@ int16_t saveData(int16_t status)
     if(status==STOPPED) 
     { 
       while(queue_isBusy()); //wait if acq writes to queue
-      pullData((uint32_t*)tempBuffer);
-      for(int ii=0;ii<8;ii++) logBuffer[ii]=tempBuffer[ii];
+      pullData((uint32_t*)tempBuffer1);
+      for(int ii=0;ii<8;ii++) logBuffer[ii]=tempBuffer1[ii];
       digitalWriteFast(13,HIGH);
     }
     else
@@ -402,46 +414,60 @@ int16_t saveData(int16_t status)
 
     status=checkEndOfFile(status);
 
-    if(getDataCount()>=NDBL)
+    if(getDataCount()>=nblocks)
     { 
       digitalWriteFast(13,HIGH);
       if(proc==0)
       { 
+        for(int ii=0; ii<nblocks; ii++)
+        { while(queue_isBusy()); //wait if acq writes to queue
+          pullData((uint32_t *)&tempBuffer0[ii*NBUF_ACQ]);
+        }
+
+        // differentiate
+        static int32_t data0=0;
+        tempBuffer1[0] =tempBuffer0[0]-data0;
+        for(int ii=1;ii<MAX_TEMP_BUFFER; ii++) tempBuffer1[ii]=tempBuffer0[ii]-tempBuffer0[ii-1];
+        data0=tempBuffer0[MAX_TEMP_BUFFER-1];
+
+        // remove initial offset
+        static int first=1; if(first)  { tempBuffer1[0]=0; first=0;} 
+
+        // integrate
+        static int32_t data1=0;
+        tempBuffer1[0]=tempBuffer1[0]+data1;
+        for(int ii=1;ii<MAX_TEMP_BUFFER; ii++) tempBuffer1[ii] += tempBuffer1[ii-1];
+        data1=tempBuffer1[MAX_TEMP_BUFFER-1];        
+
+        for(int ii=0;ii<8;ii++) logBuffer[ii]=tempBuffer1[ii];
+
         if(NBITS==32)
-        {
-          for(int ii=0; ii<NDBL; ii++)
-          { while(queue_isBusy()); //wait if acq writes to queue
-            pullData((uint32_t *)&tempBuffer[ii*NBUF_ACQ]);
+        {// wav mode; store original 32 bits
+          for(int ii=0; ii<MAX_TEMP_BUFFER;ii++) 
+          { diskBuffer[ii]=tempBuffer1[ii];
           }
-          
-          // differentiate
-          static int32_t data0=0;
-          diskBuffer[0] =tempBuffer[0]-data0;
-          for(int ii=1;ii<MAX_DISK_BUFFER; ii++) diskBuffer[ii]=tempBuffer[ii]-tempBuffer[ii-1];
-          data0=tempBuffer[MAX_DISK_BUFFER-1];
-          // integrate
-          static int32_t data1=0;
-          diskBuffer[0]=diskBuffer[0]+data1;
-          for(int ii=1;ii<MAX_DISK_BUFFER; ii++) diskBuffer[ii]=diskBuffer[ii]+diskBuffer[ii-1];
-          data1=diskBuffer[MAX_DISK_BUFFER-1];
-          
-          #
-          for(int ii=0;ii<8;ii++) logBuffer[ii]=diskBuffer[ii];
         }
         else if(NBITS==24)
-        { // wav mode; store only 24 bits
-          for(int ii=0; ii<4*NDBL/3; ii++)
-          { while(queue_isBusy()); //wait if acq writes to queue
-            pullData((uint32_t *)&tempBuffer[ii*NBUF_ACQ]);
-          }
-          for(int ii=0;ii<8;ii++) logBuffer[ii]=tempBuffer[ii];
+        { // wav mode; store only top 24 bits
 
           int jj=0;
-          for(int ii=0; ii<MAX_TEMP_BUFFER;ii+=4)
+          uint8_t * outptr=(uint8_t *) diskBuffer;
+          uint32_t *inpp=(uint32_t *) tempBuffer1;
+          for(int ii=0; ii<MAX_TEMP_BUFFER;ii++)
           {
-            diskBuffer[jj++]=((tempBuffer[ii])       & 0xffffff00)| ((tempBuffer[ii+1]>>24) & 0x000000ff);
-            diskBuffer[jj++]=((tempBuffer[ii+1]<<8)  & 0xffff0000)| ((tempBuffer[ii+2]>>16) & 0x0000ffff);
-            diskBuffer[jj++]=((tempBuffer[ii+2]<<16) & 0xff000000)| ((tempBuffer[ii+3]>>8)  & 0x00ffffff);
+            outptr[jj++]=(inpp[ii]>>8) &0xff;
+            outptr[jj++]=(inpp[ii]>>16) &0xff;
+            outptr[jj++]=(inpp[ii]>>24) &0xff;
+          }
+        }
+        else if(NBITS==16)
+        { // wav mode; store only top 16 bits
+          int jj=0;
+          uint16_t * outptr=(uint16_t *) diskBuffer;
+          uint32_t *inpp=(uint32_t *) tempBuffer1;
+          for(int ii=0; ii<MAX_TEMP_BUFFER;ii++)
+          {
+            outptr[jj++]=(inpp[ii]>>16) &0xffff;
           }
         }
       }

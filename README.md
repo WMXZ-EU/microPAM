@@ -13,4 +13,4 @@ This version contains code that runs both on RP2040 and Teensy T4.1 based system
 
 However, this is the prefered code as it is in active development
 
-See more detail in folders Readme file
+** See more detail in folders Readme file **

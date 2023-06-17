@@ -7,9 +7,10 @@
  Direct link to hex file (for Teensy 4.1): 
  - https://github.com/WMXZ-EU/microPAM/blob/main/microPAM_V2/build/teensy.avr.teensy41/microPAM_V2.ino.hex
 
- The actual default setting are
+ The actual default setting (as of 16-06-2023) are
  - 10 min wav files (no compression)
  - 48 kHz sampling 
+ - 24 bit wav file
  - Adafruit I2S MEMS microphone
- - Store data in //day/file structure 
+ - Store data in //day/hour/file structure 
  

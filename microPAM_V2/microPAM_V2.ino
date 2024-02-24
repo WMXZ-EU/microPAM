@@ -181,6 +181,7 @@ void loop()
 void setup1()
 { while(!ready) {delay(1);} // wait for setup() to finish
   i2s_setup();
+  //adc_setup();
   dma_setup();
 
   Serial.println("Setup1 done");

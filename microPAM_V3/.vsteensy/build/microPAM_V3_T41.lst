@@ -901,7 +901,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 200005f8  w    O .data	00000010 SPIClass::beginTransaction(SPISettings)::clk_sel
 0000c074 g     F .text.itcm	00000042 Stream::readBytesUntil(char, char*, unsigned int)
 00004a40 g     F .text.itcm	00000056 SPIClass::transfer(void const*, void*, unsigned int)
-65d9c32b g       *ABS*	00000000 __rtc_localtime
+65da50d2 g       *ABS*	00000000 __rtc_localtime
 0000b15c g     F .text.itcm	0000004c micros
 0000395c g     F .text.itcm	00000044 MTPD::GetDevicePropDesc(unsigned long)
 000061f4 g     F .text.itcm	000000dc ExFatFile::syncDir()

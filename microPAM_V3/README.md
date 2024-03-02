@@ -17,4 +17,6 @@
  - Store data in //day/hour/file structure 
 
  The V3 verstion contains additionally an ADC interface to TLV320ADC
+
+ The program may be compiled either using Arduino IDE or via makefile. The environment is prepared for Arduini IDE and Visual Studio Code. For Visual Studio Code, the following extension are used; C/C++ (including IntelliSense) and Tasks (to load VSCode tasks into Status Bar)
  

@@ -1,9 +1,11 @@
 {
   "env": {
+    "TD-VS": "1.59.0",
+    "TD-CC": "11.3.1",
     "ROOT": "${workspaceFolder}",
     "ROOT0": "C:/Users/zimme/AppData/Local/Arduino15/packages/teensy",
-    "ROOT1": "${ROOT0}/hardware/avr/11.3.1",
-    "ROOT2": "${ROOT0}/tools/teensy-compile/11.3.1/arm",
+    "ROOT1": "${ROOT0}/hardware/avr/${TD-VS}",
+    "ROOT2": "${ROOT0}/tools/teensy-compile/${TD-CC}/arm",
     "LOCAL_LIBRARIES": "${ROOT}/../libraries",
     "COMMON_LIBRARIES": [
       "${ROOT1}/libraries/Audio/**",

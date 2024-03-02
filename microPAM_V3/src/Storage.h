@@ -24,6 +24,7 @@
 // modified for SDFS by WMXZ
 // Nov 2020 adapted to SdFat-beta / SD combo
 // 19-nov-2020 adapted to FS
+// Feb 2024 use only SdFat (removed SD)
 
 #ifndef Storage_H
 #define Storage_H

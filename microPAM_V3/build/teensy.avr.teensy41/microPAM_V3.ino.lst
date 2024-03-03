@@ -48,7 +48,7 @@ Disassembly of section .text.code:
 60001424:	4770      	bx	lr
 60001426:	bf00      	nop
 60001428:	20009ac0 	.word	0x20009ac0
-6000142c:	200293e0 	.word	0x200293e0
+6000142c:	200285e0 	.word	0x200285e0
 
 60001430 <ResetHandler2>:
 {
@@ -325,7 +325,7 @@ static inline uint32_t millis(void)
 60001610:	e000e4a0 	.word	0xe000e4a0
 60001614:	400ac000 	.word	0x400ac000
 60001618:	0000ca79 	.word	0x0000ca79
-6000161c:	20029358 	.word	0x20029358
+6000161c:	20028558 	.word	0x20028558
 60001620:	0000ca7d 	.word	0x0000ca7d
 60001624:	20200000 	.word	0x20200000
 60001628:	e0001000 	.word	0xe0001000
@@ -333,7 +333,7 @@ static inline uint32_t millis(void)
 60001630:	40084000 	.word	0x40084000
 60001634:	400d4000 	.word	0x400d4000
 60001638:	56c00000 	.word	0x56c00000
-6000163c:	2002935c 	.word	0x2002935c
+6000163c:	2002855c 	.word	0x2002855c
 60001640:	2018101b 	.word	0x2018101b
 60001644:	13110d0c 	.word	0x13110d0c
 60001648:	400fc000 	.word	0x400fc000
@@ -1528,7 +1528,7 @@ static inline void arm_dcache_flush_delete(void *addr, uint32_t size)
 60001e94:	2000845c 	.word	0x2000845c
 60001e98:	2027ff00 	.word	0x2027ff00
 60001e9c:	20008144 	.word	0x20008144
-60001ea0:	200293e0 	.word	0x200293e0
+60001ea0:	200285e0 	.word	0x200285e0
 60001ea4:	20008394 	.word	0x20008394
 60001ea8:	20008370 	.word	0x20008370
 60001eac:	200083ec 	.word	0x200083ec
@@ -1831,7 +1831,7 @@ FLASHMEM void startup_debug_reset(void) { __asm__ volatile("nop"); }
 600020cc:	1000003f 	.word	0x1000003f
 600020d0:	07080025 	.word	0x07080025
 600020d4:	00100009 	.word	0x00100009
-600020d8:	200293e0 	.word	0x200293e0
+600020d8:	200285e0 	.word	0x200285e0
 600020dc:	00200013 	.word	0x00200013
 600020e0:	07020021 	.word	0x07020021
 600020e4:	20000014 	.word	0x20000014
@@ -2355,8 +2355,8 @@ FLASHMEM void startup_debug_reset(void) { __asm__ volatile("nop"); }
 6000244c:	00030004 	.word	0x00030004
 60002450:	70000000 	.word	0x70000000
 60002454:	70000000 	.word	0x70000000
-60002458:	200293a7 	.word	0x200293a7
-6000245c:	20028ad4 	.word	0x20028ad4
+60002458:	200285a7 	.word	0x200285a7
+6000245c:	20027cd4 	.word	0x20027cd4
 	FLEXSPI2_IPCR0 = addr;
 60002460:	f44f 0400 	mov.w	r4, #8388608	; 0x800000
 	FLEXSPI2_IPCR1 = FLEXSPI_IPCR1_ISEQID(index);
@@ -2609,10 +2609,10 @@ static inline void attachInterruptVector(enum IRQ_NUMBER_t irq, void (*function)
 600025f0:	401f4400 	.word	0x401f4400
 600025f4:	42aa0000 	.word	0x42aa0000
 600025f8:	42b40000 	.word	0x42b40000
-600025fc:	20028c3c 	.word	0x20028c3c
-60002600:	20028c38 	.word	0x20028c38
-60002604:	20028c40 	.word	0x20028c40
-60002608:	20028c44 	.word	0x20028c44
+600025fc:	20027e3c 	.word	0x20027e3c
+60002600:	20027e38 	.word	0x20027e38
+60002604:	20027e40 	.word	0x20027e40
+60002608:	20027e44 	.word	0x20027e44
 6000260c:	0fff0000 	.word	0x0fff0000
 60002610:	e000e400 	.word	0xe000e400
 60002614:	20009800 	.word	0x20009800
@@ -2918,7 +2918,7 @@ FLASHMEM __attribute__((noinline)) void _reboot_Teensyduino_(void)
 6000279c:	400fc000 	.word	0x400fc000
 600027a0:	400c4000 	.word	0x400c4000
 600027a4:	400c8000 	.word	0x400c8000
-600027a8:	200293a6 	.word	0x200293a6
+600027a8:	200285a6 	.word	0x200285a6
 
 600027ac <_init>:
 600027ac:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
@@ -3073,7 +3073,7 @@ size_t Print::write(const uint8_t *buffer, size_t size)
       56:	f7ff bfe3 	b.w	20 <register_tm_clones>
       5a:	bf00      	nop
       5c:	00000000 	.word	0x00000000
-      60:	20028b64 	.word	0x20028b64
+      60:	20027d64 	.word	0x20027d64
       64:	60027800 	.word	0x60027800
 
 00000068 <Print::availableForWrite()>:
@@ -3344,11 +3344,11 @@ class StreamFile : public stream_t, public BaseFile {
      1e6:	f003 fa4b 	bl	3680 <MTPD::loop()>
      1ea:	e7ec      	b.n	1c6 <resetUSB()+0x22>
      1ec:	402e0000 	.word	0x402e0000
-     1f0:	200293b3 	.word	0x200293b3
-     1f4:	200293b2 	.word	0x200293b2
-     1f8:	2002937c 	.word	0x2002937c
+     1f0:	200285b3 	.word	0x200285b3
+     1f4:	200285b2 	.word	0x200285b2
+     1f8:	2002857c 	.word	0x2002857c
      1fc:	20009b00 	.word	0x20009b00
-     200:	2002935c 	.word	0x2002935c
+     200:	2002855c 	.word	0x2002855c
 
 00000204 <loop>:
 				div = d-2;
@@ -3569,17 +3569,17 @@ class StreamFile : public stream_t, public BaseFile {
      3c4:	2300      	movs	r3, #0
      3c6:	f8c8 3000 	str.w	r3, [r8]
      3ca:	e754      	b.n	276 <loop+0x72>
-     3cc:	20028524 	.word	0x20028524
-     3d0:	20029388 	.word	0x20029388
+     3cc:	20027724 	.word	0x20027724
+     3d0:	20028588 	.word	0x20028588
      3d4:	2000c1cc 	.word	0x2000c1cc
-     3d8:	2002938a 	.word	0x2002938a
+     3d8:	2002858a 	.word	0x2002858a
      3dc:	42004000 	.word	0x42004000
-     3e0:	20028520 	.word	0x20028520
-     3e4:	2002935c 	.word	0x2002935c
-     3e8:	20029390 	.word	0x20029390
-     3ec:	20028b80 	.word	0x20028b80
-     3f0:	20028abc 	.word	0x20028abc
-     3f4:	20029370 	.word	0x20029370
+     3e0:	20027720 	.word	0x20027720
+     3e4:	2002855c 	.word	0x2002855c
+     3e8:	20028590 	.word	0x20028590
+     3ec:	20027d80 	.word	0x20027d80
+     3f0:	20027cbc 	.word	0x20027cbc
+     3f4:	20028570 	.word	0x20028570
      3f8:	20009b00 	.word	0x20009b00
      3fc:	20007f28 	.word	0x20007f28
      400:	20008abc 	.word	0x20008abc
@@ -3588,15 +3588,15 @@ class StreamFile : public stream_t, public BaseFile {
      40c:	20007f50 	.word	0x20007f50
      410:	20007f54 	.word	0x20007f54
      414:	20007f58 	.word	0x20007f58
-     418:	20029392 	.word	0x20029392
-     41c:	20028b38 	.word	0x20028b38
+     418:	20028592 	.word	0x20028592
+     41c:	20027d38 	.word	0x20027d38
      420:	20007f68 	.word	0x20007f68
      424:	20007f70 	.word	0x20007f70
-     428:	20028b84 	.word	0x20028b84
-     42c:	20028b7c 	.word	0x20028b7c
+     428:	20027d84 	.word	0x20027d84
+     42c:	20027d7c 	.word	0x20027d7c
      430:	20007f60 	.word	0x20007f60
-     434:	20028b80 	.word	0x20028b80
-     438:	20028b58 	.word	0x20028b58
+     434:	20027d80 	.word	0x20027d80
+     438:	20027d58 	.word	0x20027d58
 
 0000043c <setup1()>:
 { while(!Serial) {}
@@ -3651,12 +3651,12 @@ class StreamFile : public stream_t, public BaseFile {
      496:	e8bd 40f8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, lr}
      49a:	f00c bb4f 	b.w	cb3c <Print::println()>
      49e:	bf00      	nop
-     4a0:	200293b3 	.word	0x200293b3
-     4a4:	200293b2 	.word	0x200293b2
-     4a8:	2002935c 	.word	0x2002935c
-     4ac:	2002937c 	.word	0x2002937c
+     4a0:	200285b3 	.word	0x200285b3
+     4a4:	200285b2 	.word	0x200285b2
+     4a8:	2002855c 	.word	0x2002855c
+     4ac:	2002857c 	.word	0x2002857c
      4b0:	20000780 	.word	0x20000780
-     4b4:	2002919c 	.word	0x2002919c
+     4b4:	2002839c 	.word	0x2002839c
      4b8:	20008abc 	.word	0x20008abc
      4bc:	20000788 	.word	0x20000788
 
@@ -3959,11 +3959,11 @@ class StreamFile : public stream_t, public BaseFile {
      6a2:	4698      	mov	r8, r3
      6a4:	e77e      	b.n	5a4 <storage_configure()+0xe4>
      6a6:	bf00      	nop
-     6a8:	20028c4c 	.word	0x20028c4c
+     6a8:	20027e4c 	.word	0x20027e4c
      6ac:	2000944c 	.word	0x2000944c
      6b0:	20000520 	.word	0x20000520
      6b4:	20008abc 	.word	0x20008abc
-     6b8:	200291a0 	.word	0x200291a0
+     6b8:	200283a0 	.word	0x200283a0
      6bc:	2000054c 	.word	0x2000054c
      6c0:	20000564 	.word	0x20000564
      6c4:	20000578 	.word	0x20000578
@@ -4081,12 +4081,12 @@ class SdBase : public Vol {
      78a:	f00e bf69 	b.w	f660 <__aeabi_atexit>
      78e:	bf00      	nop
      790:	20000ba0 	.word	0x20000ba0
-     794:	200291a0 	.word	0x200291a0
+     794:	200283a0 	.word	0x200283a0
      798:	20000ca4 	.word	0x20000ca4
      79c:	20008e98 	.word	0x20008e98
      7a0:	00000071 	.word	0x00000071
      7a4:	20009b00 	.word	0x20009b00
-     7a8:	20028c4c 	.word	0x20028c4c
+     7a8:	20027e4c 	.word	0x20027e4c
      7ac:	20000cec 	.word	0x20000cec
      7b0:	003d0900 	.word	0x003d0900
      7b4:	20000c0c 	.word	0x20000c0c
@@ -4327,11 +4327,11 @@ class SdBase : public Vol {
      990:	f019 fd86 	bl	1a4a0 <___ZNK16CrashReportClass7printToER5Print_veneer>
      994:	e785      	b.n	8a2 <setup+0xe6>
      996:	bf00      	nop
-     998:	2002935c 	.word	0x2002935c
+     998:	2002855c 	.word	0x2002855c
      99c:	02dc6c00 	.word	0x02dc6c00
-     9a0:	200293b3 	.word	0x200293b3
-     9a4:	200293b2 	.word	0x200293b2
-     9a8:	20029370 	.word	0x20029370
+     9a0:	200285b3 	.word	0x200285b3
+     9a4:	200285b2 	.word	0x200285b2
+     9a8:	20028570 	.word	0x20028570
      9ac:	2000098c 	.word	0x2000098c
      9b0:	20008abc 	.word	0x20008abc
      9b4:	20007f80 	.word	0x20007f80
@@ -4340,11 +4340,11 @@ class SdBase : public Vol {
      9c0:	20007fbc 	.word	0x20007fbc
      9c4:	20007fe4 	.word	0x20007fe4
      9c8:	20007ff0 	.word	0x20007ff0
-     9cc:	2002919c 	.word	0x2002919c
+     9cc:	2002839c 	.word	0x2002839c
      9d0:	20009464 	.word	0x20009464
      9d4:	20009460 	.word	0x20009460
      9d8:	20007fa4 	.word	0x20007fa4
-     9dc:	2002937c 	.word	0x2002937c
+     9dc:	2002857c 	.word	0x2002857c
 
 000009e0 <DMAChannel::~DMAChannel()>:
 	}
@@ -4481,14 +4481,14 @@ static void __not_in_flash_func(process)(int32_t * buffer)
      a82:	d1ef      	bne.n	a64 <acq_isr()+0x78>
      a84:	e7f4      	b.n	a70 <acq_isr()+0x84>
      a86:	bf00      	nop
-     a88:	20027bdc 	.word	0x20027bdc
+     a88:	20026ddc 	.word	0x20026ddc
      a8c:	20200400 	.word	0x20200400
      a90:	400e8000 	.word	0x400e8000
-     a94:	20028b7c 	.word	0x20028b7c
-     a98:	200288b8 	.word	0x200288b8
-     a9c:	20029392 	.word	0x20029392
-     aa0:	200288bc 	.word	0x200288bc
-     aa4:	20028b80 	.word	0x20028b80
+     a94:	20027d7c 	.word	0x20027d7c
+     a98:	20027ab8 	.word	0x20027ab8
+     a9c:	20028592 	.word	0x20028592
+     aa0:	20027abc 	.word	0x20027abc
+     aa4:	20027d80 	.word	0x20027d80
 
 00000aa8 <setAudioFrequency(int)>:
   {
@@ -4859,7 +4859,7 @@ static void __not_in_flash_func(process)(int32_t * buffer)
      d44:	76da      	strb	r2, [r3, #27]
   }
      d46:	bd38      	pop	{r3, r4, r5, pc}
-     d48:	20027bdc 	.word	0x20027bdc
+     d48:	20026ddc 	.word	0x20026ddc
      d4c:	02020000 	.word	0x02020000
      d50:	403840a0 	.word	0x403840a0
      d54:	20200000 	.word	0x20200000
@@ -4911,7 +4911,7 @@ static void __not_in_flash_func(process)(int32_t * buffer)
      db0:	e8bd 4008 	ldmia.w	sp!, {r3, lr}
   static DMAChannel dma;
      db4:	f00e bc54 	b.w	f660 <__aeabi_atexit>
-     db8:	20027bdc 	.word	0x20027bdc
+     db8:	20026ddc 	.word	0x20026ddc
      dbc:	20008e98 	.word	0x20008e98
      dc0:	000009e1 	.word	0x000009e1
 
@@ -5174,14 +5174,14 @@ static void __not_in_flash_func(process)(int32_t * buffer)
      f64:	20008abc 	.word	0x20008abc
      f68:	20000984 	.word	0x20000984
      f6c:	20000980 	.word	0x20000980
-     f70:	2002938c 	.word	0x2002938c
+     f70:	2002858c 	.word	0x2002858c
      f74:	200007b8 	.word	0x200007b8
      f78:	200007c0 	.word	0x200007c0
      f7c:	200007a0 	.word	0x200007a0
      f80:	20009482 	.word	0x20009482
 
 00000f84 <compress(void*)>:
-int32_t tempData0[NCH];
+int32_t tempData0[NCHAN_ACQ];
 
 uint32_t proc_stat[MB];
 uint32_t max_stat;
@@ -5202,7 +5202,7 @@ int __not_in_flash_func(compress)(void *inp)
   int32_t *din = (int32_t *) inp;
   //
   // copy reference (first sample of all channels)
-  for (int  ii = 0; ii < NCH; ii++) tempData0[ii] = tempDatai[ii] = din[ii];
+  for (int  ii = 0; ii < NCHAN_ACQ; ii++) tempData0[ii] = tempDatai[ii] = din[ii];
      f96:	49a1      	ldr	r1, [pc, #644]	; (121c <compress(void*)+0x298>)
      f98:	6822      	ldr	r2, [r4, #0]
      f9a:	4623      	mov	r3, r4
@@ -5211,13 +5211,13 @@ int __not_in_flash_func(compress)(void *inp)
      fa2:	499f      	ldr	r1, [pc, #636]	; (1220 <compress(void*)+0x29c>)
   t1 = micros();
      fa4:	4681      	mov	r9, r0
-  for (int  ii = 0; ii < NCH; ii++) tempData0[ii] = tempDatai[ii] = din[ii];
+  for (int  ii = 0; ii < NCHAN_ACQ; ii++) tempData0[ii] = tempDatai[ii] = din[ii];
      fa6:	602a      	str	r2, [r5, #0]
      fa8:	462c      	mov	r4, r5
      faa:	600a      	str	r2, [r1, #0]
   
   //differentiate (equiv 6 dB/Octave HP filter)
-  for (int  ii = NCH; ii < NSAMP; ii++) tempDatai[ii] = (din[ii] - din[ii - NCH]);
+  for (int  ii = NCHAN_ACQ; ii < NBUF_ACQ; ii++) tempDatai[ii] = (din[ii] - din[ii - NCHAN_ACQ]);
      fac:	4629      	mov	r1, r5
      fae:	4618      	mov	r0, r3
      fb0:	3304      	adds	r3, #4
@@ -5231,7 +5231,7 @@ int __not_in_flash_func(compress)(void *inp)
   // find maximum in filtered data
   int32_t mx = 0;
      fc6:	2200      	movs	r2, #0
-  for (int ii = NCH; ii < NSAMP; ii++)
+  for (int ii = NCHAN_ACQ; ii < NBUF_ACQ; ii++)
   {
     int32_t dd =  tempDatai[ii];
      fc8:	f851 3f04 	ldr.w	r3, [r1, #4]!
@@ -5243,7 +5243,7 @@ int __not_in_flash_func(compress)(void *inp)
      fd2:	429a      	cmp	r2, r3
      fd4:	bfb8      	it	lt
      fd6:	461a      	movlt	r2, r3
-  for (int ii = NCH; ii < NSAMP; ii++)
+  for (int ii = NCHAN_ACQ; ii < NBUF_ACQ; ii++)
      fd8:	4281      	cmp	r1, r0
      fda:	d1f5      	bne.n	fc8 <compress(void*)+0x44>
   }
@@ -5263,25 +5263,25 @@ int __not_in_flash_func(compress)(void *inp)
      ff2:	ddf6      	ble.n	fe2 <compress(void*)+0x5e>
   // mask data (all but first sample) (mask needed for negative numbers)
   uint32_t msk = (1 << nb) - 1;
-  for (int ii = NCH; ii < NSAMP; ii++) { tempData[ii] &= (uint32_t)msk; }
+  for (int ii = NCHAN_ACQ; ii < NBUF_ACQ; ii++) { tempData[ii] &= (uint32_t)msk; }
 
   // pack all data
-  int ncmp = (NSAMP*nb) / MBIT;
+  int ncmp = (NBUF_ACQ*nb) / MBIT;
      ff4:	ea4f 0887 	mov.w	r8, r7, lsl #2
   uint32_t msk = (1 << nb) - 1;
      ff8:	40b9      	lsls	r1, r7
-  int ndat = NH+NCH + ncmp;
+  int ndat = NH + NCHAN_ACQ + ncmp;
      ffa:	f108 0307 	add.w	r3, r8, #7
   uint32_t msk = (1 << nb) - 1;
      ffe:	1e48      	subs	r0, r1, #1
-  int ndat = NH+NCH + ncmp;
+  int ndat = NH + NCHAN_ACQ + ncmp;
     1000:	9301      	str	r3, [sp, #4]
   *iptr++ = 0xA5A5A5A5;
   *iptr++ = nb | shift<<16;
   *iptr++ = to;
   *iptr++ = t1;
-  *iptr++ = NCH;
-  *iptr++ = NCH+ncmp; // number of data after header
+  *iptr++ = NCHAN_ACQ;
+  *iptr++ = NCHAN_ACQ+ncmp; // number of data after header
     1002:	f108 0301 	add.w	r3, r8, #1
   ndat= ((ndat>>1) + 1)<<1;
     1006:	f108 0808 	add.w	r8, r8, #8
@@ -5302,7 +5302,7 @@ int __not_in_flash_func(compress)(void *inp)
     1024:	4622      	mov	r2, r4
     1026:	bf38      	it	cc
     1028:	602f      	strcc	r7, [r5, #0]
-  for (int ii = NCH; ii < NSAMP; ii++) { tempData[ii] &= (uint32_t)msk; }
+  for (int ii = NCHAN_ACQ; ii < NBUF_ACQ; ii++) { tempData[ii] &= (uint32_t)msk; }
     102a:	f852 1f04 	ldr.w	r1, [r2, #4]!
     102e:	4001      	ands	r1, r0
     1030:	42b2      	cmp	r2, r6
@@ -5317,7 +5317,7 @@ int __not_in_flash_func(compress)(void *inp)
     1042:	f010 fc11 	bl	11868 <memset>
   *iptr++ = nb | shift<<16;
     1046:	4a7b      	ldr	r2, [pc, #492]	; (1234 <compress(void*)+0x2b0>)
-  *iptr++ = NCH+ncmp; // number of data after header
+  *iptr++ = NCHAN_ACQ+ncmp; // number of data after header
     1048:	9b00      	ldr	r3, [sp, #0]
   //
   int kk=NH;
@@ -5334,7 +5334,7 @@ int __not_in_flash_func(compress)(void *inp)
     104e:	f04f 0c20 	mov.w	ip, #32
   outData[kk++] = tempData[0]; tempData[0] = 0;
     1052:	2007      	movs	r0, #7
-  *iptr++ = NCH+ncmp; // number of data after header
+  *iptr++ = NCHAN_ACQ+ncmp; // number of data after header
     1054:	616b      	str	r3, [r5, #20]
   *iptr++ = nb | shift<<16;
     1056:	ea47 4202 	orr.w	r2, r7, r2, lsl #16
@@ -5346,13 +5346,13 @@ int __not_in_flash_func(compress)(void *inp)
   *iptr++ = 0xA5A5A5A5;
     1066:	f04f 32a5 	mov.w	r2, #2779096485	; 0xa5a5a5a5
     106a:	602a      	str	r2, [r5, #0]
-  *iptr++ = NCH;
+  *iptr++ = NCHAN_ACQ;
     106c:	2201      	movs	r2, #1
   *iptr++ = t1;
     106e:	e9c5 a902 	strd	sl, r9, [r5, #8]
-  *iptr++ = NCH;
+  *iptr++ = NCHAN_ACQ;
     1072:	612a      	str	r2, [r5, #16]
-  for (int ii = 0; ii < NSAMP; ii ++)
+  for (int ii = 0; ii < NBUF_ACQ; ii ++)
     1074:	e00a      	b.n	108c <compress(void*)+0x108>
   {   nx -= nb;
       if(nx > 0)
@@ -5361,7 +5361,7 @@ int __not_in_flash_func(compress)(void *inp)
     107a:	4694      	mov	ip, r2
     107c:	ea41 010e 	orr.w	r1, r1, lr
     1080:	f845 1020 	str.w	r1, [r5, r0, lsl #2]
-  for (int ii = 0; ii < NSAMP; ii ++)
+  for (int ii = 0; ii < NBUF_ACQ; ii ++)
     1084:	42a6      	cmp	r6, r4
     1086:	d018      	beq.n	10ba <compress(void*)+0x136>
       {   outData[kk] |= (tempData[ii] << nx);
@@ -5390,21 +5390,21 @@ int __not_in_flash_func(compress)(void *inp)
     10a8:	d12f      	bne.n	110a <compress(void*)+0x186>
       {   outData[kk++] |= tempData[ii];
     10aa:	430a      	orrs	r2, r1
-  for (int ii = 0; ii < NSAMP; ii ++)
+  for (int ii = 0; ii < NBUF_ACQ; ii ++)
     10ac:	42a6      	cmp	r6, r4
           nx=MBIT;
     10ae:	f04f 0c20 	mov.w	ip, #32
       {   outData[kk++] |= tempData[ii];
     10b2:	f845 2020 	str.w	r2, [r5, r0, lsl #2]
     10b6:	4648      	mov	r0, r9
-  for (int ii = 0; ii < NSAMP; ii ++)
+  for (int ii = 0; ii < NBUF_ACQ; ii ++)
     10b8:	d1e6      	bne.n	1088 <compress(void*)+0x104>
   }
 
   // store actual data
   static int nout=0;
 
-  if ((nout + ndat) <= NBLOCK)
+  if ((nout + ndat) <= NBUF_OUT)
     10ba:	4e5f      	ldr	r6, [pc, #380]	; (1238 <compress(void*)+0x2b4>)
     10bc:	6834      	ldr	r4, [r6, #0]
     10be:	eb04 0208 	add.w	r2, r4, r8
@@ -5455,10 +5455,10 @@ int __not_in_flash_func(compress)(void *inp)
           outData[kk] = (tempData[ii] << nx);
     111c:	f845 1029 	str.w	r1, [r5, r9, lsl #2]
     1120:	e7b0      	b.n	1084 <compress(void*)+0x100>
-  else if ((nout + NH) > NBLOCK) //avoid partial header (special case)
+  else if ((nout + NH) > NBUF_OUT) //avoid partial header (special case)
     1122:	2c7a      	cmp	r4, #122	; 0x7a
     1124:	dd22      	ble.n	116c <compress(void*)+0x1e8>
-      while(nout<NBLOCK) dout[nout++] = 0; // fill rest of block with zero
+      while(nout<NBUF_OUT) dout[nout++] = 0; // fill rest of block with zero
     1126:	2c7f      	cmp	r4, #127	; 0x7f
     1128:	dc0a      	bgt.n	1140 <compress(void*)+0x1bc>
     112a:	f1c4 0280 	rsb	r2, r4, #128	; 0x80
@@ -5496,7 +5496,7 @@ int __not_in_flash_func(compress)(void *inp)
     1172:	ea42 4303 	orr.w	r3, r2, r3, lsl #16
     1176:	f04f 32a5 	mov.w	r2, #2779096485	; 0xa5a5a5a5
     117a:	616b      	str	r3, [r5, #20]
-      while (nout < NBLOCK) dout[nout++] = outData[ii++];
+      while (nout < NBUF_OUT) dout[nout++] = outData[ii++];
     117c:	f06f 4340 	mvn.w	r3, #3221225472	; 0xc0000000
     1180:	4d2b      	ldr	r5, [pc, #172]	; (1230 <compress(void*)+0x2ac>)
     1182:	4423      	add	r3, r4
@@ -5571,14 +5571,14 @@ int __not_in_flash_func(compress)(void *inp)
     1218:	e6f7      	b.n	100a <compress(void*)+0x86>
     121a:	bf00      	nop
     121c:	20009468 	.word	0x20009468
-    1220:	2002936c 	.word	0x2002936c
-    1224:	20028b84 	.word	0x20028b84
-    1228:	20028b58 	.word	0x20028b58
-    122c:	200282d4 	.word	0x200282d4
-    1230:	20027e84 	.word	0x20027e84
+    1220:	2002856c 	.word	0x2002856c
+    1224:	20027d84 	.word	0x20027d84
+    1228:	20027d58 	.word	0x20027d58
+    122c:	200274d4 	.word	0x200274d4
+    1230:	20027084 	.word	0x20027084
     1234:	20009484 	.word	0x20009484
-    1238:	20028528 	.word	0x20028528
-    123c:	20027be4 	.word	0x20027be4
+    1238:	20027728 	.word	0x20027728
+    123c:	20026de4 	.word	0x20026de4
     1240:	ffff0000 	.word	0xffff0000
 
 00001244 <dateTime(unsigned short*, unsigned short*, unsigned char*)>:
@@ -5748,7 +5748,7 @@ int16_t checkEndOfFile(int16_t state)
 }
     1322:	bd10      	pop	{r4, pc}
     1324:	2000945c 	.word	0x2000945c
-    1328:	2002851c 	.word	0x2002851c
+    1328:	2002771c 	.word	0x2002771c
     132c:	20009464 	.word	0x20009464
     1330:	20009460 	.word	0x20009460
 
@@ -5799,7 +5799,7 @@ int16_t checkEndOfFile(int16_t state)
     138e:	b006      	add	sp, #24
     1390:	bd10      	pop	{r4, pc}
     1392:	bf00      	nop
-    1394:	2002852c 	.word	0x2002852c
+    1394:	2002772c 	.word	0x2002772c
     1398:	200007f8 	.word	0x200007f8
 
 0000139c <headerInit(long, long, long, int)>:
@@ -5849,13 +5849,13 @@ int16_t checkEndOfFile(int16_t state)
     13d4:	4927      	ldr	r1, [pc, #156]	; (1474 <headerInit(long, long, long, int)+0xd8>)
   memcpy(wav_hdr.dId,"data",4);
     13d6:	f8c4 31f8 	str.w	r3, [r4, #504]	; 0x1f8
-  wav_hdr.rLen=512-2*4; // will be updated at closing
+  wav_hdr.rLen = 512-2*4; // will be updated at closing
     13da:	f44f 73fc 	mov.w	r3, #504	; 0x1f8
   strcpy(&wav_hdr.info[0], MAGIC);
     13de:	62e0      	str	r0, [r4, #44]	; 0x2c
   memcpy(wav_hdr.rId,"RIFF",4);
     13e0:	6021      	str	r1, [r4, #0]
-  wav_hdr.rLen=512-2*4; // will be updated at closing
+  wav_hdr.rLen = 512-2*4; // will be updated at closing
     13e2:	6063      	str	r3, [r4, #4]
   wav_hdr.dLen = 0; // will be updated at closing
     13e4:	2300      	movs	r3, #0
@@ -5869,7 +5869,7 @@ int16_t checkEndOfFile(int16_t state)
     13ec:	f44f 70e6 	mov.w	r0, #460	; 0x1cc
   memcpy(wav_hdr.iId,"info",4);
     13f0:	6261      	str	r1, [r4, #36]	; 0x24
-  wav_hdr.fLen=0x10;
+  wav_hdr.fLen = 0x10;
     13f2:	2110      	movs	r1, #16
   wav_hdr.dLen = 0; // will be updated at closing
     13f4:	f8c4 31fc 	str.w	r3, [r4, #508]	; 0x1fc
@@ -5922,7 +5922,7 @@ int16_t checkEndOfFile(int16_t state)
 }
     1460:	b003      	add	sp, #12
     1462:	bd30      	pop	{r4, r5, pc}
-    1464:	20028084 	.word	0x20028084
+    1464:	20027284 	.word	0x20027284
     1468:	20000418 	.word	0x20000418
     146c:	45564157 	.word	0x45564157
     1470:	61746164 	.word	0x61746164
@@ -6007,7 +6007,7 @@ int16_t checkEndOfFile(int16_t state)
     150e:	461e      	mov	r6, r3
     1510:	461d      	mov	r5, r3
     1512:	e7c1      	b.n	1498 <writeHeader(char*)+0x10>
-    1514:	20028ae4 	.word	0x20028ae4
+    1514:	20027ce4 	.word	0x20027ce4
     1518:	200004c8 	.word	0x200004c8
     151c:	20008abc 	.word	0x20008abc
 
@@ -6089,7 +6089,7 @@ int16_t checkEndOfFile(int16_t state)
     158c:	2514      	movs	r5, #20
     header[14] = again;
     158e:	63a3      	str	r3, [r4, #56]	; 0x38
-    header[8] = NCH;
+    header[8] = NCHAN_ACQ;
     1590:	2001      	movs	r0, #1
     header[15] = dgain;
     1592:	880b      	ldrh	r3, [r1, #0]
@@ -6101,7 +6101,7 @@ int16_t checkEndOfFile(int16_t state)
     159a:	b21b      	sxth	r3, r3
     header[5] = 20;          // SW version
     159c:	6165      	str	r5, [r4, #20]
-    header[8] = NCH;
+    header[8] = NCHAN_ACQ;
     159e:	6220      	str	r0, [r4, #32]
     header[127]=0x55555555;
     15a0:	f8c4 21fc 	str.w	r2, [r4, #508]	; 0x1fc
@@ -6118,10 +6118,10 @@ int16_t checkEndOfFile(int16_t state)
     15bc:	20009460 	.word	0x20009460
     15c0:	20009464 	.word	0x20009464
     15c4:	2000c1c8 	.word	0x2000c1c8
-    15c8:	20029392 	.word	0x20029392
+    15c8:	20028592 	.word	0x20028592
     15cc:	20009482 	.word	0x20009482
     15d0:	20009484 	.word	0x20009484
-    15d4:	2002938c 	.word	0x2002938c
+    15d4:	2002858c 	.word	0x2002858c
 
 000015d8 <newDirectory(char*)>:
   d0=d;
@@ -6262,7 +6262,7 @@ int16_t newFileName(char *fileName)
     16c8:	f00f ff28 	bl	1151c <sprintf>
     16cc:	e7e2      	b.n	1694 <newFileName(char*)+0x40>
     16ce:	bf00      	nop
-    16d0:	20029392 	.word	0x20029392
+    16d0:	20028592 	.word	0x20028592
     16d4:	2000048c 	.word	0x2000048c
     16d8:	20000490 	.word	0x20000490
     16dc:	20008abc 	.word	0x20008abc
@@ -6379,7 +6379,7 @@ uint32_t getAlarmTime(uint32_t secs)
     1794:	c22e4507 	.word	0xc22e4507
     1798:	00015180 	.word	0x00015180
     179c:	91a2b3c5 	.word	0x91a2b3c5
-    17a0:	20029364 	.word	0x20029364
+    17a0:	20028564 	.word	0x20028564
     17a4:	20009450 	.word	0x20009450
     17a8:	20009464 	.word	0x20009464
     17ac:	20009454 	.word	0x20009454
@@ -6492,7 +6492,7 @@ void do_hibernate(uint32_t t_rep)
     if(status==OPENED) // file is open: write first record (header)
     182a:	2801      	cmp	r0, #1
     182c:	d009      	beq.n	1842 <storeData(short)+0x22>
-    if(status==RUNNING) // file is open, header written: store data records
+    if(status==RUNNING) // file is open and header written: store data records
     182e:	2802      	cmp	r0, #2
     1830:	f000 80d3 	beq.w	19da <storeData(short)+0x1ba>
     if((status==DOCLOSE) || (status==DOHIBERNATE) || (status==MUSTSTOP)) // should close file or stop acquisition
@@ -6517,7 +6517,7 @@ void do_hibernate(uint32_t t_rep)
     184e:	b21b      	sxth	r3, r3
     1850:	2b00      	cmp	r3, #0
     1852:	f040 8088 	bne.w	1966 <storeData(short)+0x146>
-          hdr = headerInit(fsamp, NCH, NBITS, SerNum);
+          hdr = headerInit(fsamp, NCHAN_ACQ, NBITS, SerNum);
     1856:	49a7      	ldr	r1, [pc, #668]	; (1af4 <storeData(short)+0x2d4>)
     1858:	2218      	movs	r2, #24
     185a:	4ba7      	ldr	r3, [pc, #668]	; (1af8 <storeData(short)+0x2d8>)
@@ -6538,12 +6538,12 @@ void do_hibernate(uint32_t t_rep)
     1880:	6ca8      	ldr	r0, [r5, #72]	; 0x48
     1882:	2800      	cmp	r0, #0
     1884:	f000 80a0 	beq.w	19c8 <storeData(short)+0x1a8>
-    1888:	f44f 52c0 	mov.w	r2, #6144	; 0x1800
+    1888:	f44f 5290 	mov.w	r2, #4608	; 0x1200
     188c:	499b      	ldr	r1, [pc, #620]	; (1afc <storeData(short)+0x2dc>)
     188e:	f006 fff1 	bl	8874 <FatFile::write(void const*, unsigned int)>
     1892:	4604      	mov	r4, r0
         if((nd=file.write((const void *)diskBuffer,4*MAX_DISK_BUFFER)) < 4*MAX_DISK_BUFFER) 
-    1894:	f5b4 5fc0 	cmp.w	r4, #6144	; 0x1800
+    1894:	f5b4 5f90 	cmp.w	r4, #4608	; 0x1200
     1898:	f0c0 80b1 	bcc.w	19fe <storeData(short)+0x1de>
         disk_count++;
     189c:	4998      	ldr	r1, [pc, #608]	; (1b00 <storeData(short)+0x2e0>)
@@ -6703,7 +6703,7 @@ class Stream : public Print
     19c8:	6ce8      	ldr	r0, [r5, #76]	; 0x4c
            m_xFile ? m_xFile->write(buf, count) : 0;
     19ca:	b1b8      	cbz	r0, 19fc <storeData(short)+0x1dc>
-    19cc:	f44f 52c0 	mov.w	r2, #6144	; 0x1800
+    19cc:	f44f 5290 	mov.w	r2, #4608	; 0x1200
     19d0:	494a      	ldr	r1, [pc, #296]	; (1afc <storeData(short)+0x2dc>)
     19d2:	f005 fc3f 	bl	7254 <ExFatFile::write(void const*, unsigned int)>
     19d6:	4604      	mov	r4, r0
@@ -6720,8 +6720,8 @@ class Stream : public Print
   wav_hdr.rLen += wav_hdr.dLen;
     19e6:	6842      	ldr	r2, [r0, #4]
               char *hdr = headerUpdate(nbuf*MAX_DISK_BUFFER*4);
-    19e8:	eb03 0343 	add.w	r3, r3, r3, lsl #1
-    19ec:	02db      	lsls	r3, r3, #11
+    19e8:	eb03 03c3 	add.w	r3, r3, r3, lsl #3
+    19ec:	025b      	lsls	r3, r3, #9
   wav_hdr.rLen += wav_hdr.dLen;
     19ee:	441a      	add	r2, r3
   wav_hdr.dLen = nbytes;
@@ -6862,24 +6862,24 @@ class Stream : public Print
     1ae2:	f005 f9cf 	bl	6e84 <ExFatFile::sync()>
     if((status==DOCLOSE) || (status==DOHIBERNATE) || (status==MUSTSTOP)) // should close file or stop acquisition
     1ae6:	e7b3      	b.n	1a50 <storeData(short)+0x230>
-    1ae8:	20028ae4 	.word	0x20028ae4
-    1aec:	20029392 	.word	0x20029392
-    1af0:	20028b60 	.word	0x20028b60
+    1ae8:	20027ce4 	.word	0x20027ce4
+    1aec:	20028592 	.word	0x20028592
+    1af0:	20027d60 	.word	0x20027d60
     1af4:	2000943c 	.word	0x2000943c
     1af8:	2000c1c8 	.word	0x2000c1c8
     1afc:	2000c1d0 	.word	0x2000c1d0
-    1b00:	20028abc 	.word	0x20028abc
+    1b00:	20027cbc 	.word	0x20027cbc
     1b04:	26e978d5 	.word	0x26e978d5
     1b08:	00418937 	.word	0x00418937
-    1b0c:	20027e34 	.word	0x20027e34
+    1b0c:	20027034 	.word	0x20027034
     1b10:	20009448 	.word	0x20009448
-    1b14:	20028284 	.word	0x20028284
+    1b14:	20027484 	.word	0x20027484
     1b18:	20000b7c 	.word	0x20000b7c
     1b1c:	200007e0 	.word	0x200007e0
     1b20:	20008abc 	.word	0x20008abc
-    1b24:	2000d9d0 	.word	0x2000d9d0
-    1b28:	20028af4 	.word	0x20028af4
-    1b2c:	20028084 	.word	0x20028084
+    1b24:	2000d3d0 	.word	0x2000d3d0
+    1b28:	20027cf4 	.word	0x20027cf4
+    1b2c:	20027284 	.word	0x20027284
     1b30:	200007f4 	.word	0x200007f4
     1b34:	20000b5c 	.word	0x20000b5c
     1b38:	200007c8 	.word	0x200007c8
@@ -6916,7 +6916,7 @@ class Stream : public Print
     1b70:	4b02      	ldr	r3, [pc, #8]	; (1b7c <storeData(short)+0x35c>)
     1b72:	6818      	ldr	r0, [r3, #0]
     1b74:	f7ff fe1e 	bl	17b4 <do_hibernate(unsigned long)>
-    1b78:	20027e34 	.word	0x20027e34
+    1b78:	20027034 	.word	0x20027034
     1b7c:	20009464 	.word	0x20009464
 
 00001b80 <saveData(short)>:
@@ -6938,7 +6938,7 @@ class Stream : public Print
     1b96:	d073      	beq.n	1c80 <saveData(short)+0x100>
     if(getDataCount()>=nblocks)
     1b98:	f002 fdfa 	bl	4790 <getDataCount()>
-    1b9c:	280f      	cmp	r0, #15
+    1b9c:	2808      	cmp	r0, #8
     1b9e:	d950      	bls.n	1c42 <saveData(short)+0xc2>
       digitalWrite(13,HIGH);
     1ba0:	2101      	movs	r1, #1
@@ -6951,7 +6951,7 @@ class Stream : public Print
     1bae:	2b00      	cmp	r3, #0
     1bb0:	d14d      	bne.n	1c4e <saveData(short)+0xce>
     1bb2:	4f37      	ldr	r7, [pc, #220]	; (1c90 <saveData(short)+0x110>)
-    1bb4:	f5a7 5600 	sub.w	r6, r7, #8192	; 0x2000
+    1bb4:	f5a7 5690 	sub.w	r6, r7, #4608	; 0x1200
         { while(queue_isBusy()){continue;} //wait if acq writes to queue
     1bb8:	f002 fdf8 	bl	47ac <queue_isBusy()>
     1bbc:	4604      	mov	r4, r0
@@ -7065,14 +7065,14 @@ class Stream : public Print
     1c84:	4605      	mov	r5, r0
     1c86:	e787      	b.n	1b98 <saveData(short)+0x18>
     1c88:	42004000 	.word	0x42004000
-    1c8c:	20029392 	.word	0x20029392
-    1c90:	20027bdc 	.word	0x20027bdc
-    1c94:	20025bd8 	.word	0x20025bd8
-    1c98:	20028b38 	.word	0x20028b38
+    1c8c:	20028592 	.word	0x20028592
+    1c90:	200267dc 	.word	0x200267dc
+    1c94:	200255d8 	.word	0x200255d8
+    1c98:	20027d38 	.word	0x20027d38
     1c9c:	2000c1d0 	.word	0x2000c1d0
-    1ca0:	20027bd8 	.word	0x20027bd8
-    1ca4:	20028b34 	.word	0x20028b34
-    1ca8:	20025bdc 	.word	0x20025bdc
+    1ca0:	20026dd8 	.word	0x20026dd8
+    1ca4:	20027d34 	.word	0x20027d34
+    1ca8:	200255dc 	.word	0x200255dc
     1cac:	2000c1cc 	.word	0x2000c1cc
 
 00001cb0 <_GLOBAL__sub_I_t_acq>:
@@ -7096,7 +7096,7 @@ class FsFile : public StreamFile<FsBaseFile, uint64_t> {
 FsFile file;
     1cce:	4904      	ldr	r1, [pc, #16]	; (1ce0 <_GLOBAL__sub_I_t_acq+0x30>)
     1cd0:	f00d bcc6 	b.w	f660 <__aeabi_atexit>
-    1cd4:	20028ae4 	.word	0x20028ae4
+    1cd4:	20027ce4 	.word	0x20027ce4
     1cd8:	20008e98 	.word	0x20008e98
     1cdc:	20000ca4 	.word	0x20000ca4
     1ce0:	000012c5 	.word	0x000012c5
@@ -7189,11 +7189,11 @@ FsFile file;
     1d8a:	bf00      	nop
     1d8c:	401f4400 	.word	0x401f4400
     1d90:	2000c1c8 	.word	0x2000c1c8
-    1d94:	200284dc 	.word	0x200284dc
+    1d94:	200276dc 	.word	0x200276dc
     1d98:	00001245 	.word	0x00001245
     1d9c:	2000044c 	.word	0x2000044c
     1da0:	20008abc 	.word	0x20008abc
-    1da4:	20028b34 	.word	0x20028b34
+    1da4:	20027d34 	.word	0x20027d34
     1da8:	20000470 	.word	0x20000470
     1dac:	20009448 	.word	0x20009448
     1db0:	20000460 	.word	0x20000460
@@ -7503,7 +7503,7 @@ FsFile file;
     1f52:	dce0      	bgt.n	1f16 <MTPD::write(char const*, int) [clone .part.0]+0x36>
     }
     1f54:	e8bd 87f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, pc}
-    1f58:	200285a8 	.word	0x200285a8
+    1f58:	200277a8 	.word	0x200277a8
 
 00001f5c <MTPD::writestring(char const*) [clone .part.0]>:
   void MTPD::writestring(const char* str) {
@@ -9739,7 +9739,7 @@ constexpr auto min(A&& a, B&& b) -> decltype(a < b ? std::forward<A>(a) : std::f
     3372:	601a      	str	r2, [r3, #0]
     }
     3374:	e8bd 87f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, pc}
-    3378:	200285a4 	.word	0x200285a4
+    3378:	200277a4 	.word	0x200277a4
 
 0000337c <MTPD::readstring(char*)>:
   void MTPD::readstring(char* buffer) {
@@ -9986,7 +9986,7 @@ constexpr auto min(A&& a, B&& b) -> decltype(a < b ? std::forward<A>(a) : std::f
     3548:	f1a3 0840 	sub.w	r8, r3, #64	; 0x40
     354c:	e777      	b.n	343e <MTPD::SendObjectInfo(unsigned long, unsigned long)+0x42>
     354e:	bf00      	nop
-    3550:	200285a4 	.word	0x200285a4
+    3550:	200277a4 	.word	0x200277a4
 
 00003554 <MTPD::SendObject()>:
     { 
@@ -10157,7 +10157,7 @@ constexpr auto min(A&& a, B&& b) -> decltype(a < b ? std::forward<A>(a) : std::f
             len -= bytes;
     3678:	e7be      	b.n	35f8 <MTPD::SendObject()+0xa4>
     367a:	bf00      	nop
-    367c:	200285a4 	.word	0x200285a4
+    367c:	200277a4 	.word	0x200277a4
 
 00003680 <MTPD::loop()>:
 
@@ -10483,7 +10483,7 @@ constexpr auto min(A&& a, B&& b) -> decltype(a < b ? std::forward<A>(a) : std::f
     3948:	20000b50 	.word	0x20000b50
     394c:	20000b64 	.word	0x20000b64
     3950:	ffff67fe 	.word	0xffff67fe
-    3954:	200285a4 	.word	0x200285a4
+    3954:	200277a4 	.word	0x200277a4
     3958:	20000b60 	.word	0x20000b60
             TRANSMIT(GetStorageInfo(p1));
     395c:	f04f 0b00 	mov.w	fp, #0
@@ -10963,7 +10963,7 @@ constexpr auto min(A&& a, B&& b) -> decltype(a < b ? std::forward<A>(a) : std::f
     3d98:	f7fe f92e 	bl	1ff8 <MTPD::GetDevicePropDesc(unsigned long) [clone .part.0]>
     3d9c:	e6ee      	b.n	3b7c <MTPD::loop()+0x4fc>
     3d9e:	bf00      	nop
-    3da0:	20029198 	.word	0x20029198
+    3da0:	20028398 	.word	0x20028398
     3da4:	10150002 	.word	0x10150002
     3da8:	10140002 	.word	0x10140002
     if (*str) 
@@ -11081,7 +11081,7 @@ static char * menuGetLine(void)
     3e8a:	4620      	mov	r0, r4
     3e8c:	bd10      	pop	{r4, pc}
     3e8e:	bf00      	nop
-    3e90:	2002857c 	.word	0x2002857c
+    3e90:	2002777c 	.word	0x2002777c
     3e94:	20008abc 	.word	0x20008abc
 
 00003e98 <menu3()>:
@@ -11341,12 +11341,12 @@ void menu3(void)
     40a4:	20000774 	.word	0x20000774
     40a8:	20009440 	.word	0x20009440
     40ac:	2000077c 	.word	0x2000077c
-    40b0:	20029364 	.word	0x20029364
+    40b0:	20028564 	.word	0x20028564
     40b4:	20009450 	.word	0x20009450
     40b8:	20009454 	.word	0x20009454
     40bc:	20009458 	.word	0x20009458
     40c0:	2000945c 	.word	0x2000945c
-    40c4:	20029392 	.word	0x20029392
+    40c4:	20028592 	.word	0x20028592
     40c8:	2000943c 	.word	0x2000943c
     40cc:	20009482 	.word	0x20009482
     40d0:	20009460 	.word	0x20009460
@@ -11475,19 +11475,19 @@ void saveParameters(void)
     4158:	20009440 	.word	0x20009440
     415c:	2000945c 	.word	0x2000945c
     4160:	20009460 	.word	0x20009460
-    4164:	20027e14 	.word	0x20027e14
-    4168:	20029368 	.word	0x20029368
+    4164:	20027014 	.word	0x20027014
+    4168:	20028568 	.word	0x20028568
     416c:	20009464 	.word	0x20009464
-    4170:	20029392 	.word	0x20029392
+    4170:	20028592 	.word	0x20028592
     4174:	20009484 	.word	0x20009484
-    4178:	20029364 	.word	0x20029364
+    4178:	20028564 	.word	0x20028564
     417c:	20009450 	.word	0x20009450
     4180:	20009454 	.word	0x20009454
     4184:	2000943c 	.word	0x2000943c
     4188:	20009458 	.word	0x20009458
     418c:	10624dd3 	.word	0x10624dd3
     4190:	20009482 	.word	0x20009482
-    4194:	2002938c 	.word	0x2002938c
+    4194:	2002858c 	.word	0x2002858c
 
 00004198 <menu1(short)>:
 {   // have ':'
@@ -11527,16 +11527,16 @@ void saveParameters(void)
     41d0:	bd10      	pop	{r4, pc}
 { char *buffer=menuGetLine();
     41d2:	f7ff fe41 	bl	3e58 <menuGetLine()>
-  sscanf(buffer,"%d",&tmp); *val=(int32_t) tmp;
+  sscanf(buffer,"%d",&tmp); *val=(int16_t) tmp;
     41d6:	aa01      	add	r2, sp, #4
     41d8:	4906      	ldr	r1, [pc, #24]	; (41f4 <menu1(short)+0x5c>)
     41da:	f00d f9bf 	bl	1155c <sscanf>
-    41de:	9a01      	ldr	r2, [sp, #4]
-    41e0:	4b05      	ldr	r3, [pc, #20]	; (41f8 <menu1(short)+0x60>)
+    41de:	4b06      	ldr	r3, [pc, #24]	; (41f8 <menu1(short)+0x60>)
+    41e0:	9a01      	ldr	r2, [sp, #4]
 }
     41e2:	4620      	mov	r0, r4
-  sscanf(buffer,"%d",&tmp); *val=(int32_t) tmp;
-    41e4:	601a      	str	r2, [r3, #0]
+  sscanf(buffer,"%d",&tmp); *val=(int16_t) tmp;
+    41e4:	801a      	strh	r2, [r3, #0]
 }
     41e6:	b002      	add	sp, #8
     41e8:	bd10      	pop	{r4, pc}
@@ -11544,7 +11544,7 @@ void saveParameters(void)
     41ec:	20000604 	.word	0x20000604
     41f0:	20008abc 	.word	0x20008abc
     41f4:	2000077c 	.word	0x2000077c
-    41f8:	20029390 	.word	0x20029390
+    41f8:	20028590 	.word	0x20028590
 
 000041fc <loadParameters()>:
 
@@ -11745,20 +11745,20 @@ uint16_t *loadParameters(void)
     42e0:	801a      	strh	r2, [r3, #0]
 }
     42e2:	bd38      	pop	{r3, r4, r5, pc}
-    42e4:	20027e14 	.word	0x20027e14
+    42e4:	20027014 	.word	0x20027014
     42e8:	20009440 	.word	0x20009440
     42ec:	2000945c 	.word	0x2000945c
-    42f0:	20029368 	.word	0x20029368
+    42f0:	20028568 	.word	0x20028568
     42f4:	20009464 	.word	0x20009464
     42f8:	20009484 	.word	0x20009484
-    42fc:	20029392 	.word	0x20029392
-    4300:	20029364 	.word	0x20029364
+    42fc:	20028592 	.word	0x20028592
+    4300:	20028564 	.word	0x20028564
     4304:	20009450 	.word	0x20009450
     4308:	20009454 	.word	0x20009454
     430c:	20009458 	.word	0x20009458
     4310:	2000943c 	.word	0x2000943c
     4314:	20009482 	.word	0x20009482
-    4318:	2002938c 	.word	0x2002938c
+    4318:	2002858c 	.word	0x2002858c
     431c:	20009460 	.word	0x20009460
 
 00004320 <menu2()>:
@@ -12132,11 +12132,11 @@ uint16_t *loadParameters(void)
     4674:	2000067c 	.word	0x2000067c
     4678:	20009484 	.word	0x20009484
     467c:	2000068c 	.word	0x2000068c
-    4680:	20029392 	.word	0x20029392
+    4680:	20028592 	.word	0x20028592
     4684:	2000069c 	.word	0x2000069c
     4688:	20009482 	.word	0x20009482
     468c:	200006ac 	.word	0x200006ac
-    4690:	20029364 	.word	0x20029364
+    4690:	20028564 	.word	0x20028564
     4694:	200006bc 	.word	0x200006bc
     4698:	20009450 	.word	0x20009450
     469c:	200006cc 	.word	0x200006cc
@@ -12241,7 +12241,7 @@ uint16_t *loadParameters(void)
     476a:	f00a fd6f 	bl	f24c <usb_serial_write>
     476e:	e7cc      	b.n	470a <menu(short)+0x3e>
     4770:	200005a4 	.word	0x200005a4
-    4774:	20029390 	.word	0x20029390
+    4774:	20028590 	.word	0x20028590
     4778:	200005b4 	.word	0x200005b4
     477c:	20008abc 	.word	0x20008abc
     4780:	200005c0 	.word	0x200005c0
@@ -12252,7 +12252,7 @@ uint16_t *loadParameters(void)
 uint16_t *getStore(void) {return store;}
     4788:	4800      	ldr	r0, [pc, #0]	; (478c <getStore()+0x4>)
     478a:	4770      	bx	lr
-    478c:	20027e14 	.word	0x20027e14
+    478c:	20027014 	.word	0x20027014
 
 00004790 <getDataCount()>:
   volatile static int queue_busy=0;
@@ -12271,8 +12271,8 @@ uint16_t *getStore(void) {return store;}
     479e:	b280      	uxth	r0, r0
     47a0:	4770      	bx	lr
     47a2:	bf00      	nop
-    47a4:	20027de8 	.word	0x20027de8
-    47a8:	20027de4 	.word	0x20027de4
+    47a4:	20026fe8 	.word	0x20026fe8
+    47a8:	20026fe4 	.word	0x20026fe4
 
 000047ac <queue_isBusy()>:
   int __not_in_flash_func(queue_isBusy)(void) { return queue_busy; }
@@ -12280,7 +12280,7 @@ uint16_t *getStore(void) {return store;}
     47ae:	6818      	ldr	r0, [r3, #0]
     47b0:	4770      	bx	lr
     47b2:	bf00      	nop
-    47b4:	2000dbd4 	.word	0x2000dbd4
+    47b4:	2000d5d4 	.word	0x2000d5d4
 
 000047b8 <pushData(unsigned long*)>:
 
@@ -12317,7 +12317,6 @@ uint16_t *getStore(void) {return store;}
     47ea:	6820      	ldr	r0, [r4, #0]
     47ec:	eb03 2040 	add.w	r0, r3, r0, lsl #9
     47f0:	f008 ffac 	bl	d74c <memcpy>
-    //for(int ii=0;ii<NBUF_ACQ;ii++)data_buffer[tail][ii]=data[ii];
     tail = (tail+1)%MAXBUF;
     47f4:	6822      	ldr	r2, [r4, #0]
     queue_busy=0;
@@ -12342,11 +12341,11 @@ uint16_t *getStore(void) {return store;}
     4814:	2000      	movs	r0, #0
   }
     4816:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
-    4818:	20027de8 	.word	0x20027de8
-    481c:	20027de4 	.word	0x20027de4
+    4818:	20026fe8 	.word	0x20026fe8
+    481c:	20026fe4 	.word	0x20026fe4
     4820:	2aaaaaab 	.word	0x2aaaaaab
-    4824:	2000dbd4 	.word	0x2000dbd4
-    4828:	2000dbd8 	.word	0x2000dbd8
+    4824:	2000d5d4 	.word	0x2000d5d4
+    4828:	2000d5d8 	.word	0x2000d5d8
 
 0000482c <pullData(unsigned long*)>:
   
@@ -12375,7 +12374,6 @@ uint16_t *getStore(void) {return store;}
     4846:	6821      	ldr	r1, [r4, #0]
     4848:	eb03 2141 	add.w	r1, r3, r1, lsl #9
     484c:	f008 ff7e 	bl	d74c <memcpy>
-    //for(int ii=0;ii<NBUF_ACQ;ii++)data[ii]=data_buffer[head][ii];
     head = (head+1)%MAXBUF;
     4850:	6822      	ldr	r2, [r4, #0]
     4852:	490d      	ldr	r1, [pc, #52]	; (4888 <pullData(unsigned long*)+0x5c>)
@@ -12402,10 +12400,10 @@ uint16_t *getStore(void) {return store;}
   }
     4874:	bd70      	pop	{r4, r5, r6, pc}
     4876:	bf00      	nop
-    4878:	20027de8 	.word	0x20027de8
-    487c:	20027de4 	.word	0x20027de4
-    4880:	2000dbd4 	.word	0x2000dbd4
-    4884:	2000dbd8 	.word	0x2000dbd8
+    4878:	20026fe8 	.word	0x20026fe8
+    487c:	20026fe4 	.word	0x20026fe4
+    4880:	2000d5d4 	.word	0x2000d5d4
+    4884:	2000d5d8 	.word	0x2000d5d8
     4888:	2aaaaaab 	.word	0x2aaaaaab
 
 0000488c <time2date(unsigned long, datetime_t*)>:
@@ -17052,7 +17050,7 @@ inline void setLe16(uint8_t* dst, uint16_t src) {
     69fc:	e73f      	b.n	687e <ExFatFile::openPrivate(ExFatFile*, ExName_t*, int)+0x19e>
     69fe:	bf00      	nop
     6a00:	88888889 	.word	0x88888889
-    6a04:	200284dc 	.word	0x200284dc
+    6a04:	200276dc 	.word	0x200276dc
       dirStream->type = EXFAT_TYPE_STREAM;
     6a08:	23c0      	movs	r3, #192	; 0xc0
       dirStream->flags = EXFAT_FLAG_ALWAYS1;
@@ -17779,7 +17777,7 @@ inline void setLe64(uint8_t* dst, uint64_t src) {
     6e7c:	7829      	ldrb	r1, [r5, #0]
   void dataCacheDirty() {m_dataCache.dirty();}
     6e7e:	e7a5      	b.n	6dcc <ExFatFile::syncDir()+0x80>
-    6e80:	200284dc 	.word	0x200284dc
+    6e80:	200276dc 	.word	0x200276dc
 
 00006e84 <ExFatFile::sync()>:
 bool ExFatFile::sync() {
@@ -18699,7 +18697,7 @@ size_t ExFatFile::write(const void* buf, size_t nbyte) {
     74c8:	e9d4 3200 	ldrd	r3, r2, [r4]
     74cc:	e752      	b.n	7374 <ExFatFile::write(void const*, unsigned int)+0x120>
     74ce:	bf00      	nop
-    74d0:	200284dc 	.word	0x200284dc
+    74d0:	200276dc 	.word	0x200276dc
 
 000074d4 <ExFatFile::cmpName(DirName_t const*, ExName_t*)>:
   hash = ((hash << 15) | (hash >> 1)) + (c & 0XFF);
@@ -20093,7 +20091,7 @@ bool FatFile::sync() {
     7c7e:	d0b7      	beq.n	7bf0 <FatFile::sync() [clone .part.0]+0x1c>
     7c80:	e7bb      	b.n	7bfa <FatFile::sync() [clone .part.0]+0x26>
     7c82:	bf00      	nop
-    7c84:	200284dc 	.word	0x200284dc
+    7c84:	200276dc 	.word	0x200276dc
 
 00007c88 <FatFile::addCluster()>:
   uint32_t cc = m_curCluster;
@@ -22235,7 +22233,7 @@ size_t FatFile::write(const void* buf, size_t nbyte) {
     8a1e:	e7ac      	b.n	897a <FatFile::write(void const*, unsigned int)+0x106>
     8a20:	4648      	mov	r0, r9
     8a22:	e7aa      	b.n	897a <FatFile::write(void const*, unsigned int)+0x106>
-    8a24:	200284dc 	.word	0x200284dc
+    8a24:	200276dc 	.word	0x200276dc
 
 00008a28 <FatFile::cmpName(unsigned short, FatLfn_t*, unsigned char)>:
     hash = ((hash << 5) + hash) ^ (*bgn++);
@@ -22895,7 +22893,7 @@ bool FatFile::makeUniqueSfn(FatLfn_t* fname) {
 }
     8e1a:	e8bd 8ff8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, r9, sl, fp, pc}
     8e1e:	bf00      	nop
-    8e20:	2002935c 	.word	0x2002935c
+    8e20:	2002855c 	.word	0x2002855c
 
 00008e24 <FatFile::open(FatFile*, FatLfn_t*, int)>:
 //------------------------------------------------------------------------------
@@ -23276,7 +23274,7 @@ inline bool isWriteMode(oflag_t oflag) {
     if (FS_DEFAULT_TIME) {
     90b2:	e7cc      	b.n	904e <FatFile::open(FatFile*, FatLfn_t*, int)+0x22a>
     90b4:	4ec4ec4f 	.word	0x4ec4ec4f
-    90b8:	200284dc 	.word	0x200284dc
+    90b8:	200276dc 	.word	0x200276dc
 
 000090bc <FatFile::parsePathName(char const*, FatLfn_t*, char const**)>:
 //------------------------------------------------------------------------------
@@ -25613,9 +25611,9 @@ bool FsVolume::begin(FsBlockDevice* blockDev, bool setCwv, uint8_t part) {
 }
     9e8e:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
     9e92:	bf00      	nop
-    9e94:	20028514 	.word	0x20028514
-    9e98:	20028518 	.word	0x20028518
-    9e9c:	200284e0 	.word	0x200284e0
+    9e94:	20027714 	.word	0x20027714
+    9e98:	20027718 	.word	0x20027718
+    9e9c:	200276e0 	.word	0x200276e0
 
 00009ea0 <FsVolume::open(char const*, int)>:
 bool FsVolume::ls(print_t* pr, const char* path, uint8_t flags) {
@@ -25954,7 +25952,7 @@ bool SharedSpiCard::writeStop() {
 }
     a058:	e7d7      	b.n	a00a <SharedSpiCard::writeStop()+0x36>
     a05a:	bf00      	nop
-    a05c:	2002935c 	.word	0x2002935c
+    a05c:	2002855c 	.word	0x2002855c
 
 0000a060 <SharedSpiCard::isBusy()>:
 bool SharedSpiCard::isBusy() {
@@ -26109,7 +26107,7 @@ bool SharedSpiCard::readData(uint8_t* dst, size_t count) {
     a162:	e7d9      	b.n	a118 <SharedSpiCard::readData(unsigned char*, unsigned int)+0x38>
     a164:	2325      	movs	r3, #37	; 0x25
     a166:	e7d4      	b.n	a112 <SharedSpiCard::readData(unsigned char*, unsigned int)+0x32>
-    a168:	2002935c 	.word	0x2002935c
+    a168:	2002855c 	.word	0x2002855c
 
 0000a16c <SharedSpiCard::readStop()>:
 bool SharedSpiCard::readStop() {
@@ -26383,7 +26381,7 @@ uint8_t SharedSpiCard::cardCommand(uint8_t cmd, uint32_t arg) {
     a310:	e7e2      	b.n	a2d8 <SharedSpiCard::cardCommand(unsigned char, unsigned long)+0xa4>
     a312:	bf00      	nop
     a314:	0000a1dd 	.word	0x0000a1dd
-    a318:	2002935c 	.word	0x2002935c
+    a318:	2002855c 	.word	0x2002855c
 
 0000a31c <SharedSpiCard::readOCR(unsigned long*)>:
 bool SharedSpiCard::readOCR(uint32_t* ocr) {
@@ -27140,7 +27138,7 @@ bool SharedSpiCard::erase(uint32_t firstSector, uint32_t lastSector) {
     a7b8:	e7a0      	b.n	a6fc <SharedSpiCard::erase(unsigned long, unsigned long)+0x50>
     a7ba:	bf00      	nop
     a7bc:	0000a7c5 	.word	0x0000a7c5
-    a7c0:	2002935c 	.word	0x2002935c
+    a7c0:	2002855c 	.word	0x2002855c
 
 0000a7c4 <SharedSpiCard::readCSD(csd_t*)>:
   bool readCSD(csd_t* csd) {
@@ -27415,7 +27413,7 @@ bool SharedSpiCard::writeData(const uint8_t* src) {
     a97a:	74b3      	strb	r3, [r6, #18]
 }
     a97c:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
-    a980:	2002935c 	.word	0x2002935c
+    a980:	2002855c 	.word	0x2002855c
 
 0000a984 <SharedSpiCard::writeSector(unsigned long, unsigned char const*)>:
   if (type() != SD_CARD_TYPE_SDHC) {
@@ -27598,8 +27596,8 @@ static void sdIrs() {
 }
     aa6a:	4770      	bx	lr
     aa6c:	402c0000 	.word	0x402c0000
-    aa70:	200284d8 	.word	0x200284d8
-    aa74:	200293a2 	.word	0x200293a2
+    aa70:	200276d8 	.word	0x200276d8
+    aa74:	200285a2 	.word	0x200285a2
 
 0000aa78 <isBusyDat()>:
 static bool isBusyCommandInhibit() {
@@ -27626,7 +27624,7 @@ static bool isBusyDMA() {
 }
     aa90:	4770      	bx	lr
     aa92:	bf00      	nop
-    aa94:	200293a2 	.word	0x200293a2
+    aa94:	200285a2 	.word	0x200285a2
 
 0000aa98 <setSdclk(unsigned long)>:
   uint32_t divider = ((CCM_CSCDR1 >> 11) & 0x7) + 1;
@@ -27766,7 +27764,7 @@ static void setSdclk(uint32_t kHzMax) {
     ab4c:	400d8000 	.word	0x400d8000
     ab50:	5e69ec00 	.word	0x5e69ec00
     ab54:	aaaaaaab 	.word	0xaaaaaaab
-    ab58:	2000dbd0 	.word	0x2000dbd0
+    ab58:	2000d5d0 	.word	0x2000d5d0
     ab5c:	402c0000 	.word	0x402c0000
     ab60:	fff0000f 	.word	0xfff0000f
 
@@ -27793,7 +27791,7 @@ uint32_t SdioCard::errorData() const {
 }
     ab74:	4770      	bx	lr
     ab76:	bf00      	nop
-    ab78:	200284d8 	.word	0x200284d8
+    ab78:	200276d8 	.word	0x200276d8
 
 0000ab7c <SdioCard::readCID(CID*)>:
 //------------------------------------------------------------------------------
@@ -27820,7 +27818,7 @@ bool SdioCard::readCID(cid_t* cid) {
 }
     ab96:	f85d 4b04 	ldr.w	r4, [sp], #4
     ab9a:	4770      	bx	lr
-    ab9c:	20027dec 	.word	0x20027dec
+    ab9c:	20026fec 	.word	0x20026fec
 
 0000aba0 <SdioCard::readCSD(csd_t*)>:
 //------------------------------------------------------------------------------
@@ -27843,7 +27841,7 @@ bool SdioCard::readCSD(csd_t* csd) {
 }
     abba:	f85d 4b04 	ldr.w	r4, [sp], #4
     abbe:	4770      	bx	lr
-    abc0:	20027dfc 	.word	0x20027dfc
+    abc0:	20026ffc 	.word	0x20026ffc
 
 0000abc4 <SdioCard::readOCR(unsigned long*)>:
   SDHC_IRQSTAT = m_irqstat;
@@ -27862,7 +27860,7 @@ bool SdioCard::readOCR(uint32_t* ocr) {
 }
     abcc:	4770      	bx	lr
     abce:	bf00      	nop
-    abd0:	20027e0c 	.word	0x20027e0c
+    abd0:	2002700c 	.word	0x2002700c
 
 0000abd4 <SdioCard::~SdioCard()>:
 class SdioCard : public SdCardInterface {
@@ -27897,8 +27895,8 @@ uint8_t SdioCard::type() const {
           SD_CARD_TYPE_SDHC : SD_CARD_TYPE_SD2 : SD_CARD_TYPE_SD1;
 }
     abfa:	4770      	bx	lr
-    abfc:	2002939f 	.word	0x2002939f
-    ac00:	200293a0 	.word	0x200293a0
+    abfc:	2002859f 	.word	0x2002859f
+    ac00:	200285a0 	.word	0x200285a0
 
 0000ac04 <SdioCard::sectorCount()>:
   if (csd->v1.csd_ver == 0) {
@@ -27963,7 +27961,7 @@ uint32_t SdioCard::sectorCount() {
     ac62:	4098      	lsls	r0, r3
 }
     ac64:	f85d fb04 	ldr.w	pc, [sp], #4
-    ac68:	20027dfc 	.word	0x20027dfc
+    ac68:	20026ffc 	.word	0x20026ffc
 
 0000ac6c <initSDHC()>:
   CCM_ANALOG_PFD_528 |= (1 << 7);
@@ -28190,11 +28188,11 @@ static bool waitTransferComplete() {
     adfa:	bf00      	nop
     adfc:	402c0000 	.word	0x402c0000
     ae00:	117f0002 	.word	0x117f0002
-    ae04:	200293a1 	.word	0x200293a1
-    ae08:	200284d8 	.word	0x200284d8
+    ae04:	200285a1 	.word	0x200285a1
+    ae08:	200276d8 	.word	0x200276d8
     ae0c:	117f0000 	.word	0x117f0000
     ae10:	20009486 	.word	0x20009486
-    ae14:	20025bd8 	.word	0x20025bd8
+    ae14:	200255d8 	.word	0x200255d8
     ae18:	000f4240 	.word	0x000f4240
 
 0000ae1c <SdioCard::writeData(unsigned char const*)>:
@@ -28311,10 +28309,10 @@ bool SdioCard::writeData(const uint8_t* src) {
     aeb6:	601a      	str	r2, [r3, #0]
 }
     aeb8:	e8bd 83f8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-    aebc:	200293a1 	.word	0x200293a1
+    aebc:	200285a1 	.word	0x200285a1
     aec0:	402c0000 	.word	0x402c0000
     aec4:	20009486 	.word	0x20009486
-    aec8:	20025bd8 	.word	0x20025bd8
+    aec8:	200255d8 	.word	0x200255d8
     aecc:	000f4240 	.word	0x000f4240
 
 0000aed0 <cardCommand(unsigned long, unsigned long)>:
@@ -28413,7 +28411,7 @@ static bool cardCommand(uint32_t xfertyp, uint32_t arg) {
     af58:	402c0000 	.word	0x402c0000
     af5c:	000f4240 	.word	0x000f4240
     af60:	000f0001 	.word	0x000f0001
-    af64:	200284d8 	.word	0x200284d8
+    af64:	200276d8 	.word	0x200276d8
 
 0000af68 <readReg16(unsigned long, void*)>:
   if (!cardCommand(xfertyp, m_rca)) {
@@ -28463,7 +28461,7 @@ static bool readReg16(uint32_t xfertyp, void* data) {
 }
     afbc:	b005      	add	sp, #20
     afbe:	bd30      	pop	{r4, r5, pc}
-    afc0:	20027e10 	.word	0x20027e10
+    afc0:	20027010 	.word	0x20027010
     afc4:	402c0000 	.word	0x402c0000
 
 0000afc8 <SdioCard::isBusy()>:
@@ -28523,12 +28521,12 @@ bool SdioCard::isBusy() {
     b01e:	f484 7480 	eor.w	r4, r4, #256	; 0x100
     b022:	f3c4 2400 	ubfx	r4, r4, #8, #1
     b026:	e7e2      	b.n	afee <SdioCard::isBusy()+0x26>
-    b028:	200284d4 	.word	0x200284d4
-    b02c:	200293a1 	.word	0x200293a1
+    b028:	200276d4 	.word	0x200276d4
+    b02c:	200285a1 	.word	0x200285a1
     b030:	402c0000 	.word	0x402c0000
     b034:	117f0002 	.word	0x117f0002
-    b038:	2002939e 	.word	0x2002939e
-    b03c:	20027e10 	.word	0x20027e10
+    b038:	2002859e 	.word	0x2002859e
+    b03c:	20027010 	.word	0x20027010
     b040:	0d1a0000 	.word	0x0d1a0000
 
 0000b044 <SdioCard::status()>:
@@ -28544,7 +28542,7 @@ uint32_t SdioCard::status() {
     b054:	6918      	ldr	r0, [r3, #16]
 }
     b056:	bd08      	pop	{r3, pc}
-    b058:	20027e10 	.word	0x20027e10
+    b058:	20027010 	.word	0x20027010
     b05c:	0d1a0000 	.word	0x0d1a0000
     b060:	402c0000 	.word	0x402c0000
 
@@ -28566,7 +28564,7 @@ static bool isBusyCMD13() {
     b07e:	bd08      	pop	{r3, pc}
     b080:	2001      	movs	r0, #1
     b082:	bd08      	pop	{r3, pc}
-    b084:	20027e10 	.word	0x20027e10
+    b084:	20027010 	.word	0x20027010
     b088:	0d1a0000 	.word	0x0d1a0000
     b08c:	402c0000 	.word	0x402c0000
 
@@ -28687,14 +28685,14 @@ bool SdioCard::writeStart(uint32_t sector) {
     b138:	e7e1      	b.n	b0fe <SdioCard::writeStart(unsigned long)+0x6e>
     b13a:	bf00      	nop
     b13c:	0000b065 	.word	0x0000b065
-    b140:	20027e10 	.word	0x20027e10
+    b140:	20027010 	.word	0x20027010
     b144:	0d1a0000 	.word	0x0d1a0000
     b148:	000f4240 	.word	0x000f4240
-    b14c:	200293a0 	.word	0x200293a0
+    b14c:	200285a0 	.word	0x200285a0
     b150:	193a0020 	.word	0x193a0020
     b154:	20009486 	.word	0x20009486
-    b158:	20025bd8 	.word	0x20025bd8
-    b15c:	200284d4 	.word	0x200284d4
+    b158:	200255d8 	.word	0x200255d8
+    b15c:	200276d4 	.word	0x200276d4
     b160:	402c0000 	.word	0x402c0000
 
 0000b164 <SdioCard::readStop()>:
@@ -28803,10 +28801,10 @@ bool SdioCard::readStop() {
     b200:	402c0000 	.word	0x402c0000
     b204:	0cdb0000 	.word	0x0cdb0000
     b208:	20009486 	.word	0x20009486
-    b20c:	20025bd8 	.word	0x20025bd8
+    b20c:	200255d8 	.word	0x200255d8
     b210:	0000aa79 	.word	0x0000aa79
     b214:	000f4240 	.word	0x000f4240
-    b218:	200284d4 	.word	0x200284d4
+    b218:	200276d4 	.word	0x200276d4
 
 0000b21c <cardCMD6(unsigned long, unsigned char*)>:
 static bool cardCMD6(uint32_t arg, uint8_t* status) {
@@ -28956,20 +28954,20 @@ static bool cardCMD6(uint32_t arg, uint8_t* status) {
     b2fa:	421a      	tst	r2, r3
     b2fc:	d0d0      	beq.n	b2a0 <cardCMD6(unsigned long, unsigned char*)+0x84>
     b2fe:	e7eb      	b.n	b2d8 <cardCMD6(unsigned long, unsigned char*)+0xbc>
-    b300:	20027e10 	.word	0x20027e10
+    b300:	20027010 	.word	0x20027010
     b304:	0d1a0000 	.word	0x0d1a0000
     b308:	000f4240 	.word	0x000f4240
-    b30c:	200293a2 	.word	0x200293a2
-    b310:	200284d8 	.word	0x200284d8
+    b30c:	200285a2 	.word	0x200285a2
+    b310:	200276d8 	.word	0x200276d8
     b314:	063a0011 	.word	0x063a0011
     b318:	00010040 	.word	0x00010040
     b31c:	117f0002 	.word	0x117f0002
     b320:	20009486 	.word	0x20009486
-    b324:	20025bd8 	.word	0x20025bd8
+    b324:	200255d8 	.word	0x200255d8
     b328:	0000aa8d 	.word	0x0000aa8d
     b32c:	117f0000 	.word	0x117f0000
     b330:	402c0000 	.word	0x402c0000
-    b334:	200284d4 	.word	0x200284d4
+    b334:	200276d4 	.word	0x200276d4
 
 0000b338 <SdioCard::erase(unsigned long, unsigned long)>:
 bool SdioCard::erase(uint32_t firstSector, uint32_t lastSector) {
@@ -29102,14 +29100,14 @@ bool SdioCard::erase(uint32_t firstSector, uint32_t lastSector) {
     return sdError(SD_CARD_ERROR_ERASE_TIMEOUT);
     b404:	e7c3      	b.n	b38e <SdioCard::erase(unsigned long, unsigned long)+0x56>
     b406:	bf00      	nop
-    b408:	20027dfc 	.word	0x20027dfc
+    b408:	20026ffc 	.word	0x20026ffc
     b40c:	20009486 	.word	0x20009486
-    b410:	20025bd8 	.word	0x20025bd8
-    b414:	200293a0 	.word	0x200293a0
+    b410:	200255d8 	.word	0x200255d8
+    b414:	200285a0 	.word	0x200285a0
     b418:	201a0000 	.word	0x201a0000
     b41c:	211a0000 	.word	0x211a0000
     b420:	261b0000 	.word	0x261b0000
-    b424:	20027e10 	.word	0x20027e10
+    b424:	20027010 	.word	0x20027010
     b428:	0d1a0000 	.word	0x0d1a0000
     b42c:	000f4240 	.word	0x000f4240
     b430:	402c0000 	.word	0x402c0000
@@ -29291,20 +29289,20 @@ bool SdioCard::erase(uint32_t firstSector, uint32_t lastSector) {
     b550:	464c      	moveq	r4, r9
     b552:	e785      	b.n	b460 <rdWrSectors(unsigned long, unsigned long, unsigned char*, unsigned int)+0x2c>
     b554:	20009486 	.word	0x20009486
-    b558:	20025bd8 	.word	0x20025bd8
+    b558:	200255d8 	.word	0x200255d8
     b55c:	0000b065 	.word	0x0000b065
-    b560:	200284d4 	.word	0x200284d4
+    b560:	200276d4 	.word	0x200276d4
     b564:	1fff0000 	.word	0x1fff0000
-    b568:	200293a2 	.word	0x200293a2
+    b568:	200285a2 	.word	0x200285a2
     b56c:	117f0002 	.word	0x117f0002
-    b570:	200293a0 	.word	0x200293a0
+    b570:	200285a0 	.word	0x200285a0
     b574:	0000aa8d 	.word	0x0000aa8d
     b578:	000f4240 	.word	0x000f4240
     b57c:	117f0000 	.word	0x117f0000
-    b580:	20027e10 	.word	0x20027e10
+    b580:	20027010 	.word	0x20027010
     b584:	0d1a0000 	.word	0x0d1a0000
     b588:	402c0000 	.word	0x402c0000
-    b58c:	200284d8 	.word	0x200284d8
+    b58c:	200276d8 	.word	0x200276d8
 
 0000b590 <SdioCard::readSectors(unsigned long, unsigned char*, unsigned int)>:
 bool SdioCard::readSectors(uint32_t sector, uint8_t* dst, size_t n) {
@@ -29391,7 +29389,7 @@ bool SdioCard::readSectors(uint32_t sector, uint8_t* dst, size_t n) {
     b60a:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
     b60c:	123a0037 	.word	0x123a0037
     b610:	20009486 	.word	0x20009486
-    b614:	20025bd8 	.word	0x20025bd8
+    b614:	200255d8 	.word	0x200255d8
 
 0000b618 <SdioCard::writeSectors(unsigned long, unsigned char const*, unsigned int)>:
 bool SdioCard::writeSectors(uint32_t sector, const uint8_t* src, size_t n) {
@@ -29478,7 +29476,7 @@ bool SdioCard::writeSectors(uint32_t sector, const uint8_t* src, size_t n) {
     b692:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
     b694:	193a0027 	.word	0x193a0027
     b698:	20009486 	.word	0x20009486
-    b69c:	20025bd8 	.word	0x20025bd8
+    b69c:	200255d8 	.word	0x200255d8
 
 0000b6a0 <SdioCard::begin(SdioConfig)>:
 bool SdioCard::begin(SdioConfig sdioConfig) {
@@ -29866,27 +29864,27 @@ bool SdioCard::begin(SdioConfig sdioConfig) {
     b914:	e7c5      	b.n	b8a2 <SdioCard::begin(SdioConfig)+0x202>
     b916:	bf00      	nop
     b918:	20009486 	.word	0x20009486
-    b91c:	2002939f 	.word	0x2002939f
-    b920:	20025bd8 	.word	0x20025bd8
+    b91c:	2002859f 	.word	0x2002859f
+    b920:	200255d8 	.word	0x200255d8
     b924:	081a0000 	.word	0x081a0000
     b928:	371a0000 	.word	0x371a0000
     b92c:	000f4240 	.word	0x000f4240
     b930:	402c0000 	.word	0x402c0000
-    b934:	20027e0c 	.word	0x20027e0c
+    b934:	2002700c 	.word	0x2002700c
     b938:	02090000 	.word	0x02090000
     b93c:	031a0000 	.word	0x031a0000
     b940:	ffff0000 	.word	0xffff0000
-    b944:	20027e10 	.word	0x20027e10
-    b948:	20027dfc 	.word	0x20027dfc
+    b944:	20027010 	.word	0x20027010
+    b948:	20026ffc 	.word	0x20026ffc
     b94c:	09090000 	.word	0x09090000
-    b950:	20027dec 	.word	0x20027dec
+    b950:	20026fec 	.word	0x20026fec
     b954:	0a090000 	.word	0x0a090000
     b958:	071b0000 	.word	0x071b0000
     b95c:	061a0000 	.word	0x061a0000
     b960:	80fffff1 	.word	0x80fffff1
     b964:	401f8000 	.word	0x401f8000
-    b968:	2002939e 	.word	0x2002939e
-    b96c:	200293a0 	.word	0x200293a0
+    b968:	2002859e 	.word	0x2002859e
+    b96c:	200285a0 	.word	0x200285a0
     b970:	40300000 	.word	0x40300000
     b974:	29020000 	.word	0x29020000
 
@@ -30028,10 +30026,10 @@ bool SdioCard::readData(uint8_t* dst) {
     ba54:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
     ba58:	402c0000 	.word	0x402c0000
     ba5c:	117f0002 	.word	0x117f0002
-    ba60:	200284d8 	.word	0x200284d8
+    ba60:	200276d8 	.word	0x200276d8
     ba64:	117f0000 	.word	0x117f0000
     ba68:	20009486 	.word	0x20009486
-    ba6c:	20025bd8 	.word	0x20025bd8
+    ba6c:	200255d8 	.word	0x200255d8
     ba70:	000f4240 	.word	0x000f4240
 
 0000ba74 <SdioCard::readStart(unsigned long)>:
@@ -30134,14 +30132,14 @@ bool SdioCard::readStart(uint32_t sector) {
     bb1c:	e7e1      	b.n	bae2 <SdioCard::readStart(unsigned long)+0x6e>
     bb1e:	bf00      	nop
     bb20:	0000b065 	.word	0x0000b065
-    bb24:	20027e10 	.word	0x20027e10
+    bb24:	20027010 	.word	0x20027010
     bb28:	0d1a0000 	.word	0x0d1a0000
     bb2c:	000f4240 	.word	0x000f4240
-    bb30:	200293a0 	.word	0x200293a0
+    bb30:	200285a0 	.word	0x200285a0
     bb34:	123a0030 	.word	0x123a0030
     bb38:	20009486 	.word	0x20009486
-    bb3c:	20025bd8 	.word	0x20025bd8
-    bb40:	200284d4 	.word	0x200284d4
+    bb3c:	200255d8 	.word	0x200255d8
+    bb40:	200276d4 	.word	0x200276d4
     bb44:	402c0000 	.word	0x402c0000
 
 0000bb48 <SdioCard::stopTransmission(bool)>:
@@ -30238,9 +30236,9 @@ bool SdioCard::stopTransmission(bool blocking) {
     bbc4:	402c0000 	.word	0x402c0000
     bbc8:	0cdb0000 	.word	0x0cdb0000
     bbcc:	20009486 	.word	0x20009486
-    bbd0:	20025bd8 	.word	0x20025bd8
+    bbd0:	200255d8 	.word	0x200255d8
     bbd4:	0000aa79 	.word	0x0000aa79
-    bbd8:	200284d4 	.word	0x200284d4
+    bbd8:	200276d4 	.word	0x200276d4
     bbdc:	000f4240 	.word	0x000f4240
 
 0000bbe0 <SdioCard::syncDevice()>:
@@ -30274,7 +30272,7 @@ bool SdioCard::syncDevice() {
     bc04:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
     return stopTransmission(true);
     bc08:	f7ff bf9e 	b.w	bb48 <SdioCard::stopTransmission(bool)>
-    bc0c:	200293a1 	.word	0x200293a1
+    bc0c:	200285a1 	.word	0x200285a1
 
 0000bc10 <SdioCard::readSector(unsigned long, unsigned char*)>:
 bool SdioCard::readSector(uint32_t sector, uint8_t* dst) {
@@ -30419,8 +30417,8 @@ bool SdioCard::readSector(uint32_t sector, uint8_t* dst) {
     bd0c:	113a0011 	.word	0x113a0011
     bd10:	0000bbe1 	.word	0x0000bbe1
     bd14:	20009486 	.word	0x20009486
-    bd18:	20025bd8 	.word	0x20025bd8
-    bd1c:	200293a1 	.word	0x200293a1
+    bd18:	200255d8 	.word	0x200255d8
+    bd1c:	200285a1 	.word	0x200285a1
 
 0000bd20 <SdioCard::writeSector(unsigned long, unsigned char const*)>:
 bool SdioCard::writeSector(uint32_t sector, const uint8_t* src) {
@@ -30556,8 +30554,8 @@ bool SdioCard::writeSector(uint32_t sector, const uint8_t* src) {
     bdfe:	e7c7      	b.n	bd90 <SdioCard::writeSector(unsigned long, unsigned char const*)+0x70>
     be00:	183a0001 	.word	0x183a0001
     be04:	20009486 	.word	0x20009486
-    be08:	20025bd8 	.word	0x20025bd8
-    be0c:	200293a1 	.word	0x200293a1
+    be08:	200255d8 	.word	0x200255d8
+    be0c:	200285a1 	.word	0x200285a1
     be10:	0000bbe1 	.word	0x0000bbe1
 
 0000be14 <sdCsWrite(unsigned char, bool)>:
@@ -31898,7 +31896,7 @@ public:
 	return true;
     c59c:	e7f5      	b.n	c58a <TwoWire::wait_idle()+0x26>
     c59e:	bf00      	nop
-    c5a0:	2002935c 	.word	0x2002935c
+    c5a0:	2002855c 	.word	0x2002855c
 
 0000c5a4 <TwoWire::endTransmission(unsigned char)>:
 {
@@ -32075,7 +32073,7 @@ public:
 				return 0;
     c69c:	2000      	movs	r0, #0
     c69e:	e7da      	b.n	c656 <TwoWire::endTransmission(unsigned char)+0xb2>
-    c6a0:	2002935c 	.word	0x2002935c
+    c6a0:	2002855c 	.word	0x2002855c
 
 0000c6a4 <TwoWire::requestFrom(unsigned char, unsigned char, unsigned char)>:
 {
@@ -32261,7 +32259,7 @@ public:
     c7fa:	2004      	movs	r0, #4
 }
     c7fc:	e8bd 8ff8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, r9, sl, fp, pc}
-    c800:	2002935c 	.word	0x2002935c
+    c800:	2002855c 	.word	0x2002855c
 
 0000c804 <TwoWire::isr()>:
 {
@@ -32585,7 +32583,7 @@ void DMAChannel::begin(bool force_initialization)
 		return;
     c9ec:	e7c5      	b.n	c97a <DMAChannel::begin(bool)+0x2e>
     c9ee:	bf00      	nop
-    c9f0:	2002938e 	.word	0x2002938e
+    c9f0:	2002858e 	.word	0x2002858e
     c9f4:	02007480 	.word	0x02007480
     c9f8:	400fc000 	.word	0x400fc000
     c9fc:	400e8000 	.word	0x400e8000
@@ -32624,7 +32622,7 @@ void DMAChannel::release(void)
 }
     ca2a:	4770      	bx	lr
     ca2c:	400e8000 	.word	0x400e8000
-    ca30:	2002938e 	.word	0x2002938e
+    ca30:	2002858e 	.word	0x2002858e
 
 0000ca34 <EventResponder::runFromInterrupt()>:
 {
@@ -32703,8 +32701,8 @@ private:
     ca6a:	6033      	str	r3, [r6, #0]
     ca6c:	e7ef      	b.n	ca4e <EventResponder::runFromInterrupt()+0x1a>
     ca6e:	bf00      	nop
-    ca70:	200284ec 	.word	0x200284ec
-    ca74:	200284e8 	.word	0x200284e8
+    ca70:	200276ec 	.word	0x200276ec
+    ca74:	200276e8 	.word	0x200276e8
 
 0000ca78 <pendablesrvreq_isr>:
 	EventResponder::runFromInterrupt();
@@ -32732,8 +32730,8 @@ extern "C" void systick_isr(void)
     ca8c:	4770      	bx	lr
     ca8e:	bf00      	nop
     ca90:	e0001000 	.word	0xe0001000
-    ca94:	2002935c 	.word	0x2002935c
-    ca98:	20029358 	.word	0x20029358
+    ca94:	2002855c 	.word	0x2002855c
+    ca98:	20028558 	.word	0x20028558
 
 0000ca9c <usb_serial_class::write(unsigned char)>:
         virtual size_t write(uint8_t c) { return usb_serial_putchar(c); }
@@ -33332,7 +33330,7 @@ size_t Stream::readBytesUntil(char terminator, char *buffer, size_t length)
     ce44:	f88b 300c 	strb.w	r3, [fp, #12]
     ce48:	e7f1      	b.n	ce2e <Stream::readBytesUntil(char, char*, unsigned int)+0x62>
     ce4a:	bf00      	nop
-    ce4c:	2002935c 	.word	0x2002935c
+    ce4c:	2002855c 	.word	0x2002855c
     ce50:	0000cdc5 	.word	0x0000cdc5
 
 0000ce54 <set_arm_clock>:
@@ -33749,7 +33747,7 @@ size_t Stream::readBytesUntil(char terminator, char *buffer, size_t length)
     d120:	431bde83 	.word	0x431bde83
     d124:	20008ab8 	.word	0x20008ab8
     d128:	20008ab4 	.word	0x20008ab4
-    d12c:	20028c48 	.word	0x20028c48
+    d12c:	20027e48 	.word	0x20027e48
     d130:	165e9f81 	.word	0x165e9f81
     d134:	00b71b00 	.word	0x00b71b00
     d138:	8000206c 	.word	0x8000206c
@@ -33862,11 +33860,11 @@ uint32_t micros(void)
     d1d2:	4904      	ldr	r1, [pc, #16]	; (d1e4 <delay+0xa0>)
     d1d4:	e7d9      	b.n	d18a <delay+0x46>
     d1d6:	bf00      	nop
-    d1d8:	20029360 	.word	0x20029360
-    d1dc:	2002935c 	.word	0x2002935c
-    d1e0:	20029358 	.word	0x20029358
+    d1d8:	20028560 	.word	0x20028560
+    d1dc:	2002855c 	.word	0x2002855c
+    d1e0:	20028558 	.word	0x20028558
     d1e4:	e0001000 	.word	0xe0001000
-    d1e8:	20028c48 	.word	0x20028c48
+    d1e8:	20027e48 	.word	0x20027e48
 
 0000d1ec <micros>:
 {
@@ -33910,11 +33908,11 @@ uint32_t micros(void)
     d226:	1840      	addhi	r0, r0, r1
     d228:	4770      	bx	lr
     d22a:	bf00      	nop
-    d22c:	20029360 	.word	0x20029360
-    d230:	2002935c 	.word	0x2002935c
-    d234:	20029358 	.word	0x20029358
+    d22c:	20028560 	.word	0x20028560
+    d230:	2002855c 	.word	0x2002855c
+    d234:	20028558 	.word	0x20028558
     d238:	e0001000 	.word	0xe0001000
-    d23c:	20028c48 	.word	0x20028c48
+    d23c:	20027e48 	.word	0x20027e48
 
 0000d240 <digitalWrite>:
 void digitalWrite(uint8_t pin, uint8_t val)
@@ -34188,9 +34186,9 @@ static void flash_wait()
 }
     d398:	bd70      	pop	{r4, r5, r6, pc}
     d39a:	bf00      	nop
-    d39c:	20029116 	.word	0x20029116
+    d39c:	20028316 	.word	0x20028316
     d3a0:	607c1000 	.word	0x607c1000
-    d3a4:	200293a8 	.word	0x200293a8
+    d3a4:	200285a8 	.word	0x200285a8
 
 0000d3a8 <eeprom_read_byte>:
 	if (addr > E2END) return 0xFF;
@@ -34260,9 +34258,9 @@ static void flash_wait()
     d410:	20ff      	movs	r0, #255	; 0xff
 }
     d412:	4770      	bx	lr
-    d414:	200293a8 	.word	0x200293a8
+    d414:	200285a8 	.word	0x200285a8
     d418:	04104105 	.word	0x04104105
-    d41c:	20029118 	.word	0x20029118
+    d41c:	20028318 	.word	0x20028318
     d420:	000607c0 	.word	0x000607c0
 
 0000d424 <eeprom_read_block>:
@@ -34730,9 +34728,9 @@ void eepromemu_flash_erase_sector(void *addr)
 	uint8_t olddata=0xFF;
     d706:	f04f 0cff 	mov.w	ip, #255	; 0xff
     d70a:	e7a3      	b.n	d654 <eeprom_write_byte+0x6c>
-    d70c:	200293a8 	.word	0x200293a8
+    d70c:	200285a8 	.word	0x200285a8
     d710:	04104105 	.word	0x04104105
-    d714:	20029118 	.word	0x20029118
+    d714:	20028318 	.word	0x20028318
     d718:	000607c0 	.word	0x000607c0
 
 0000d71c <eeprom_write_block>:
@@ -36017,10 +36015,10 @@ float tempmonGetTemp(void)
     ded2:	ee37 0a40 	vsub.f32	s0, s14, s0
     ded6:	4770      	bx	lr
     ded8:	400d8100 	.word	0x400d8100
-    dedc:	20028c38 	.word	0x20028c38
-    dee0:	20028c40 	.word	0x20028c40
-    dee4:	20028c44 	.word	0x20028c44
-    dee8:	20028c3c 	.word	0x20028c3c
+    dedc:	20027e38 	.word	0x20027e38
+    dee0:	20027e40 	.word	0x20027e40
+    dee4:	20027e44 	.word	0x20027e44
+    dee8:	20027e3c 	.word	0x20027e3c
 
 0000deec <endpoint0_receive>:
 	endpoint0_notify_mask = (notify ? (1 << 0) : 0);
@@ -36157,7 +36155,7 @@ static void endpoint0_receive(void *data, uint32_t len, int notify)
     dfa0:	20000000 	.word	0x20000000
     dfa4:	20009ac0 	.word	0x20009ac0
     dfa8:	402e0000 	.word	0x402e0000
-    dfac:	20028ac8 	.word	0x20028ac8
+    dfac:	20027cc8 	.word	0x20027cc8
     dfb0:	20009ae0 	.word	0x20009ae0
 
 0000dfb4 <schedule_transfer>:
@@ -36433,7 +36431,7 @@ static void endpoint0_transmit(const void *data, uint32_t len, int notify)
     e0f8:	20000000 	.word	0x20000000
     e0fc:	20009ac0 	.word	0x20009ac0
     e100:	402e0000 	.word	0x402e0000
-    e104:	20028ac8 	.word	0x20028ac8
+    e104:	20027cc8 	.word	0x20027cc8
     e108:	20009ae0 	.word	0x20009ae0
 
 0000e10c <usb_stop_sof_interrupts>:
@@ -36454,7 +36452,7 @@ static void endpoint0_transmit(const void *data, uint32_t len, int notify)
 }
     e12c:	4770      	bx	lr
     e12e:	bf00      	nop
-    e130:	200293ad 	.word	0x200293ad
+    e130:	200285ad 	.word	0x200285ad
     e134:	402e0000 	.word	0x402e0000
 
 0000e138 <usb_isr>:
@@ -36810,19 +36808,19 @@ static void endpoint0_transmit(const void *data, uint32_t len, int notify)
     e3e8:	402e0000 	.word	0x402e0000
     e3ec:	20000000 	.word	0x20000000
     e3f0:	402e01c0 	.word	0x402e01c0
-    e3f4:	20028acc 	.word	0x20028acc
-    e3f8:	20029380 	.word	0x20029380
-    e3fc:	20029384 	.word	0x20029384
-    e400:	200293b4 	.word	0x200293b4
-    e404:	200293b5 	.word	0x200293b5
-    e408:	20028ac8 	.word	0x20028ac8
-    e40c:	20028be4 	.word	0x20028be4
+    e3f4:	20027ccc 	.word	0x20027ccc
+    e3f8:	20028580 	.word	0x20028580
+    e3fc:	20028584 	.word	0x20028584
+    e400:	200285b4 	.word	0x200285b4
+    e404:	200285b5 	.word	0x200285b5
+    e408:	20027cc8 	.word	0x20027cc8
+    e40c:	20027de4 	.word	0x20027de4
     e410:	200088f4 	.word	0x200088f4
     e414:	6000295c 	.word	0x6000295c
     e418:	600029c8 	.word	0x600029c8
     e41c:	20200800 	.word	0x20200800
     e420:	20009ac0 	.word	0x20009ac0
-    e424:	200293b3 	.word	0x200293b3
+    e424:	200285b3 	.word	0x200285b3
 	switch (setup.wRequestAndType) {
     e428:	f5b1 6f10 	cmp.w	r1, #2304	; 0x900
     e42c:	f47f aed1 	bne.w	e1d2 <usb_isr+0x9a>
@@ -37215,18 +37213,18 @@ static void endpoint0_transmit(const void *data, uint32_t len, int notify)
     e6d8:	00cc0002 	.word	0x00cc0002
     e6dc:	20009ac0 	.word	0x20009ac0
     e6e0:	20009487 	.word	0x20009487
-    e6e4:	20028ac0 	.word	0x20028ac0
+    e6e4:	20027cc0 	.word	0x20027cc0
     e6e8:	2000c1c0 	.word	0x2000c1c0
-    e6ec:	20028be4 	.word	0x20028be4
-    e6f0:	2002935c 	.word	0x2002935c
-    e6f4:	2002937c 	.word	0x2002937c
-    e6f8:	200293b2 	.word	0x200293b2
-    e6fc:	200293b4 	.word	0x200293b4
+    e6ec:	20027de4 	.word	0x20027de4
+    e6f0:	2002855c 	.word	0x2002855c
+    e6f4:	2002857c 	.word	0x2002857c
+    e6f8:	200285b2 	.word	0x200285b2
+    e6fc:	200285b4 	.word	0x200285b4
     e700:	600029c8 	.word	0x600029c8
     e704:	6000295c 	.word	0x6000295c
-    e708:	20029374 	.word	0x20029374
-    e70c:	200293ad 	.word	0x200293ad
-    e710:	200293b5 	.word	0x200293b5
+    e708:	20028574 	.word	0x20028574
+    e70c:	200285ad 	.word	0x200285ad
+    e710:	200285b5 	.word	0x200285b5
     e714:	20200800 	.word	0x20200800
 
 0000e718 <usb_config_rx>:
@@ -37282,7 +37280,7 @@ static void endpoint0_transmit(const void *data, uint32_t len, int notify)
 }
     e76e:	e8bd 87f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, pc}
     e772:	bf00      	nop
-    e774:	20028acc 	.word	0x20028acc
+    e774:	20027ccc 	.word	0x20027ccc
     e778:	20000000 	.word	0x20000000
 
 0000e77c <usb_config_tx>:
@@ -37335,7 +37333,7 @@ static void endpoint0_transmit(const void *data, uint32_t len, int notify)
     e7d2:	601a      	str	r2, [r3, #0]
 }
     e7d4:	e8bd 87f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, pc}
-    e7d8:	20028acc 	.word	0x20028acc
+    e7d8:	20027ccc 	.word	0x20027ccc
     e7dc:	20000000 	.word	0x20000000
 
 0000e7e0 <usb_prepare_transfer>:
@@ -37562,7 +37560,7 @@ static void txEvent_event(transfer_t *t) { mtp_txEventCount++;}
     e8f2:	6013      	str	r3, [r2, #0]
     e8f4:	4770      	bx	lr
     e8f6:	bf00      	nop
-    e8f8:	20028b5c 	.word	0x20028b5c
+    e8f8:	20027d5c 	.word	0x20027d5c
 
 0000e8fc <rx_event>:
 static void rx_event(transfer_t *t)
@@ -37614,10 +37612,10 @@ static void rx_event(transfer_t *t)
     e932:	4663      	mov	r3, ip
     e934:	e7eb      	b.n	e90e <rx_event+0x12>
     e936:	bf00      	nop
-    e938:	200293a9 	.word	0x200293a9
-    e93c:	20029394 	.word	0x20029394
-    e940:	20028c24 	.word	0x20028c24
-    e944:	20028c10 	.word	0x20028c10
+    e938:	200285a9 	.word	0x200285a9
+    e93c:	20028594 	.word	0x20028594
+    e940:	20027e24 	.word	0x20027e24
+    e944:	20027e10 	.word	0x20027e10
 
 0000e948 <rx_queue_transfer>:
 {
@@ -37675,7 +37673,7 @@ static void rx_event(transfer_t *t)
     e99c:	bd70      	pop	{r4, r5, r6, pc}
     e99e:	bf00      	nop
     e9a0:	20200880 	.word	0x20200880
-    e9a4:	20029394 	.word	0x20029394
+    e9a4:	20028594 	.word	0x20028594
     e9a8:	2000bf40 	.word	0x2000bf40
 
 0000e9ac <usb_mtp_configure>:
@@ -37759,14 +37757,14 @@ static void rx_event(transfer_t *t)
     ea26:	2340      	movs	r3, #64	; 0x40
     ea28:	461e      	mov	r6, r3
     ea2a:	e7c7      	b.n	e9bc <usb_mtp_configure+0x10>
-    ea2c:	200293b4 	.word	0x200293b4
-    ea30:	2002939a 	.word	0x2002939a
-    ea34:	20029394 	.word	0x20029394
+    ea2c:	200285b4 	.word	0x200285b4
+    ea30:	2002859a 	.word	0x2002859a
+    ea34:	20028594 	.word	0x20028594
     ea38:	2000c0c0 	.word	0x2000c0c0
     ea3c:	2000bf40 	.word	0x2000bf40
-    ea40:	200293a9 	.word	0x200293a9
-    ea44:	200293af 	.word	0x200293af
-    ea48:	200293ab 	.word	0x200293ab
+    ea40:	200285a9 	.word	0x200285a9
+    ea44:	200285af 	.word	0x200285af
+    ea48:	200285ab 	.word	0x200285ab
     ea4c:	0000e8fd 	.word	0x0000e8fd
     ea50:	0000e8ed 	.word	0x0000e8ed
 
@@ -37866,13 +37864,13 @@ int usb_mtp_recv(void *buffer, uint32_t timeout)
     ead6:	461c      	mov	r4, r3
     ead8:	e7df      	b.n	ea9a <usb_mtp_recv+0x46>
     eada:	bf00      	nop
-    eadc:	2002935c 	.word	0x2002935c
-    eae0:	200293b3 	.word	0x200293b3
-    eae4:	20028c24 	.word	0x20028c24
-    eae8:	20028c10 	.word	0x20028c10
+    eadc:	2002855c 	.word	0x2002855c
+    eae0:	200285b3 	.word	0x200285b3
+    eae4:	20027e24 	.word	0x20027e24
+    eae8:	20027e10 	.word	0x20027e10
     eaec:	20200880 	.word	0x20200880
-    eaf0:	200293ab 	.word	0x200293ab
-    eaf4:	200293a9 	.word	0x200293a9
+    eaf0:	200285ab 	.word	0x200285ab
+    eaf4:	200285a9 	.word	0x200285a9
 
 0000eaf8 <usb_mtp_available>:
 
@@ -37899,10 +37897,10 @@ int usb_mtp_available(void)
 	return 0;
 }
     eb16:	4770      	bx	lr
-    eb18:	200293b3 	.word	0x200293b3
-    eb1c:	200293a9 	.word	0x200293a9
-    eb20:	200293ab 	.word	0x200293ab
-    eb24:	20029394 	.word	0x20029394
+    eb18:	200285b3 	.word	0x200285b3
+    eb1c:	200285a9 	.word	0x200285a9
+    eb20:	200285ab 	.word	0x200285ab
+    eb24:	20028594 	.word	0x20028594
 
 0000eb28 <usb_mtp_send>:
 
@@ -38019,11 +38017,11 @@ int usb_mtp_send(const void *buffer, uint32_t len, uint32_t timeout)
 }
     ebd8:	e8bd 8ff8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, r9, sl, fp, pc}
     ebdc:	2000c0c0 	.word	0x2000c0c0
-    ebe0:	2002935c 	.word	0x2002935c
-    ebe4:	200293b3 	.word	0x200293b3
+    ebe0:	2002855c 	.word	0x2002855c
+    ebe4:	200285b3 	.word	0x200285b3
     ebe8:	20201080 	.word	0x20201080
-    ebec:	2002939a 	.word	0x2002939a
-    ebf0:	200293af 	.word	0x200293af
+    ebec:	2002859a 	.word	0x2002859a
+    ebf0:	200285af 	.word	0x200285af
 
 0000ebf4 <rx_queue_transfer>:
 /*************************************************************************/
@@ -38085,7 +38083,7 @@ static void rx_queue_transfer(int i)
     ec46:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
     ec48:	20201880 	.word	0x20201880
     ec4c:	2000bfc0 	.word	0x2000bfc0
-    ec50:	20029396 	.word	0x20029396
+    ec50:	20028596 	.word	0x20028596
 
 0000ec54 <rx_event>:
 
@@ -38209,13 +38207,13 @@ static void rx_event(transfer_t *t)
     ece2:	6013      	str	r3, [r2, #0]
 				rx_queue_transfer(i);
     ece4:	f7ff bf86 	b.w	ebf4 <rx_queue_transfer>
-    ece8:	20029396 	.word	0x20029396
-    ecec:	200293aa 	.word	0x200293aa
-    ecf0:	200293ac 	.word	0x200293ac
-    ecf4:	20028bf0 	.word	0x20028bf0
-    ecf8:	20028c18 	.word	0x20028c18
-    ecfc:	20028c00 	.word	0x20028c00
-    ed00:	20028bec 	.word	0x20028bec
+    ece8:	20028596 	.word	0x20028596
+    ecec:	200285aa 	.word	0x200285aa
+    ecf0:	200285ac 	.word	0x200285ac
+    ecf4:	20027df0 	.word	0x20027df0
+    ecf8:	20027e18 	.word	0x20027e18
+    ecfc:	20027e00 	.word	0x20027e00
+    ed00:	20027dec 	.word	0x20027dec
     ed04:	20201880 	.word	0x20201880
 
 0000ed08 <usb_serial_flush_callback>:
@@ -38295,10 +38293,10 @@ static void usb_serial_flush_callback(void)
 }
     ed7a:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
     ed7e:	4770      	bx	lr
-    ed80:	200293b1 	.word	0x200293b1
-    ed84:	200293b3 	.word	0x200293b3
-    ed88:	20029398 	.word	0x20029398
-    ed8c:	200293b0 	.word	0x200293b0
+    ed80:	200285b1 	.word	0x200285b1
+    ed84:	200285b3 	.word	0x200285b3
+    ed88:	20028598 	.word	0x20028598
+    ed8c:	200285b0 	.word	0x200285b0
     ed90:	2000c140 	.word	0x2000c140
     ed94:	20202880 	.word	0x20202880
 
@@ -38539,15 +38537,15 @@ int usb_serial_write(const void *buffer, uint32_t size)
 	return sent;
     ef28:	e7e5      	b.n	eef6 <usb_serial_write.part.0+0x15e>
     ef2a:	bf00      	nop
-    ef2c:	200293b1 	.word	0x200293b1
-    ef30:	2002935c 	.word	0x2002935c
+    ef2c:	200285b1 	.word	0x200285b1
+    ef30:	2002855c 	.word	0x2002855c
     ef34:	2000c140 	.word	0x2000c140
-    ef38:	200293b0 	.word	0x200293b0
-    ef3c:	200293b3 	.word	0x200293b3
+    ef38:	200285b0 	.word	0x200285b0
+    ef3c:	200285b3 	.word	0x200285b3
     ef40:	20202880 	.word	0x20202880
     ef44:	402e0000 	.word	0x402e0000
-    ef48:	20029398 	.word	0x20029398
-    ef4c:	200293ae 	.word	0x200293ae
+    ef48:	20028598 	.word	0x20028598
+    ef4c:	200285ae 	.word	0x200285ae
 
 0000ef50 <usb_serial_reset>:
 }
@@ -38675,24 +38673,24 @@ int usb_serial_write(const void *buffer, uint32_t size)
     f008:	7013      	strb	r3, [r2, #0]
 }
     f00a:	bd70      	pop	{r4, r5, r6, pc}
-    f00c:	200293b4 	.word	0x200293b4
+    f00c:	200285b4 	.word	0x200285b4
     f010:	2000c140 	.word	0x2000c140
-    f014:	2002939c 	.word	0x2002939c
-    f018:	20029396 	.word	0x20029396
-    f01c:	200293b0 	.word	0x200293b0
-    f020:	20029398 	.word	0x20029398
+    f014:	2002859c 	.word	0x2002859c
+    f018:	20028596 	.word	0x20028596
+    f01c:	200285b0 	.word	0x200285b0
+    f020:	20028598 	.word	0x20028598
     f024:	2000bfc0 	.word	0x2000bfc0
-    f028:	20028bf0 	.word	0x20028bf0
-    f02c:	20028c00 	.word	0x20028c00
-    f030:	200293aa 	.word	0x200293aa
-    f034:	20028bec 	.word	0x20028bec
-    f038:	200293ac 	.word	0x200293ac
+    f028:	20027df0 	.word	0x20027df0
+    f02c:	20027e00 	.word	0x20027e00
+    f030:	200285aa 	.word	0x200285aa
+    f034:	20027dec 	.word	0x20027dec
+    f038:	200285ac 	.word	0x200285ac
     f03c:	0000ec55 	.word	0x0000ec55
     f040:	402e0000 	.word	0x402e0000
-    f044:	20029380 	.word	0x20029380
+    f044:	20028580 	.word	0x20028580
     f048:	0000ed09 	.word	0x0000ed09
     f04c:	00000000 	.word	0x00000000
-    f050:	200293b6 	.word	0x200293b6
+    f050:	200285b6 	.word	0x200285b6
 
 0000f054 <usb_serial_read>:
 {
@@ -38821,13 +38819,13 @@ int usb_serial_write(const void *buffer, uint32_t size)
 	while (count < size && tail != rx_head) {
     f114:	4608      	mov	r0, r1
     f116:	e7e1      	b.n	f0dc <usb_serial_read+0x88>
-    f118:	200293aa 	.word	0x200293aa
+    f118:	200285aa 	.word	0x200285aa
     f11c:	20201880 	.word	0x20201880
-    f120:	20028c18 	.word	0x20028c18
-    f124:	20028bf0 	.word	0x20028bf0
-    f128:	20028bec 	.word	0x20028bec
-    f12c:	200293ac 	.word	0x200293ac
-    f130:	20028c00 	.word	0x20028c00
+    f120:	20027e18 	.word	0x20027e18
+    f124:	20027df0 	.word	0x20027df0
+    f128:	20027dec 	.word	0x20027dec
+    f12c:	200285ac 	.word	0x200285ac
+    f130:	20027e00 	.word	0x20027e00
 
 0000f134 <usb_serial_peekchar>:
 	if (tail == rx_head) return -1;
@@ -38866,11 +38864,11 @@ int usb_serial_write(const void *buffer, uint32_t size)
     f15e:	f04f 30ff 	mov.w	r0, #4294967295
 }
     f162:	4770      	bx	lr
-    f164:	200293aa 	.word	0x200293aa
-    f168:	200293ac 	.word	0x200293ac
-    f16c:	20028c18 	.word	0x20028c18
+    f164:	200285aa 	.word	0x200285aa
+    f168:	200285ac 	.word	0x200285ac
+    f16c:	20027e18 	.word	0x20027e18
     f170:	20201880 	.word	0x20201880
-    f174:	20028c00 	.word	0x20028c00
+    f174:	20027e00 	.word	0x20027e00
 
 0000f178 <usb_serial_available>:
 	uint32_t n = rx_available;
@@ -38889,7 +38887,7 @@ int usb_serial_write(const void *buffer, uint32_t size)
 }
     f188:	4620      	mov	r0, r4
     f18a:	bd10      	pop	{r4, pc}
-    f18c:	20028bec 	.word	0x20028bec
+    f18c:	20027dec 	.word	0x20027dec
 
 0000f190 <usb_serial_flush_input>:
 {
@@ -38937,12 +38935,12 @@ int usb_serial_write(const void *buffer, uint32_t size)
     f1e2:	d1e5      	bne.n	f1b0 <usb_serial_flush_input+0x20>
 }
     f1e4:	e8bd 8ff8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, r9, sl, fp, pc}
-    f1e8:	200293ac 	.word	0x200293ac
-    f1ec:	200293aa 	.word	0x200293aa
-    f1f0:	20028c00 	.word	0x20028c00
-    f1f4:	20028c18 	.word	0x20028c18
-    f1f8:	20028bec 	.word	0x20028bec
-    f1fc:	20028bf0 	.word	0x20028bf0
+    f1e8:	200285ac 	.word	0x200285ac
+    f1ec:	200285aa 	.word	0x200285aa
+    f1f0:	20027e00 	.word	0x20027e00
+    f1f4:	20027e18 	.word	0x20027e18
+    f1f8:	20027dec 	.word	0x20027dec
+    f1fc:	20027df0 	.word	0x20027df0
 
 0000f200 <usb_serial_getchar>:
 {
@@ -38982,7 +38980,7 @@ int usb_serial_write(const void *buffer, uint32_t size)
     f23e:	f003 00ff 	and.w	r0, r3, #255	; 0xff
     f242:	b003      	add	sp, #12
     f244:	f85d fb04 	ldr.w	pc, [sp], #4
-    f248:	200293b3 	.word	0x200293b3
+    f248:	200285b3 	.word	0x200285b3
 
 0000f24c <usb_serial_write>:
 	if (!usb_configuration) return 0;
@@ -38995,7 +38993,7 @@ int usb_serial_write(const void *buffer, uint32_t size)
     f25a:	4610      	mov	r0, r2
     f25c:	4770      	bx	lr
     f25e:	bf00      	nop
-    f260:	200293b3 	.word	0x200293b3
+    f260:	200285b3 	.word	0x200285b3
 
 0000f264 <usb_serial_write_buffer_free>:
 {
@@ -39042,8 +39040,8 @@ int usb_serial_write(const void *buffer, uint32_t size)
 }
     f2a4:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
     f2a8:	2000c140 	.word	0x2000c140
-    f2ac:	200293b0 	.word	0x200293b0
-    f2b0:	200293b1 	.word	0x200293b1
+    f2ac:	200285b0 	.word	0x200285b0
+    f2b0:	200285b1 	.word	0x200285b1
 
 0000f2b4 <usb_serial_flush_output>:
 {
@@ -39122,12 +39120,12 @@ int usb_serial_write(const void *buffer, uint32_t size)
     f32a:	703b      	strb	r3, [r7, #0]
 }
     f32c:	e8bd 83f8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-    f330:	200293b3 	.word	0x200293b3
-    f334:	20029398 	.word	0x20029398
-    f338:	200293b0 	.word	0x200293b0
+    f330:	200285b3 	.word	0x200285b3
+    f334:	20028598 	.word	0x20028598
+    f338:	200285b0 	.word	0x200285b0
     f33c:	2000c140 	.word	0x2000c140
     f340:	20202880 	.word	0x20202880
-    f344:	200293b1 	.word	0x200293b1
+    f344:	200285b1 	.word	0x200285b1
 
 0000f348 <yield>:
 uint8_t yield_active_check_flags = 0;
@@ -39283,13 +39281,13 @@ void yield(void)
     f3fe:	4b05      	ldr	r3, [pc, #20]	; (f414 <yield+0xcc>)
     f400:	601a      	str	r2, [r3, #0]
     f402:	e7ce      	b.n	f3a2 <yield+0x5a>
-    f404:	200293b6 	.word	0x200293b6
-    f408:	200293a5 	.word	0x200293a5
-    f40c:	200284e4 	.word	0x200284e4
-    f410:	200293a3 	.word	0x200293a3
-    f414:	200284f0 	.word	0x200284f0
-    f418:	200293a4 	.word	0x200293a4
-    f41c:	200284f4 	.word	0x200284f4
+    f404:	200285b6 	.word	0x200285b6
+    f408:	200285a5 	.word	0x200285a5
+    f40c:	200276e4 	.word	0x200276e4
+    f410:	200285a3 	.word	0x200285a3
+    f414:	200276f0 	.word	0x200276f0
+    f418:	200285a4 	.word	0x200285a4
+    f41c:	200276f4 	.word	0x200276f4
 
 0000f420 <flexpwm_init>:
 {
@@ -40265,10 +40263,10 @@ int sm_set_pool(struct smalloc_pool *spool, void *new_pool, size_t new_pool_size
     fc7c:	e6a1      	b.n	f9c2 <_malloc_r+0x3a>
     fc7e:	bf00      	nop
     fc80:	20009008 	.word	0x20009008
-    fc84:	2002877c 	.word	0x2002877c
-    fc88:	2002874c 	.word	0x2002874c
-    fc8c:	20028774 	.word	0x20028774
-    fc90:	20028778 	.word	0x20028778
+    fc84:	2002797c 	.word	0x2002797c
+    fc88:	2002794c 	.word	0x2002794c
+    fc8c:	20027974 	.word	0x20027974
+    fc90:	20027978 	.word	0x20027978
     fc94:	20009010 	.word	0x20009010
     fc98:	20009410 	.word	0x20009410
     fc9c:	f5b2 6f20 	cmp.w	r2, #2560	; 0xa00
@@ -40488,19 +40486,19 @@ int sm_set_pool(struct smalloc_pool *spool, void *new_pool, size_t new_pool_size
     fede:	e6e9      	b.n	fcb4 <_malloc_r+0x32c>
     fee0:	687b      	ldr	r3, [r7, #4]
     fee2:	e770      	b.n	fdc6 <_malloc_r+0x43e>
-    fee4:	2002874c 	.word	0x2002874c
+    fee4:	2002794c 	.word	0x2002794c
 
 0000fee8 <__malloc_lock>:
     fee8:	4801      	ldr	r0, [pc, #4]	; (fef0 <__malloc_lock+0x8>)
     feea:	f001 be77 	b.w	11bdc <__retarget_lock_acquire_recursive>
     feee:	bf00      	nop
-    fef0:	20028744 	.word	0x20028744
+    fef0:	20027944 	.word	0x20027944
 
 0000fef4 <__malloc_unlock>:
     fef4:	4801      	ldr	r0, [pc, #4]	; (fefc <__malloc_unlock+0x8>)
     fef6:	f001 be73 	b.w	11be0 <__retarget_lock_release_recursive>
     fefa:	bf00      	nop
-    fefc:	20028744 	.word	0x20028744
+    fefc:	20027944 	.word	0x20027944
 
 0000ff00 <realloc>:
     ff00:	b410      	push	{r4}
@@ -42343,9 +42341,9 @@ int sm_set_pool(struct smalloc_pool *spool, void *new_pool, size_t new_pool_size
    11310:	f005 bc38 	b.w	16b84 <_fclose_r>
    11314:	bd10      	pop	{r4, pc}
    11316:	bf00      	nop
-   11318:	20028780 	.word	0x20028780
-   1131c:	200287e8 	.word	0x200287e8
-   11320:	20028850 	.word	0x20028850
+   11318:	20027980 	.word	0x20027980
+   1131c:	200279e8 	.word	0x200279e8
+   11320:	20027a50 	.word	0x20027a50
 
 00011324 <global_stdio_init.part.0>:
    11324:	e92d 43f8 	stmdb	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -42403,8 +42401,8 @@ int sm_set_pool(struct smalloc_pool *spool, void *new_pool, size_t new_pool_size
    113ca:	f8c4 30ec 	str.w	r3, [r4, #236]	; 0xec
    113ce:	e8bd 83f8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
    113d2:	bf00      	nop
-   113d4:	20028780 	.word	0x20028780
-   113d8:	200288b8 	.word	0x200288b8
+   113d4:	20027980 	.word	0x20027980
+   113d8:	20027ab8 	.word	0x20027ab8
    113dc:	000112cd 	.word	0x000112cd
    113e0:	0001161d 	.word	0x0001161d
    113e4:	0001163d 	.word	0x0001163d
@@ -42432,21 +42430,21 @@ int sm_set_pool(struct smalloc_pool *spool, void *new_pool, size_t new_pool_size
    1141e:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
    11422:	4801      	ldr	r0, [pc, #4]	; (11428 <__sinit+0x30>)
    11424:	f000 bbdc 	b.w	11be0 <__retarget_lock_release_recursive>
-   11428:	20028748 	.word	0x20028748
-   1142c:	200288b8 	.word	0x200288b8
+   11428:	20027948 	.word	0x20027948
+   1142c:	20027ab8 	.word	0x20027ab8
    11430:	000112e5 	.word	0x000112e5
 
 00011434 <__sfp_lock_acquire>:
    11434:	4801      	ldr	r0, [pc, #4]	; (1143c <__sfp_lock_acquire+0x8>)
    11436:	f000 bbd1 	b.w	11bdc <__retarget_lock_acquire_recursive>
    1143a:	bf00      	nop
-   1143c:	20028748 	.word	0x20028748
+   1143c:	20027948 	.word	0x20027948
 
 00011440 <__sfp_lock_release>:
    11440:	4801      	ldr	r0, [pc, #4]	; (11448 <__sfp_lock_release+0x8>)
    11442:	f000 bbcd 	b.w	11be0 <__retarget_lock_release_recursive>
    11446:	bf00      	nop
-   11448:	20028748 	.word	0x20028748
+   11448:	20027948 	.word	0x20027948
 
 0001144c <_fwalk_sglue>:
    1144c:	e92d 43f8 	stmdb	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -43148,7 +43146,7 @@ int sm_set_pool(struct smalloc_pool *spool, void *new_pool, size_t new_pool_size
    11ace:	d0fb      	beq.n	11ac8 <_close_r+0x14>
    11ad0:	6023      	str	r3, [r4, #0]
    11ad2:	bd38      	pop	{r3, r4, r5, pc}
-   11ad4:	20028ad0 	.word	0x20028ad0
+   11ad4:	20027cd0 	.word	0x20027cd0
 
 00011ad8 <_lseek_r>:
    11ad8:	b538      	push	{r3, r4, r5, lr}
@@ -43170,7 +43168,7 @@ int sm_set_pool(struct smalloc_pool *spool, void *new_pool, size_t new_pool_size
    11afa:	d0fb      	beq.n	11af4 <_lseek_r+0x1c>
    11afc:	6023      	str	r3, [r4, #0]
    11afe:	bd38      	pop	{r3, r4, r5, pc}
-   11b00:	20028ad0 	.word	0x20028ad0
+   11b00:	20027cd0 	.word	0x20027cd0
 
 00011b04 <_read_r>:
    11b04:	b538      	push	{r3, r4, r5, lr}
@@ -43192,7 +43190,7 @@ int sm_set_pool(struct smalloc_pool *spool, void *new_pool, size_t new_pool_size
    11b26:	d0fb      	beq.n	11b20 <_read_r+0x1c>
    11b28:	6023      	str	r3, [r4, #0]
    11b2a:	bd38      	pop	{r3, r4, r5, pc}
-   11b2c:	20028ad0 	.word	0x20028ad0
+   11b2c:	20027cd0 	.word	0x20027cd0
 
 00011b30 <_sbrk_r>:
    11b30:	b538      	push	{r3, r4, r5, lr}
@@ -43210,7 +43208,7 @@ int sm_set_pool(struct smalloc_pool *spool, void *new_pool, size_t new_pool_size
    11b4a:	d0fb      	beq.n	11b44 <_sbrk_r+0x14>
    11b4c:	6023      	str	r3, [r4, #0]
    11b4e:	bd38      	pop	{r3, r4, r5, pc}
-   11b50:	20028ad0 	.word	0x20028ad0
+   11b50:	20027cd0 	.word	0x20027cd0
 
 00011b54 <_write_r>:
    11b54:	b538      	push	{r3, r4, r5, lr}
@@ -43232,7 +43230,7 @@ int sm_set_pool(struct smalloc_pool *spool, void *new_pool, size_t new_pool_size
    11b76:	d0fb      	beq.n	11b70 <_write_r+0x1c>
    11b78:	6023      	str	r3, [r4, #0]
    11b7a:	bd38      	pop	{r3, r4, r5, pc}
-   11b7c:	20028ad0 	.word	0x20028ad0
+   11b7c:	20027cd0 	.word	0x20027cd0
 
 00011b80 <__errno>:
    11b80:	4b01      	ldr	r3, [pc, #4]	; (11b88 <__errno+0x8>)
@@ -43761,8 +43759,8 @@ int sm_set_pool(struct smalloc_pool *spool, void *new_pool, size_t new_pool_size
    121ae:	f7ff fd17 	bl	11be0 <__retarget_lock_release_recursive>
    121b2:	f04f 30ff 	mov.w	r0, #4294967295
    121b6:	e7de      	b.n	12176 <__register_exitproc+0x3a>
-   121b8:	200285ac 	.word	0x200285ac
-   121bc:	200285b0 	.word	0x200285b0
+   121b8:	200277ac 	.word	0x200277ac
+   121bc:	200277b0 	.word	0x200277b0
    121c0:	20008e90 	.word	0x20008e90
 
 000121c4 <_malloc_trim_r>:
@@ -43827,7 +43825,7 @@ int sm_set_pool(struct smalloc_pool *spool, void *new_pool, size_t new_pool_size
    12254:	e7d5      	b.n	12202 <_malloc_trim_r+0x3e>
    12256:	bf00      	nop
    12258:	20009008 	.word	0x20009008
-   1225c:	2002874c 	.word	0x2002874c
+   1225c:	2002794c 	.word	0x2002794c
    12260:	20009410 	.word	0x20009410
 
 00012264 <_free_r>:
@@ -44022,7 +44020,7 @@ int sm_set_pool(struct smalloc_pool *spool, void *new_pool, size_t new_pool_size
    12462:	bf00      	nop
    12464:	20009008 	.word	0x20009008
    12468:	20009414 	.word	0x20009414
-   1246c:	2002877c 	.word	0x2002877c
+   1246c:	2002797c 	.word	0x2002797c
 
 00012470 <rshift>:
    12470:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
@@ -55922,7 +55920,7 @@ int sm_set_pool(struct smalloc_pool *spool, void *new_pool, size_t new_pool_size
    1a07e:	6023      	str	r3, [r4, #0]
    1a080:	bd70      	pop	{r4, r5, r6, pc}
    1a082:	bf00      	nop
-   1a084:	20028ad0 	.word	0x20028ad0
+   1a084:	20027cd0 	.word	0x20027cd0
 
 0001a088 <_isatty_r>:
    1a088:	b538      	push	{r3, r4, r5, lr}
@@ -55940,7 +55938,7 @@ int sm_set_pool(struct smalloc_pool *spool, void *new_pool, size_t new_pool_size
    1a0a2:	d0fb      	beq.n	1a09c <_isatty_r+0x14>
    1a0a4:	6023      	str	r3, [r4, #0]
    1a0a6:	bd38      	pop	{r3, r4, r5, pc}
-   1a0a8:	20028ad0 	.word	0x20028ad0
+   1a0a8:	20027cd0 	.word	0x20027cd0
 
 0001a0ac <__aeabi_drsub>:
    1a0ac:	f081 4100 	eor.w	r1, r1, #2147483648	; 0x80000000

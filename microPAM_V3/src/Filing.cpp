@@ -79,20 +79,24 @@ uint32_t diskSize=0;
 
 // define the number of audio blocks to load for writing to disk
 // data are acquired always with 32 bit
-#if NBITS==32
+// if data are compressed (PROC_MODE=1) then always 32 bit mode (max disk buffer) is used
+// if wav files with lower bit width are used then disk buffer size is reduced accordingly
+#if (NBITS==32) || (PROC_MODE==1)
   const int nblocks=NDBL;
 #elif NBITS==24
-  const int nblocks=4*NDBL/3;
+  const int nblocks=3*NDBL/4;
 #elif NBITS==16
-  const int nblocks=2*NDBL;
+  const int nblocks=NDBL/2;
 #endif
     
 
-#define MAX_TEMP_BUFFER (nblocks*NBUF_ACQ)
+// tempBuffer to keep all 32-bit data 
+#define MAX_TEMP_BUFFER (NDBL*NBUF_ACQ)
 static int32_t tempBuffer0[MAX_TEMP_BUFFER];
 //static int32_t tempBuffer1[MAX_TEMP_BUFFER];
 
-#define MAX_DISK_BUFFER (NDBL*NBUF_ACQ)
+// diskBuffer to hold all data to be written to disk (with and without compression
+#define MAX_DISK_BUFFER (nblocks*NBUF_ACQ)
 static int32_t diskBuffer[MAX_DISK_BUFFER];
 uint32_t disk_count=0;
 
@@ -164,8 +168,8 @@ char * headerInit(int32_t fsamp, int32_t nchan, int32_t nbits, int serNum)
   memcpy(wav_hdr.dId,"data",4);
   memcpy(wav_hdr.iId,"info",4);
 
-  wav_hdr.rLen=512-2*4; // will be updated at closing
-  wav_hdr.fLen=0x10;
+  wav_hdr.rLen = 512-2*4; // will be updated at closing
+  wav_hdr.fLen = 0x10;
   wav_hdr.iLen = 512 - 13*4;
   wav_hdr.dLen = 0; // will be updated at closing
 
@@ -252,7 +256,7 @@ int16_t makeHeader(int32_t *header)
     header[5] = 20;          // SW version
     header[6] = SerNum;      // serial number
     header[7] = fsamp;
-    header[8] = NCH;
+    header[8] = NCHAN_ACQ;
     header[9] = t_acq;
     header[10] = t_on;
     header[11] = t_rep;
@@ -383,7 +387,7 @@ int16_t storeData(int16_t status)
         char *hdr=0;
         if(proc==0)
         { 
-          hdr = headerInit(fsamp, NCH, NBITS, SerNum);
+          hdr = headerInit(fsamp, NCHAN_ACQ, NBITS, SerNum);
         }  
         else
         {
@@ -396,7 +400,7 @@ int16_t storeData(int16_t status)
         else status=RUNNING;
     }
     //
-    if(status==RUNNING) // file is open, header written: store data records
+    if(status==RUNNING) // file is open and header written: store data records
     {   uint32_t nd;
         if((nd=file.write((const void *)diskBuffer,4*MAX_DISK_BUFFER)) < 4*MAX_DISK_BUFFER) 
         { Serial.print(">"); 

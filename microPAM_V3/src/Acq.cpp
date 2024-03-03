@@ -27,12 +27,21 @@
 #include "Compress.h"
 #include "Acq.h"
 
-#ifndef NBUF_ACQ        // should be defined in config.h
-  #define NBUF_ACQ 128
+#ifndef NSAMP         // should be defined in config.h
+  #define NSAMP       128
 #endif
 
-#ifndef NBUF_I2S        // should be defined in config.h
-  #define NBUF_I2S (2*NBUF_ACQ) //for stereo I2S
+#ifndef NCHAN_ACQ     // should be defined in config.h
+  #define NCHAN_ACQ   2
+  #define ICH         -1
+#endif
+
+#ifndef NBUF_ACQ      // should be defined in config.h
+  #define NBUF_ACQ    (NCHAN_ACQ*NSAMP)
+#endif
+
+#ifndef NBUF_I2S      // should be defined in config.h
+  #define NBUF_I2S    (NCHAN_I2S*NSAMP) //for stereo I2S
 #endif
 
 uint32_t procCount=0;
@@ -186,6 +195,11 @@ static void __not_in_flash_func(process)(int32_t * buffer);
 
 /*======================================================================================*/
 #elif defined(__IMXRT1062__)
+  #if ADC_MODEL==I2S
+    #define MSYNC   MBIT  // FS length
+  #else
+    #define MSYNC   1
+  #endif
 
   PROGMEM
   void set_audioClock(int nfact, int32_t nmult, uint32_t ndiv) // sets PLL4

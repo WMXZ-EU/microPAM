@@ -32,22 +32,15 @@
 #include "Compress.h"
 #include "RTC.h"
 
-
 #define NH 6
+#define NBUF_OUT NBUF_ACQ
 
-#if defined(NBUF_ACQ)
-  #define NSAMP NBUF_ACQ
-#else
-  #define NSAMP 128
-#endif
-#define NBLOCK NSAMP
-
-static uint32_t tempData[NSAMP];
-static uint32_t outData[NSAMP];
-static uint32_t dout[NBLOCK];
+static uint32_t tempData[NBUF_ACQ];
+static uint32_t outData[NBUF_ACQ];
+static uint32_t dout[NBUF_OUT];
 
 int32_t *tempDatai=(int32_t*) tempData;
-int32_t tempData0[NCH];
+int32_t tempData0[NCHAN_ACQ];
 
 uint32_t proc_stat[MB];
 uint32_t max_stat;
@@ -62,14 +55,14 @@ int __not_in_flash_func(compress)(void *inp)
   int32_t *din = (int32_t *) inp;
   //
   // copy reference (first sample of all channels)
-  for (int  ii = 0; ii < NCH; ii++) tempData0[ii] = tempDatai[ii] = din[ii];
+  for (int  ii = 0; ii < NCHAN_ACQ; ii++) tempData0[ii] = tempDatai[ii] = din[ii];
   
   //differentiate (equiv 6 dB/Octave HP filter)
-  for (int  ii = NCH; ii < NSAMP; ii++) tempDatai[ii] = (din[ii] - din[ii - NCH]);
+  for (int  ii = NCHAN_ACQ; ii < NBUF_ACQ; ii++) tempDatai[ii] = (din[ii] - din[ii - NCHAN_ACQ]);
 
   // find maximum in filtered data
   int32_t mx = 0;
-  for (int ii = NCH; ii < NSAMP; ii++)
+  for (int ii = NCHAN_ACQ; ii < NBUF_ACQ; ii++)
   {
     int32_t dd =  tempDatai[ii];
     if(dd<0)  dd = -dd; // take absolut value
@@ -85,11 +78,11 @@ int __not_in_flash_func(compress)(void *inp)
 
   // mask data (all but first sample) (mask needed for negative numbers)
   uint32_t msk = (1 << nb) - 1;
-  for (int ii = NCH; ii < NSAMP; ii++) { tempData[ii] &= (uint32_t)msk; }
+  for (int ii = NCHAN_ACQ; ii < NBUF_ACQ; ii++) { tempData[ii] &= (uint32_t)msk; }
 
   // pack all data
-  int ncmp = (NSAMP*nb) / MBIT;
-  int ndat = NH+NCH + ncmp;
+  int ncmp = (NBUF_ACQ*nb) / MBIT;
+  int ndat = NH + NCHAN_ACQ + ncmp;
   int ndat0 = ndat; 
 
   // ensure that ndat is even (to allow fast access to header)
@@ -104,40 +97,40 @@ int __not_in_flash_func(compress)(void *inp)
   *iptr++ = nb | shift<<16;
   *iptr++ = to;
   *iptr++ = t1;
-  *iptr++ = NCH;
-  *iptr++ = NCH+ncmp; // number of data after header
+  *iptr++ = NCHAN_ACQ;
+  *iptr++ = NCHAN_ACQ+ncmp; // number of data after header
   //
   int kk=NH;
   outData[kk++] = tempData[0]; tempData[0] = 0;
-  #if NCH>1
+  #if NCHAN_ACQ>1
     outData[kk++] = tempData[0]; tempData[0] = 0;
   #endif
-  #if NCH>2
+  #if NCHAN_ACQ>2
     outData[kk++] = tempData[0]; tempData[0] = 0;
   #endif
-  #if NCH>3
+  #if NCHAN_ACQ>3
     outData[kk++] = tempData[0]; tempData[0] = 0;
   #endif
-  #if NCH>4
+  #if NCHAN_ACQ>4
     outData[kk++] = tempData[0]; tempData[0] = 0;
   #endif
-  #if NCH>5
+  #if NCHAN_ACQ>5
     outData[kk++] = tempData[0]; tempData[0] = 0;
   #endif
-  #if NCH>6
+  #if NCHAN_ACQ>6
     outData[kk++] = tempData[0]; tempData[0] = 0;
   #endif
-  #if NCH>7
+  #if NCHAN_ACQ>7
     outData[kk++] = tempData[0]; tempData[0] = 0;
   #endif
-  #if NCH>8
+  #if NCHAN_ACQ>8
     #error "NCH>8"
   #endif
 
   // pack data
   // 
   int nx = MBIT;
-  for (int ii = 0; ii < NSAMP; ii ++)
+  for (int ii = 0; ii < NBUF_ACQ; ii ++)
   {   nx -= nb;
       if(nx > 0)
       {   outData[kk] |= (tempData[ii] << nx);
@@ -156,13 +149,13 @@ int __not_in_flash_func(compress)(void *inp)
   // store actual data
   static int nout=0;
 
-  if ((nout + ndat) <= NBLOCK)
+  if ((nout + ndat) <= NBUF_OUT)
   { // all data fit in current block
       for (int ii = 0; ii < ndat; ii++) dout[nout++] = outData[ii];
   }
-  else if ((nout + NH) > NBLOCK) //avoid partial header (special case)
+  else if ((nout + NH) > NBUF_OUT) //avoid partial header (special case)
   {
-      while(nout<NBLOCK) dout[nout++] = 0; // fill rest of block with zero
+      while(nout<NBUF_OUT) dout[nout++] = 0; // fill rest of block with zero
       // store data
       if(!pushData(dout)) ret = 0;
       //
@@ -174,12 +167,12 @@ int __not_in_flash_func(compress)(void *inp)
   { // data crosses two blocks
       int ii=0;
       int nr;
-      nr = NBLOCK-nout;  //remaining data
+      nr = NBUF_OUT-nout;  //remaining data
       uint32_t *iptr = (uint32_t *) outData;
       // correct header
       iptr[5] = (iptr[5]<<16) | (nr-NH);  //orig remaining data | actual remaining data after header 
 
-      while (nout < NBLOCK) dout[nout++] = outData[ii++];
+      while (nout < NBUF_OUT) dout[nout++] = outData[ii++];
       // store data
       if(!pushData(dout)) ret = 0;
       //

@@ -28,7 +28,7 @@
     #if defined(__IMXRT1062__)
         #define NPORT_I2S    1
         #define ADC_SHDNZ   32
-        #define ADC_EN      33
+        #define ADC_EN      33  // as of micoPAM-mare-2b
     #elif defined(TARGET_RP2040)
         #define NPORT_I2S 1
         #define ADC_SHDNZ 32

@@ -34,12 +34,17 @@
     #define FSAMP 48000   // sampling frequency
   #endif
 
-  #define NCHAN_I2S  2   // number of I2S channels 
-  #define NCH        1   // number of channels
-  #define ICH        1   // selected channel (set to -1 to disable monochannel extraction)
+  #define NCHAN_I2S  2    // number of I2S channels 
+  #define NCHAN_ACQ  1    // number of channels
+  #define ICH        1    // selected channel (set to -1 to disable monochannel extraction)
 
-  #if NCH > NCHAN_I2S
-    #error "NCH > NCHAN_I2S"
+  #if NCHAN_ACQ > 1             // for cases where more than one channels are kept
+    #undef ICH
+    #define ICH     -1    // disable monochannel extraction
+  #endif
+
+  #if NCHAN_ACQ > NCHAN_I2S
+    #error "NCHAN_ACQ > NCHAN_I2S"
   #endif
 
   #if ICH >= NCHAN_I2S
@@ -47,20 +52,15 @@
   #endif
 
 
-  #define MBIT      32   // number of bits / sample from ADC
-  #define MDIV       1   // MCLK divider (MCLK = 2*MDIV*BCLK)
-  #define NBUF_ACQ 128   // number of samples in acq buffer
-  #define NBUF_I2S (2*NBUF_ACQ)
+  #define MBIT      32      // number of bits / sample from ADC
+  #define MDIV       1      // MCLK divider (MCLK = 2*MDIV*BCLK)
+  #define NSAMP    128      // number of samples in acq buffer
+  #define NBUF_ACQ (NCHAN_ACQ*NSAMP)
+  #define NBUF_I2S (NCHAN_I2S*NSAMP)
 
-  #define I2S 0             // I2S microphone
+  #define I2S           0   // I2S microphone
   #define TLV320ADC6140 1   // ADC6140 ADC
   #define ADC_MODEL TLV320ADC6140
-
-  #if ADC_MODEL==I2S
-    #define MSYNC MBIT  // FS length
-  #else
-    #define MSYNC 1
-  #endif
 
   // for mFiling
   #define MIN_SPACE   2000  // number of disk clusters to keep free
@@ -70,29 +70,29 @@
   #define HourDir        1  // use date/hour/file structure (0 for date/file stucture)
 
   // for mQueue
-  #define NDBL 12
-  #define MAXBUF (16*NDBL)       // Queue length in multiple of disk buffer
+  #define NDBL          12         // number of acuisition buffers fetched from queue for dist storaga
+  #define MAXBUF        (16*NDBL)  // resulting queue length in multiple of disk buffer
   
   // pocess mode
-  #define PROC_MODE  0     // 0: wav data 1; compress 
-  #define MB        24     // maximal bits for compression
+  #define PROC_MODE      0  // 0: wav data 1; compress 
+  #define MB            24  // maximal bits for compression
 
   // Acq
-  #define AGAIN 10       // analog gain in dB   // 0:42
-  #define DGAIN  0       // digital gain in dB  // (-200:54)/2 
+  #define AGAIN         10  // analog gain in dB   // 0:42
+  #define DGAIN          0  // digital gain in dB  // (-200:54)/2 
 
   #if PROC_MODE==0
     #if NBITS==32
-      #define SHIFT 0       // no shift is needed (32 bit)
+      #define SHIFT      0       // no shift is needed (32 bit)
     #elif NBITS==24
-      #define SHIFT 8       // shift is needed (24 bit)
+      #define SHIFT      8       // shift is needed (24 bit)
     #elif NBITS==16
-      #define SHIFT 16      // shift is needed (16 bit)
+      #define SHIFT      (16+0)  // shift is needed (16 bit) SHIFT<16: amplify
     #else
       #error "no shift defined (config.h)"
     #endif
   #else
-    #define SHIFT (8+4)   // shift data to right to improve compression
+    #define SHIFT        (8+4)   // shift data to right to improve compression
   #endif
 
 /******************** Acquisition scheduling *************************/

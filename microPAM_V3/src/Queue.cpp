@@ -29,14 +29,13 @@
 #include "Queue.h"
 
   #ifndef NBUF_ACQ
-    #define NBUF_ACQ 128
+    #define NBUF_ACQ 128    // single channel
   #endif
 
   #ifndef MAXBUF
     #define MAXBUF 128      // Queue length
   #endif
 
-#if 1
   volatile static int queue_busy=0;
   static uint32_t data_buffer[MAXBUF][NBUF_ACQ];
   volatile static int head=0;
@@ -51,7 +50,6 @@
     //while(busy); 
     queue_busy=1;
     memcpy(data_buffer[tail],data,4*NBUF_ACQ);
-    //for(int ii=0;ii<NBUF_ACQ;ii++)data_buffer[tail][ii]=data[ii];
     tail = (tail+1)%MAXBUF;
     queue_busy=0;
     return 1; // signal success.
@@ -63,105 +61,7 @@
     //while(busy); 
     queue_busy=1;
     memcpy(data,data_buffer[head],4*NBUF_ACQ);
-    //for(int ii=0;ii<NBUF_ACQ;ii++)data[ii]=data_buffer[head][ii];
     head = (head+1)%MAXBUF;
     queue_busy=0;
     return 1;
   }
-#else 
-
-static uint32_t data_buffer[MAXBUF*NBUF_ACQ];
-
-    /**
-     * @brief Data storage class
-     * 
-     */
-    class Data
-    {
-        public:
-            Data(uint32_t * data) 
-            { /**
-             * @brief Constructor
-             * @param data is pointer to data store
-             * 
-             */
-                data_buffer=data; front_=0; rear_= MAXBUF;
-            }
-
-            uint16_t push(uint32_t * src)
-            { 
-                /** 
-                 * @brief push data to storage
-                 * @param src is pointer to data block
-                 */
-                uint16_t f =front_ ;
-                if(f == rear_) return 0;
-
-                uint32_t *ptr= data_buffer+f*NBUF_ACQ;
-                memcpy(ptr,src,NBUF_ACQ*4);
-
-                if(++f==MAXBUF) f=0;
-                front_ = f;
-                
-                return 1;
-            }
-
-            uint16_t pull(uint32_t * dst)
-            {   
-                /** 
-                 * @brief pull data from storage
-                 * @param dst is pointer to data blocks
-                 */
-                uint16_t r = rear_ +1;
-                if(r >= MAXBUF) r=0;
-                if(r == front_) return 0;
-                
-                uint32_t *ptr= data_buffer + r*NBUF_ACQ;
-                memcpy(dst,ptr,NBUF_ACQ*4);
-
-                rear_ = r;
-                return 1;
-            }
-
-            uint16_t pull(uint32_t * dst, uint32_t ndbl)
-            {   
-                /** 
-                 * @brief pull data from storage
-                 * @param dst is pointer to data blocks
-                 * @param ndbl is number of data blocks
-                 */
-                uint16_t r = rear_ +1;
-                if(r >= MAXBUF) r=0;
-                if(r/ndbl == front_/ndbl) return 0;
-                
-                uint32_t *ptr= data_buffer + r*NBUF_ACQ;
-                memcpy(dst,ptr,ndbl*NBUF_ACQ*4);
-
-                r+=(ndbl-1);
-                rear_ = r;
-                return 1;
-            }
-
-            uint16_t getCount () 
-            {  
-                /**
-                 * @brief get number of data blocks in storage
-                 * 
-                 */
-                if(front_ > rear_) return (front_ - rear_); 
-                return (front_+ MAXBUF -rear_); 
-            }
-
-    private:    
-        uint16_t front_, rear_;
-        uint32_t *data_buffer;
-    };
-
-    Data rawData(data_buffer);
-
-    uint16_t getDataCount () { return rawData.getCount(); }
-    uint16_t pushData(uint32_t * src){ return rawData.push(src);}
-
-    uint16_t pullData(uint32_t * dst) {return rawData.pull(dst);}
-    uint16_t pullData(uint32_t * dst, uint32_t ndbl) {return rawData.pull(dst,ndbl);}
-#endif

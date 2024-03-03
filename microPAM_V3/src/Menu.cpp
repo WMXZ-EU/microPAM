@@ -92,7 +92,7 @@ int16_t menu1(int16_t status)
       saveParameters();
     }
     else if(ch=='m') 
-    { menuGetInt32((int32_t *)&monitor);
+    { menuGetInt16((int16_t *)&monitor);
     }
 
     return status;

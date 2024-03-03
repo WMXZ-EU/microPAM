@@ -38,28 +38,28 @@ SYMBOL TABLE:
 0000a7cc l     F .text.itcm	00000034 run_callbacks
 0000a800 l     F .text.itcm	0000001c usb_endpoint_config
 0000a81c l     F .text.itcm	00000094 endpoint0_transmit.constprop.0
-20028f81 l     O .bss	00000008 endpoint0_buffer
-20028568 l     O .bss	00000004 endpoint0_notify_mask
+20028181 l     O .bss	00000008 endpoint0_buffer
+20027768 l     O .bss	00000004 endpoint0_notify_mask
 2000bdc0 l     O .bss	00000008 endpoint0_setupdata
-2002856c l     O .bss	00000004 endpointN_notify_mask
-20028f8b l     O .bss	00000008 reply_buffer
-20028fa5 l     O .bss	00000001 sof_usage
-20028fad l     O .bss	00000001 usb_reboot_timer
+2002776c l     O .bss	00000004 endpointN_notify_mask
+2002818b l     O .bss	00000008 reply_buffer
+200281a5 l     O .bss	00000001 sof_usage
+200281ad l     O .bss	00000001 usb_reboot_timer
 00000000 l    df *ABS*	00000000 tempmon.c
-2002869c l     O .bss	00000004 s_hotCount
-200286a0 l     O .bss	00000004 s_hotTemp
-200286a4 l     O .bss	00000004 s_hot_ROOM
-200286a8 l     O .bss	00000004 s_roomC_hotC
+2002789c l     O .bss	00000004 s_hotCount
+200278a0 l     O .bss	00000004 s_hotTemp
+200278a4 l     O .bss	00000004 s_hot_ROOM
+200278a8 l     O .bss	00000004 s_roomC_hotC
 00000000 l    df *ABS*	00000000 CrashReport.cpp
 60001e54 l     F .text.code	00000054 isvalid(arm_fault_info_struct const*) [clone .constprop.0]
 00000000 l    df *ABS*	00000000 analog.c
-20028f80 l     O .bss	00000001 calibrating
+20028180 l     O .bss	00000001 calibrating
 00000000 l    df *ABS*	00000000 crti.o
 00000000 l    df *ABS*	00000000 crtn.o
 00000000 l    df *ABS*	00000000 crtstuff.c
 00000020 l     F .text.itcm	00000000 register_tm_clones
 00000044 l     F .text.itcm	00000000 frame_dummy
-20028604 l     O .bss	00000000 object.0
+20027804 l     O .bss	00000000 object.0
 600024c0 l     O .text.code	00000000 __frame_dummy_init_array_entry
 00000000 l    df *ABS*	00000000 microPAM_V3.ino
 0000006c l     F .text.itcm	00000002 __tcf_0
@@ -70,29 +70,29 @@ SYMBOL TABLE:
 00000190 l     F .text.itcm	00000012 Print::println(char const*) [clone .isra.0]
 0000065c l     F .text.itcm	000000f0 _GLOBAL__sub_I_storage
 2000bdcc l     O .bss	00000004 guard variable for loop::status
-20028040 l     O .bss	00000004 loop::t0
-20028d8c l     O .bss	00000002 loop::mxb
-20028d8e l     O .bss	00000002 loop::status
-20028044 l     O .bss	00000004 loop::loopCount
+20027240 l     O .bss	00000004 loop::t0
+20027f8c l     O .bss	00000002 loop::mxb
+20027f8e l     O .bss	00000002 loop::status
+20027244 l     O .bss	00000004 loop::loopCount
 20007e84 l     O .data	00000027 version
 00000000 l    df *ABS*	00000000 Acq.cpp
 000008c0 l     F .text.itcm	000000a8 acq_isr()
 00000c14 l     F .text.itcm	00000024 _GLOBAL__sub_I_procCount
-200277dc l     O .bss	00000008 dma
+200269dc l     O .bss	00000008 dma
 20200000 l     O .bss.dma	00000800 i2s_buffer
 00000000 l    df *ABS*	00000000 Filing.cpp
 000026e6 l     F .text.itcm	00000020 FsBaseFile::seekSet(unsigned long long) [clone .isra.0]
 00002706 l     F .text.itcm	00000024 Print::write(char const*) [clone .isra.0]
 0000272a l     F .text.itcm	00000012 Print::println(char const*) [clone .isra.0]
-2000bdd0 l     O .bss	00001800 diskBuffer
-200257dc l     O .bss	00002000 tempBuffer0
+2000bdd0 l     O .bss	00001200 diskBuffer
+200251dc l     O .bss	00001800 tempBuffer0
 00002f58 l     F .text.itcm	00000030 _GLOBAL__sub_I_t_acq
-2000d5d0 l     O .bss	00000200 fileHeader
-20028e64 l     O .bss	00000050 dirName
-20027bf4 l     O .bss	00000200 wav_hdr
-20028eb4 l     O .bss	00000050 fileName
-2002803c l     O .bss	00000004 checkEndOfFile(short)::dta
-20028f08 l     O .bss	00000050 timeStamp()::date_time
+2000cfd0 l     O .bss	00000200 fileHeader
+20028064 l     O .bss	00000050 dirName
+20026df4 l     O .bss	00000200 wav_hdr
+200280b4 l     O .bss	00000050 fileName
+2002723c l     O .bss	00000004 checkEndOfFile(short)::dta
+20028108 l     O .bss	00000050 timeStamp()::date_time
 20008d74 l     O .data	00000004 newFolder(int)::d0
 00000000 l    df *ABS*	00000000 usb_desc.c
 2000935b l     O .data	00000012 device_descriptor
@@ -114,19 +114,19 @@ SYMBOL TABLE:
 00001df0 l     F .text.itcm	00000030 menuGetLine()
 00001e20 l     F .text.itcm	0000001c menuGetInt32(long*) [clone .isra.0]
 00001e3c l     F .text.itcm	0000001c menuGetInt16(short*) [clone .isra.0]
-20028d6c l     O .bss	00000020 store
-20028f58 l     O .bss	00000028 menuGetLine()::buffer
+20027f6c l     O .bss	00000020 store
+20028158 l     O .bss	00000028 menuGetLine()::buffer
 20007eab l     O .data	00000027 version
 00000000 l    df *ABS*	00000000 Queue.cpp
-2000d7d8 l     O .bss	00018000 data_buffer
-2000d7d4 l     O .bss	00000004 queue_busy
-200279e4 l     O .bss	00000004 head
-200279e8 l     O .bss	00000004 tail
+2000d1d8 l     O .bss	00018000 data_buffer
+2000d1d4 l     O .bss	00000004 queue_busy
+20026be4 l     O .bss	00000004 head
+20026be8 l     O .bss	00000004 tail
 00000000 l    df *ABS*	00000000 Compress.cpp
-200277e4 l     O .bss	00000200 dout
-200279f4 l     O .bss	00000200 outData
-20027df4 l     O .bss	00000200 tempData
-20028048 l     O .bss	00000004 compress(void*)::nout
+200269e4 l     O .bss	00000200 dout
+20026bf4 l     O .bss	00000200 outData
+20026ff4 l     O .bss	00000200 tempData
+20027248 l     O .bss	00000004 compress(void*)::nout
 00000000 l    df *ABS*	00000000 Adc.cpp
 000032d0 l     F .text.itcm	00000024 Print::print(char const*) [clone .isra.0]
 20007e78 l     O .data	00000004 regs
@@ -138,8 +138,8 @@ SYMBOL TABLE:
 000037b0 l     F .text.itcm	00000016 MTPD::push_packet(unsigned char*, unsigned long) [clone .constprop.0] [clone .isra.0]
 000037c8 l     F .text.itcm	00000078 MTPD::write(char const*, int) [clone .part.0]
 0000421a l     F .text.itcm	00000034 MTPD::setObjectPropValue(unsigned long, unsigned long) [clone .part.0]
-2002804c l     O .bss	00000004 MTPD::read(char*, unsigned long)::index
-20028050 l     O .bss	00000004 MTPD::write(char const*, int)::dst
+2002724c l     O .bss	00000004 MTPD::read(char*, unsigned long)::index
+20027250 l     O .bss	00000004 MTPD::write(char const*, int)::dst
 200079e8 l     O .data	00000010 propertyList
 200079f8 l     O .data	00000028 supported_op
 00000000 l    df *ABS*	00000000 SPI.cpp
@@ -189,19 +189,19 @@ SYMBOL TABLE:
 00008f8c l     F .text.itcm	00000098 rdWrSectors(unsigned long, unsigned long, unsigned char*, unsigned int)
 00009284 l     F .text.itcm	0000005c waitTransferComplete()
 000094ec l     F .text.itcm	0000008c cardCMD6(unsigned long, unsigned char*)
-20028e40 l     O .bss	00000001 m_initDone
-2000d7d0 l     O .bss	00000004 m_sdClkKhz
-20028e41 l     O .bss	00000001 m_version2
-200257d8 l     O .bss	00000004 m_errorLine
-20028e42 l     O .bss	00000001 m_highCapacity
-20028e43 l     O .bss	00000001 m_transferActive
-20028e44 l     O .bss	00000010 m_cid
-20028e54 l     O .bss	00000010 m_csd
-200279ec l     O .bss	00000004 m_ocr
-200279f0 l     O .bss	00000004 m_rca
-20027ff4 l     O .bss	00000004 m_busyFcn
-20028f04 l     O .bss	00000001 m_dmaBusy
-20027ff8 l     O .bss	00000004 m_irqstat
+20028040 l     O .bss	00000001 m_initDone
+2000d1d0 l     O .bss	00000004 m_sdClkKhz
+20028041 l     O .bss	00000001 m_version2
+200251d8 l     O .bss	00000004 m_errorLine
+20028042 l     O .bss	00000001 m_highCapacity
+20028043 l     O .bss	00000001 m_transferActive
+20028044 l     O .bss	00000010 m_cid
+20028054 l     O .bss	00000010 m_csd
+20026bec l     O .bss	00000004 m_ocr
+20026bf0 l     O .bss	00000004 m_rca
+200271f4 l     O .bss	00000004 m_busyFcn
+20028104 l     O .bss	00000001 m_dmaBusy
+200271f8 l     O .bss	00000004 m_irqstat
 2000935a l     O .data	00000001 m_errorCode
 00000000 l    df *ABS*	00000000 SdSpiTeensy3.cpp
 00009a2c l     F .text.itcm	00000010 SPIClass::transfer(unsigned char) [clone .isra.0]
@@ -214,19 +214,19 @@ SYMBOL TABLE:
 00009df4 l     F .text.itcm	000000ac rx_event
 00009ea0 l     F .text.itcm	0000008c usb_serial_flush_callback
 20201800 l     O .bss.dma	00002000 txbuffer
-20028684 l     O .bss	00000004 rx_available
-20028d98 l     O .bss	00000010 rx_count
-20028f93 l     O .bss	00000001 rx_head
-20028da8 l     O .bss	00000010 rx_index
-20028f95 l     O .bss	00000009 rx_list
-20028db8 l     O .bss	00000002 rx_packet_size
-20028fa3 l     O .bss	00000001 rx_tail
+20027884 l     O .bss	00000004 rx_available
+20027f98 l     O .bss	00000010 rx_count
+20028193 l     O .bss	00000001 rx_head
+20027fa8 l     O .bss	00000010 rx_index
+20028195 l     O .bss	00000009 rx_list
+20027fb8 l     O .bss	00000002 rx_packet_size
+200281a3 l     O .bss	00000001 rx_tail
 2000bb40 l     O .bss	00000100 rx_transfer
-20028fa6 l     O .bss	00000001 transmit_previous_timeout
-20028e3a l     O .bss	00000002 tx_available
-20028fa7 l     O .bss	00000001 tx_head
-20028fa9 l     O .bss	00000001 tx_noautoflush
-20028e3c l     O .bss	00000002 tx_packet_size
+200281a6 l     O .bss	00000001 transmit_previous_timeout
+2002803a l     O .bss	00000002 tx_available
+200281a7 l     O .bss	00000001 tx_head
+200281a9 l     O .bss	00000001 tx_noautoflush
+2002803c l     O .bss	00000002 tx_packet_size
 2000bcc0 l     O .bss	00000080 tx_transfer
 00000000 l    df *ABS*	00000000 clockspeed.c
 00000000 l    df *ABS*	00000000 nonstd.c
@@ -234,8 +234,8 @@ SYMBOL TABLE:
 00000000 l    df *ABS*	00000000 rtc.c
 00000000 l    df *ABS*	00000000 eeprom.c
 0000b40c l     F .text.itcm	00000058 flash_wait
-20028f8a l     O .bss	00000001 initialized
-20028dbc l     O .bss	0000007e sector_index
+2002818a l     O .bss	00000001 initialized
+20027fbc l     O .bss	0000007e sector_index
 00000000 l    df *ABS*	00000000 sm_pool.c
 00000000 l    df *ABS*	00000000 digital.c
 00000000 l    df *ABS*	00000000 pwm.c
@@ -243,19 +243,19 @@ SYMBOL TABLE:
 0000baa4 l     F .text.itcm	00000010 txEvent_event
 0000bab4 l     F .text.itcm	0000003c rx_event
 0000baf0 l     F .text.itcm	00000060 rx_queue_transfer
-20028f94 l     O .bss	00000001 rx_head
-20028f9e l     O .bss	00000005 rx_list
-20028688 l     O .bss	00000014 rx_list_transfer_len
-20028dba l     O .bss	00000002 rx_packet_size
-20028fa4 l     O .bss	00000001 rx_tail
+20028194 l     O .bss	00000001 rx_head
+2002819e l     O .bss	00000005 rx_list
+20027888 l     O .bss	00000014 rx_list_transfer_len
+20027fba l     O .bss	00000002 rx_packet_size
+200281a4 l     O .bss	00000001 rx_tail
 2000bc40 l     O .bss	00000080 rx_transfer
-20028fa8 l     O .bss	00000001 tx_head
-20028e3e l     O .bss	00000002 tx_packet_size
+200281a8 l     O .bss	00000001 tx_head
+2002803e l     O .bss	00000002 tx_packet_size
 2000bd40 l     O .bss	00000080 tx_transfer
 20203800 l     O .bss.dma	00000800 rx_buffer
 20204000 l     O .bss.dma	00000800 txbuffer
 00000000 l    df *ABS*	00000000 yield.cpp
-20028f07 l     O .bss	00000001 yield::running
+20028107 l     O .bss	00000001 yield::running
 00000000 l    df *ABS*	00000000 EventResponder.cpp
 00000000 l    df *ABS*	00000000 DMAChannel.cpp
 00000000 l    df *ABS*	00000000 usb_inst.cpp
@@ -409,15 +409,15 @@ SYMBOL TABLE:
 00009024 g     F .text.itcm	0000007c SdioCard::readSectors(unsigned long, unsigned char*, unsigned int)
 0000be24  w    F .text.itcm	00000074 yield
 00008468  w    F .text.itcm	0000000e DedicatedSpiCard::~DedicatedSpiCard()
-20028624 g     O .bss	00000060 proc_stat
-20028d68 g     O .bss	00000004 usb_timer1_callback
+20027824 g     O .bss	00000060 proc_stat
+20027f68 g     O .bss	00000004 usb_timer1_callback
 00003948 g     F .text.itcm	00000014 MTPD::GetDevicePropValue(unsigned long)
 000039a0 g     F .text.itcm	00000014 MTPD::write32(unsigned long)
 000073dc g     F .text.itcm	000001a4 FatFile::write(void const*, unsigned int)
 0000c192 g     F .text.itcm	00000090 Print::printNumber64(unsigned long long, unsigned char, unsigned char)
-20028b84 g     O .bss	000001b8 storage
+20027d84 g     O .bss	000001b8 storage
 60002630 g     O .text.progmem	00000018 usb_string_manufacturer_name_default
-20028d96 g     O .bss	00000002 proc
+20027f96 g     O .bss	00000002 proc
 60001a58 g     F .text.code	00000274 configure_external_ram
 000083d2  w    F .text.itcm	00000004 DedicatedSpiCard::isDedicatedSpi()
 20008af4 g     O .data	00000140 Wire1
@@ -425,10 +425,10 @@ SYMBOL TABLE:
 00008abc  w    F .text.itcm	00000032 FsBlockDeviceInterface::writeSectorsCallback(unsigned long, unsigned int, unsigned char const* (*)(unsigned long, void*), void*)
 00017008 g     F .text.itcm	0000005a .hidden __floatdidf
 00007bb8 g     F .text.itcm	00000124 FatFile::makeSFN(FatLfn_t*)
-2002861c g     O .bss	00000004 procCount
+2002781c g     O .bss	00000004 procCount
 000078e8 g     F .text.itcm	00000118 FatPartition::init(FsBlockDeviceInterface*, unsigned char)
-20027ffc g     O .bss	00000004 FsDateTime::callback
-200281e8 g     O .bss	00000001 __lock___atexit_recursive_mutex
+200271fc g     O .bss	00000004 FsDateTime::callback
+200273e8 g     O .bss	00000001 __lock___atexit_recursive_mutex
 00014ef4 g     F .text.itcm	0000004c _wcrtomb_r
 6000165c g     F .text.code	00000034 TwoWire::configSDApin(unsigned char)
 00007cdc g     F .text.itcm	00000098 FatFile::makeUniqueSfn(FatLfn_t*)
@@ -436,7 +436,7 @@ SYMBOL TABLE:
 0000c12c g     F .text.itcm	0000001a Print::println()
 00004ec4 g     F .text.itcm	00000098 TwoWire::isr()
 200004a8 g     O .data	00000070 vtable for DedicatedSpiCard
-20028620 g     O .bss	00000004 procMiss
+20027820 g     O .bss	00000004 procMiss
 0000e314 g     F .text.itcm	00000020 __sseek
 0000e0f0 g     F .text.itcm	0000003c __sinit
 0000569c g     F .text.itcm	000000de ExFatFile::seekSet(unsigned long long)
@@ -446,12 +446,12 @@ SYMBOL TABLE:
 0000cbec g     F .text.itcm	0000000c __malloc_unlock
 000034ee g     F .text.itcm	0000004c i2c_class::read(unsigned char, unsigned char)
 2000932c g     O .data	00000004 t_4
-20028034 g     O .bss	00000004 FsVolume::m_cwv
+20027234 g     O .bss	00000004 FsVolume::m_cwv
 000034a8 g     F .text.itcm	00000024 i2c_class::i2c_class(TwoWire*, unsigned long)
 00002598 g     F .text.itcm	00000008 getStore()
 00007000 g     F .text.itcm	0000009e FatFile::open(FatFile*, char const*, int)
 2000bdc8 g     O .bss	00000004 SerNum
-20028f06 g     O .bss	00000001 HardwareSerialIMXRT::s_count_serials_with_serial_events
+20028106 g     O .bss	00000001 HardwareSerialIMXRT::s_count_serials_with_serial_events
 000083c6  w    F .text.itcm	00000004 SharedSpiCard::errorData() const
 600023d0 g     F .text.code	0000004c analog_init
 0000de58 g     F .text.itcm	0000000c _strtod_r
@@ -464,16 +464,16 @@ SYMBOL TABLE:
 200089a0 g     O .data	00000004 F_CPU_ACTUAL
 00015304 g     F .text.itcm	000000b4 _sfread_r
 0000e468 g     F .text.itcm	000000f8 memmove
-20028d48 g     O .bss	00000004 t_1
+20027f48 g     O .bss	00000004 t_1
 000015be g     F .text.itcm	00000030 MTPStorage_SD::StartGetObjectHandles(unsigned long, unsigned long)
-200285f8 g     O .bss	00000004 max_stat
+200277f8 g     O .bss	00000004 max_stat
 0000e18c g     F .text.itcm	00000088 snprintf
 000099ac g     F .text.itcm	00000064 SdioCard::stopTransmission(bool)
 0000f8fc g     F .text.itcm	0000004c _Balloc
 00000c4e  w    F .text.itcm	00000004 MTPStorage_SD::get_FSCount()
 0001711c g       .ARM.exidx	00000000 __exidx_end
 000077fa g     F .text.itcm	00000044 FatPartition::freeChain(unsigned long)
-20028f05 g     O .bss	00000001 EventResponder::runningFromYield
+20028105 g     O .bss	00000001 EventResponder::runningFromYield
 00009ba2 g     F .text.itcm	0000000a SdSpiArduinoDriver::receive()
 000082bc g     F .text.itcm	000000d4 FsVolume::begin(FsBlockDeviceInterface*, bool, unsigned char)
 0000b898 g     F .text.itcm	00000060 tempmonGetTemp
@@ -482,13 +482,13 @@ SYMBOL TABLE:
 0000e7d4 g     F .text.itcm	0000000c __errno
 00001ff0 g     F .text.itcm	000000a8 saveParameters()
 60001000 g     O .text.headers	00000020 ImageVectorTable
-2002800c g     O .bss	00000004 EventResponder::firstInterrupt
+2002720c g     O .bss	00000004 EventResponder::firstInterrupt
 0000aea4 g     F .text.itcm	00000028 usb_transfer_status
 00003af6 g     F .text.itcm	00000050 MTPD::GetObjectHandles(unsigned long, unsigned long)
 0000b82a g     F .text.itcm	0000006a sm_set_pool
 000029f0 g     F .text.itcm	00000014 newFolder(int)
-20028014 g     O .bss	00000020 HardwareSerialIMXRT::s_serials_with_serial_events
-20028360 g     O .bss	00000004 __stdio_exit_handler
+20027214 g     O .bss	00000020 HardwareSerialIMXRT::s_serials_with_serial_events
+20027560 g     O .bss	00000004 __stdio_exit_handler
 000004a4  w    F .text.itcm	00000072 SdBase<FsVolume, FsFormatter>::freeClusterCount()
 00005fc4 g     F .text.itcm	00000018 ExFatPartition::rootLength()
 00017064 g     F .text.itcm	00000030 .hidden __aeabi_d2lz
@@ -496,7 +496,7 @@ SYMBOL TABLE:
 0000c028  w    F .text.itcm	00000008 usb_serial_class::write(unsigned char const*, unsigned int)
 00016c9c g     F .text.itcm	0000002c _fstat_r
 2000743c g     O .data	00000370 digital_pin_to_info_PGM
-20028570 g     O .bss	00000004 errno
+20027770 g     O .bss	00000004 errno
 00009bac g     F .text.itcm	00000022 SdSpiArduinoDriver::receive(unsigned char*, unsigned int)
 00005d48 g     F .text.itcm	00000040 ExFatPartition::fatGet(unsigned long, unsigned long*)
 60002568  w    O .text.progmem	00000050 TwoWire::i2c3_hardware
@@ -505,7 +505,7 @@ SYMBOL TABLE:
 00007ff8 g     F .text.itcm	000000ac FatFile::parsePathName(char const*, FatLfn_t*, char const**)
 200096c0 g       .bss	00000000 _sbss
 00008c80 g     F .text.itcm	0000000c SdioCard::errorData() const
-20028d50 g     O .bss	00000004 tempData0
+20027f50 g     O .bss	00000004 tempData0
 00000d4a g     F .text.itcm	0000001c MTPStorage_SD::totalSize(unsigned long)
 0000375a g     F .text.itcm	0000000e rtc_set_datetime(datetime_t*)
 000038f6 g     F .text.itcm	00000016 MTPD::write16(unsigned short)
@@ -523,7 +523,7 @@ SYMBOL TABLE:
 000097e4 g     F .text.itcm	000000b4 SdioCard::readData(unsigned char*)
 00004ccc g     F .text.itcm	000000e4 TwoWire::endTransmission(unsigned char)
 0000353a g     F .text.itcm	0000003c i2c_class::write(unsigned char, unsigned char, unsigned char)
-20028008 g     O .bss	00000004 EventResponder::lastInterrupt
+20027208 g     O .bss	00000004 EventResponder::lastInterrupt
 0000815c g     F .text.itcm	0000002a FsBaseFile::close()
 00004a96 g     F .text.itcm	00000048 SPIClass::end()
 00009c60 g     F .text.itcm	00000134 memcpy
@@ -538,17 +538,17 @@ SYMBOL TABLE:
 0000132c g     F .text.itcm	0000007a MTPStorage_SD::OpenFileByIndex(unsigned long, unsigned long)
 00006cc2 g     F .text.itcm	00000026 FatFile::peek()
 00002098 g     F .text.itcm	00000040 menu1(short)
-20028600 g     O .bss	00000004 nbuf
+20027800 g     O .bss	00000004 nbuf
 00010430 g     F .text.itcm	00001b44 _svfprintf_r
 00016f90 g     F .text.itcm	00000022 .hidden __floatsidf
-20028d40 g     O .bss	00000004 systick_millis_count
+20027f40 g     O .bss	00000004 systick_millis_count
 000064c8 g     F .text.itcm	00000094 ExFatFile::rename(ExFatFile*, char const*)
 0000bc88 g     F .text.itcm	00000030 usb_mtp_available
 0000045c g     F .text.itcm	00000048 setup1()
 00004c98 g     F .text.itcm	00000034 TwoWire::wait_idle()
 00004458 g     F .text.itcm	000005e6 MTPD::loop()
 0000c364 g     F .text.itcm	00000000 .hidden __aeabi_uldivmod
-20028fab g     O .bss	00000001 usb_configuration
+200281ab g     O .bss	00000001 usb_configuration
 000083bc  w    F .text.itcm	00000006 SdCardInterface::status()
 60000000 g     O .text.headers	00000200 FlexSPI_NOR_Config
 0000b7f6 g     F .text.itcm	00000034 sm_align_pool
@@ -567,7 +567,7 @@ SYMBOL TABLE:
 20000540  w    O .data	00000024 vtable for FsFile
 0000b38a  w    F .text.itcm	0000000a _fstat
 00014f58 g     F .text.itcm	00000006 iswspace
-20028364 g     O .bss	00000200 acqBuffer
+20027564 g     O .bss	00000200 acqBuffer
 00004aea  w    F .text.itcm	0000001e TwoWire::read()
 00013b80 g     F .text.itcm	00000040 __assert_func
 00004424 g     F .text.itcm	00000034 MTPD::setObjectPropValue(unsigned long, unsigned long)
@@ -575,14 +575,14 @@ SYMBOL TABLE:
 20000328 g     O .data	000000c8 __mprec_tens
 600017b4 g     F .text.code	000000e4 usb_init
 00008186 g     F .text.itcm	00000060 FsBaseFile::operator=(FsBaseFile const&)
-20028b7c g     O .bss	00000004 sessionID_
+20027d7c g     O .bss	00000004 sessionID_
 00002b94 g     F .text.itcm	00000068 do_hibernate(unsigned long)
 000083c2  w    F .text.itcm	00000004 SharedSpiCard::errorCode() const
 00000c38  w    F .text.itcm	00000016 MTPStorage_SD::addFilesystem(SdFs&, char const*)
-20028224 g     O .bss	00000004 __malloc_top_pad
+20027424 g     O .bss	00000004 __malloc_top_pad
 0000b3c8 g     F .text.itcm	00000044 rtc_set
 000152c8 g     F .text.itcm	0000003a __ssrefill_r
-20028d44 g     O .bss	00000004 systick_safe_read
+20027f44 g     O .bss	00000004 systick_safe_read
 00004b84 g     F .text.itcm	00000114 TwoWire::force_clock()
 aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 0000655c g     F .text.itcm	000000ca ExFatFile::truncate()
@@ -611,19 +611,19 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 60001634 g     F .text.code	00000028 ResetHandler
 0000a1bc g     F .text.itcm	0000001e usb_serial_getchar
 00000d32  w    F .text.itcm	00000018 FsVolume::clusterCount() const
-20028d58 g     O .bss	00000008 usb_cdc_line_coding
+20027f58 g     O .bss	00000008 usb_cdc_line_coding
 0000b8f8 g     F .text.itcm	00000040 digitalWrite
 000075d8  w    F .text.itcm	00000012 FatPartition::fatCachePrepare(unsigned long, unsigned char)
-20028010 g     O .bss	00000004 EventResponder::lastYield
+20027210 g     O .bss	00000004 EventResponder::lastYield
 00005446 g     F .text.itcm	00000026 ExFatFile::openRoot(ExFatVolume*)
 0000e758 g     F .text.itcm	0000002c _read_r
 00000c9e  w    F .text.itcm	00000024 Print::write(char const*)
-20028d54 g     O .bss	00000004 termon
+20027f54 g     O .bss	00000004 termon
 00000082  w    F .text.itcm	00000036 StreamFile<FsBaseFile, unsigned long long>::read()
 00008460  w    F .text.itcm	00000002 DedicatedSpiCard::~DedicatedSpiCard()
 000137c4 g     F .text.itcm	000000c6 _fclose_r
-20028574 g     O .bss	00000010 extmem_smalloc_pool
-2002821c g     O .bss	00000004 __malloc_max_sbrked_mem
+20027774 g     O .bss	00000010 extmem_smalloc_pool
+2002741c g     O .bss	00000004 __malloc_max_sbrked_mem
 000087ec g     F .text.itcm	00000054 DedicatedSpiCard::readSectors(unsigned long, unsigned char*, unsigned int)
 0000b938 g     F .text.itcm	00000064 pinMode
 000013a6 g     F .text.itcm	00000028 MTPStorage_SD::read(unsigned long, unsigned long, char*, unsigned long)
@@ -650,7 +650,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 20009324 g     O .data	00000004 t_2
 0000bfc8  w    F .text.itcm	00000008 Print::print(unsigned char)
 0000b394  w    F .text.itcm	00000004 _isatty
-20028004 g     O .bss	00000004 EventResponder::firstYield
+20027204 g     O .bss	00000004 EventResponder::firstYield
 20009314 g     O .data	00000004 params0
 00000ea6 g     F .text.itcm	0000000c MTPStorage_SD::write(char const*, unsigned long)
 0000508c g     F .text.itcm	00000088 FsUtf::mbToCp(char const*, char const*, unsigned long*)
@@ -679,7 +679,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 0000feb8 g     F .text.itcm	00000042 __mcmp
 00001776 g     F .text.itcm	000000b6 mSD_Base::sd_copy(unsigned long, char*, unsigned long, char*)
 20008d7c g     O .data	00000004 __brkval
-20028faa g     O .bss	00000001 usb_cdc_line_rtsdtr
+200281aa g     O .bss	00000001 usb_cdc_line_rtsdtr
 6000241c g     F .text.code	00000000 _init
 00009f2c g     F .text.itcm	00000002 usb_serial_reset
 00006ae4 g     F .text.itcm	0000001e FatFile::cacheDirEntry(unsigned char)
@@ -690,7 +690,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 20000564 g     O .data	00000024 vtable for TwoWire
 0000cfe8 g     F .text.itcm	00000e70 _strtod_l
 0000f6e8 g     F .text.itcm	00000036 __match
-20028fe0 g       .bss	00000000 _ebss
+200281e0 g       .bss	00000000 _ebss
 000090a0 g     F .text.itcm	0000007c SdioCard::writeSectors(unsigned long, unsigned char const*, unsigned int)
 000039b4 g     F .text.itcm	00000118 MTPD::WriteDescriptor()
 20009318 g     O .data	00000004 propertyListNum
@@ -704,14 +704,14 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 000063c2 g     F .text.itcm	00000048 ExFatFile::mkdir(ExFatFile*, ExName_t*)
 20204880 g       .bss.dma	00000000 _heap_start
 00003acc g     F .text.itcm	0000002a MTPD::WriteStorageIDs()
-200281ec g     O .bss	00000001 __lock___malloc_recursive_mutex
+200273ec g     O .bss	00000001 __lock___malloc_recursive_mutex
 00001b6c g     F .text.itcm	000001d8 MTPStorage_SD::move(unsigned long, unsigned long, unsigned long)
 00005fdc g     F .text.itcm	0000004c ExFatVolume::chdir(char const*)
 60002518  w    O .text.progmem	00000050 TwoWire::i2c4_hardware
 000008b4  w    F .text.itcm	0000000c DMAChannel::~DMAChannel()
-20028228 g     O .bss	00000138 __sf
+20027428 g     O .bss	00000138 __sf
 20008998 g     O .data	00000004 CrashReport
-200286b0 g     O .bss	000004cc sdx
+200278b0 g     O .bss	000004cc sdx
 0000866c g     F .text.itcm	0000008a SharedSpiCard::cardCommand(unsigned char, unsigned long)
 00000518 g     F .text.itcm	00000144 storage_configure()
 00000003 g       *ABS*	00000000 _itcm_block_count
@@ -721,7 +721,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 0000c354 g     F .text.itcm	00000004 operator delete(void*, unsigned int)
 0000ba44 g     F .text.itcm	00000060 pwm_init
 00016cf8 g     F .text.itcm	00000276 .hidden __aeabi_dadd
-20028584 g     O .bss	00000050 file
+20027784 g     O .bss	00000050 file
 0000418c g     F .text.itcm	0000001e MTPD::ReadMTPHeader()
 2000936d g     O .data	00000001 usb_mtp_status
 60023c00 g       .text.csf	00000000 __text_csf_end
@@ -732,10 +732,10 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 00016ff8 g     F .text.itcm	0000006a .hidden __aeabi_ul2d
 00004f74 g     F .text.itcm	0000000c lpi2c4_isr()
 00007778 g     F .text.itcm	00000082 FatPartition::allocateCluster(unsigned long, unsigned long*)
-200285d4 g     O .bss	00000004 haveStore
+200277d4 g     O .bss	00000004 haveStore
 00008afa  w    F .text.itcm	00000002 SdioCard::end()
 200096c0 g     O .bss	00000020 endpoint0_transfer_ack
-20028d60 g     O .bss	00000004 usb_cdc_line_rtsdtr_millis
+20027f60 g     O .bss	00000004 usb_cdc_line_rtsdtr_millis
 0000ae64 g     F .text.itcm	00000024 usb_transmit
 00000d00  w    F .text.itcm	00000014 Print::println(char const*)
 0000bed4 g     F .text.itcm	00000020 systick_isr
@@ -743,7 +743,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 00003744 g     F .text.itcm	00000016 rtc_get_datetime(datetime_t*)
 000038c0 g     F .text.itcm	00000020 MTPD::write(char const*, int)
 200089a4 g     O .data	00000010 Serial
-200285d8 g     O .bss	00000020 logBuffer
+200277d8 g     O .bss	00000020 logBuffer
 00001fe8 g     F .text.itcm	00000008 loadConfig(unsigned short*, int)
 0000c030  w    F .text.itcm	00000006 usb_serial_class::write(unsigned char)
 0000825c g     F .text.itcm	0000005e FsBaseFile::openNext(FsBaseFile*, int)
@@ -755,7 +755,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 0000ebe0 g     F .text.itcm	00000000 memchr
 000076a8 g     F .text.itcm	000000d0 FatPartition::fatPut(unsigned long, unsigned long)
 0000a460 g     F .text.itcm	00000250 set_arm_clock
-20028d3c g     O .bss	00000004 systick_cycle_count
+20027f3c g     O .bss	00000004 systick_cycle_count
 20009344 g     O .data	00000016 usb_string_serial_number_default
 0000eea4 g     F .text.itcm	0000020c _free_r
 000088da g     F .text.itcm	00000092 SharedSpiCard::erase(unsigned long, unsigned long)
@@ -766,7 +766,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 000083ca  w    F .text.itcm	00000004 SharedSpiCard::type() const
 0000e6fc g     F .text.itcm	0000000c __locale_mb_cur_max
 00014f40 g     F .text.itcm	00000016 _wcsrtombs_r
-20028058 g     O .bss	00000190 __atexit0
+20027258 g     O .bss	00000190 __atexit0
 00001912 g     F .text.itcm	000000de MTPStorage_SD::CopyFiles(unsigned long, unsigned long, unsigned long)
 0000c020  w    F .text.itcm	00000004 usb_serial_class::flush()
 00015248 g     F .text.itcm	00000080 _sungetc_r
@@ -786,7 +786,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 0000b1d4 g     F .text.itcm	00000180 unused_interrupt_vector
 00015148 g     F .text.itcm	00000100 __ssprint_r
 60001d28 g     F .text.code	0000012c tempmon_init
-20028d64 g     O .bss	00000004 usb_timer0_callback
+20027f64 g     O .bss	00000004 usb_timer0_callback
 00007aec g     F .text.itcm	000000cc FatFile::createLFN(unsigned short, FatLfn_t*, unsigned char)
 0000e3a4 g     F .text.itcm	00000062 _vasnprintf_r
 0000ed7c g     F .text.itcm	00000088 __register_exitproc
@@ -807,7 +807,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 0000a368 g     F .text.itcm	00000016 usb_serial_putchar
 00000025 g       *ABS*	00000000 _teensy_model_identifier
 0000e698 g     F .text.itcm	00000064 strncpy
-200281f4 g     O .bss	00000028 __malloc_current_mallinfo
+200273f4 g     O .bss	00000028 __malloc_current_mallinfo
 00000ac8 g     F .text.itcm	00000080 i2s_setup()
 00003304 g     F .text.itcm	00000008 adcStart()
 00010178 g     F .text.itcm	000000d4 __d2b
@@ -838,7 +838,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 0000e82c g     F .text.itcm	00000002 __retarget_lock_close_recursive
 00003f5e g     F .text.itcm	000000e6 MTPD::GetObject(unsigned long)
 00009c16 g     F .text.itcm	00000004 sdCsWrite(unsigned char, bool)
-200286ac g     O .bss	00000004 scale_cpu_cycles_to_microseconds
+200278ac g     O .bss	00000004 scale_cpu_cycles_to_microseconds
 0000e254 g     F .text.itcm	00000058 sscanf
 000167a8 g     F .text.itcm	000000cc __swsetup_r
 0000c65c  w    F .text.itcm	00000002 .hidden __aeabi_ldiv0
@@ -851,7 +851,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 000041c0 g     F .text.itcm	00000016 MTPD::read16()
 00000c5e g     F .text.itcm	00000004 MTPStorage_SD::has_directories(unsigned long)
 20008ef0 g     O .data	00000408 __malloc_av_
-20028054 g     O .bss	00000004 __atexit
+20027254 g     O .bss	00000004 __atexit
 0000e2ac g     F .text.itcm	00000022 __sread
 0000a3cc g     F .text.itcm	00000094 usb_serial_flush_output
 0000b50c g     F .text.itcm	0000001c eeprom_read_block
@@ -867,16 +867,16 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 00000ee8  w    F .text.itcm	0000003e mSD_Base::sd_mkdir(unsigned long, char*)
 00007d74 g     F .text.itcm	00000284 FatFile::open(FatFile*, FatLfn_t*, int)
 20009330 g     O .data	00000004 t_acq
-20028fae g     O .bss	00000001 yield_active_check_flags
+200281ae g     O .bss	00000001 yield_active_check_flags
 000062d0 g     F .text.itcm	00000042 ExFatFile::sync()
 0000e830 g     F .text.itcm	00000002 __retarget_lock_acquire_recursive
-20028fac g     O .bss	00000001 usb_high_speed
+200281ac g     O .bss	00000001 usb_high_speed
 0000724a g     F .text.itcm	00000190 FatFile::rename(FatFile*, char const*)
 0000917c g     F .text.itcm	00000040 SdioCard::isBusy()
 000038e0 g     F .text.itcm	00000016 MTPD::write8(unsigned char)
 00009c1c g     F .text.itcm	00000000 memset
 0000c036 g     F .text.itcm	00000010 main
-20028220 g     O .bss	00000004 __malloc_max_total_mem
+20027420 g     O .bss	00000004 __malloc_max_total_mem
 00005bcc g     F .text.itcm	000000a8 ExFatPartition::bitmapFind(unsigned long, unsigned long)
 0000e828 g     F .text.itcm	00000002 __retarget_lock_init_recursive
 20204800 g     O .bss.dma	00000069 usb_descriptor_buffer
@@ -895,13 +895,13 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 000083d6 g     F .text.itcm	00000010 DedicatedSpiCard::readSector(unsigned long, unsigned char*)
 00010370 g     F .text.itcm	0000001a __ascii_wctomb
 00017008 g     F .text.itcm	0000005a .hidden __aeabi_l2d
-20028038 g     O .bss	00000004 FatVolume::m_cwv
+20027238 g     O .bss	00000004 FatVolume::m_cwv
 0000bfc0  w    F .text.itcm	00000008 Print::print(char const*)
 00016730 g     F .text.itcm	00000076 __submore
 200005f8  w    O .data	00000010 SPIClass::beginTransaction(SPISettings)::clk_sel
 0000c074 g     F .text.itcm	00000042 Stream::readBytesUntil(char, char*, unsigned int)
 00004a40 g     F .text.itcm	00000056 SPIClass::transfer(void const*, void*, unsigned int)
-65da50d2 g       *ABS*	00000000 __rtc_localtime
+65e42ad0 g       *ABS*	00000000 __rtc_localtime
 0000b15c g     F .text.itcm	0000004c micros
 0000395c g     F .text.itcm	00000044 MTPD::GetDevicePropDesc(unsigned long)
 000061f4 g     F .text.itcm	000000dc ExFatFile::syncDir()
@@ -924,7 +924,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 00003840 g     F .text.itcm	00000026 MTPD::GetNumObjects(unsigned long, unsigned long)
 0000b1a8 g     F .text.itcm	0000002a delay
 00017098 g     F .text.itcm	00000040 .hidden __fixunsdfdi
-20028d92 g     O .bss	00000002 dma_channel_allocated_mask
+20027f92 g     O .bss	00000002 dma_channel_allocated_mask
 00000e4a g     F .text.itcm	00000022 MTPStorage_SD::CloseIndex()
 00000e84  w    F .text.itcm	00000022 FsBaseFile::seekSet(unsigned long long)
 00017110 g     F .fini	00000000 _fini
@@ -933,7 +933,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 00004b20 g     F .text.itcm	00000026 TwoWire::write(unsigned char)
 000085a0 g     F .text.itcm	00000030 SharedSpiCard::isBusy()
 60001020 g     O .text.headers	0000000c BootData
-20028d4c g     O .bss	00000004 t_off
+20027f4c g     O .bss	00000004 t_off
 00005ba0 g     F .text.itcm	0000002c ExFatFile::openNext(ExFatFile*, int)
 0000e214 g     F .text.itcm	00000040 sprintf
 0000c164 g     F .text.itcm	0000001a Print::printf(char const*, ...)
@@ -955,7 +955,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 00002f88 g     F .text.itcm	000000b4 filing_init()
 0000bbf4 g     F .text.itcm	00000094 usb_mtp_recv
 0000ed70 g     F .text.itcm	0000000c nanf
-20028b80 g     O .bss	00000004 setup_ready
+20027d80 g     O .bss	00000004 setup_ready
 2000930c g     O .data	00000004 _impure_ptr
 00005672 g     F .text.itcm	0000002a ExFatFile::peek()
 0001388c g     F .text.itcm	00000130 __sflush_r
@@ -994,7 +994,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 00006b3c g     F .text.itcm	00000186 FatFile::read(void*, unsigned int)
 00004044 g     F .text.itcm	000000e4 MTPD::GetPartialObject(unsigned long, unsigned long, unsigned long)
 00006b02 g     F .text.itcm	0000000c FatFile::openRoot(FatVolume*)
-20028000 g     O .bss	00000004 ExFatVolume::m_cwv
+20027200 g     O .bss	00000004 ExFatVolume::m_cwv
 20068000 g       .text.csf	00000000 _estack
 000083b8 g     F .text.itcm	00000004 operator new(unsigned int, unsigned long*)
 0000bf90 g     F .text.itcm	00000030 DMAChannel::release()
@@ -1008,7 +1008,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 0000c148  w    F .text.itcm	0000001c _write
 200096c0 g       .data	00000000 _edata
 00005dee g     F .text.itcm	0000003a ExFatPartition::fatPut(unsigned long, unsigned long)
-20028f89 g     O .bss	00000001 external_psram_size
+20028189 g     O .bss	00000001 external_psram_size
 00003b48 g     F .text.itcm	000000d0 MTPD::GetObjectInfo(unsigned long)
 00008cd4  w    F .text.itcm	00000002 SdioCard::~SdioCard()
 00005258 g     F .text.itcm	00000048 FsName::get16()
@@ -1025,7 +1025,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 0000aecc g     F .text.itcm	00000046 ultoa
 000041aa g     F .text.itcm	00000016 MTPD::read8()
 6000176c g     F .text.code	00000048 TwoWire::begin()
-20028d90 g     O .bss	00000002 dgain
+20027f90 g     O .bss	00000002 dgain
 000081e6 g     F .text.itcm	00000076 FsBaseFile::open(FsVolume*, char const*, int)
 00001118 g     F .text.itcm	0000003e MTPStorage_SD::ReadIndexRecord(unsigned long)
 0000e2d4 g     F .text.itcm	0000003e __swrite
@@ -1057,7 +1057,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 000150bc g     F .text.itcm	00000064 _jp2uc_l
 00001e58 g     F .text.itcm	00000188 menu3()
 0000e138 g     F .text.itcm	0000000c __sfp_lock_release
-200285fc g     O .bss	00000004 mtp_txEventCount
+200277fc g     O .bss	00000004 mtp_txEventCount
 0000bfd8  w    F .text.itcm	00000014 Print::println(unsigned long, int)
 00002750 g     F .text.itcm	00000044 timeStamp()
 00009384 g     F .text.itcm	00000074 SdioCard::writeStop()
@@ -1073,7 +1073,7 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 000041d6 g     F .text.itcm	00000014 MTPD::read32()
 2000899c g     O .data	00000004 F_BUS_ACTUAL
 0000ba0e g     F .text.itcm	00000036 quadtimer_init
-20028564 g     O .bss	00000004 disk_count
+20027764 g     O .bss	00000004 disk_count
 00003578 g     F .text.itcm	000000fc time2date(unsigned long, datetime_t*)
 00007a00 g     F .text.itcm	0000003c FatVolume::chdir(char const*)
 00003674 g     F .text.itcm	000000cc date2time(datetime_t*)
@@ -1129,13 +1129,13 @@ aaaaaabf g       *ABS*	00000000 _flexram_bank_config
 70000000 g       .bss.extram	00000000 _extram_start
 0000bed0 g     F .text.itcm	00000004 pendablesrvreq_isr
 00004330 g     F .text.itcm	000000f4 MTPD::SendObject()
-20028d94 g     O .bss	00000002 monitor
+20027f94 g     O .bss	00000002 monitor
 00001d44 g     F .text.itcm	00000048 MTPStorage_SD::usedSize(unsigned long)
 00000068  w    F .text.itcm	00000004 Print::availableForWrite()
 20008d84 g     O .data	0000016c __global_locale
 00009578 g     F .text.itcm	0000026c SdioCard::begin(SdioConfig)
 0000a030 g     F .text.itcm	000000d4 usb_serial_read
-200281f0 g     O .bss	00000001 __lock___sfp_recursive_mutex
+200273f0 g     O .bss	00000001 __lock___sfp_recursive_mutex
 0000c17e g     F .text.itcm	00000014 Print::printNumber(unsigned long, unsigned char, unsigned char)
 0000adf8 g     F .text.itcm	00000040 usb_config_tx
 0000b384  w    F .text.itcm	00000006 _close
@@ -1196,7 +1196,7 @@ Disassembly of section .text.code:
 }
 60001422:	bx	lr
 60001424:	.word	0x200096c0
-60001428:	.word	0x20028fe0
+60001428:	.word	0x200281e0
 
 6000142c <ResetHandler2>:
 {
@@ -1468,11 +1468,11 @@ static inline uint32_t millis(void)
 6000160c:	.word	0x0000bed5
 60001610:	.word	0x20200000
 60001614:	.word	0xe0001000
-60001618:	.word	0x20028d3c
+60001618:	.word	0x20027f3c
 6000161c:	.word	0x08f0d180
 60001620:	.word	0x40084000
 60001624:	.word	0x56c00000
-60001628:	.word	0x20028d40
+60001628:	.word	0x20027f40
 6000162c:	.word	0x2018101b
 60001630:	.word	0x13110d0c
 
@@ -2127,7 +2127,7 @@ FLASHMEM void startup_debug_reset(void) { __asm__ volatile("nop"); }
 60001a20:	.word	0x07020021
 60001a24:	.word	0x20000014
 60001a28:	.word	0x13080025
-60001a2c:	.word	0x20028fe0
+60001a2c:	.word	0x200281e0
 60001a30:	.word	0x10000009
 60001a34:	.word	0x130b0027
 60001a38:	.word	0x40000017
@@ -2457,9 +2457,9 @@ FLASHMEM void startup_debug_reset(void) { __asm__ volatile("nop"); }
 60001cb4:	.word	0x26013206
 60001cb8:	.word	0x0a180638
 60001cbc:	.word	0x70000000
-60001cc0:	.word	0x20028f89
+60001cc0:	.word	0x20028189
 60001cc4:	.word	0x70000000
-60001cc8:	.word	0x20028574
+60001cc8:	.word	0x20027774
 
 60001ccc <usb_pll_start>:
 {
@@ -2674,12 +2674,12 @@ FLASHMEM void startup_debug_reset(void) { __asm__ volatile("nop"); }
 60001e20:	pop	{r4, pc}
 60001e22:	nop
 60001e24:	.word	0x400d8100
-60001e28:	.word	0x200286a0
+60001e28:	.word	0x200278a0
 60001e2c:	.word	0x42aa0000
-60001e30:	.word	0x2002869c
+60001e30:	.word	0x2002789c
 60001e34:	.word	0x401f4400
-60001e38:	.word	0x200286a4
-60001e3c:	.word	0x200286a8
+60001e38:	.word	0x200278a4
+60001e3c:	.word	0x200278a8
 60001e40:	.word	0x42b40000
 60001e44:	.word	0x0fff0000
 60001e48:	.word	0xe000e400
@@ -3268,7 +3268,7 @@ static inline void arm_dcache_flush_delete(void *addr, uint32_t size)
 6000227c:	.word	0x200080de
 60002280:	.word	0x20008108
 60002284:	.word	0x2000812e
-60002288:	.word	0x20028fe0
+60002288:	.word	0x200281e0
 6000228c:	.word	0x200081f7
 60002290:	.word	0x2000825a
 60002294:	.word	0x20008287
@@ -3470,7 +3470,7 @@ static inline void arm_dcache_flush_delete(void *addr, uint32_t size)
 6000240e:	bx	lr
 60002410:	.word	0x400fc000
 60002414:	.word	0x400c8000
-60002418:	.word	0x20028f80
+60002418:	.word	0x20028180
 
 6000241c <_init>:
 6000241c:	push	{r3, r4, r5, r6, r7, lr}
@@ -3758,7 +3758,7 @@ uint16_t checkDiskSpace(void)
       tz = -tz;
     } else {
       sign = '+';
-      60:	.word	0x20028604
+      60:	.word	0x20027804
  done:
   name[n] = 0;
   return n;
@@ -3937,10 +3937,10 @@ uint16_t checkDiskSpace(void)
 	}
      14c:	pop	{r3, pc}
      14e:	nop
-     150:	.word	0x20028fab
-     154:	.word	0x20028faa
-     158:	.word	0x20028d40
-     15c:	.word	0x20028d60
+     150:	.word	0x200281ab
+     154:	.word	0x200281aa
+     158:	.word	0x20027f40
+     15c:	.word	0x20027f60
 
 00000160 <Print::print(unsigned long) [clone .isra.0]>:
 	size_t print(unsigned long n)			{ return printNumber(n, 10, 0); }
@@ -4298,15 +4298,15 @@ static inline uint32_t millis(void)
      3ea:	str	r3, [r4, #0]
      3ec:	b.n	37e <loop+0x136>
      3ee:	nop
-     3f0:	.word	0x20028044
-     3f4:	.word	0x20028d8c
-     3f8:	.word	0x20028d8e
+     3f0:	.word	0x20027244
+     3f4:	.word	0x20027f8c
+     3f8:	.word	0x20027f8e
      3fc:	.word	0x2000bdcc
-     400:	.word	0x20028d54
+     400:	.word	0x20027f54
      404:	.word	0x20009700
-     408:	.word	0x20028d40
-     40c:	.word	0x20028040
-     410:	.word	0x20028d94
+     408:	.word	0x20027f40
+     40c:	.word	0x20027240
+     410:	.word	0x20027f94
      414:	.word	0x20007f7c
      418:	.word	0x200089a4
      41c:	.word	0x20007f9d
@@ -4314,17 +4314,17 @@ static inline uint32_t millis(void)
      424:	.word	0x20007fa1
      428:	.word	0x20007fa5
      42c:	.word	0x20007fa8
-     430:	.word	0x20028d96
-     434:	.word	0x200285d8
+     430:	.word	0x20027f96
+     434:	.word	0x200277d8
      438:	.word	0x20007fad
      43c:	.word	0x42004000
      440:	.word	0x20007fb2
-     444:	.word	0x200285f8
+     444:	.word	0x200277f8
      448:	.word	0x20007fb7
-     44c:	.word	0x20028624
-     450:	.word	0x2002861c
-     454:	.word	0x20028620
-     458:	.word	0x20028564
+     44c:	.word	0x20027824
+     450:	.word	0x2002781c
+     454:	.word	0x20027820
+     458:	.word	0x20027764
 
 0000045c <setup1()>:
 { while(!Serial) {}
@@ -4358,7 +4358,7 @@ static inline uint32_t millis(void)
      48c:	movs	r0, #1
      48e:	bl	b1a8 <delay>
      492:	b.n	470 <setup1()+0x14>
-     494:	.word	0x20028b80
+     494:	.word	0x20027d80
      498:	.word	0x20007e0b
      49c:	.word	0x200089a4
      4a0:	.word	0x20007e12
@@ -4619,9 +4619,9 @@ static inline uint32_t millis(void)
      62c:	ldr.w	r4, [r4, #1084]	; 0x43c
      630:	b.n	584 <storage_configure()+0x6c>
      632:	nop
-     634:	.word	0x200286b0
+     634:	.word	0x200278b0
      638:	.word	0x20009320
-     63c:	.word	0x20028b84
+     63c:	.word	0x20027d84
      640:	.word	0x20007c0f
      644:	.word	0x200089a4
      648:	.word	0x20007c26
@@ -4755,14 +4755,14 @@ class DedicatedSpiCard : public SharedSpiCard {
   SdFs sdx[nsd];
      71a:	b.w	c358 <__aeabi_atexit>
      71e:	nop
-     720:	.word	0x20028b84
+     720:	.word	0x20027d84
      724:	.word	0x20000444
      728:	.word	0x000001a5
      72c:	.word	0x20000548
      730:	.word	0x20008d80
      734:	.word	0x20009700
      738:	.word	0x20000590
-     73c:	.word	0x200286b0
+     73c:	.word	0x200278b0
      740:	.word	0x003d0900
      744:	.word	0x200004b0
      748:	.word	0x0000006d
@@ -4927,10 +4927,10 @@ class DedicatedSpiCard : public SharedSpiCard {
 }
      870:	add	sp, #28
      872:	pop	{r4, r5, r6, r7, pc}
-     874:	.word	0x20028d40
+     874:	.word	0x20027f40
      878:	.word	0x02dc6c00
-     87c:	.word	0x20028fab
-     880:	.word	0x20028d54
+     87c:	.word	0x200281ab
+     880:	.word	0x20027f54
      884:	.word	0x20009338
      888:	.word	0x20009334
      88c:	.word	0x20007e84
@@ -4942,7 +4942,7 @@ class DedicatedSpiCard : public SharedSpiCard {
      8a4:	.word	0x20007fee
      8a8:	.word	0x20008015
      8ac:	.word	0x20008021
-     8b0:	.word	0x20028b80
+     8b0:	.word	0x20027d80
 
 000008b4 <DMAChannel::~DMAChannel()>:
 	}
@@ -5071,13 +5071,13 @@ static void __not_in_flash_func(process)(int32_t * buffer)
      944:	ldr	r0, [pc, #20]	; (95c <acq_isr()+0x9c>)
      946:	bl	303c <compress(void*)>
      94a:	b.n	930 <acq_isr()+0x70>
-     94c:	.word	0x200277dc
+     94c:	.word	0x200269dc
      950:	.word	0x400e8000
      954:	.word	0x20200400
-     958:	.word	0x2002861c
-     95c:	.word	0x20028364
-     960:	.word	0x20028d96
-     964:	.word	0x20028620
+     958:	.word	0x2002781c
+     95c:	.word	0x20027564
+     960:	.word	0x20027f96
+     964:	.word	0x20027820
 
 00000968 <setAudioFrequency(int)>:
   {
@@ -5395,7 +5395,7 @@ static void __not_in_flash_func(process)(int32_t * buffer)
   }
      bc8:	pop	{r4, pc}
      bca:	nop
-     bcc:	.word	0x200277dc
+     bcc:	.word	0x200269dc
      bd0:	.word	0x403840a0
      bd4:	.word	0x02020000
      bd8:	.word	0x20200000
@@ -5443,7 +5443,7 @@ static void __not_in_flash_func(process)(int32_t * buffer)
      c24:	ldmia.w	sp!, {r3, lr}
   static DMAChannel dma;
      c28:	b.w	c358 <__aeabi_atexit>
-     c2c:	.word	0x200277dc
+     c2c:	.word	0x200269dc
      c30:	.word	0x20008d80
      c34:	.word	0x000008b5
 
@@ -7949,7 +7949,7 @@ static char * menuGetLine(void)
 }
     1e14:	mov	r0, r4
     1e16:	pop	{r4, pc}
-    1e18:	.word	0x20028f58
+    1e18:	.word	0x20028158
     1e1c:	.word	0x200089a4
 
 00001e20 <menuGetInt32(long*) [clone .isra.0]>:
@@ -8170,10 +8170,10 @@ void menu3(void)
     1fb8:	.word	0x20009338
     1fbc:	.word	0x20009310
     1fc0:	.word	0x20009342
-    1fc4:	.word	0x20028d96
+    1fc4:	.word	0x20027f96
     1fc8:	.word	0x20009340
     1fcc:	.word	0x20009314
-    1fd0:	.word	0x20028d48
+    1fd0:	.word	0x20027f48
     1fd4:	.word	0x20009324
     1fd8:	.word	0x20009328
     1fdc:	.word	0x2000932c
@@ -8287,20 +8287,20 @@ void saveParameters(void)
   storeConfig(store, 16);
     2058:	b.w	1fe0 <storeConfig(unsigned short*, int)>
     205c:	.word	0x20009314
-    2060:	.word	0x20028d6c
+    2060:	.word	0x20027f6c
     2064:	.word	0x20009330
     2068:	.word	0x20009334
-    206c:	.word	0x20028d4c
+    206c:	.word	0x20027f4c
     2070:	.word	0x20009338
-    2074:	.word	0x20028d96
+    2074:	.word	0x20027f96
     2078:	.word	0x20009342
-    207c:	.word	0x20028d48
+    207c:	.word	0x20027f48
     2080:	.word	0x20009324
     2084:	.word	0x20009328
     2088:	.word	0x2000932c
     208c:	.word	0x20009310
     2090:	.word	0x20009340
-    2094:	.word	0x20028d90
+    2094:	.word	0x20027f90
 
 00002098 <menu1(short)>:
 {   // have ':'
@@ -8330,14 +8330,14 @@ void saveParameters(void)
     else if(ch=='m') 
     20be:	cmp	r3, #109	; 0x6d
     20c0:	bne.n	20ba <menu1(short)+0x22>
-    { menuGetInt32((int32_t *)&monitor);
+    { menuGetInt16((int16_t *)&monitor);
     20c2:	ldr	r0, [pc, #16]	; (20d4 <menu1(short)+0x3c>)
-    20c4:	bl	1e20 <menuGetInt32(long*) [clone .isra.0]>
+    20c4:	bl	1e3c <menuGetInt16(short*) [clone .isra.0]>
     20c8:	b.n	20ba <menu1(short)+0x22>
     20ca:	nop
     20cc:	.word	0x20007cbb
     20d0:	.word	0x200089a4
-    20d4:	.word	0x20028d94
+    20d4:	.word	0x20027f94
 
 000020d8 <loadParameters()>:
 }
@@ -8498,20 +8498,20 @@ uint16_t *loadParameters(void)
     store[15] = 0; 
     21c8:	strh	r3, [r4, #30]
     21ca:	b.n	215c <loadParameters()+0x84>
-    21cc:	.word	0x20028d6c
-    21d0:	.word	0x20028d96
-    21d4:	.word	0x20028d48
+    21cc:	.word	0x20027f6c
+    21d0:	.word	0x20027f96
+    21d4:	.word	0x20027f48
     21d8:	.word	0x20009324
     21dc:	.word	0x20009328
     21e0:	.word	0x2000932c
     21e4:	.word	0x20009310
     21e8:	.word	0x20009334
     21ec:	.word	0x20009340
-    21f0:	.word	0x20028d90
+    21f0:	.word	0x20027f90
     21f4:	.word	0x20009314
     21f8:	.word	0x20009330
     21fc:	.word	0x20009338
-    2200:	.word	0x20028d4c
+    2200:	.word	0x20027f4c
     2204:	.word	0x20009342
 
 00002208 <menu2()>:
@@ -8812,11 +8812,11 @@ uint16_t *loadParameters(void)
     2490:	.word	0x20007d25
     2494:	.word	0x20009342
     2498:	.word	0x20007d32
-    249c:	.word	0x20028d96
+    249c:	.word	0x20027f96
     24a0:	.word	0x20007d3f
     24a4:	.word	0x20009340
     24a8:	.word	0x20007d4c
-    24ac:	.word	0x20028d48
+    24ac:	.word	0x20027f48
     24b0:	.word	0x20007d59
     24b4:	.word	0x20009324
     24b8:	.word	0x20007d66
@@ -8915,7 +8915,7 @@ uint16_t *loadParameters(void)
     2580:	.word	0x20007c60
     2584:	.word	0x200089a4
     2588:	.word	0x20007c68
-    258c:	.word	0x20028d94
+    258c:	.word	0x20027f94
     2590:	.word	0x20007c6f
     2594:	.word	0x20007c7a
 
@@ -8924,7 +8924,7 @@ uint16_t *loadParameters(void)
 uint16_t *getStore(void) {return store;}
     2598:	ldr	r0, [pc, #0]	; (259c <getStore()+0x4>)
     259a:	bx	lr
-    259c:	.word	0x20028d6c
+    259c:	.word	0x20027f6c
 
 000025a0 <getDataCount()>:
   volatile static int queue_busy=0;
@@ -8943,8 +8943,8 @@ uint16_t *getStore(void) {return store;}
     25ae:	uxth	r0, r0
     25b0:	bx	lr
     25b2:	nop
-    25b4:	.word	0x200279e8
-    25b8:	.word	0x200279e4
+    25b4:	.word	0x20026be8
+    25b8:	.word	0x20026be4
 
 000025bc <queue_isBusy()>:
   int __not_in_flash_func(queue_isBusy)(void) { return queue_busy; }
@@ -8952,7 +8952,7 @@ uint16_t *getStore(void) {return store;}
     25be:	ldr	r0, [r3, #0]
     25c0:	bx	lr
     25c2:	nop
-    25c4:	.word	0x2000d7d4
+    25c4:	.word	0x2000d1d4
 
 000025c8 <pushData(unsigned long*)>:
 
@@ -8986,7 +8986,6 @@ uint16_t *getStore(void) {return store;}
     25f0:	ldr	r0, [r5, #0]
     25f2:	add.w	r0, r3, r0, lsl #9
     25f6:	bl	9c60 <memcpy>
-    //for(int ii=0;ii<NBUF_ACQ;ii++)data_buffer[tail][ii]=data[ii];
     tail = (tail+1)%MAXBUF;
     25fa:	ldr	r3, [r5, #0]
     queue_busy=0;
@@ -9005,10 +9004,10 @@ uint16_t *getStore(void) {return store;}
     if ( (tail+1)%MAXBUF == head ) return 0;
     2610:	movs	r0, #0
     2612:	b.n	260e <pushData(unsigned long*)+0x46>
-    2614:	.word	0x200279e8
-    2618:	.word	0x200279e4
-    261c:	.word	0x2000d7d4
-    2620:	.word	0x2000d7d8
+    2614:	.word	0x20026be8
+    2618:	.word	0x20026be4
+    261c:	.word	0x2000d1d4
+    2620:	.word	0x2000d1d8
 
 00002624 <pullData(unsigned long*)>:
   
@@ -9037,7 +9036,6 @@ uint16_t *getStore(void) {return store;}
     263e:	ldr	r1, [r5, #0]
     2640:	add.w	r1, r3, r1, lsl #9
     2644:	bl	9c60 <memcpy>
-    //for(int ii=0;ii<NBUF_ACQ;ii++)data[ii]=data_buffer[head][ii];
     head = (head+1)%MAXBUF;
     2648:	ldr	r3, [r5, #0]
     264a:	movs	r2, #192	; 0xc0
@@ -9057,10 +9055,10 @@ uint16_t *getStore(void) {return store;}
     if ( head==tail ) return 0;
     2660:	movs	r0, #0
     2662:	b.n	265e <pullData(unsigned long*)+0x3a>
-    2664:	.word	0x200279e8
-    2668:	.word	0x200279e4
-    266c:	.word	0x2000d7d4
-    2670:	.word	0x2000d7d8
+    2664:	.word	0x20026be8
+    2668:	.word	0x20026be4
+    266c:	.word	0x2000d1d4
+    2670:	.word	0x2000d1d8
 
 00002674 <dateTime(unsigned short*, unsigned short*, unsigned char*)>:
 {
@@ -9237,7 +9235,7 @@ static inline uint16_t FS_TIME(uint8_t hour, uint8_t minute, uint8_t second) {
     2786:	add	sp, #24
     2788:	pop	{r4, pc}
     278a:	nop
-    278c:	.word	0x20028f08
+    278c:	.word	0x20028108
     2790:	.word	0x20007b05
 
 00002794 <headerInit(long, long, long, int)>:
@@ -9303,7 +9301,7 @@ static inline uint16_t FS_TIME(uint8_t hour, uint8_t minute, uint8_t second) {
     27ea:	add.w	r3, r3, #15859712	; 0xf20000
     27ee:	adds	r3, #5
     27f0:	str	r3, [r4, #36]	; 0x24
-  wav_hdr.rLen=512-2*4; // will be updated at closing
+  wav_hdr.rLen = 512-2*4; // will be updated at closing
     27f2:	mov.w	r3, #504	; 0x1f8
     27f6:	str	r3, [r4, #4]
   wav_hdr.iLen = 512 - 13*4;
@@ -9344,12 +9342,12 @@ static inline uint16_t FS_TIME(uint8_t hour, uint8_t minute, uint8_t second) {
     284a:	add	sp, #8
     284c:	pop	{r4, r5, r6, pc}
     284e:	nop
-    2850:	.word	0x20027bf4
+    2850:	.word	0x20026df4
     2854:	.word	0x46464952
     2858:	.word	0x20007af4
     285c:	.word	0x20007af9
     2860:	.word	0x20007afe
-    2864:	.word	0x20027c5e
+    2864:	.word	0x20026e5e
 
 00002868 <headerUpdate(long)>:
   wav_hdr.dLen = nbytes;
@@ -9366,7 +9364,7 @@ static inline uint16_t FS_TIME(uint8_t hour, uint8_t minute, uint8_t second) {
     2874:	str	r2, [r3, #4]
 }
     2876:	bx	lr
-    2878:	.word	0x20027bf4
+    2878:	.word	0x20026df4
 
 0000287c <writeHeader(char*)>:
     return m_fFile ? m_fFile->curPosition() :
@@ -9412,10 +9410,10 @@ static inline uint16_t FS_TIME(uint8_t hour, uint8_t minute, uint8_t second) {
     28c6:	mov	r5, r3
     28c8:	b.n	288a <writeHeader(char*)+0xe>
     28ca:	nop
-    28cc:	.word	0x20028584
+    28cc:	.word	0x20027784
     28d0:	.word	0x20007b95
     28d4:	.word	0x200089a4
-    28d8:	.word	0x20028594
+    28d8:	.word	0x20027794
 
 000028dc <makeHeader(long*)>:
 {
@@ -9443,13 +9441,13 @@ static inline uint16_t FS_TIME(uint8_t hour, uint8_t minute, uint8_t second) {
     2910:	bl	e214 <sprintf>
     header[5] = 20;          // SW version
     2914:	movs	r3, #20
-    header[8] = NCH;
+    header[8] = NCHAN_ACQ;
     2916:	movs	r0, #1
     header[5] = 20;          // SW version
     2918:	str	r3, [r4, #20]
     header[6] = SerNum;      // serial number
     291a:	ldr	r3, [pc, #84]	; (2970 <makeHeader(long*)+0x94>)
-    header[8] = NCH;
+    header[8] = NCHAN_ACQ;
     291c:	str	r0, [r4, #32]
     header[6] = SerNum;      // serial number
     291e:	ldr	r3, [r3, #0]
@@ -9504,10 +9502,10 @@ static inline uint16_t FS_TIME(uint8_t hour, uint8_t minute, uint8_t second) {
     2978:	.word	0x20009330
     297c:	.word	0x20009334
     2980:	.word	0x20009338
-    2984:	.word	0x20028d96
+    2984:	.word	0x20027f96
     2988:	.word	0x20009342
     298c:	.word	0x20009340
-    2990:	.word	0x20028d90
+    2990:	.word	0x20027f90
 
 00002994 <checkEndOfFile(short)>:
   if(state==RUNNING)
@@ -9558,7 +9556,7 @@ static inline uint16_t FS_TIME(uint8_t hour, uint8_t minute, uint8_t second) {
     29dc:	b.n	29c4 <checkEndOfFile(short)+0x30>
     29de:	nop
     29e0:	.word	0x20009330
-    29e4:	.word	0x2002803c
+    29e4:	.word	0x2002723c
     29e8:	.word	0x20009338
     29ec:	.word	0x20009334
 
@@ -9699,7 +9697,7 @@ int16_t newFileName(char *fileName)
     2ad4:	ldr	r1, [pc, #24]	; (2af0 <newFileName(char*)+0x80>)
     2ad6:	bl	e214 <sprintf>
     2ada:	b.n	2ab0 <newFileName(char*)+0x40>
-    2adc:	.word	0x20028d96
+    2adc:	.word	0x20027f96
     2ae0:	.word	0x20007b5d
     2ae4:	.word	0x20007b5f
     2ae8:	.word	0x200089a4
@@ -9800,7 +9798,7 @@ uint32_t getAlarmTime(uint32_t secs)
     2b76:	add.w	r0, r0, #384	; 0x180
     2b7a:	b.n	2b58 <getAlarmTime(unsigned long)+0x64>
     2b7c:	.word	0x00015180
-    2b80:	.word	0x20028d48
+    2b80:	.word	0x20027f48
     2b84:	.word	0x20009324
     2b88:	.word	0x20009328
     2b8c:	.word	0x2000932c
@@ -10034,7 +10032,7 @@ class StreamFile : public stream_t, public BaseFile {
     if(status==OPENED) // file is open: write first record (header)
     2d06:	cmp	r0, #1
     2d08:	beq.n	2ce4 <storeData(short)+0xe8>
-    if(status==RUNNING) // file is open, header written: store data records
+    if(status==RUNNING) // file is open and header written: store data records
     2d0a:	cmp	r0, #2
     2d0c:	beq.n	2d6e <storeData(short)+0x172>
     if((status==DOCLOSE) || (status==DOHIBERNATE) || (status==MUSTSTOP)) // should close file or stop acquisition
@@ -10054,7 +10052,7 @@ class StreamFile : public stream_t, public BaseFile {
     2d26:	cbnz	r3, 2d3a <storeData(short)+0x13e>
               char *hdr = headerUpdate(nbuf*MAX_DISK_BUFFER*4);
     2d28:	ldr	r3, [pc, #224]	; (2e0c <storeData(short)+0x210>)
-    2d2a:	mov.w	r0, #6144	; 0x1800
+    2d2a:	mov.w	r0, #4608	; 0x1200
     2d2e:	ldr	r3, [r3, #0]
     2d30:	muls	r0, r3
     2d32:	bl	2868 <headerUpdate(long)>
@@ -10070,7 +10068,7 @@ class StreamFile : public stream_t, public BaseFile {
     2d44:	ldr	r3, [pc, #216]	; (2e20 <storeData(short)+0x224>)
     2d46:	ldr	r0, [r3, #0]
     2d48:	bl	2b94 <do_hibernate(unsigned long)>
-          hdr = headerInit(fsamp, NCH, NBITS, SerNum);
+          hdr = headerInit(fsamp, NCHAN_ACQ, NBITS, SerNum);
     2d4c:	ldr	r3, [pc, #212]	; (2e24 <storeData(short)+0x228>)
     2d4e:	movs	r1, #1
     2d50:	movs	r2, #24
@@ -10086,11 +10084,11 @@ class StreamFile : public stream_t, public BaseFile {
     2d68:	cmp.w	r0, #512	; 0x200
     2d6c:	bcc.n	2ddc <storeData(short)+0x1e0>
         if((nd=file.write((const void *)diskBuffer,4*MAX_DISK_BUFFER)) < 4*MAX_DISK_BUFFER) 
-    2d6e:	mov.w	r2, #6144	; 0x1800
+    2d6e:	mov.w	r2, #4608	; 0x1200
     2d72:	ldr	r1, [pc, #184]	; (2e2c <storeData(short)+0x230>)
     2d74:	ldr	r0, [pc, #164]	; (2e1c <storeData(short)+0x220>)
     2d76:	bl	1e0 <FsBaseFile::write(void const*, unsigned int)>
-    2d7a:	cmp.w	r0, #6144	; 0x1800
+    2d7a:	cmp.w	r0, #4608	; 0x1200
     2d7e:	mov	r4, r0
     2d80:	ldr	r5, [pc, #136]	; (2e0c <storeData(short)+0x210>)
     2d82:	bcs.n	2dd2 <storeData(short)+0x1d6>
@@ -10152,25 +10150,25 @@ class StreamFile : public stream_t, public BaseFile {
     2dea:	add	sp, #84	; 0x54
     2dec:	pop	{r4, r5, pc}
     2dee:	nop
-    2df0:	.word	0x20028e64
+    2df0:	.word	0x20028064
     2df4:	.word	0x2000931c
     2df8:	.word	0x20007e4c
     2dfc:	.word	0x200089a4
     2e00:	.word	0x20007e58
-    2e04:	.word	0x20028eb4
-    2e08:	.word	0x20028584
-    2e0c:	.word	0x20028600
-    2e10:	.word	0x20028d96
-    2e14:	.word	0x2000d5d0
+    2e04:	.word	0x200280b4
+    2e08:	.word	0x20027784
+    2e0c:	.word	0x20027800
+    2e10:	.word	0x20027f96
+    2e14:	.word	0x2000cfd0
     2e18:	.word	0x20007e64
-    2e1c:	.word	0x20028594
+    2e1c:	.word	0x20027794
     2e20:	.word	0x20009338
     2e24:	.word	0x20009310
     2e28:	.word	0x2000bdc8
     2e2c:	.word	0x2000bdd0
     2e30:	.word	0x20007e76
     2e34:	.word	0x20007fa6
-    2e38:	.word	0x20028564
+    2e38:	.word	0x20027764
 
 00002e3c <saveData(short)>:
     if(status==STOPPED) 
@@ -10214,7 +10212,7 @@ class StreamFile : public stream_t, public BaseFile {
     2e84:	mov	r4, r0
     if(getDataCount()>=nblocks)
     2e86:	bl	25a0 <getDataCount()>
-    2e8a:	cmp	r0, #15
+    2e8a:	cmp	r0, #8
     2e8c:	bls.n	2f36 <saveData(short)+0xfa>
       digitalWrite(13,HIGH);
     2e8e:	movs	r1, #1
@@ -10239,7 +10237,7 @@ class StreamFile : public stream_t, public BaseFile {
     2eb0:	bl	2624 <pullData(unsigned long*)>
         for(int ii=0; ii<nblocks; ii++)
     2eb4:	add.w	r8, r8, #512	; 0x200
-    2eb8:	cmp	r5, #16
+    2eb8:	cmp	r5, #9
     2eba:	bne.n	2ea2 <saveData(short)+0x66>
     2ebc:	ldr	r2, [pc, #128]	; (2f40 <saveData(short)+0x104>)
         for(int ii=0;ii<8;ii++) logBuffer[ii]=tempBuffer0[ii];
@@ -10262,7 +10260,7 @@ class StreamFile : public stream_t, public BaseFile {
             outptr[jj++]=(inpp[ii]) &0xff;
     2edc:	strb.w	r2, [r3, #-3]
           for(int ii=0; ii<MAX_TEMP_BUFFER;ii++)
-    2ee0:	cmp.w	r6, #6144	; 0x1800
+    2ee0:	cmp.w	r6, #4608	; 0x1200
             outptr[jj++]=(inpp[ii]>>16) &0xff;
     2ee4:	mov.w	r2, r2, lsr #16
             outptr[jj++]=(inpp[ii]>>8) &0xff;
@@ -10314,12 +10312,12 @@ class StreamFile : public stream_t, public BaseFile {
     2f38:	movs	r0, #13
     2f3a:	bl	b8f8 <digitalWrite>
     2f3e:	b.n	2e6e <saveData(short)+0x32>
-    2f40:	.word	0x200257dc
-    2f44:	.word	0x200285d8
+    2f40:	.word	0x200251dc
+    2f44:	.word	0x200277d8
     2f48:	.word	0x42004000
-    2f4c:	.word	0x20028d96
+    2f4c:	.word	0x20027f96
     2f50:	.word	0x2000bdd0
-    2f54:	.word	0x200285d4
+    2f54:	.word	0x200277d4
 
 00002f58 <_GLOBAL__sub_I_t_acq>:
 	constexpr Print() : write_error(0) {}
@@ -10339,7 +10337,7 @@ class FsFile : public StreamFile<FsBaseFile, uint64_t> {
     2f70:	str	r3, [r0, #0]
     2f72:	b.w	c358 <__aeabi_atexit>
     2f76:	nop
-    2f78:	.word	0x20028584
+    2f78:	.word	0x20027784
     2f7c:	.word	0x00000ed1
     2f80:	.word	0x20000548
     2f84:	.word	0x20008d80
@@ -10425,16 +10423,16 @@ class FsFile : public StreamFile<FsBaseFile, uint64_t> {
     3014:	.word	0x401f4400
     3018:	.word	0x2000bdc8
     301c:	.word	0x200089a4
-    3020:	.word	0x20027ffc
+    3020:	.word	0x200271fc
     3024:	.word	0x00002675
     3028:	.word	0x20007b1f
-    302c:	.word	0x200285d4
+    302c:	.word	0x200277d4
     3030:	.word	0x20007b41
     3034:	.word	0x2000931c
     3038:	.word	0x20007b31
 
 0000303c <compress(void*)>:
-int32_t tempData0[NCH];
+int32_t tempData0[NCHAN_ACQ];
 
 uint32_t proc_stat[MB];
 uint32_t max_stat;
@@ -10454,25 +10452,25 @@ int __not_in_flash_func(compress)(void *inp)
   int32_t *din = (int32_t *) inp;
   //
   // copy reference (first sample of all channels)
-  for (int  ii = 0; ii < NCH; ii++) tempData0[ii] = tempDatai[ii] = din[ii];
+  for (int  ii = 0; ii < NCHAN_ACQ; ii++) tempData0[ii] = tempDatai[ii] = din[ii];
     304c:	ldr	r3, [pc, #604]	; (32ac <compress(void*)+0x270>)
     304e:	add.w	r6, r4, #508	; 0x1fc
     3052:	ldr	r1, [pc, #604]	; (32b0 <compress(void*)+0x274>)
   t1 = micros();
     3054:	mov	sl, r0
-  for (int  ii = 0; ii < NCH; ii++) tempData0[ii] = tempDatai[ii] = din[ii];
+  for (int  ii = 0; ii < NCHAN_ACQ; ii++) tempData0[ii] = tempDatai[ii] = din[ii];
     3056:	ldr	r2, [r3, #0]
     3058:	ldr	r3, [r4, #0]
     305a:	str	r3, [r2, #0]
     305c:	str	r3, [r1, #0]
   
   //differentiate (equiv 6 dB/Octave HP filter)
-  for (int  ii = NCH; ii < NSAMP; ii++) tempDatai[ii] = (din[ii] - din[ii - NCH]);
+  for (int  ii = NCHAN_ACQ; ii < NBUF_ACQ; ii++) tempDatai[ii] = (din[ii] - din[ii - NCHAN_ACQ]);
     305e:	mov	r3, r4
     3060:	mov	r1, r2
-  for (int  ii = 0; ii < NCH; ii++) tempData0[ii] = tempDatai[ii] = din[ii];
+  for (int  ii = 0; ii < NCHAN_ACQ; ii++) tempData0[ii] = tempDatai[ii] = din[ii];
     3062:	mov	r4, r2
-  for (int  ii = NCH; ii < NSAMP; ii++) tempDatai[ii] = (din[ii] - din[ii - NCH]);
+  for (int  ii = NCHAN_ACQ; ii < NBUF_ACQ; ii++) tempDatai[ii] = (din[ii] - din[ii - NCHAN_ACQ]);
     3064:	mov	r5, r3
     3066:	adds	r3, #4
     3068:	ldrd	r5, r0, [r5]
@@ -10485,7 +10483,7 @@ int __not_in_flash_func(compress)(void *inp)
   // find maximum in filtered data
   int32_t mx = 0;
     307c:	movs	r3, #0
-  for (int ii = NCH; ii < NSAMP; ii++)
+  for (int ii = NCHAN_ACQ; ii < NBUF_ACQ; ii++)
   {
     int32_t dd =  tempDatai[ii];
     307e:	ldr.w	r0, [r1, #4]!
@@ -10497,7 +10495,7 @@ int __not_in_flash_func(compress)(void *inp)
     3088:	cmp	r3, r0
     308a:	it	lt
     308c:	movlt	r3, r0
-  for (int ii = NCH; ii < NSAMP; ii++)
+  for (int ii = NCHAN_ACQ; ii < NBUF_ACQ; ii++)
     308e:	cmp	r1, r2
     3090:	bne.n	307e <compress(void*)+0x42>
   }
@@ -10538,7 +10536,7 @@ int __not_in_flash_func(compress)(void *inp)
     30c6:	movs	r3, #1
     30c8:	lsl.w	r0, r3, r4
     30cc:	subs	r0, #1
-  for (int ii = NCH; ii < NSAMP; ii++) { tempData[ii] &= (uint32_t)msk; }
+  for (int ii = NCHAN_ACQ; ii < NBUF_ACQ; ii++) { tempData[ii] &= (uint32_t)msk; }
     30ce:	ldr.w	r1, [r2, #4]!
     30d2:	adds	r3, #1
     30d4:	ands	r1, r0
@@ -10554,7 +10552,7 @@ int __not_in_flash_func(compress)(void *inp)
     30dc:	ldr	r5, [pc, #476]	; (32bc <compress(void*)+0x280>)
     30de:	mov.w	r2, #512	; 0x200
     30e2:	movs	r1, #0
-  int ncmp = (NSAMP*nb) / MBIT;
+  int ncmp = (NBUF_ACQ*nb) / MBIT;
     30e4:	mov.w	r9, r4, lsl #2
   for (int ii = 0; ii < NSAMP; ii++) outData[ii]=0;
     30e8:	mov	r0, r5
@@ -10567,7 +10565,7 @@ int __not_in_flash_func(compress)(void *inp)
   *iptr++ = nb | shift<<16;
   *iptr++ = to;
     30f2:	ldr	r3, [sp, #4]
-  int ndat = NH+NCH + ncmp;
+  int ndat = NH + NCHAN_ACQ + ncmp;
     30f4:	add.w	r7, r9, #7
   *iptr++ = 0xA5A5A5A5;
     30f8:	str	r2, [r5, #0]
@@ -10576,8 +10574,8 @@ int __not_in_flash_func(compress)(void *inp)
   *iptr++ = nb | shift<<16;
     30fe:	ldr	r2, [pc, #448]	; (32c0 <compress(void*)+0x284>)
   *iptr++ = t1;
-  *iptr++ = NCH;
-  *iptr++ = NCH+ncmp; // number of data after header
+  *iptr++ = NCHAN_ACQ;
+  *iptr++ = NCHAN_ACQ+ncmp; // number of data after header
   //
   int kk=NH;
   outData[kk++] = tempData[0]; tempData[0] = 0;
@@ -10592,27 +10590,27 @@ int __not_in_flash_func(compress)(void *inp)
     310c:	ldr.w	r3, [fp]
   *iptr++ = nb | shift<<16;
     3110:	str	r2, [r5, #4]
-  *iptr++ = NCH;
+  *iptr++ = NCHAN_ACQ;
     3112:	movs	r2, #1
   outData[kk++] = tempData[0]; tempData[0] = 0;
     3114:	str	r3, [r5, #24]
     3116:	movs	r3, #0
-  *iptr++ = NCH+ncmp; // number of data after header
+  *iptr++ = NCHAN_ACQ+ncmp; // number of data after header
     3118:	add.w	r0, r9, r2
-  *iptr++ = NCH;
+  *iptr++ = NCHAN_ACQ;
     311c:	str	r2, [r5, #16]
   #endif
 
   // pack data
   // 
   int nx = MBIT;
-  for (int ii = 0; ii < NSAMP; ii ++)
+  for (int ii = 0; ii < NBUF_ACQ; ii ++)
     311e:	mov	ip, r3
   outData[kk++] = tempData[0]; tempData[0] = 0;
     3120:	str.w	r3, [fp]
   int nx = MBIT;
     3124:	movs	r3, #32
-  *iptr++ = NCH+ncmp; // number of data after header
+  *iptr++ = NCHAN_ACQ+ncmp; // number of data after header
     3126:	str	r0, [r5, #20]
   {   nx -= nb;
     3128:	sub.w	lr, r3, r4
@@ -10628,7 +10626,7 @@ int __not_in_flash_func(compress)(void *inp)
     313e:	mov	r3, lr
     3140:	orr.w	r2, r2, sl
     3144:	str.w	r2, [r5, r1, lsl #2]
-  for (int ii = 0; ii < NSAMP; ii ++)
+  for (int ii = 0; ii < NBUF_ACQ; ii ++)
     3148:	add.w	ip, ip, #1
     314c:	cmp.w	ip, #128	; 0x80
     3150:	bne.n	3128 <compress(void*)+0xec>
@@ -10637,7 +10635,7 @@ int __not_in_flash_func(compress)(void *inp)
   // store actual data
   static int nout=0;
 
-  if ((nout + ndat) <= NBLOCK)
+  if ((nout + ndat) <= NBUF_OUT)
     3152:	ldr.w	r8, [pc, #376]	; 32cc <compress(void*)+0x290>
     3156:	ldr.w	r4, [r8]
     315a:	add.w	r9, r4, r6
@@ -10687,12 +10685,12 @@ int __not_in_flash_func(compress)(void *inp)
     31aa:	lsls	r2, r3
     31ac:	str.w	r2, [r5, r9, lsl #2]
     31b0:	b.n	3148 <compress(void*)+0x10c>
-  else if ((nout + NH) > NBLOCK) //avoid partial header (special case)
+  else if ((nout + NH) > NBUF_OUT) //avoid partial header (special case)
     31b2:	cmp	r4, #122	; 0x7a
     31b4:	ble.n	3200 <compress(void*)+0x1c4>
     31b6:	movs	r2, #0
     31b8:	mov	r3, r4
-      while(nout<NBLOCK) dout[nout++] = 0; // fill rest of block with zero
+      while(nout<NBUF_OUT) dout[nout++] = 0; // fill rest of block with zero
     31ba:	ldr	r1, [pc, #264]	; (32c4 <compress(void*)+0x288>)
     31bc:	mov	r0, r2
     31be:	cmp	r3, #127	; 0x7f
@@ -10719,7 +10717,7 @@ int __not_in_flash_func(compress)(void *inp)
     31ec:	bl	9c60 <memcpy>
     31f0:	str.w	r6, [r8]
     31f4:	b.n	317a <compress(void*)+0x13e>
-      while(nout<NBLOCK) dout[nout++] = 0; // fill rest of block with zero
+      while(nout<NBUF_OUT) dout[nout++] = 0; // fill rest of block with zero
     31f6:	str.w	r0, [r1, r3, lsl #2]
     31fa:	movs	r2, #1
     31fc:	adds	r3, #1
@@ -10727,14 +10725,14 @@ int __not_in_flash_func(compress)(void *inp)
       iptr[5] = (iptr[5]<<16) | (nr-NH);  //orig remaining data | actual remaining data after header 
     3200:	rsb	r3, r4, #122	; 0x7a
     3204:	ldr	r1, [pc, #180]	; (32bc <compress(void*)+0x280>)
-      while (nout < NBLOCK) dout[nout++] = outData[ii++];
+      while (nout < NBUF_OUT) dout[nout++] = outData[ii++];
     3206:	ldr	r2, [pc, #188]	; (32c4 <compress(void*)+0x288>)
       iptr[5] = (iptr[5]<<16) | (nr-NH);  //orig remaining data | actual remaining data after header 
     3208:	orr.w	r3, r3, r0, lsl #16
     320c:	mov	r0, r1
     320e:	str	r3, [r5, #20]
     3210:	mov	r3, r4
-      while (nout < NBLOCK) dout[nout++] = outData[ii++];
+      while (nout < NBUF_OUT) dout[nout++] = outData[ii++];
     3212:	ldr.w	ip, [r0], #4
     3216:	str.w	ip, [r2, r3, lsl #2]
     321a:	adds	r3, #1
@@ -10806,14 +10804,14 @@ int __not_in_flash_func(compress)(void *inp)
     32a8:	b.n	3272 <compress(void*)+0x236>
     32aa:	nop
     32ac:	.word	0x2000933c
-    32b0:	.word	0x20028d50
-    32b4:	.word	0x20028624
-    32b8:	.word	0x200285f8
-    32bc:	.word	0x200279f4
+    32b0:	.word	0x20027f50
+    32b4:	.word	0x20027824
+    32b8:	.word	0x200277f8
+    32bc:	.word	0x20026bf4
     32c0:	.word	0x20009342
-    32c4:	.word	0x200277e4
-    32c8:	.word	0x20027df4
-    32cc:	.word	0x20028048
+    32c4:	.word	0x200269e4
+    32c8:	.word	0x20026ff4
+    32cc:	.word	0x20027248
 
 000032d0 <Print::print(char const*) [clone .isra.0]>:
 	size_t print(const char s[])			{ return write(s); }
@@ -11059,7 +11057,7 @@ int __not_in_flash_func(compress)(void *inp)
     3488:	.word	0x200089a4
     348c:	.word	0x20007e7c
     3490:	.word	0x20007e78
-    3494:	.word	0x20028d90
+    3494:	.word	0x20027f90
     3498:	.word	0x20007e3e
     349c:	.word	0x20007e45
     34a0:	.word	0x20007e28
@@ -11732,7 +11730,7 @@ int __not_in_flash_func(compress)(void *inp)
             dst=tx_data_buffer;
     3836:	str.w	r4, [sl]
     383a:	b.n	37f8 <MTPD::write(char const*, int) [clone .part.0]+0x30>
-    383c:	.word	0x20028050
+    383c:	.word	0x20027250
 
 00003840 <MTPD::GetNumObjects(unsigned long, unsigned long)>:
   { uint32_t store = Storage2Store(storage);
@@ -11809,7 +11807,7 @@ int __not_in_flash_func(compress)(void *inp)
     389e:	ldr	r3, [r0, #0]
     38a0:	ldr	r3, [r3, #68]	; 0x44
     38a2:	bx	r3
-    38a4:	.word	0x20028b7c
+    38a4:	.word	0x20027d7c
 
 000038a8 <MTPD::pull_packet(unsigned char*)>:
     {
@@ -13060,7 +13058,7 @@ constexpr auto min(A&& a, B&& b) -> decltype(a < b ? std::forward<A>(a) : std::f
     }
     4182:	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, r9, sl, fp, pc}
     4186:	nop
-    4188:	.word	0x2002804c
+    4188:	.word	0x2002724c
 
 0000418c <MTPD::ReadMTPHeader()>:
   {
@@ -13304,7 +13302,7 @@ constexpr auto min(A&& a, B&& b) -> decltype(a < b ? std::forward<A>(a) : std::f
     4324:	bl	41aa <MTPD::read8()>
     4328:	b.n	42fc <MTPD::SendObjectInfo(unsigned long, unsigned long)+0xac>
     432a:	nop
-    432c:	.word	0x2002804c
+    432c:	.word	0x2002724c
 
 00004330 <MTPD::SendObject()>:
     { 
@@ -13445,7 +13443,7 @@ constexpr auto min(A&& a, B&& b) -> decltype(a < b ? std::forward<A>(a) : std::f
     441a:	bcs.n	4370 <MTPD::SendObject()+0x40>
     441c:	b.n	43c2 <MTPD::SendObject()+0x92>
     441e:	nop
-    4420:	.word	0x2002804c
+    4420:	.word	0x2002724c
 
 00004424 <MTPD::setObjectPropValue(unsigned long, unsigned long)>:
     { pull_packet(rx_data_buffer);
@@ -13470,7 +13468,7 @@ constexpr auto min(A&& a, B&& b) -> decltype(a < b ? std::forward<A>(a) : std::f
     444a:	b.w	421a <MTPD::setObjectPropValue(unsigned long, unsigned long) [clone .part.0]>
     444e:	movw	r0, #8197	; 0x2005
     4452:	pop	{r4, r5, r6, pc}
-    4454:	.word	0x2002804c
+    4454:	.word	0x2002724c
 
 00004458 <MTPD::loop()>:
 
@@ -14583,7 +14581,7 @@ public:
     4cc2:	cmp	r0, #0
     4cc4:	bne.n	4ca8 <TwoWire::wait_idle()+0x10>
     4cc6:	b.n	4cb0 <TwoWire::wait_idle()+0x18>
-    4cc8:	.word	0x20028d40
+    4cc8:	.word	0x20027f40
 
 00004ccc <TwoWire::endTransmission(unsigned char)>:
 {
@@ -14720,7 +14718,7 @@ public:
     4da6:	mov	r5, r2
     4da8:	b.n	4d50 <TwoWire::endTransmission(unsigned char)+0x84>
     4daa:	nop
-    4dac:	.word	0x20028d40
+    4dac:	.word	0x20027f40
 
 00004db0 <TwoWire::requestFrom(unsigned char, unsigned char, unsigned char)>:
 {
@@ -14874,7 +14872,7 @@ public:
 	if (!wait_idle()) return 4;
     4ebc:	movs	r0, #4
     4ebe:	b.n	4e38 <TwoWire::requestFrom(unsigned char, unsigned char, unsigned char)+0x88>
-    4ec0:	.word	0x20028d40
+    4ec0:	.word	0x20027f40
 
 00004ec4 <TwoWire::isr()>:
 {
@@ -16859,7 +16857,7 @@ inline void setLe16(uint8_t* dst, uint16_t src) {
     5ac2:	bne.n	5aaa <ExFatFile::openPrivate(ExFatFile*, ExName_t*, int)+0x32e>
     5ac4:	b.n	5a70 <ExFatFile::openPrivate(ExFatFile*, ExName_t*, int)+0x2f4>
     5ac6:	nop
-    5ac8:	.word	0x20027ffc
+    5ac8:	.word	0x200271fc
 
 00005acc <ExFatFile::open(ExFatFile*, char const*, int)>:
 bool ExFatFile::open(ExFatFile* dirFile, const char* path, oflag_t oflag) {
@@ -18303,7 +18301,7 @@ inline void setLe64(uint8_t* dst, uint64_t src) {
   *reinterpret_cast<uint64_t*>(dst) = src;
     62c6:	strd	r2, r3, [r0, #24]
     62ca:	b.n	6252 <ExFatFile::syncDir()+0x5e>
-    62cc:	.word	0x20027ffc
+    62cc:	.word	0x200271fc
 
 000062d0 <ExFatFile::sync()>:
 bool ExFatFile::sync() {
@@ -19095,7 +19093,7 @@ size_t ExFatFile::write(const void* buf, size_t nbyte) {
     6828:	add	sp, #12
     682a:	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
     682e:	nop
-    6830:	.word	0x20027ffc
+    6830:	.word	0x200271fc
 
 00006834 <FatFile::cacheDir(unsigned short)>:
 
@@ -20488,7 +20486,7 @@ bool FatFile::sync() {
     6fe6:	movs	r0, #1
     6fe8:	b.n	6f96 <FatFile::sync()+0x26>
     6fea:	nop
-    6fec:	.word	0x20027ffc
+    6fec:	.word	0x200271fc
 
 00006ff0 <FatFile::close()>:
 bool FatFile::close() {
@@ -21347,7 +21345,7 @@ size_t FatFile::write(const void* buf, size_t nbyte) {
     7574:	mov	r0, r7
     7576:	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, pc}
     757a:	nop
-    757c:	.word	0x20027ffc
+    757c:	.word	0x200271fc
 
 00007580 <FatPartition::freeClusterCount_cb_fat16(unsigned long, unsigned char*, void*)>:
 
@@ -22769,7 +22767,7 @@ bool FatFile::makeUniqueSfn(FatLfn_t* fname) {
   return true;
     7d6c:	movs	r0, #1
     7d6e:	b.n	7d46 <FatFile::makeUniqueSfn(FatLfn_t*)+0x6a>
-    7d70:	.word	0x20028d40
+    7d70:	.word	0x20027f40
 
 00007d74 <FatFile::open(FatFile*, FatLfn_t*, int)>:
 //------------------------------------------------------------------------------
@@ -23129,7 +23127,7 @@ static inline uint8_t isLongName(const DirFat_t* dir) {
     7ff0:	strh	r3, [r4, #18]
     if (FS_DEFAULT_TIME) {
     7ff2:	b.n	7ea6 <FatFile::open(FatFile*, FatLfn_t*, int)+0x132>
-    7ff4:	.word	0x20027ffc
+    7ff4:	.word	0x200271fc
 
 00007ff8 <FatFile::parsePathName(char const*, FatLfn_t*, char const**)>:
 //------------------------------------------------------------------------------
@@ -23766,9 +23764,9 @@ class FatPartition {
 }
     837e:	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
     8382:	nop
-    8384:	.word	0x20028000
-    8388:	.word	0x20028038
-    838c:	.word	0x20028034
+    8384:	.word	0x20027200
+    8388:	.word	0x20027238
+    838c:	.word	0x20027234
 
 00008390 <FsVolume::open(char const*, int)>:
 bool FsVolume::ls(print_t* pr, const char* path, uint8_t flags) {
@@ -24276,7 +24274,7 @@ bool SharedSpiCard::readData(uint8_t* dst, size_t count) {
     862e:	movs	r3, #37	; 0x25
     8630:	b.n	861e <SharedSpiCard::readData(unsigned char*, unsigned int)+0x4e>
     8632:	nop
-    8634:	.word	0x20028d40
+    8634:	.word	0x20027f40
 
 00008638 <SharedSpiCard::readData(unsigned char*)>:
   return readData(dst, 512);
@@ -24312,7 +24310,7 @@ bool SharedSpiCard::waitReady(uint16_t ms) {
     8662:	movs	r0, #0
     8664:	b.n	8658 <SharedSpiCard::waitReady(unsigned short)+0x18>
     8666:	nop
-    8668:	.word	0x20028d40
+    8668:	.word	0x20027f40
 
 0000866c <SharedSpiCard::cardCommand(unsigned char, unsigned long)>:
   if (!syncDevice()) {
@@ -25136,8 +25134,8 @@ static void sdIrs() {
     8b18:	bx	lr
     8b1a:	nop
     8b1c:	.word	0x402c0000
-    8b20:	.word	0x20027ff8
-    8b24:	.word	0x20028f04
+    8b20:	.word	0x200271f8
+    8b24:	.word	0x20028104
 
 00008b28 <gpioMux(unsigned char)>:
 static uint32_t baseClock() { return F_CPU;}
@@ -25214,7 +25212,7 @@ static bool isBusyDMA() {
 }
     8b88:	bx	lr
     8b8a:	nop
-    8b8c:	.word	0x20028f04
+    8b8c:	.word	0x20028104
 
 00008b90 <isBusyFifoRead()>:
 //------------------------------------------------------------------------------
@@ -25366,7 +25364,7 @@ static void setSdclk(uint32_t kHzMax) {
     8c62:	nop
     8c64:	.word	0x400fc000
     8c68:	.word	0x5e69ec00
-    8c6c:	.word	0x2000d7d0
+    8c6c:	.word	0x2000d1d0
     8c70:	.word	0x402c0000
 
 00008c74 <SdioCard::errorCode() const>:
@@ -25391,7 +25389,7 @@ uint32_t SdioCard::errorData() const {
 }
     8c84:	bx	lr
     8c86:	nop
-    8c88:	.word	0x20027ff8
+    8c88:	.word	0x200271f8
 
 00008c8c <SdioCard::readCID(CID*)>:
 uint32_t SdioCard::kHzSdClk() {
@@ -25411,7 +25409,7 @@ bool SdioCard::readCID(cid_t* cid) {
     8c9e:	movs	r0, #1
     8ca0:	bx	lr
     8ca2:	nop
-    8ca4:	.word	0x20028e44
+    8ca4:	.word	0x20028044
 
 00008ca8 <SdioCard::readCSD(csd_t*)>:
 //------------------------------------------------------------------------------
@@ -25428,7 +25426,7 @@ bool SdioCard::readCSD(csd_t* csd) {
     8cba:	movs	r0, #1
     8cbc:	bx	lr
     8cbe:	nop
-    8cc0:	.word	0x20028e54
+    8cc0:	.word	0x20028054
 
 00008cc4 <SdioCard::readOCR(unsigned long*)>:
   SDHC_IRQSTAT = m_irqstat;
@@ -25447,7 +25445,7 @@ bool SdioCard::readOCR(uint32_t* ocr) {
 }
     8ccc:	bx	lr
     8cce:	nop
-    8cd0:	.word	0x200279ec
+    8cd0:	.word	0x20026bec
 
 00008cd4 <SdioCard::~SdioCard()>:
 class SdioCard : public SdCardInterface {
@@ -25511,7 +25509,7 @@ static bool yieldTimeout(bool (*fcn)()) {
     yield();
     8d2a:	bl	be24 <yield>
     8d2e:	b.n	8d10 <yieldTimeout(bool (*)())+0x14>
-    8d30:	.word	0x20027ff4
+    8d30:	.word	0x200271f4
     8d34:	.word	0x000f4240
 
 00008d38 <SdioCard::~SdioCard()>:
@@ -25669,8 +25667,8 @@ uint8_t SdioCard::type() const {
           SD_CARD_TYPE_SDHC : SD_CARD_TYPE_SD2 : SD_CARD_TYPE_SD1;
 }
     8e5e:	bx	lr
-    8e60:	.word	0x20028e41
-    8e64:	.word	0x20028e42
+    8e60:	.word	0x20028041
+    8e64:	.word	0x20028042
 
 00008e68 <cardCommand(unsigned long, unsigned long)>:
 static bool cardCommand(uint32_t xfertyp, uint32_t arg) {
@@ -25737,7 +25735,7 @@ static bool cardCommand(uint32_t xfertyp, uint32_t arg) {
     8ec0:	.word	0x00008b61
     8ec4:	.word	0x402c0000
     8ec8:	.word	0x00008b49
-    8ecc:	.word	0x20027ff8
+    8ecc:	.word	0x200271f8
 
 00008ed0 <statusCMD13()>:
 static uint32_t statusCMD13() {
@@ -25752,7 +25750,7 @@ static uint32_t statusCMD13() {
     8ee0:	ldr	r0, [r3, #16]
 }
     8ee2:	pop	{r3, pc}
-    8ee4:	.word	0x200279f0
+    8ee4:	.word	0x20026bf0
     8ee8:	.word	0x0d1a0000
     8eec:	.word	0x402c0000
 
@@ -25817,7 +25815,7 @@ static bool readReg16(uint32_t xfertyp, void* data) {
 }
     8f50:	add	sp, #20
     8f52:	pop	{r4, r5, pc}
-    8f54:	.word	0x200279f0
+    8f54:	.word	0x20026bf0
     8f58:	.word	0x402c0000
 
 00008f5c <waitDmaStatus()>:
@@ -25844,7 +25842,7 @@ static bool waitDmaStatus() {
     8f7c:	movs	r0, #0
     8f7e:	b.n	8f7a <waitDmaStatus()+0x1e>
     8f80:	.word	0x00008b85
-    8f84:	.word	0x20027ff8
+    8f84:	.word	0x200271f8
     8f88:	.word	0x117f0000
 
 00008f8c <rdWrSectors(unsigned long, unsigned long, unsigned char*, unsigned int)>:
@@ -25920,14 +25918,14 @@ static bool waitDmaStatus() {
     8ffa:	b.w	8f5c <waitDmaStatus()>
     8ffe:	nop
     9000:	.word	0x2000935a
-    9004:	.word	0x200257d8
+    9004:	.word	0x200251d8
     9008:	.word	0x00008ef1
-    900c:	.word	0x20028f04
+    900c:	.word	0x20028104
     9010:	.word	0x402c0000
-    9014:	.word	0x20027ff8
+    9014:	.word	0x200271f8
     9018:	.word	0x1fff0000
     901c:	.word	0x117f0002
-    9020:	.word	0x20028e42
+    9020:	.word	0x20028042
 
 00009024 <SdioCard::readSectors(unsigned long, unsigned char*, unsigned int)>:
 bool SdioCard::readSectors(uint32_t sector, uint8_t* dst, size_t n) {
@@ -26002,7 +26000,7 @@ bool SdioCard::readSectors(uint32_t sector, uint8_t* dst, size_t n) {
     9092:	b.n	9070 <SdioCard::readSectors(unsigned long, unsigned char*, unsigned int)+0x4c>
     9094:	.word	0x123a0037
     9098:	.word	0x2000935a
-    909c:	.word	0x200257d8
+    909c:	.word	0x200251d8
 
 000090a0 <SdioCard::writeSectors(unsigned long, unsigned char const*, unsigned int)>:
     m_curSector++;
@@ -26091,7 +26089,7 @@ bool SdioCard::writeSectors(uint32_t sector, const uint8_t* src, size_t n) {
     910e:	b.n	90ec <SdioCard::writeSectors(unsigned long, unsigned char const*, unsigned int)+0x4c>
     9110:	.word	0x193a0027
     9114:	.word	0x2000935a
-    9118:	.word	0x200257d8
+    9118:	.word	0x200251d8
 
 0000911c <SdioCard::sectorCount()>:
   if (csd->v1.csd_ver == 0) {
@@ -26151,7 +26149,7 @@ bool SdioCard::writeSectors(uint32_t sector, const uint8_t* src, size_t n) {
     9174:	movs	r0, #0
 }
     9176:	bx	lr
-    9178:	.word	0x20028e54
+    9178:	.word	0x20028054
 
 0000917c <SdioCard::isBusy()>:
     917c:	ldrb	r3, [r0, #8]
@@ -26180,9 +26178,9 @@ bool SdioCard::writeSectors(uint32_t sector, const uint8_t* src, size_t n) {
     91a6:	ubfx	r0, r0, #24, #1
 }
     91aa:	bx	lr
-    91ac:	.word	0x20027ff4
-    91b0:	.word	0x20028e40
-    91b4:	.word	0x20028e43
+    91ac:	.word	0x200271f4
+    91b0:	.word	0x20028040
+    91b4:	.word	0x20028043
     91b8:	.word	0x402c0000
 
 000091bc <SdioCard::erase(unsigned long, unsigned long)>:
@@ -26283,10 +26281,10 @@ bool SdioCard::erase(uint32_t firstSector, uint32_t lastSector) {
     return sdError(SD_CARD_ERROR_ERASE_TIMEOUT);
     9260:	b.n	91ec <SdioCard::erase(unsigned long, unsigned long)+0x30>
     9262:	nop
-    9264:	.word	0x20028e54
+    9264:	.word	0x20028054
     9268:	.word	0x2000935a
-    926c:	.word	0x200257d8
-    9270:	.word	0x20028e42
+    926c:	.word	0x200251d8
+    9270:	.word	0x20028042
     9274:	.word	0x201a0000
     9278:	.word	0x211a0000
     927c:	.word	0x261b0000
@@ -26339,13 +26337,13 @@ static bool waitTransferComplete() {
     return sdError(SD_CARD_ERROR_TRANSFER_COMPLETE);
     92c0:	b.n	928e <waitTransferComplete()+0xa>
     92c2:	nop
-    92c4:	.word	0x20028e43
+    92c4:	.word	0x20028043
     92c8:	.word	0x00008bb9
     92cc:	.word	0x402c0000
-    92d0:	.word	0x20027ff8
+    92d0:	.word	0x200271f8
     92d4:	.word	0x117f0000
     92d8:	.word	0x2000935a
-    92dc:	.word	0x200257d8
+    92dc:	.word	0x200251d8
 
 000092e0 <SdioCard::writeSector(unsigned long, unsigned char const*)>:
 bool SdioCard::writeSector(uint32_t sector, const uint8_t* src) {
@@ -26441,7 +26439,7 @@ bool SdioCard::writeSector(uint32_t sector, const uint8_t* src) {
     9376:	b.n	9324 <SdioCard::writeSector(unsigned long, unsigned char const*)+0x44>
     9378:	.word	0x183a0001
     937c:	.word	0x2000935a
-    9380:	.word	0x200257d8
+    9380:	.word	0x200251d8
 
 00009384 <SdioCard::readStop()>:
 bool SdioCard::readStop() {
@@ -26510,7 +26508,7 @@ bool SdioCard::readStop() {
     93e4:	.word	0x402c0000
     93e8:	.word	0x0cdb0000
     93ec:	.word	0x2000935a
-    93f0:	.word	0x200257d8
+    93f0:	.word	0x200251d8
     93f4:	.word	0x00008b71
 
 000093f8 <SdioCard::writeData(unsigned char const*)>:
@@ -26590,8 +26588,8 @@ bool SdioCard::writeData(const uint8_t* src) {
     946c:	.word	0x402c0000
     9470:	.word	0x00008ba5
     9474:	.word	0x2000935a
-    9478:	.word	0x200257d8
-    947c:	.word	0x20028e43
+    9478:	.word	0x200251d8
+    947c:	.word	0x20028043
 
 00009480 <SdioCard::writeStart(unsigned long)>:
 //------------------------------------------------------------------------------
@@ -26653,9 +26651,9 @@ bool SdioCard::writeStart(uint32_t sector) {
     94d2:	nop
     94d4:	.word	0x00008ef1
     94d8:	.word	0x2000935a
-    94dc:	.word	0x200257d8
+    94dc:	.word	0x200251d8
     94e0:	.word	0x402c0000
-    94e4:	.word	0x20028e42
+    94e4:	.word	0x20028042
     94e8:	.word	0x193a0020
 
 000094ec <cardCMD6(unsigned long, unsigned char*)>:
@@ -26734,9 +26732,9 @@ static bool cardCMD6(uint32_t arg, uint8_t* status) {
     9552:	nop
     9554:	.word	0x00008ef1
     9558:	.word	0x2000935a
-    955c:	.word	0x200257d8
-    9560:	.word	0x20028f04
-    9564:	.word	0x20027ff8
+    955c:	.word	0x200251d8
+    9560:	.word	0x20028104
+    9564:	.word	0x200271f8
     9568:	.word	0x00010040
     956c:	.word	0x402c0000
     9570:	.word	0x063a0011
@@ -27065,28 +27063,28 @@ bool SdioCard::begin(SdioConfig sdioConfig) {
     9784:	movw	r2, #50000	; 0xc350
     9788:	b.n	9730 <SdioCard::begin(SdioConfig)+0x1b8>
     978a:	nop
-    978c:	.word	0x20028e40
+    978c:	.word	0x20028040
     9790:	.word	0x2000935a
-    9794:	.word	0x20028e41
-    9798:	.word	0x200257d8
+    9794:	.word	0x20028041
+    9798:	.word	0x200251d8
     979c:	.word	0x402c0000
     97a0:	.word	0x40300000
-    97a4:	.word	0x200279ec
+    97a4:	.word	0x20026bec
     97a8:	.word	0x02090000
     97ac:	.word	0x031a0000
-    97b0:	.word	0x20028e54
+    97b0:	.word	0x20028054
     97b4:	.word	0x09090000
-    97b8:	.word	0x20028e44
+    97b8:	.word	0x20028044
     97bc:	.word	0x0a090000
     97c0:	.word	0x071b0000
     97c4:	.word	0x371a0000
     97c8:	.word	0x061a0000
     97cc:	.word	0x80fffff1
-    97d0:	.word	0x20028e42
+    97d0:	.word	0x20028042
     97d4:	.word	0x081a0000
     97d8:	.word	0x29020000
     97dc:	.word	0x000f4240
-    97e0:	.word	0x200279f0
+    97e0:	.word	0x20026bf0
 
 000097e4 <SdioCard::readData(unsigned char*)>:
 bool SdioCard::readData(uint8_t* dst) {
@@ -27185,9 +27183,9 @@ bool SdioCard::readData(uint8_t* dst) {
     987c:	.word	0x402c0000
     9880:	.word	0x00008b91
     9884:	.word	0x2000935a
-    9888:	.word	0x200257d8
+    9888:	.word	0x200251d8
     988c:	.word	0x00008bb9
-    9890:	.word	0x20027ff8
+    9890:	.word	0x200271f8
     9894:	.word	0x117f0000
 
 00009898 <SdioCard::readStart(unsigned long)>:
@@ -27244,9 +27242,9 @@ bool SdioCard::readStart(uint32_t sector) {
     98ea:	nop
     98ec:	.word	0x00008ef1
     98f0:	.word	0x2000935a
-    98f4:	.word	0x200257d8
+    98f4:	.word	0x200251d8
     98f8:	.word	0x402c0000
-    98fc:	.word	0x20028e42
+    98fc:	.word	0x20028042
     9900:	.word	0x123a0030
 
 00009904 <SdioCard::readSector(unsigned long, unsigned char*)>:
@@ -27343,7 +27341,7 @@ bool SdioCard::readSector(uint32_t sector, uint8_t* dst) {
     999e:	b.n	993e <SdioCard::readSector(unsigned long, unsigned char*)+0x3a>
     99a0:	.word	0x113a0011
     99a4:	.word	0x2000935a
-    99a8:	.word	0x200257d8
+    99a8:	.word	0x200251d8
 
 000099ac <SdioCard::stopTransmission(bool)>:
 bool SdioCard::stopTransmission(bool blocking) {
@@ -27404,7 +27402,7 @@ bool SdioCard::stopTransmission(bool blocking) {
     99fc:	.word	0x402c0000
     9a00:	.word	0x0cdb0000
     9a04:	.word	0x2000935a
-    9a08:	.word	0x200257d8
+    9a08:	.word	0x200251d8
     9a0c:	.word	0x00008b71
 
 00009a10 <SdioCard::syncDevice()>:
@@ -28156,7 +28154,7 @@ static inline void arm_dcache_delete(void *addr, uint32_t size)
     9de6:	pop	{r3, r4, r5, r6, r7, pc}
     9de8:	.word	0x20200800
     9dec:	.word	0x2000bb40
-    9df0:	.word	0x20028db8
+    9df0:	.word	0x20027fb8
 
 00009df4 <rx_event>:
 
@@ -28265,14 +28263,14 @@ static void rx_event(transfer_t *t)
     9e7a:	str	r4, [r7, #0]
 }
     9e7c:	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, pc}
-    9e80:	.word	0x20028db8
-    9e84:	.word	0x20028f93
-    9e88:	.word	0x20028fa3
-    9e8c:	.word	0x20028684
-    9e90:	.word	0x20028f95
+    9e80:	.word	0x20027fb8
+    9e84:	.word	0x20028193
+    9e88:	.word	0x200281a3
+    9e8c:	.word	0x20027884
+    9e90:	.word	0x20028195
     9e94:	.word	0x20200800
-    9e98:	.word	0x20028da8
-    9e9c:	.word	0x20028d98
+    9e98:	.word	0x20027fa8
+    9e9c:	.word	0x20027f98
 
 00009ea0 <usb_serial_flush_callback>:
 	tx_noautoflush = 0;
@@ -28359,10 +28357,10 @@ static inline void arm_dcache_flush_delete(void *addr, uint32_t size)
 }
     9f0e:	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
     9f12:	nop
-    9f14:	.word	0x20028fa9
-    9f18:	.word	0x20028fab
-    9f1c:	.word	0x20028e3a
-    9f20:	.word	0x20028fa7
+    9f14:	.word	0x200281a9
+    9f18:	.word	0x200281ab
+    9f1c:	.word	0x2002803a
+    9f20:	.word	0x200281a7
     9f24:	.word	0x2000bcc0
     9f28:	.word	0x20201800
 
@@ -28483,24 +28481,24 @@ static inline void arm_dcache_flush_delete(void *addr, uint32_t size)
     9fe4:	strb	r3, [r2, #0]
 }
     9fe6:	pop	{r4, r5, r6, pc}
-    9fe8:	.word	0x20028fac
+    9fe8:	.word	0x200281ac
     9fec:	.word	0x2000bcc0
-    9ff0:	.word	0x20028e3c
-    9ff4:	.word	0x20028db8
-    9ff8:	.word	0x20028fa7
+    9ff0:	.word	0x2002803c
+    9ff4:	.word	0x20027fb8
+    9ff8:	.word	0x200281a7
     9ffc:	.word	0x2000bb40
-    a000:	.word	0x20028e3a
-    a004:	.word	0x20028d98
-    a008:	.word	0x20028da8
-    a00c:	.word	0x20028f93
-    a010:	.word	0x20028fa3
-    a014:	.word	0x20028684
+    a000:	.word	0x2002803a
+    a004:	.word	0x20027f98
+    a008:	.word	0x20027fa8
+    a00c:	.word	0x20028193
+    a010:	.word	0x200281a3
+    a014:	.word	0x20027884
     a018:	.word	0x00009df5
-    a01c:	.word	0x20028d64
+    a01c:	.word	0x20027f64
     a020:	.word	0x00009ea1
     a024:	.word	0x402e0000
     a028:	.word	0x00000000
-    a02c:	.word	0x20028fae
+    a02c:	.word	0x200281ae
 
 0000a030 <usb_serial_read>:
 {
@@ -28612,13 +28610,13 @@ static inline void arm_dcache_flush_delete(void *addr, uint32_t size)
 			rx_queue_transfer(i);
     a0e2:	bl	9d94 <rx_queue_transfer>
     a0e6:	b.n	a050 <usb_serial_read+0x20>
-    a0e8:	.word	0x20028fa3
-    a0ec:	.word	0x20028f93
-    a0f0:	.word	0x20028f95
-    a0f4:	.word	0x20028d98
+    a0e8:	.word	0x200281a3
+    a0ec:	.word	0x20028193
+    a0f0:	.word	0x20028195
+    a0f4:	.word	0x20027f98
     a0f8:	.word	0x20200800
-    a0fc:	.word	0x20028da8
-    a100:	.word	0x20028684
+    a0fc:	.word	0x20027fa8
+    a100:	.word	0x20027884
 
 0000a104 <usb_serial_peekchar>:
 	uint32_t tail = rx_tail;
@@ -28655,10 +28653,10 @@ static inline void arm_dcache_flush_delete(void *addr, uint32_t size)
     a12e:	mov.w	r0, #4294967295
 }
     a132:	bx	lr
-    a134:	.word	0x20028fa3
-    a138:	.word	0x20028f93
-    a13c:	.word	0x20028f95
-    a140:	.word	0x20028da8
+    a134:	.word	0x200281a3
+    a138:	.word	0x20028193
+    a13c:	.word	0x20028195
+    a140:	.word	0x20027fa8
     a144:	.word	0x20200800
 
 0000a148 <usb_serial_available>:
@@ -28674,7 +28672,7 @@ static inline void arm_dcache_flush_delete(void *addr, uint32_t size)
 }
     a154:	mov	r0, r4
     a156:	pop	{r4, pc}
-    a158:	.word	0x20028684
+    a158:	.word	0x20027884
 
 0000a15c <usb_serial_flush_input>:
 {
@@ -28724,12 +28722,12 @@ static inline void arm_dcache_flush_delete(void *addr, uint32_t size)
     a19e:	strb	r3, [r5, #0]
     a1a0:	b.n	a16e <usb_serial_flush_input+0x12>
     a1a2:	nop
-    a1a4:	.word	0x20028fa3
-    a1a8:	.word	0x20028f93
-    a1ac:	.word	0x20028684
-    a1b0:	.word	0x20028d98
-    a1b4:	.word	0x20028da8
-    a1b8:	.word	0x20028f95
+    a1a4:	.word	0x200281a3
+    a1a8:	.word	0x20028193
+    a1ac:	.word	0x20027884
+    a1b0:	.word	0x20027f98
+    a1b4:	.word	0x20027fa8
+    a1b8:	.word	0x20028195
 
 0000a1bc <usb_serial_getchar>:
 {
@@ -28953,15 +28951,15 @@ static inline void arm_dcache_flush_delete(void *addr, uint32_t size)
     a33e:	str.w	r2, [r3, #132]	; 0x84
 }
     a342:	b.n	a2d2 <usb_serial_write+0xf6>
-    a344:	.word	0x20028fab
-    a348:	.word	0x20028e3a
+    a344:	.word	0x200281ab
+    a348:	.word	0x2002803a
     a34c:	.word	0x2000bcc0
-    a350:	.word	0x20028fa6
+    a350:	.word	0x200281a6
     a354:	.word	0x20201800
     a358:	.word	0x402e0000
-    a35c:	.word	0x20028d40
-    a360:	.word	0x20028fa9
-    a364:	.word	0x20028fa7
+    a35c:	.word	0x20027f40
+    a360:	.word	0x200281a9
+    a364:	.word	0x200281a7
 
 0000a368 <usb_serial_putchar>:
 {
@@ -29018,9 +29016,9 @@ static inline void arm_dcache_flush_delete(void *addr, uint32_t size)
     a3ba:	strb	r3, [r7, #0]
 }
     a3bc:	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
-    a3c0:	.word	0x20028fa9
+    a3c0:	.word	0x200281a9
     a3c4:	.word	0x2000bcc0
-    a3c8:	.word	0x20028fa7
+    a3c8:	.word	0x200281a7
 
 0000a3cc <usb_serial_flush_output>:
 {
@@ -29096,12 +29094,12 @@ static inline void arm_dcache_flush_delete(void *addr, uint32_t size)
     a442:	strb	r2, [r7, #0]
 }
     a444:	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-    a448:	.word	0x20028fab
-    a44c:	.word	0x20028fa9
-    a450:	.word	0x20028fa7
+    a448:	.word	0x200281ab
+    a44c:	.word	0x200281a9
+    a450:	.word	0x200281a7
     a454:	.word	0x2000bcc0
     a458:	.word	0x20201800
-    a45c:	.word	0x20028e3a
+    a45c:	.word	0x2002803a
 
 0000a460 <set_arm_clock>:
 //  CCM_CBCDR  AHB_PODF
@@ -29498,7 +29496,7 @@ uint32_t set_arm_clock(uint32_t frequency)
     a698:	.word	0x200089a0
     a69c:	.word	0x2000899c
     a6a0:	.word	0x000f4240
-    a6a4:	.word	0x200286ac
+    a6a4:	.word	0x200278ac
     a6a8:	.word	0x016e3600
     a6ac:	.word	0x8001307f
 
@@ -29592,7 +29590,7 @@ uint32_t set_arm_clock(uint32_t frequency)
     a740:	.word	0x200096e0
     a744:	.word	0x402e0000
     a748:	.word	0x200096c0
-    a74c:	.word	0x20028568
+    a74c:	.word	0x20027768
 
 0000a750 <schedule_transfer>:
 {
@@ -29858,7 +29856,7 @@ static void endpoint0_transmit(const void *data, uint32_t len, int notify)
     a8a0:	.word	0x200096e0
     a8a4:	.word	0x402e0000
     a8a8:	.word	0x200096c0
-    a8ac:	.word	0x20028568
+    a8ac:	.word	0x20027768
 
 0000a8b0 <usb_start_sof_interrupts>:
 	__disable_irq();
@@ -29889,7 +29887,7 @@ static void endpoint0_transmit(const void *data, uint32_t len, int notify)
 }
     a8d8:	bx	lr
     a8da:	nop
-    a8dc:	.word	0x20028fa5
+    a8dc:	.word	0x200281a5
     a8e0:	.word	0x402e0000
 
 0000a8e4 <usb_stop_sof_interrupts>:
@@ -29910,7 +29908,7 @@ static void endpoint0_transmit(const void *data, uint32_t len, int notify)
 }
     a904:	bx	lr
     a906:	nop
-    a908:	.word	0x20028fa5
+    a908:	.word	0x200281a5
     a90c:	.word	0x402e0000
 
 0000a910 <usb_isr>:
@@ -30287,25 +30285,25 @@ static void endpoint0_transmit(const void *data, uint32_t len, int notify)
 		endpoint0_transmit(reply_buffer, 2, 0);
     abba:	b.n	aba8 <usb_isr+0x298>
     abbc:	.word	0x402e0000
-    abc0:	.word	0x20028d64
-    abc4:	.word	0x20028d68
-    abc8:	.word	0x20028fac
-    abcc:	.word	0x20028fad
+    abc0:	.word	0x20027f64
+    abc4:	.word	0x20027f68
+    abc8:	.word	0x200281ac
+    abcc:	.word	0x200281ad
     abd0:	.word	0x402e01c0
-    abd4:	.word	0x20028568
+    abd4:	.word	0x20027768
     abd8:	.word	0x2000bdc0
-    abdc:	.word	0x20028f81
-    abe0:	.word	0x20028d58
-    abe4:	.word	0x2002856c
+    abdc:	.word	0x20028181
+    abe0:	.word	0x20027f58
+    abe4:	.word	0x2002776c
     abe8:	.word	0x20000000
     abec:	.word	0x20007824
     abf0:	.word	0x20204800
     abf4:	.word	0x6000264c
     abf8:	.word	0x600026b5
-    abfc:	.word	0x20028fab
+    abfc:	.word	0x200281ab
     ac00:	.word	0x00cc0002
     ac04:	.word	0x2000936d
-    ac08:	.word	0x20028f8b
+    ac08:	.word	0x2002818b
 		endpoint = setup.wIndex & 0x7F;
     ac0c:	uxth	r0, r3
 		if (endpoint > 7) break;
@@ -30512,19 +30510,19 @@ static void endpoint0_transmit(const void *data, uint32_t len, int notify)
 }
     ad7e:	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
     ad82:	nop
-    ad84:	.word	0x20028f8b
-    ad88:	.word	0x20028fac
+    ad84:	.word	0x2002818b
+    ad88:	.word	0x200281ac
     ad8c:	.word	0x6000264c
     ad90:	.word	0x600026b5
     ad94:	.word	0x20204800
-    ad98:	.word	0x20028d40
-    ad9c:	.word	0x20028d60
-    ada0:	.word	0x20028faa
+    ad98:	.word	0x20027f40
+    ad9c:	.word	0x20027f60
+    ada0:	.word	0x200281aa
     ada4:	.word	0x2000bdc0
-    ada8:	.word	0x20028f81
+    ada8:	.word	0x20028181
     adac:	.word	0x2000936d
     adb0:	.word	0x402e0000
-    adb4:	.word	0x2002856c
+    adb4:	.word	0x2002776c
 
 0000adb8 <usb_config_rx>:
 {
@@ -30561,7 +30559,7 @@ static void endpoint0_transmit(const void *data, uint32_t len, int notify)
     adec:	pop	{r4, r5, r6, pc}
     adee:	nop
     adf0:	.word	0x20000000
-    adf4:	.word	0x2002856c
+    adf4:	.word	0x2002776c
 
 0000adf8 <usb_config_tx>:
 {
@@ -30601,7 +30599,7 @@ static void endpoint0_transmit(const void *data, uint32_t len, int notify)
 }
     ae2e:	pop	{r4, r5, r6, pc}
     ae30:	.word	0x20000000
-    ae34:	.word	0x2002856c
+    ae34:	.word	0x2002776c
 
 0000ae38 <usb_prepare_transfer>:
 	transfer->status = (len << 16) | (1<<7);
@@ -31195,11 +31193,11 @@ __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __STREXW(uint32_t va
     b18e:	addls	r0, r0, r2
     b190:	addhi	r0, r0, r3
     b192:	pop	{r4, r5, r6, pc}
-    b194:	.word	0x20028d44
-    b198:	.word	0x20028d40
-    b19c:	.word	0x20028d3c
+    b194:	.word	0x20027f44
+    b198:	.word	0x20027f40
+    b19c:	.word	0x20027f3c
     b1a0:	.word	0xe0001000
-    b1a4:	.word	0x200286ac
+    b1a4:	.word	0x200278ac
 
 0000b1a8 <delay>:
 {
@@ -31701,8 +31699,8 @@ static void flash_wait()
     b498:	pop	{r4, r5, pc}
     b49a:	nop
     b49c:	.word	0x607c1000
-    b4a0:	.word	0x20028dbc
-    b4a4:	.word	0x20028f8a
+    b4a0:	.word	0x20027fbc
+    b4a4:	.word	0x2002818a
 
 0000b4a8 <eeprom_read_byte>:
 {
@@ -31763,8 +31761,8 @@ static void flash_wait()
 	if (addr > E2END) return 0xFF;
     b500:	movs	r0, #255	; 0xff
     b502:	b.n	b4f0 <eeprom_read_byte+0x48>
-    b504:	.word	0x20028f8a
-    b508:	.word	0x20028dbc
+    b504:	.word	0x2002818a
+    b508:	.word	0x20027fbc
 
 0000b50c <eeprom_read_block>:
 {
@@ -32172,8 +32170,8 @@ void eepromemu_flash_erase_sector(void *addr)
     b7ae:	strb	r2, [r0, r1]
     b7b0:	b.n	b75c <eeprom_write_byte+0xa4>
     b7b2:	nop
-    b7b4:	.word	0x20028f8a
-    b7b8:	.word	0x20028dbc
+    b7b4:	.word	0x2002818a
+    b7b8:	.word	0x20027fbc
 
 0000b7bc <eeprom_write_block>:
 {
@@ -32384,10 +32382,10 @@ float tempmonGetTemp(void)
     b8de:	vsub.f32	s0, s0, s14
     b8e2:	bx	lr
     b8e4:	.word	0x400d8100
-    b8e8:	.word	0x200286a0
-    b8ec:	.word	0x2002869c
-    b8f0:	.word	0x200286a4
-    b8f4:	.word	0x200286a8
+    b8e8:	.word	0x200278a0
+    b8ec:	.word	0x2002789c
+    b8f0:	.word	0x200278a4
+    b8f4:	.word	0x200278a8
 
 0000b8f8 <digitalWrite>:
 void digitalWrite(uint8_t pin, uint8_t val)
@@ -32738,7 +32736,7 @@ static void txEvent_event(transfer_t *t) { mtp_txEventCount++;}
     baaa:	str	r3, [r2, #0]
     baac:	bx	lr
     baae:	nop
-    bab0:	.word	0x200285fc
+    bab0:	.word	0x200277fc
 
 0000bab4 <rx_event>:
 	usb_receive(MTP_RX_ENDPOINT, rx_transfer + i);
@@ -32782,10 +32780,10 @@ static void rx_event(transfer_t *t)
     badc:	strb	r3, [r4, #0]
 }
     bade:	pop	{r4, pc}
-    bae0:	.word	0x20028f94
-    bae4:	.word	0x20028f9e
-    bae8:	.word	0x20028dba
-    baec:	.word	0x20028688
+    bae0:	.word	0x20028194
+    bae4:	.word	0x2002819e
+    bae8:	.word	0x20027fba
+    baec:	.word	0x20027888
 
 0000baf0 <rx_queue_transfer>:
 {
@@ -32842,7 +32840,7 @@ static void rx_event(transfer_t *t)
 }
     bb42:	pop	{r3, r4, r5, r6, r7, pc}
     bb44:	.word	0x20203800
-    bb48:	.word	0x20028dba
+    bb48:	.word	0x20027fba
     bb4c:	.word	0x2000bc40
 
 0000bb50 <usb_mtp_configure>:
@@ -32922,14 +32920,14 @@ static void rx_event(transfer_t *t)
 	for (i=0; i < RX_NUM; i++) rx_queue_transfer(i);
     bbc6:	b.w	baf0 <rx_queue_transfer>
     bbca:	nop
-    bbcc:	.word	0x20028fac
+    bbcc:	.word	0x200281ac
     bbd0:	.word	0x2000bd40
-    bbd4:	.word	0x20028dba
-    bbd8:	.word	0x20028e3e
+    bbd4:	.word	0x20027fba
+    bbd8:	.word	0x2002803e
     bbdc:	.word	0x2000bc40
-    bbe0:	.word	0x20028fa8
-    bbe4:	.word	0x20028f94
-    bbe8:	.word	0x20028fa4
+    bbe0:	.word	0x200281a8
+    bbe4:	.word	0x20028194
+    bbe8:	.word	0x200281a4
     bbec:	.word	0x0000bab5
     bbf0:	.word	0x0000baa5
 
@@ -33026,13 +33024,13 @@ int usb_mtp_recv(void *buffer, uint32_t timeout)
     bc66:	movs	r4, #0
     bc68:	b.n	bc58 <usb_mtp_recv+0x64>
     bc6a:	nop
-    bc6c:	.word	0x20028d40
-    bc70:	.word	0x20028fa4
-    bc74:	.word	0x20028f9e
+    bc6c:	.word	0x20027f40
+    bc70:	.word	0x200281a4
+    bc74:	.word	0x2002819e
     bc78:	.word	0x20203800
-    bc7c:	.word	0x20028688
-    bc80:	.word	0x20028fab
-    bc84:	.word	0x20028f94
+    bc7c:	.word	0x20027888
+    bc80:	.word	0x200281ab
+    bc84:	.word	0x20028194
 
 0000bc88 <usb_mtp_available>:
 
@@ -33059,10 +33057,10 @@ int usb_mtp_available(void)
 	return 0;
 }
     bca6:	bx	lr
-    bca8:	.word	0x20028fab
-    bcac:	.word	0x20028f94
-    bcb0:	.word	0x20028fa4
-    bcb4:	.word	0x20028dba
+    bca8:	.word	0x200281ab
+    bcac:	.word	0x20028194
+    bcb0:	.word	0x200281a4
+    bcb4:	.word	0x20027fba
 
 0000bcb8 <usb_mtp_send>:
 
@@ -33178,12 +33176,12 @@ int usb_mtp_send(const void *buffer, uint32_t len, uint32_t timeout)
     bd5e:	movs	r0, #0
     bd60:	b.n	bd54 <usb_mtp_send+0x9c>
     bd62:	nop
-    bd64:	.word	0x20028fa8
+    bd64:	.word	0x200281a8
     bd68:	.word	0x2000bd40
     bd6c:	.word	0x20204000
-    bd70:	.word	0x20028e3e
-    bd74:	.word	0x20028d40
-    bd78:	.word	0x20028fab
+    bd70:	.word	0x2002803e
+    bd74:	.word	0x20027f40
+    bd78:	.word	0x200281ab
 
 0000bd7c <usb_init_serialnumber>:
 void usb_init_serialnumber(void)
@@ -33324,9 +33322,9 @@ private:
     be12:	ldr	r1, [pc, #12]	; (be20 <EventResponder::runFromYield()+0x50>)
     be14:	str	r3, [r1, #0]
     be16:	b.n	be02 <EventResponder::runFromYield()+0x32>
-    be18:	.word	0x20028004
-    be1c:	.word	0x20028f05
-    be20:	.word	0x20028010
+    be18:	.word	0x20027204
+    be1c:	.word	0x20028105
+    be20:	.word	0x20027210
 
 0000be24 <yield>:
 uint8_t yield_active_check_flags = 0;
@@ -33419,10 +33417,10 @@ void yield(void)
 			s_serials_with_serial_events[i]->doYieldCode();
     be82:	ldr.w	r9, [pc, #16]	; be94 <yield+0x70>
     be86:	b.n	be70 <yield+0x4c>
-    be88:	.word	0x20028fae
-    be8c:	.word	0x20028f07
-    be90:	.word	0x20028f06
-    be94:	.word	0x20028014
+    be88:	.word	0x200281ae
+    be8c:	.word	0x20028107
+    be90:	.word	0x20028106
+    be94:	.word	0x20027214
 
 0000be98 <EventResponder::runFromInterrupt()>:
 {
@@ -33484,8 +33482,8 @@ void EventResponder::runFromInterrupt()
     bec4:	cpsie	i
 }
     bec6:	pop	{r4, r5, r6, pc}
-    bec8:	.word	0x2002800c
-    becc:	.word	0x20028008
+    bec8:	.word	0x2002720c
+    becc:	.word	0x20027208
 
 0000bed0 <pendablesrvreq_isr>:
 	EventResponder::runFromInterrupt();
@@ -33511,8 +33509,8 @@ extern "C" void systick_isr(void)
     bee4:	bx	lr
     bee6:	nop
     bee8:	.word	0xe0001000
-    beec:	.word	0x20028d3c
-    bef0:	.word	0x20028d40
+    beec:	.word	0x20027f3c
+    bef0:	.word	0x20027f40
 
 0000bef4 <DMAChannel::begin(bool)>:
 #warning "CR is defined as something?"
@@ -33622,7 +33620,7 @@ void DMAChannel::begin(bool force_initialization)
     bf80:	str	r2, [r0, #0]
 			return; // no more channels available
     bf82:	b.n	bf1e <DMAChannel::begin(bool)+0x2a>
-    bf84:	.word	0x20028d92
+    bf84:	.word	0x20027f92
     bf88:	.word	0x400fc000
     bf8c:	.word	0x400e8000
 
@@ -33658,7 +33656,7 @@ void DMAChannel::release(void)
 }
     bfb6:	bx	lr
     bfb8:	.word	0x400e8000
-    bfbc:	.word	0x20028d92
+    bfbc:	.word	0x20027f92
 
 0000bfc0 <Print::print(char const*)>:
 	size_t print(const char s[])			{ return write(s); }
@@ -33820,7 +33818,7 @@ int Stream::timedRead()
     c06a:	mov.w	r0, #4294967295
 }
     c06e:	pop	{r4, r5, r6, pc}
-    c070:	.word	0x20028d40
+    c070:	.word	0x20027f40
 
 0000c074 <Stream::readBytesUntil(char, char*, unsigned int)>:
 // as readBytes with terminator character
@@ -34892,10 +34890,10 @@ void operator delete(void * ptr, size_t size __attribute__((unused)))
     c974:	b.n	c6ba <_malloc_r+0x3a>
     c976:	nop
     c978:	.word	0x20008ef0
-    c97c:	.word	0x20028224
-    c980:	.word	0x200281f4
-    c984:	.word	0x2002821c
-    c988:	.word	0x20028220
+    c97c:	.word	0x20027424
+    c980:	.word	0x200273f4
+    c984:	.word	0x2002741c
+    c988:	.word	0x20027420
     c98c:	.word	0x20008ef8
     c990:	.word	0x200092f8
     c994:	cmp.w	r2, #2560	; 0xa00
@@ -35115,19 +35113,19 @@ void operator delete(void * ptr, size_t size __attribute__((unused)))
     cbd6:	b.n	c9ac <_malloc_r+0x32c>
     cbd8:	ldr	r3, [r7, #4]
     cbda:	b.n	cabe <_malloc_r+0x43e>
-    cbdc:	.word	0x200281f4
+    cbdc:	.word	0x200273f4
 
 0000cbe0 <__malloc_lock>:
     cbe0:	ldr	r0, [pc, #4]	; (cbe8 <__malloc_lock+0x8>)
     cbe2:	b.w	e830 <__retarget_lock_acquire_recursive>
     cbe6:	nop
-    cbe8:	.word	0x200281ec
+    cbe8:	.word	0x200273ec
 
 0000cbec <__malloc_unlock>:
     cbec:	ldr	r0, [pc, #4]	; (cbf4 <__malloc_unlock+0x8>)
     cbee:	b.w	e834 <__retarget_lock_release_recursive>
     cbf2:	nop
-    cbf4:	.word	0x200281ec
+    cbf4:	.word	0x200273ec
 
 0000cbf8 <realloc>:
     cbf8:	push	{r4}
@@ -36970,9 +36968,9 @@ void operator delete(void * ptr, size_t size __attribute__((unused)))
     e008:	b.w	137c4 <_fclose_r>
     e00c:	pop	{r4, pc}
     e00e:	nop
-    e010:	.word	0x20028228
-    e014:	.word	0x20028290
-    e018:	.word	0x200282f8
+    e010:	.word	0x20027428
+    e014:	.word	0x20027490
+    e018:	.word	0x200274f8
 
 0000e01c <global_stdio_init.part.0>:
     e01c:	stmdb	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -37030,8 +37028,8 @@ void operator delete(void * ptr, size_t size __attribute__((unused)))
     e0c2:	str.w	r3, [r4, #236]	; 0xec
     e0c6:	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
     e0ca:	nop
-    e0cc:	.word	0x20028228
-    e0d0:	.word	0x20028360
+    e0cc:	.word	0x20027428
+    e0d0:	.word	0x20027560
     e0d4:	.word	0x0000dfc5
     e0d8:	.word	0x0000e315
     e0dc:	.word	0x0000e335
@@ -37059,21 +37057,21 @@ void operator delete(void * ptr, size_t size __attribute__((unused)))
     e116:	ldmia.w	sp!, {r4, lr}
     e11a:	ldr	r0, [pc, #4]	; (e120 <__sinit+0x30>)
     e11c:	b.w	e834 <__retarget_lock_release_recursive>
-    e120:	.word	0x200281f0
-    e124:	.word	0x20028360
+    e120:	.word	0x200273f0
+    e124:	.word	0x20027560
     e128:	.word	0x0000dfdd
 
 0000e12c <__sfp_lock_acquire>:
     e12c:	ldr	r0, [pc, #4]	; (e134 <__sfp_lock_acquire+0x8>)
     e12e:	b.w	e830 <__retarget_lock_acquire_recursive>
     e132:	nop
-    e134:	.word	0x200281f0
+    e134:	.word	0x200273f0
 
 0000e138 <__sfp_lock_release>:
     e138:	ldr	r0, [pc, #4]	; (e140 <__sfp_lock_release+0x8>)
     e13a:	b.w	e834 <__retarget_lock_release_recursive>
     e13e:	nop
-    e140:	.word	0x200281f0
+    e140:	.word	0x200273f0
 
 0000e144 <_fwalk_sglue>:
     e144:	stmdb	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -37710,7 +37708,7 @@ void operator delete(void * ptr, size_t size __attribute__((unused)))
     e722:	beq.n	e71c <_close_r+0x14>
     e724:	str	r3, [r4, #0]
     e726:	pop	{r3, r4, r5, pc}
-    e728:	.word	0x20028570
+    e728:	.word	0x20027770
 
 0000e72c <_lseek_r>:
     e72c:	push	{r3, r4, r5, lr}
@@ -37732,7 +37730,7 @@ void operator delete(void * ptr, size_t size __attribute__((unused)))
     e74e:	beq.n	e748 <_lseek_r+0x1c>
     e750:	str	r3, [r4, #0]
     e752:	pop	{r3, r4, r5, pc}
-    e754:	.word	0x20028570
+    e754:	.word	0x20027770
 
 0000e758 <_read_r>:
     e758:	push	{r3, r4, r5, lr}
@@ -37754,7 +37752,7 @@ void operator delete(void * ptr, size_t size __attribute__((unused)))
     e77a:	beq.n	e774 <_read_r+0x1c>
     e77c:	str	r3, [r4, #0]
     e77e:	pop	{r3, r4, r5, pc}
-    e780:	.word	0x20028570
+    e780:	.word	0x20027770
 
 0000e784 <_sbrk_r>:
     e784:	push	{r3, r4, r5, lr}
@@ -37772,7 +37770,7 @@ void operator delete(void * ptr, size_t size __attribute__((unused)))
     e79e:	beq.n	e798 <_sbrk_r+0x14>
     e7a0:	str	r3, [r4, #0]
     e7a2:	pop	{r3, r4, r5, pc}
-    e7a4:	.word	0x20028570
+    e7a4:	.word	0x20027770
 
 0000e7a8 <_write_r>:
     e7a8:	push	{r3, r4, r5, lr}
@@ -37794,7 +37792,7 @@ void operator delete(void * ptr, size_t size __attribute__((unused)))
     e7ca:	beq.n	e7c4 <_write_r+0x1c>
     e7cc:	str	r3, [r4, #0]
     e7ce:	pop	{r3, r4, r5, pc}
-    e7d0:	.word	0x20028570
+    e7d0:	.word	0x20027770
 
 0000e7d4 <__errno>:
     e7d4:	ldr	r3, [pc, #4]	; (e7dc <__errno+0x8>)
@@ -38323,8 +38321,8 @@ void operator delete(void * ptr, size_t size __attribute__((unused)))
     edee:	bl	e834 <__retarget_lock_release_recursive>
     edf2:	mov.w	r0, #4294967295
     edf6:	b.n	edb6 <__register_exitproc+0x3a>
-    edf8:	.word	0x20028054
-    edfc:	.word	0x20028058
+    edf8:	.word	0x20027254
+    edfc:	.word	0x20027258
     ee00:	.word	0x20008d78
 
 0000ee04 <_malloc_trim_r>:
@@ -38389,7 +38387,7 @@ void operator delete(void * ptr, size_t size __attribute__((unused)))
     ee94:	b.n	ee42 <_malloc_trim_r+0x3e>
     ee96:	nop
     ee98:	.word	0x20008ef0
-    ee9c:	.word	0x200281f4
+    ee9c:	.word	0x200273f4
     eea0:	.word	0x200092f8
 
 0000eea4 <_free_r>:
@@ -38584,7 +38582,7 @@ void operator delete(void * ptr, size_t size __attribute__((unused)))
     f0a2:	nop
     f0a4:	.word	0x20008ef0
     f0a8:	.word	0x200092fc
-    f0ac:	.word	0x20028224
+    f0ac:	.word	0x20027424
 
 0000f0b0 <rshift>:
     f0b0:	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
@@ -50484,7 +50482,7 @@ void operator delete(void * ptr, size_t size __attribute__((unused)))
    16cbe:	str	r3, [r4, #0]
    16cc0:	pop	{r4, r5, r6, pc}
    16cc2:	nop
-   16cc4:	.word	0x20028570
+   16cc4:	.word	0x20027770
 
 00016cc8 <_isatty_r>:
    16cc8:	push	{r3, r4, r5, lr}
@@ -50502,7 +50500,7 @@ void operator delete(void * ptr, size_t size __attribute__((unused)))
    16ce2:	beq.n	16cdc <_isatty_r+0x14>
    16ce4:	str	r3, [r4, #0]
    16ce6:	pop	{r3, r4, r5, pc}
-   16ce8:	.word	0x20028570
+   16ce8:	.word	0x20027770
 
 00016cec <__aeabi_drsub>:
    16cec:	eor.w	r1, r1, #2147483648	; 0x80000000

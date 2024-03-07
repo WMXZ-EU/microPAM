@@ -184,7 +184,6 @@ void loop()
 
   // set inititial status STOPPED if terminal was attached within 10 s, CLOSED otherwise 
   static volatile int16_t status=(termon==1)? STOPPED: CLOSED;
-  
   status=menu(status);
 
   #if defined(__IMXRT1062__)
@@ -262,9 +261,9 @@ void loop1(){}  // nothing to be done here
 
 /************************************Device specific functions *****************************/
 #if defined(__IMXRT1062__)
-#ifndef BUILTIN_SDCARD
-  #define BUILTIN_SDCARD 254
-#endif
+  #ifndef BUILTIN_SDCARD
+    #define BUILTIN_SDCARD 254
+  #endif
 
   // needed for MTP
   const char *sd_str[]={"sdio"};          // edit to reflect your configuration

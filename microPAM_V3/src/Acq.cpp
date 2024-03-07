@@ -374,21 +374,21 @@ static void __not_in_flash_func(extractBuffer)(int32_t *acqBuffer, int32_t * buf
   #if ICH<0 // mono-channel extraction disabled
   for(int ii=0; ii<NBUF_ACQ; ii++) 
   {
-      acqBuffer[NCH*ii+0]= buffer[NCHAN_I2S*ii+0]>>SHIFT;   
-      #if (NCH>1)
-        acqBuffer[NCH*ii+1]= buffer[NCHAN_I2S*ii+1]>>SHIFT;   
+      acqBuffer[NCHAN_ACQ*ii+0]= buffer[NCHAN_I2S*ii+0]>>SHIFT;   
+      #if (NCHAN_ACQ>1)
+        acqBuffer[NCHAN_ACQ*ii+1]= buffer[NCHAN_I2S*ii+1]>>SHIFT;   
       #endif
-      #if (NCH>2)
-        acqBuffer[NCH*ii+2]= buffer[NCHAN_I2S*ii+2]>>SHIFT;   
-        acqBuffer[NCH*ii+3]= buffer[NCHAN_I2S*ii+3]>>SHIFT;   
+      #if (NCHAN_ACQ>2)
+        acqBuffer[NCHAN_ACQ*ii+2]= buffer[NCHAN_I2S*ii+2]>>SHIFT;   
+        acqBuffer[NCHAN_ACQ*ii+3]= buffer[NCHAN_I2S*ii+3]>>SHIFT;   
       #endif
-      #if (NCH>4)
-        acqBuffer[NCH*ii+4]= buffer[NCHAN_I2S*ii+4]>>SHIFT;   
-        acqBuffer[NCH*ii+5]= buffer[NCHAN_I2S*ii+5]>>SHIFT;   
+      #if (NCHAN_ACQ>4)
+        acqBuffer[NCHAN_ACQ*ii+4]= buffer[NCHAN_I2S*ii+4]>>SHIFT;   
+        acqBuffer[NCHAN_ACQ*ii+5]= buffer[NCHAN_I2S*ii+5]>>SHIFT;   
       #endif
-      #if (NCH>6)
-        acqBuffer[NCH*ii+6]= buffer[NCHAN_I2S*ii+6]>>SHIFT;   
-        acqBuffer[NCH*ii+7]= buffer[NCHAN_I2S*ii+7]>>SHIFT;   
+      #if (NCHAN_ACQ>6)
+        acqBuffer[NCHAN_ACQ*ii+6]= buffer[NCHAN_I2S*ii+6]>>SHIFT;   
+        acqBuffer[NCHAN_ACQ*ii+7]= buffer[NCHAN_I2S*ii+7]>>SHIFT;   
       #endif
   }
   #else

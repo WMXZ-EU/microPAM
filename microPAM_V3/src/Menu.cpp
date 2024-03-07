@@ -25,6 +25,8 @@
 #include "RTC.h"
 #include "Acq.h"
 
+static uint16_t store[16] = {0};
+
 static char * menuGetLine(void)
 {
   static char buffer[40];
@@ -75,8 +77,9 @@ int16_t menu(int16_t status)
     else if(ch==':') status=menu1(status); 
     else if(ch=='?') menu2(); 
     else if(ch=='!') menu3(); 
-    else { Serial.println("\nAllowed commands: 's','e','m','r'. See also '?p' for parameters"); }
-    while(Serial.available()) Serial.read(); // clean-up
+//    else Serial.clear();
+    else {Serial.print(ch); Serial.println("\nAllowed commands: 's','e','m','r'. See also '?p' for parameters"); }
+    while(Serial.available()) { ch=Serial.read(); Serial.print(ch);} // clean-up
   }
 
   return status;
@@ -237,7 +240,7 @@ void menu3(void)
     }
     else if(ch=='w')
     { 
-      menuGetInt16((int16_t *)params0);
+      menuGetInt16((int16_t *)&store[0]);
     }
     else if(ch=='1')
     { 
@@ -258,22 +261,18 @@ void menu3(void)
 }
 
 /******************** Parameter ******************************/
-static uint16_t store[16] = {0};
-volatile uint16_t *params0= &store[0];
-
 void storeConfig(uint16_t *store, int ns)
 { 
-    eeprom_write_block(store, 0, ns*sizeof(store[0]));  
+//    eeprom_write_block(store, 0, ns*sizeof(store[0]));  
 }
 
 void loadConfig(uint16_t *store, int ns)
 {
-    eeprom_read_block(store, 0, ns*sizeof(store[0]));  
+//    eeprom_read_block(store, 0, ns*sizeof(store[0]));  
 }
 
 void saveParameters(void)
 {
-  store[0]  = *params0;
   store[1]  = t_acq;
   store[2]  = t_on;
   store[3]  = t_off;
@@ -314,7 +313,7 @@ uint16_t *loadParameters(void)
   }
   else
   {
-    store[0]  = *params0 = 0;
+    store[0]  = 0;
     store[1]  = t_acq    = T_ACQ;
     store[3]  = t_off    = T_OFF;
     store[4]  = t_rep    = T_REP;

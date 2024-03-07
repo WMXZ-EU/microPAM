@@ -36,7 +36,7 @@
 
   #define NCHAN_I2S  2    // number of I2S channels 
   #define NCHAN_ACQ  1    // number of channels
-  #define ICH        1    // selected channel (set to -1 to disable monochannel extraction)
+  #define ICH        0    // selected channel (set to -1 to disable monochannel extraction)
 
   #if NCHAN_ACQ > 1             // for cases where more than one channels are kept
     #undef ICH
@@ -60,13 +60,15 @@
 
   #define I2S           0   // I2S microphone
   #define TLV320ADC6140 1   // ADC6140 ADC
-  #define ADC_MODEL TLV320ADC6140
+
+  #define ADC_MODEL I2S
+//  #define ADC_MODEL TLV320ADC6140
 
   // for mFiling
   #define MIN_SPACE   2000  // number of disk clusters to keep free
   #define DirPrefix    "D"  // prefix for directory
   #define FilePrefix   "F"  // prefix fir fileName
-  #define NBITS         24  // 32,24,16 number of bits in wav file (will be used in saveData)
+  #define NBITS         32  // 32,24,16 number of bits in wav file (will be used in saveData)
   #define HourDir        1  // use date/hour/file structure (0 for date/file stucture)
 
   // for mQueue
@@ -99,7 +101,7 @@
   #define T_ACQ  60   // duration in sec of each acquisition file
   #define T_ON  600   // duration in sec  of acquisition
   #define T_OFF   0   // offset in sec to start in acquisition window
-  #define T_REP 900   // repetition in sec of acquisition window
+  #define T_REP 600   // repetition in sec of acquisition window
   #define T_1     0   // start hour of first acquisition block
   #define T_2    12   // stop hour of first acquisition block
   #define T_3    12   // start hour of second acquisition block

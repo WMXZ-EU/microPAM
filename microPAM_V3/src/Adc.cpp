@@ -141,11 +141,13 @@
         Serial.println();
     }
 #else
+    // there is no ADC to be controlled
+    void adc_init(void) {}
     void acqPower(int flag) {(void) flag;}
     void adcReset(void) {}
     void adcStart(void) {}
-    void adcInit(void) {}
     void setAGain(int8_t again) {(void) again;}
     void adcStatus(void) {}
-
+    volatile int16_t again = 0 ; 
+    volatile int16_t dgain = 0 ; 
 #endif

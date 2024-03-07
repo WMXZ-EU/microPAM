@@ -40,7 +40,6 @@ static uint32_t outData[NBUF_ACQ];
 static uint32_t dout[NBUF_OUT];
 
 int32_t *tempDatai=(int32_t*) tempData;
-int32_t tempData0[NCHAN_ACQ];
 
 uint32_t proc_stat[MB];
 uint32_t max_stat;
@@ -54,13 +53,13 @@ int __not_in_flash_func(compress)(void *inp)
 
   int32_t *din = (int32_t *) inp;
   //
-  // copy reference (first sample of all channels)
-  for (int  ii = 0; ii < NCHAN_ACQ; ii++) tempData0[ii] = tempDatai[ii] = din[ii];
+  // copy data 
+  for (int  ii = 0; ii < NBUF_ACQ; ii++) tempDatai[ii] = din[ii];
   
-  //differentiate (equiv 6 dB/Octave HP filter)
-  for (int  ii = NCHAN_ACQ; ii < NBUF_ACQ; ii++) tempDatai[ii] = (din[ii] - din[ii - NCHAN_ACQ]);
+  //differentiate (equiv 6 dB/Octave HP filter) all but the first NCHAN_ACQ data
+  for (int  ii = NCHAN_ACQ; ii < NBUF_ACQ; ii++) tempDatai[ii] -=  din[ii - NCHAN_ACQ];
 
-  // find maximum in filtered data
+  // find maximum in filtered data 
   int32_t mx = 0;
   for (int ii = NCHAN_ACQ; ii < NBUF_ACQ; ii++)
   {
@@ -73,6 +72,8 @@ int __not_in_flash_func(compress)(void *inp)
   int nb;
   for(nb=2; nb<MB; nb++) if(mx < (1<<(nb-1))) break;
   // compression factor (32/nb)
+
+  // keep statistics
   proc_stat[nb-1]++;
   if((uint32_t)nb>max_stat) max_stat=nb;
 
@@ -103,25 +104,25 @@ int __not_in_flash_func(compress)(void *inp)
   int kk=NH;
   outData[kk++] = tempData[0]; tempData[0] = 0;
   #if NCHAN_ACQ>1
-    outData[kk++] = tempData[0]; tempData[0] = 0;
+    outData[kk++] = tempData[1]; tempData[1] = 0;
   #endif
   #if NCHAN_ACQ>2
-    outData[kk++] = tempData[0]; tempData[0] = 0;
+    outData[kk++] = tempData[2]; tempData[2] = 0;
   #endif
   #if NCHAN_ACQ>3
-    outData[kk++] = tempData[0]; tempData[0] = 0;
+    outData[kk++] = tempData[3]; tempData[3] = 0;
   #endif
   #if NCHAN_ACQ>4
-    outData[kk++] = tempData[0]; tempData[0] = 0;
+    outData[kk++] = tempData[4]; tempData[4] = 0;
   #endif
   #if NCHAN_ACQ>5
-    outData[kk++] = tempData[0]; tempData[0] = 0;
+    outData[kk++] = tempData[5]; tempData[5] = 0;
   #endif
   #if NCHAN_ACQ>6
-    outData[kk++] = tempData[0]; tempData[0] = 0;
+    outData[kk++] = tempData[6]; tempData[6] = 0;
   #endif
   #if NCHAN_ACQ>7
-    outData[kk++] = tempData[0]; tempData[0] = 0;
+    outData[kk++] = tempData[7]; tempData[7] = 0;
   #endif
   #if NCHAN_ACQ>8
     #error "NCH>8"

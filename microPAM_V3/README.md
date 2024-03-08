@@ -11,10 +11,10 @@
  - https://github.com/WMXZ-EU/microPAM/blob/main/microPAM_V3/.vsteensy/build/microPAM_V3_T41.hex (VSCode build)
 
  The actual default setting (as of 16-06-2023) are
+ - I2S 
  - 1 min wav files (no compression)
  - 48 kHz sampling 
  - 24 bit wav file
- - TLV320ADC6140 
  - Store data in //day/hour/file structure 
 
 Check actual configuration by inspecting Config.h

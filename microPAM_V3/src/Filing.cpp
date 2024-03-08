@@ -174,7 +174,7 @@ char * headerInit(int32_t fsamp, int32_t nchan, int32_t nbits, int serNum)
   wav_hdr.dLen = 0; // will be updated at closing
 
   wav_hdr.nFormatTag=1;
-  wav_hdr.nChannels=1;
+  wav_hdr.nChannels=nchan;
   wav_hdr.nSamplesPerSec=fsamp;
   wav_hdr.nAvgBytesPerSec=fsamp*nbytes*nchan;
   wav_hdr.nBlockAlign=nchan*nbytes;

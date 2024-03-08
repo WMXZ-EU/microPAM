@@ -35,11 +35,11 @@
   #endif
 
   #define NCHAN_I2S  2    // number of I2S channels 
-  #define NCHAN_ACQ  1    // number of channels
-  #define ICH        0    // selected channel (set to -1 to disable monochannel extraction)
+  #define NCHAN_ACQ  2    // number of channels
 
-  #if NCHAN_ACQ > 1             // for cases where more than one channels are kept
-    #undef ICH
+  #if NCHAN_ACQ == 1
+    #define ICH      0    // selected channel (set to -1 to disable monochannel extraction)
+  #else
     #define ICH     -1    // disable monochannel extraction
   #endif
 

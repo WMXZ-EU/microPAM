@@ -453,12 +453,12 @@ int16_t saveData(int16_t status)
 
     status=checkEndOfFile(status);
 
-    if(getDataCount()>=nblocks)
+    if(getDataCount() >= NDBL)
     { 
       digitalWrite(13,HIGH);
       if(proc==0)
       { 
-        for(int ii=0; ii<nblocks; ii++)
+        for(int ii=0; ii<NDBL; ii++)
         { while(queue_isBusy()){continue;} //wait if acq writes to queue
           pullData((uint32_t *)&tempBuffer0[ii*NBUF_ACQ]);
         }
@@ -475,8 +475,8 @@ int16_t saveData(int16_t status)
         { // wav mode; store only top 24 bits
 
           int jj=0;
-          uint8_t * outptr=(uint8_t *) diskBuffer;
           uint32_t * inpp=(uint32_t *) tempBuffer0;
+          uint8_t * outptr=(uint8_t *) diskBuffer;
           for(int ii=0; ii<MAX_TEMP_BUFFER;ii++)
           {
             outptr[jj++]=(inpp[ii]) &0xff;
@@ -486,8 +486,8 @@ int16_t saveData(int16_t status)
         }
         else if(NBITS==16)
         { // wav mode; store only top 16 bits
-          uint16_t * outptr=(uint16_t *) diskBuffer;
           uint32_t * inpp=(uint32_t *) tempBuffer0;
+          uint16_t * outptr=(uint16_t *) diskBuffer;
           for(int ii=0; ii<MAX_TEMP_BUFFER;ii++)
           {
             outptr[ii]=(inpp[ii]) &0xffff;

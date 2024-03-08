@@ -68,7 +68,7 @@
   #define MIN_SPACE   2000  // number of disk clusters to keep free
   #define DirPrefix    "D"  // prefix for directory
   #define FilePrefix   "F"  // prefix fir fileName
-  #define NBITS         32  // 32,24,16 number of bits in wav file (will be used in saveData)
+  #define NBITS         24  // 32,24,16 number of bits in wav file (will be used in saveData)
   #define HourDir        1  // use date/hour/file structure (0 for date/file stucture)
 
   // for mQueue
@@ -80,8 +80,13 @@
   #define MB            24  // maximal bits for compression
 
   // Acq
-  #define AGAIN         10  // analog gain in dB   // 0:42
-  #define DGAIN          0  // digital gain in dB  // (-200:54)/2 
+  #if ADC_MODEL == I2S
+    #define AGAIN          0  
+    #define DGAIN          0  
+  #else
+    #define AGAIN         10  // analog gain in dB   // 0:42
+    #define DGAIN          0  // digital gain in dB  // (-200:54)/2 
+  #endif
 
   #if PROC_MODE==0
     #if NBITS==32

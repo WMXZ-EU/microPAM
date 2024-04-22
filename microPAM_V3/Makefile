@@ -180,7 +180,7 @@ generateDirs := $(foreach d, $(DIRECTORIES), $(shell if(-not(test-path "$d")) {m
 
 
 # force compilation of config to update version date
-$(shell (ls $(USR_SRC)/config.h).LastWriteTime = get-Date)
+$(shell (ls $(USR_SRC)/Config.h).LastWriteTime = get-Date)
 
 #******************************************************************************
 # Flags and Defines
@@ -320,3 +320,4 @@ cleanLib:
 -include $(CORE_OBJ:.o=.d)
 -include $(USR_OBJ:.o=.d)
 -include $(LIB_OBJ:.o=.d)
+-include $(INO_OBJ:.o=.d)

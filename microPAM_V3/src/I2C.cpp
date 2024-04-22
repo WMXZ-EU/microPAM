@@ -88,20 +88,17 @@
     }    
 
 
-#if 0
-void test_wire0(void)
+void test_wire(TwoWire *wire)
 {
-        Wire.begin();
+        wire->begin();
         delay(100);
-//        Wire.setSDA(18);
-//        Wire.setSCL(19);
-        Wire.setClock(100'000);
+        wire->setClock(100'000);
 
     for(int ii=0;ii<127;ii++)
     {
-        Wire.beginTransmission(ii);
+        wire->beginTransmission(ii);
         delay(100);
-        uint8_t error = Wire.endTransmission();
+        uint8_t error = wire->endTransmission();
         if(error) 
             Serial.printf("I2C not found %x\n",ii);  
         else 
@@ -109,25 +106,3 @@ void test_wire0(void)
     }
     while(1);  
 }
-
-void test_wire1(void)
-{
-        Wire1.begin();
-        delay(100);
-        Wire1.setSDA(17);
-        Wire1.setSCL(16);
-        Wire1.setClock(100'000);
-
-    for(int ii=0;ii<127;ii++)
-    {
-        Wire1.beginTransmission(ii);
-        delay(100);
-        uint8_t error = Wire1.endTransmission();
-        if(error) 
-            Serial.printf("I2C not found %x\n",ii);  
-        else 
-            Serial.printf("I2C found %x\n",ii);      
-    }
-    while(1);  
-}
-#endif

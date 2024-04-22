@@ -61,4 +61,6 @@ int16_t saveData(int16_t status);
 extern uint32_t disk_count;
 extern volatile int32_t logBuffer[];
 
+void powerDown(void);
+
 #endif

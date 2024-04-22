@@ -28,16 +28,23 @@
     #if defined(__IMXRT1062__)
         #define NPORT_I2S    1
         #define ADC_SHDNZ   32
-        #define ADC_EN      33  // as of micoPAM-mare-2b
+        #define ADC_EN      33      // as of micoPAM-mare-2b
+        #define USB_POWER    1
+//        #define mWire       Wire    // mare-2b
+        #define mWire       Wire1   // mare-3b
     #elif defined(TARGET_RP2040)
         #define NPORT_I2S 1
         #define ADC_SHDNZ 32
         #undef ADC_EN
+        #define USB_POWER 0
+        #define mWire       Wire
     #endif
 
 	#if (NCH <= 2)
-		const  uint8_t chanMask[2] = {0b1001<<4, 0b1001<<4};
-        const  uint8_t chmap[2][4] = {{0,2,3,1}, {0,2,3,1}};
+		//const  uint8_t chanMask[2] = {0b1001<<4, 0b1001<<4};
+        //const  uint8_t chmap[2][4] = {{0,2,3,1}, {0,2,3,1}};
+		const  uint8_t chanMask[2] = {0b0011<<4, 0b0011<<4};
+        const  uint8_t chmap[2][4] = {{2,3,0,1}, {2,3,0,1}};
 	#else 
 		const  uint8_t chanMask[2] = {0b1111<<4, 0b1111<<4};
         const  uint8_t chmap[2][4] = {{0,1,2,3}, {0,1,2,3}};
@@ -51,10 +58,36 @@
     static const uint8_t i2c_addr[2]= {I2C_ADDRESS1, I2C_ADDRESS2};
     static const uint8_t regs[4]={0x3C, 0x41, 0x46, 0x4B};
 
+    void usbPowerInit()
+    {
+      IOMUXC_SW_MUX_CTL_PAD_GPIO_EMC_40 = 5;
+      IOMUXC_SW_PAD_CTL_PAD_GPIO_EMC_40 = 0x0008; // slow speed, weak 150 ohm drive
+
+      GPIO8_GDIR |= 1<<26;
+    }
+    void usbPowerOn()
+    {
+      GPIO8_DR_SET = 1<<26;
+    }
+    void usbPowerOff()
+    {
+      GPIO8_DR_CLEAR = 1<<26;
+    }
+
+    void usbPowerSetup(void)
+    {
+      #if USB_POWER==1
+        usbPowerInit();
+        usbPowerOn();
+        delay(1000);
+      #endif
+    }
+
     void acqPower(int flag)
     {   
         #if defined(ADC_EN)
             digitalWrite(ADC_EN,flag);
+            delay(100);
         #else
             (void) flag;
         #endif
@@ -82,8 +115,7 @@
         adcStart();
 
         /* ADDRESS L,L: 0x4C ; H,L: 0x4D; L,H: 0x4E; H,H: 0x4F */
-        i2c_class i2c(&Wire,100'000); // SCL:19; SDA:18
-        delay(200);
+        i2c_class i2c(&mWire,100'000); 
 
         // check existance of device
         for(int ii=0; ii<NPORT_I2S; ii++)
@@ -103,11 +135,15 @@
                 i2c.write(i2c_addr[ii],0x0B+jj,chmap[ii][jj]); 
             }
 
-            i2c.write(i2c_addr[ii],0x73,chanMask[ii]); 	//Enable Input Ch-1 to Ch-8 by I2C write into P0_R115 
-            i2c.write(i2c_addr[ii],0x74,chanMask[ii]);	//Enable ASI Output Ch-1 to Ch-8 slots by I2C write into P0_R116
-            i2c.write(i2c_addr[ii],0x75,0x60);			//Power-up ADC and PLL by I2C write into P0_R117 
+            //i2c.write(i2c_addr[ii],0x73,chanMask[ii]); 	//Enable Input Ch-1 to Ch-8 by I2C write into P0_R115 
+            i2c.write(i2c_addr[ii],0x73,0x30);	//Enable ASI Output Ch-1 to Ch-8 slots by I2C write into P0_R116
+            //i2c.write(i2c_addr[ii],0x74,chanMask[ii]);	//Enable ASI Output Ch-1 to Ch-8 slots by I2C write into P0_R116
+            i2c.write(i2c_addr[ii],0x74,0x20);	//Enable ASI Output Ch-1 to Ch-8 slots by I2C write into P0_R116
+            i2c.write(i2c_addr[ii],0x75,0xE0);			//Power-up ADC and PLL by I2C write into P0_R117 
 
-            i2c.write(i2c_addr[ii],0x3B,0x00); // 0: 2.75V; 1: 2.5V; 2: 1.375V
+            i2c.write(i2c_addr[ii],0x6B,(2<<4) | (1<<2) | (1<<0)); 	//LL-Filter and sum (1+2)/2; (3+4)/2
+
+            i2c.write(i2c_addr[ii],0x3B,0x60);  // 0: 2.75V; 1: 2.5V; 2: 1.375V
 
             for(int jj=0; jj<4; jj++)
             {   
@@ -125,7 +161,7 @@
 
     void setAGain(int8_t again)
     {
-        i2c_class i2c(&Wire1,100'000);
+        i2c_class i2c(&mWire,100'000);
         for(int ii=0; ii<NPORT_I2S; ii++)
             for(int jj=0; jj<4; jj++)
             {
@@ -134,9 +170,10 @@
     }
     void adcStatus(void)
     {
-        i2c_class i2c(&Wire1,100'000);
+        i2c_class i2c(&mWire,100'000);
         for(int ii=0; ii<NPORT_I2S; ii++)
-        { Serial.print("\n ADC 0x15: "); Serial.print(i2c.read(i2c_addr[ii],0x15),HEX);
+        {   Serial.print("\n0x15: "); Serial.print(i2c.read(i2c_addr[ii],0x15),HEX);
+            Serial.print("\n0x76: "); Serial.print(i2c.read(i2c_addr[ii],0x76),HEX);
         }
         Serial.println();
     }

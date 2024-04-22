@@ -31,6 +31,7 @@ static char * menuGetLine(void)
 {
   static char buffer[40];
   while(!Serial.available()) continue;
+  Serial.setTimeout(5000);
   int count;
   count = Serial.readBytesUntil('\r',buffer,40);
   buffer[count]=0;
@@ -60,7 +61,12 @@ static int menuGet3Int(int *val1, int *val2, int *val3)
 
 #include "Filing.h"
 void resetMTP();
-void resetUSB();
+void resetUSB(void);
+void adcStatus(void);
+void setAGain(int8_t again);
+void reboot(void) ;
+
+
 int16_t monitor=0;
 int16_t menu(int16_t status)
 {
@@ -68,11 +74,13 @@ int16_t menu(int16_t status)
   if(Serial.available())
   {
     char ch=Serial.read();
-    // some basic options
-    if(ch=='s') {Serial.print("\n Start"); status=CLOSED;}
+    // some basic options (without ":")
+    if(ch=='s') {Serial.print("\n Start"); adcStatus(); status=CLOSED;}
     else if(ch=='e') {Serial.print("\n Stop"); status=MUSTSTOP;}
     else if(ch=='m') {monitor=1-monitor; Serial.print("\n Monitor "); Serial.print(monitor); }
     else if(ch=='r') {resetUSB();}
+    else if(ch=='b') {reboot();}
+    else if(ch=='x') {powerDown();}
     // detailed options
     else if(ch==':') status=menu1(status); 
     else if(ch=='?') menu2(); 
@@ -94,8 +102,12 @@ int16_t menu1(int16_t status)
     { Serial.println("Save parameters");
       saveParameters();
     }
-    else if(ch=='m') 
-    { menuGetInt16((int16_t *)&monitor);
+    else if(ch=='m') // control monitor (needed for gui)
+    {
+      menuGetInt16((int16_t *)&monitor);
+    }
+    else if(ch=='c') // transfer internal rtc to external rtc
+    { rtcXferTime();
     }
 
     return status;
@@ -104,7 +116,6 @@ int16_t menu1(int16_t status)
 void menu2(void)
 {   // have '?'
     datetime_t t;
-
 
     while(!Serial.available()) ;
     char ch;
@@ -115,8 +126,9 @@ void menu2(void)
       Serial.println(version);
 
       rtc_get_datetime(&t);
-      Serial.printf("Now: %4d-%02d-%02d %02d:%02d:%02d %d\n",
+      Serial.printf("Now:\n%4d-%02d-%02d %02d:%02d:%02d %d\n",
                    t.year,t.month,t.day,t.hour,t.min,t.sec,t.dotw);
+      Serial.println(rtcGetTimestamp());
       Serial.print("t_acq (a) = "); Serial.println(t_acq);
       Serial.print("t_on  (o) = "); Serial.println(t_on);
       Serial.print("t_rep (r) = "); Serial.println(t_rep);
@@ -237,6 +249,7 @@ void menu3(void)
     else if(ch=='g')
     {
       menuGetInt16((int16_t *)&again);
+      setAGain(again);
     }
     else if(ch=='w')
     { 
@@ -263,12 +276,12 @@ void menu3(void)
 /******************** Parameter ******************************/
 void storeConfig(uint16_t *store, int ns)
 { 
-//    eeprom_write_block(store, 0, ns*sizeof(store[0]));  
+    eeprom_write_block(store, 0, ns*sizeof(store[0]));  
 }
 
 void loadConfig(uint16_t *store, int ns)
 {
-//    eeprom_read_block(store, 0, ns*sizeof(store[0]));  
+    eeprom_read_block(store, 0, ns*sizeof(store[0]));  
 }
 
 void saveParameters(void)

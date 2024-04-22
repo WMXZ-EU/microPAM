@@ -340,9 +340,9 @@ int16_t newFileName(char *fileName)
     datetime_t t;
     rtc_get_datetime(&t);
     if(proc==0)
-      sprintf(fileName, "%s%04d_%02d_%02d_%02d%02d%02d.wav", FilePrefix, t.year,t.month,t.day,t.hour,t.min,t.sec);
+      sprintf(fileName, "%s%04d%02d%02d_%02d%02d%02d.wav", FilePrefix, t.year,t.month,t.day,t.hour,t.min,t.sec);
     else
-      sprintf(fileName, "%s_%02d%02d%02d.bin", FilePrefix, t.hour,t.min,t.sec);
+      sprintf(fileName, "%s%04d%02d%02d_%02d%02d%02d.bin", FilePrefix, t.year,t.month,t.day,t.hour,t.min,t.sec);
     //
     Serial.println(); Serial.print(": "); Serial.print(fileName);
     return 1;
@@ -358,8 +358,7 @@ void do_hibernate(uint32_t dt);
 int16_t storeData(int16_t status)
 {
     if(status==CLOSED) // file closed: should open
-    {   //doTransactions(true);
-        //if(!checkDiskSpace()) {return STOPPED;}
+    {   //if(!checkDiskSpace()) {return STOPPED;}
         //
         if(newDirectory(dirName))
         {   if(!sd->exists(dirName) && !sd->mkdir(dirName)) {Serial.println("Error mkdir"); return STOPPED;}         
@@ -394,9 +393,10 @@ int16_t storeData(int16_t status)
           makeHeader(fileHeader);
           hdr=(char *)fileHeader;
         }
-        if(file.write(hdr,512) < 512) 
+        int nd;
+        if((nd=file.write(hdr,512)) < 512) 
         { status = DOCLOSE;
-        } 
+        }
         else status=RUNNING;
     }
     //
@@ -423,15 +423,32 @@ int16_t storeData(int16_t status)
             {
               char *hdr = headerUpdate(nbuf*MAX_DISK_BUFFER*4);
               writeHeader(hdr);
-
             }
             file.close();
         }
 
         if(status==DOHIBERNATE)
-        { do_hibernate(t_rep);
+        { if( t_rep > t_on) 
+          {
+            // shutdown acq board
+            adcReset();
+            acqPower(LOW);
+            do_hibernate(t_rep);
+          }
+          else
+          {
+            status = CLOSED;   // do not hibernate
+          }
         }
-        status= (status==DOCLOSE)? CLOSED : STOPPED;
+        else if(status==DOCLOSE)
+        {
+          status=CLOSED;
+        }
+        else if(status==MUSTSTOP)
+        {
+          status=STOPPED;
+          digitalWriteFast(13,LOW);
+        }
     }
     return status;
 }
@@ -440,14 +457,10 @@ volatile int32_t logBuffer[8];
 int16_t saveData(int16_t status)
 {
     if(status==STOPPED) 
-    { 
-      while(queue_isBusy()); //wait if acq writes to queue
+    { while(queue_isBusy()) {;} //wait if acq writes to queue
       pullData((uint32_t*)tempBuffer0);
       for(int ii=0;ii<8;ii++) logBuffer[ii]=tempBuffer0[ii];
-      digitalWriteFast(13,HIGH);
     }
-    else
-      digitalWriteFast(13,LOW);
 
     if(status<CLOSED) return status; // we are stopped: don't do anything
 
@@ -455,7 +468,6 @@ int16_t saveData(int16_t status)
 
     if(getDataCount() >= NDBL)
     { 
-      digitalWrite(13,HIGH);
       if(proc==0)
       { 
         for(int ii=0; ii<NDBL; ii++)
@@ -490,7 +502,7 @@ int16_t saveData(int16_t status)
           uint16_t * outptr=(uint16_t *) diskBuffer;
           for(int ii=0; ii<MAX_TEMP_BUFFER;ii++)
           {
-            outptr[ii]=(inpp[ii]) &0xffff;
+            outptr[ii]=(inpp[ii]>>16);
           }
         }
       }
@@ -503,19 +515,34 @@ int16_t saveData(int16_t status)
         for(int ii=0;ii<8;ii++) logBuffer[ii]=diskBuffer[ii];
       }
       if(haveStore)
+      {
         status=storeData(status);
+      }
     }
-    else
-      digitalWrite(13,LOW);
 
     return status;
 }
 
 /*********************** hibernate ******************************/
 #include "core_pins.h"
+/*  hibernating is shutting down the power snvs mode
+    only RTC continuoes to run (if there is a 3V battery or power)
+    hipernation is controlled by t_rep (sec), t_1,t_2,t_3, t_4 (h)
 
+    for t_rep > t_on,  system will hibernate until next multiple of t_tep 
+
+    t_1 to t_4 describe 2 acquirition windows (unit hour)
+    acquisition happens from t_1 to t_2 and t_3 to t_4 
+    (0 <= t_1 <= t_2 <= t_3 <=t_4 <=24)
+    24 hour aquisition is ensured by t_1=0, t_2=12, t_3=12, t_4=24
+
+    wakeup time is estimated by getAlarmTime
+*/
 uint32_t getAlarmTime(uint32_t secs)
-{
+{   // estimate the wakup-time in seconds 
+    // input: actual time
+    // output: next wakup time
+    //
     uint32_t dd = secs/(24*3600); // days
     uint32_t hh =(secs%(24*3600))/3600; // hour into day
 
@@ -539,17 +566,28 @@ uint32_t getAlarmTime(uint32_t secs)
     return secs;
 }
 
+void powerDown(void)
+{
+  SNVS_LPCR |= (1 << 6); // turn off power
+  while (1) asm("wfi");      
+}
+
 #define SNVS_LPCR_LPTA_EN_MASK          (0x2U)
 
 void do_hibernate(uint32_t t_rep)
 {
-    uint32_t tmp = SNVS_LPCR; // save control register
+    uint32_t tmp = SNVS_LPCR;   // save control register
 
     SNVS_LPSR |= 1;
+    asm volatile("DSB");
 
     // disable alarm
     SNVS_LPCR &= ~SNVS_LPCR_LPTA_EN_MASK;
     while (SNVS_LPCR & SNVS_LPCR_LPTA_EN_MASK);
+
+    // clear alarm value
+    SNVS_LPTAR = 0;
+    while (SNVS_LPTAR != 0);
 
     __disable_irq();
 
@@ -562,7 +600,9 @@ void do_hibernate(uint32_t t_rep)
     uint32_t secs = (msb << 17) | (lsb >> 15);
 
     //set alarm
+    Serial.print(secs); Serial.print(" ");
     secs = getAlarmTime(secs);
+    Serial.println(secs);
 
     SNVS_LPTAR = secs;
     while (SNVS_LPTAR != secs);
@@ -573,9 +613,6 @@ void do_hibernate(uint32_t t_rep)
 
     __enable_irq();
   
-    // shutdown acq board
-    acqPower(LOW);
     //
-    SNVS_LPCR |= (1 << 6); // turn off power
-    while (1) asm("wfi");  
+    powerDown(); 
 }

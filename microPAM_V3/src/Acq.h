@@ -31,5 +31,6 @@
   extern uint32_t procCount;
   extern uint32_t procMiss;
 
+  void usbPowerSetup(void);
 
 #endif

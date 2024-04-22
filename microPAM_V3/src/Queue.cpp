@@ -37,7 +37,7 @@
   #endif
 
   volatile static int queue_busy=0;
-  static uint32_t data_buffer[MAXBUF][NBUF_ACQ];
+  EXTMEM static uint32_t data_buffer[MAXBUF][NBUF_ACQ];
   volatile static int head=0;
   volatile static int tail=0;
   
@@ -46,9 +46,9 @@
 
   uint16_t __not_in_flash_func(pushData)(uint32_t *data)
   {
-    if ( (tail+1)%MAXBUF == head ) return 0;
-    //while(busy); 
+//    while(queue_busy); 
     queue_busy=1;
+    if ( (tail+1)%MAXBUF == head ) {queue_busy=0; return 0;} // signal full
     memcpy(data_buffer[tail],data,4*NBUF_ACQ);
     tail = (tail+1)%MAXBUF;
     queue_busy=0;
@@ -57,11 +57,11 @@
   
   uint16_t __not_in_flash_func(pullData)(uint32_t *data)
   {
-    if ( head==tail ) return 0;
-    //while(busy); 
+//    while(queue_busy); 
     queue_busy=1;
+    if ( head==tail ) {queue_busy=0; return 0;} // signal empty
     memcpy(data,data_buffer[head],4*NBUF_ACQ);
     head = (head+1)%MAXBUF;
     queue_busy=0;
-    return 1;
+    return 1; // signal success.
   }

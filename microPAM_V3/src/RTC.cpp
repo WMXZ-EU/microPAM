@@ -76,11 +76,11 @@ static void i2c_read_data(uint8_t address, uint8_t reg, uint8_t *buffer, uint16_
 }
 
 /**************************************************************************************/
-#define DS3231_ADDRESS 0x68   ///< I2C address for DS3231
-#define DS3231_TIME 0x00      ///< Time register
-#define DS3231_ALARM1 0x07    ///< Alarm 1 register
-#define DS3231_ALARM2 0x0B    ///< Alarm 2 register
-#define DS3231_CONTROL 0x0E   ///< Control register
+#define DS3231_ADDRESS  0x68   ///< I2C address for DS3231
+#define DS3231_TIME     0x00      ///< Time register
+#define DS3231_ALARM1   0x07    ///< Alarm 1 register
+#define DS3231_ALARM2   0x0B    ///< Alarm 2 register
+#define DS3231_CONTROL  0x0E   ///< Control register
 #define DS3231_STATUSREG 0x0F ///< Status register
 #define DS3231_TEMPERATUREREG 0x11 
 
@@ -197,7 +197,7 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
     msetRTC(rtcBuffer, 7);
   }
 
-  int16_t rtc_setup(uint8_t sda, uint8_t scl)
+  int16_t rtcSetup(uint8_t sda, uint8_t scl)
   {
     static datetime_t t;
     static uint8_t rtcBuffer[7] = {0,27,15,1,3,4,23}; // adapt to better time (secs,min, ...., year-2000)
@@ -372,8 +372,20 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
     return seconds; 
   }
 
-  int16_t rtc_setup(uint8_t sda, uint8_t scl)
+  #include "RV-3028-C7.h"
+  RV3028 rtc;
+
+  int16_t rtcSetup(uint8_t sda, uint8_t scl)
   {
+    Wire.begin();
+    if (rtc.begin() == false) {
+    Serial.println("RTC offline!");
+    }
+    else
+    {
+      Serial.println("RTC online!");
+    }
+
     return 1;
   }
 
@@ -405,6 +417,35 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
     t.min=minutes;
     t.sec=seconds;
     rtc_set_datetime(&t);
+  }
+
+  void rtcXferTime(void)
+  {
+    rtc.setUNIX(rtc_get());
+    datetime_t t;
+    rtc_get_datetime(&t);
+    if (rtc.setTime(t.sec, t.min, t.hour, t.day, t.day, t.month, t.year) == false) 
+    {
+          Serial.println("Something went wrong setting the time");
+    }
+  }
+  void rtcSync(void)
+  {
+    uint32_t to;
+    to=rtc_get();
+    if (to<rtc.getUNIX()) rtc_set(rtc.getUNIX());
+  }
+
+  char * rtcGetTimestamp(void)
+  { 
+    //PRINT TIME
+    if (rtc.updateTime() == false) //Updates the time variables from RTC
+    {
+      Serial.println("RTC failed to update");
+      return 0;
+    } else {
+      return rtc.stringTimeStamp();
+    }
   }
 
 #endif

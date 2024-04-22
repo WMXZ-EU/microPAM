@@ -28,5 +28,4 @@
     void adcStatus(void) ;
 
     void acqPower(int flag);
-
 #endif

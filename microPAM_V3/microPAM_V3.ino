@@ -78,6 +78,8 @@
     while(!Serial) mtpd.loop();
   }
 
+  void reboot(void) { *(uint32_t *)0xE000ED0C =  0x5FA0004;}
+
   #if USE_EVENTS==1
     extern "C" int usb_init_events(void);
     void resetMTP(void) {mtpd.send_DeviceResetEvent();}
@@ -100,6 +102,15 @@
 /***************************************************************************/
 volatile int setup_ready=0;
 volatile int termon=0;
+
+  void checkInput(void)
+  {
+    while(!Serial.available()) ;
+    char ch;
+    ch=Serial.read();
+    (void) ch;
+  }
+
 void setup1();  // contains acquisition module and is seperated core in RP2040
 //
 void setup() 
@@ -125,11 +136,10 @@ void setup()
     // wait for 10 s to allow USB-Serial connection
     while(millis()<10'000) if(Serial) { termon=1; break;}
   }
-  
-  while(millis()<10'000) if(Serial) { break;}
+
   Serial.println(version);
   Serial.print("params[0] = "); Serial.println(params[0]);
-
+  
   // Teensy has a crash report
   #if defined(__IMXRT1062__)
     if(CrashReport) Serial.print(CrashReport);
@@ -145,23 +155,30 @@ void setup()
     #endif
   #endif
 
+  usbPowerSetup();
+
   // configure disk storage
   storage_configure();
 
   // setup RT Clock
-  rtc_setup();
-  Serial.println("rtc_setup() done");
+  Serial.println("rtcSetup");
+  rtcSetup();
+  rtcSync();
 
   datetime_t t;
   if(!rtc_get_datetime(&t)) Serial.println("failing get_datetime");
   Serial.printf("RTC-main: %4d-%02d-%02d %02d:%02d:%02d",
-                           t.year,t.month,t.day,t.hour,t.min,t.sec); Serial.println();
+                           t.year,t.month,t.day,t.hour,t.min,t.sec); 
+  Serial.println();
+  //
+  Serial.print("RV3028: ");
+  Serial.println(rtcGetTimestamp());
   //
   Serial.println("filing_init");
   filing_init();
 
-  Serial.println("Setup done");
   setup_ready=1;
+  Serial.println("Setup done");
 
   // in case of single core teensy 4.1 start acquisition, which for rp2040 is in 2nd core
   #if defined(__IMXRT1062__)
@@ -190,17 +207,17 @@ void loop()
     if(status<0)
     { mtpd.loop();
     }
-    else
+
+    // 
     {
-      digitalWriteFast(13,HIGH);    
+      if(status>0) digitalWriteFast(13,HIGH);    
       // save data (filing will be handled inside saveData)
       status=saveData(status);  
-      digitalWriteFast(13,LOW);
+      if(status>0) digitalWriteFast(13,LOW);
     }
   #else
     status=saveData(status);  
   #endif
-
 
   // once a second provide some information to User
   static uint32_t t0=0;
@@ -244,10 +261,11 @@ void loop()
   }
 }
 /******************************************************************************e****/
-// rp2040 has dial core. let acq run on its own core
-// on teensy this will start acquisition
+// rp2040 has two core. let acquisition run on its own core
+// on teensy this will be called from setup()
+
 void setup1()
-{ while(!Serial) {}
+{ 
   Serial.println("Setup1");
   while(!setup_ready) {delay(1);} // wait for setup() to finish
   i2s_setup();

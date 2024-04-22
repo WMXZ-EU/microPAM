@@ -41,4 +41,6 @@
         uint8_t *readData( uint8_t addr, uint8_t reg, uint8_t *data, uint8_t ndat, uint16_t dt = 0);
     };
 
+
+    void test_wire(TwoWire *wire);
 #endif

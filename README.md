@@ -11,6 +11,10 @@ This code is for quick testing of Teensy systems. Consider to use the microPAM_V
 ## microPAM_V2
 This version contains code that runs both on RP2040 and Teensy T4.1 based systems. So far, it does not contain USB-Audio interface to PC.
 
-However, this is the prefered code as it is in active development
+However, this is the prefered code as for terrestrial applications
+
+## microPAM_V3
+This version contains code that aims to be used for the "microPAM-mare" implementation.
+
 
 ** See more detail in folders Readme file **

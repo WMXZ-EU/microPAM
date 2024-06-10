@@ -25,6 +25,8 @@
 // Nov 2020 adapted to SdFat-beta / SD combo
 // Feb 2024 use only SdFat (removed SD)
 
+  #if defined(__IMXRT1062__)
+  
 //#include "Arduino.h"
 #include "core_pins.h"
 #include "usb_serial.h"
@@ -223,7 +225,9 @@ void mtp_lock_storage(bool lock) {}
         r.child = r.isdir ? 0 : (uint32_t) child_.size();
         r.scanned = false;
         child_.getName(r.name,MAX_FILENAME_LEN);
-        //sd_getName(child_,r.name, MAX_FILENAME_LEN);
+        child_.getCreateDateTime(&r.cpdate, &r.cptime);
+        child_.getModifyDateTime(&r.mpdate, &r.mptime);
+        //
         sibling = AppendIndexRecord(r);
         child_.close();
       }
@@ -278,13 +282,19 @@ void mtp_lock_storage(bool lock) {}
     }
   }
 
-  void MTPStorage_SD::GetObjectInfo(uint32_t handle, char* name, uint32_t* size, uint32_t* parent, uint16_t *store)
+  void MTPStorage_SD::GetObjectInfo(uint32_t handle, char* name, uint32_t* size, uint32_t* parent, uint16_t *store, char *create, char *modify)
   {
     Record r = ReadIndexRecord(handle);
     strcpy(name, r.name);
     *parent = r.parent;
     *size = r.isdir ? 0xFFFFFFFFUL : r.child;
     *store = r.store;
+    snprintf(create,32,"%04u%02u%02uT%02u%02u%02u",
+          FS_YEAR(r.cpdate),FS_MONTH(r.cpdate),FS_DAY(r.cpdate),
+          FS_HOUR(r.cptime),FS_MINUTE(r.cptime),FS_SECOND(r.cptime));
+    snprintf(modify,32,"%04u%02u%02uT%02u%02u%02u",
+          FS_YEAR(r.mpdate),FS_MONTH(r.mpdate),FS_DAY(r.mpdate),
+          FS_HOUR(r.mptime),FS_MINUTE(r.mptime),FS_SECOND(r.mptime));
   }
 
   uint32_t MTPStorage_SD::GetSize(uint32_t handle) 
@@ -373,6 +383,10 @@ void MTPStorage_SD::removeFile(uint32_t store, char *file)
     r.child = 0;
     r.sibling = p.child;
     r.isdir = folder;
+    r.cpdate = 0;
+    r.cptime = 0;
+    r.mpdate = 0;
+    r.mptime = 0;
     // New folder is empty, scanned = true.
     r.scanned = 1;
     ret = p.child = AppendIndexRecord(r);
@@ -411,12 +425,19 @@ void MTPStorage_SD::removeFile(uint32_t store, char *file)
   {
     mtp_lock_storage(true);
     uint32_t size = (uint32_t) file_.size();
+    uint16_t cpdate,cptime,mpdate,mptime;
+    file_.getCreateDateTime(&cpdate,&cptime);
+    file_.getCreateDateTime(&mpdate,&mptime);
     file_.close();
     mtp_lock_storage(false);
     //
     // update record with file size
     Record r = ReadIndexRecord(open_file_);
     r.child = size;
+    r.cpdate=cpdate;
+    r.cptime=cptime;
+    r.mpdate=mpdate;
+    r.mptime=mptime;
     WriteIndexRecord(open_file_, r);
     open_file_ = 0xFFFFFFFEUL;
   }
@@ -726,3 +747,4 @@ bool mSD_Base::sd_moveDir(uint32_t store0, char *oldfilename, uint32_t store1, c
   }
   return sd_rmdir(store0,oldfilename);
 }
+#endif

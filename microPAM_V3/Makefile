@@ -62,8 +62,7 @@ ifeq ($(BOARD_ID),T41)
 	FLAGS_CPU   += -mcpu=cortex-m7 -mfpu=fpv5-d16
 	LIBS        := -larm_cortexM7lfsp_math
 	DEFINES     := -D__IMXRT1062__  -DARDUINO_TEENSY41
-	DEFINES     += -DF_CPU=150000000
-	DEFINES		+= -DUSE_SDIO=2
+	DEFINES     += -DF_CPU=24000000
 endif
 
 DEFINES     	+= -D$(USB_DEVICE)
@@ -185,7 +184,7 @@ $(shell (ls $(USR_SRC)/Config.h).LastWriteTime = get-Date)
 #******************************************************************************
 # Flags and Defines
 #******************************************************************************
-FLAGS_OPT   := -Os
+FLAGS_OPT   := -Os --specs=nano.specs -u _printf_float -u _scanf_float
 FLAGS_COM   := -g -Wall -ffunction-sections -fdata-sections -nostdlib -MMD
 FLAGS_LSP   := 
 

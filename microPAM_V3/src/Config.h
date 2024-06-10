@@ -31,10 +31,10 @@
   #if defined(AUDIO_INTERFACE)
     #define FSAMP 44100   // for audio interface force 44100
   #else
-    #define FSAMP 192000   // sampling frequency
+    #define FSAMP 48000   // sampling frequency
   #endif
 
-  #define NCHAN_I2S  4    // number of I2S channels 
+  #define NCHAN_I2S  2    // number of I2S channels 
   #define NCHAN_ACQ  1    // number of channels
 
   #if NCHAN_ACQ == 1
@@ -72,8 +72,10 @@
   #define HourDir        1  // use date/hour/file structure (0 for date/file stucture)
 
   // for mQueue
-  #define NDBL          12         // number of acuisition buffers fetched from queue for dist storaga
-  #define MAXBUF        (16*NDBL)  // resulting queue length in multiple of disk buffer
+//  #define NDBL          12         // number of acuisition buffers fetched from queue for dist storaga
+//  #define MAXBUF        (16*NDBL)  // resulting queue length in multiple of disk buffer
+  #define NDBL          96         // number of acuisition buffers fetched from queue for dist storaga
+  #define MAXBUF        (96*NDBL)  // resulting queue length in multiple of disk buffer
   
   // pocess mode
   #define PROC_MODE      0  // 0: wav data 1; compress 

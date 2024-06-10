@@ -22,6 +22,7 @@ Check actual configuration by inspecting Config.h
  The V3 version contains additionally an ADC interface to TLV320ADC and is modified to address the needs for "microPAM-mare" implementation.
 
  The program may be compiled either using Arduino IDE or via makefile. The environment is prepared for Arduini IDE and Visual Studio Code. For Visual Studio Code, the following extension are used; C/C++ (including IntelliSense) and Tasks (to load VSCode tasks into Status Bar)
- 
+The Makefile is only available for Teensy models. For the RP2040 the Arduino Environment must be used.
+
  ## Configuration
  The program configuration is controlled by Config.h

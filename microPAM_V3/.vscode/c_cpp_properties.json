@@ -16,7 +16,7 @@
       "${ROOT1}/libraries/SdFat/**"
 	  
     ],
-    "COMMON_DEFINES": [ "TEENSYDUINO=154",
+    "COMMON_DEFINES": [ "TEENSYDUINO=159",
                         "USB_MTPDISK_SERIAL",
                         "LAYOUT_US_ENGLISH",
                         "ARDUINO"

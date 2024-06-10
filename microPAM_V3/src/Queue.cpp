@@ -37,7 +37,10 @@
   #endif
 
   volatile static int queue_busy=0;
-  EXTMEM static uint32_t data_buffer[MAXBUF][NBUF_ACQ];
+  #if defined(__IMXRT1062__)
+    EXTMEM 
+  #endif
+  static uint32_t data_buffer[MAXBUF][NBUF_ACQ];
   volatile static int head=0;
   volatile static int tail=0;
   

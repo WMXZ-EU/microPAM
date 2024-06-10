@@ -113,7 +113,7 @@ public:
   virtual void StartGetObjectHandles(uint32_t storage, uint32_t parent) = 0;
   virtual uint32_t GetNextObjectHandle(uint32_t  storage) = 0;
 
-  virtual void GetObjectInfo(uint32_t handle, char* name, uint32_t* size, uint32_t* parent, uint16_t *store) = 0;
+  virtual void GetObjectInfo(uint32_t handle, char* name, uint32_t* size, uint32_t* parent, uint16_t *store, char *create, char *modify) = 0;
   virtual uint32_t GetSize(uint32_t handle) = 0;
 
   virtual uint32_t Create(uint32_t storage, uint32_t parent, bool folder, const char* filename) = 0;
@@ -138,6 +138,10 @@ public:
     uint8_t isdir;
     uint8_t scanned;
     uint16_t store;  // index int physical storage (0 ... num_storages-1)
+    uint16_t cpdate;    
+    uint16_t cptime;    
+    uint16_t mpdate;    
+    uint16_t mptime;    
     char name[MAX_FILENAME_LEN];
   };
 
@@ -196,7 +200,7 @@ private:
 
   void StartGetObjectHandles(uint32_t storage, uint32_t parent) override ;
   uint32_t GetNextObjectHandle(uint32_t  storage) override ;
-  void GetObjectInfo(uint32_t handle, char* name, uint32_t* size, uint32_t* parent, uint16_t *store) override ;
+  void GetObjectInfo(uint32_t handle, char* name, uint32_t* size, uint32_t* parent, uint16_t *store, char *create, char *modify) override ;
   uint32_t GetSize(uint32_t handle) override;
   void read(uint32_t handle, uint32_t pos, char* out, uint32_t bytes) override ;
   bool DeleteObject(uint32_t object) override ;

@@ -106,10 +106,11 @@ int16_t menu1(int16_t status)
     {
       menuGetInt16((int16_t *)&monitor);
     }
+  #if defined(__IMXRT1062__)
     else if(ch=='c') // transfer internal rtc to external rtc
     { rtcXferTime();
     }
-
+  #endif
     return status;
 }
 
@@ -128,7 +129,10 @@ void menu2(void)
       rtc_get_datetime(&t);
       Serial.printf("Now:\n%4d-%02d-%02d %02d:%02d:%02d %d\n",
                    t.year,t.month,t.day,t.hour,t.min,t.sec,t.dotw);
+      
+  #if defined(__IMXRT1062__)
       Serial.println(rtcGetTimestamp());
+      #endif
       Serial.print("t_acq (a) = "); Serial.println(t_acq);
       Serial.print("t_on  (o) = "); Serial.println(t_on);
       Serial.print("t_rep (r) = "); Serial.println(t_rep);
@@ -276,12 +280,16 @@ void menu3(void)
 /******************** Parameter ******************************/
 void storeConfig(uint16_t *store, int ns)
 { 
+  #if defined(__IMXRT1062__)
     eeprom_write_block(store, 0, ns*sizeof(store[0]));  
+  #endif
 }
 
 void loadConfig(uint16_t *store, int ns)
 {
+  #if defined(__IMXRT1062__)
     eeprom_read_block(store, 0, ns*sizeof(store[0]));  
+  #endif
 }
 
 void saveParameters(void)
@@ -328,6 +336,7 @@ uint16_t *loadParameters(void)
   {
     store[0]  = 0;
     store[1]  = t_acq    = T_ACQ;
+    store[2]  = t_on     = T_ON;
     store[3]  = t_off    = T_OFF;
     store[4]  = t_rep    = T_REP;
     store[5]  = proc     = PROC_MODE;

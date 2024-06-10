@@ -60,12 +60,14 @@ volatile uint32_t t_4  = T_4;
 
   extern "C" void flash_get_unique_id(uint8_t *p);
   uint32_t UniqueID[2];
+  SdFs sdx[1];
+  void storage_vonfigure(void){}
 
 #elif defined(__IMXRT1062__)
   #define SD_CONFIG SdioConfig(FIFO_SDIO)
+  extern SdFs sdx[];
 #endif
 
-extern SdFs sdx[];
 SdFs *sd = &sdx[0];
 
 //SdFs sd;
@@ -180,12 +182,13 @@ char * headerInit(int32_t fsamp, int32_t nchan, int32_t nbits, int serNum)
   wav_hdr.nBlockAlign=nchan*nbytes;
   wav_hdr.nBitsPerSamples=nbits;
 
-  
+  uint32_t tt=millis();
   strcpy(&wav_hdr.info[0], MAGIC);
   strcpy(&wav_hdr.info[4], timeStamp());
   sprintf(&wav_hdr.info[20]," %8x",serNum);
-  memcpy(&wav_hdr.info[30], getStore(),16*2);
-  strcpy(&wav_hdr.info[62]," end");
+  memcpy(&wav_hdr.info[32], &tt,4);
+  memcpy(&wav_hdr.info[36], getStore(),16*2);
+  strcpy(&wav_hdr.info[68]," end");
 
   return (char *)&wav_hdr;
 }
@@ -203,7 +206,7 @@ void writeHeader(char * wav_hdr)
   fpos = file.curPosition();
   Serial.printf("\n fpos=%d ",fpos);
   file.seekSet(0);
-  file.write(wav_hdr,512);
+  file.write((const uint8_t*)wav_hdr,512);
   file.seekSet(fpos);
 }
 
@@ -264,6 +267,7 @@ int16_t makeHeader(int32_t *header)
     header[13] = shift;
     header[14] = again;
     header[15] = dgain;
+    header[16] = millis();
 
     header[127]=0x55555555;
     return 1;
@@ -316,7 +320,7 @@ int16_t newDirectory(char *dirName)
           sprintf(dirName, "/%s%06x_%04d%02d%02d/%02d/", 
               DirPrefix,(unsigned int)SerNum, t.year,t.month,t.day,t.hour);
           //
-          Serial.println(); Serial.print(": "); Serial.print(dirName);
+          Serial.println(); Serial.print(": "); Serial.print(dirName); 
           return 1;   // have new directory
       }
     }
@@ -345,6 +349,8 @@ int16_t newFileName(char *fileName)
       sprintf(fileName, "%s%04d%02d%02d_%02d%02d%02d.bin", FilePrefix, t.year,t.month,t.day,t.hour,t.min,t.sec);
     //
     Serial.println(); Serial.print(": "); Serial.print(fileName);
+    Serial.print(" "); Serial.print(micros());
+
     return 1;
 }
 
@@ -394,7 +400,7 @@ int16_t storeData(int16_t status)
           hdr=(char *)fileHeader;
         }
         int nd;
-        if((nd=file.write(hdr,512)) < 512) 
+        if((nd=file.write((const uint8_t*)hdr,512)) < 512) 
         { status = DOCLOSE;
         }
         else status=RUNNING;
@@ -402,7 +408,7 @@ int16_t storeData(int16_t status)
     //
     if(status==RUNNING) // file is open and header written: store data records
     {   uint32_t nd;
-        if((nd=file.write((const void *)diskBuffer,4*MAX_DISK_BUFFER)) < 4*MAX_DISK_BUFFER) 
+        if((nd=file.write((const uint8_t*)diskBuffer,4*MAX_DISK_BUFFER)) < 4*MAX_DISK_BUFFER) 
         { Serial.print(">"); 
           Serial.print(nd); 
           Serial.print(" "); 
@@ -523,6 +529,15 @@ int16_t saveData(int16_t status)
     return status;
 }
 
+#if defined(TARGET_RP2040)
+uint32_t getAlarmTime(uint32_t secs) {return 0;}
+
+void powerDown(void) {}
+
+void do_hibernate(uint32_t t_rep) {}
+
+void reboot(void);
+#else
 /*********************** hibernate ******************************/
 #include "core_pins.h"
 /*  hibernating is shutting down the power snvs mode
@@ -616,3 +631,4 @@ void do_hibernate(uint32_t t_rep)
     //
     powerDown(); 
 }
+#endif

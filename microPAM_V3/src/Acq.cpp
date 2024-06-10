@@ -297,7 +297,8 @@ static void __not_in_flash_func(process)(int32_t * buffer);
   #include "DMAChannel.h"
 
   static DMAChannel dma;
-  DMAMEM __attribute__((aligned(32))) static  uint32_t i2s_buffer[2*NBUF_I2S];
+  DMAMEM 
+  __attribute__((aligned(32))) static  uint32_t i2s_buffer[2*NBUF_I2S];
   static void acq_isr(void);
 
   void dma_setup(void)
@@ -374,25 +375,25 @@ static void __not_in_flash_func(extractBuffer)(int32_t *acqBuffer, int32_t * buf
   #if ICH<0 // mono-channel extraction disabled
     for(int ii=0; ii<NSAMP; ii++) 
     {
-        acqBuffer[NCHAN_ACQ*ii+0]= buffer[NCHAN_I2S*ii+0]>>SHIFT;   
+        acqBuffer[NCHAN_ACQ*ii+0]= buffer[NCHAN_I2S*ii+0]>>shift;   
         #if (NCHAN_ACQ>1)
-          acqBuffer[NCHAN_ACQ*ii+1]= buffer[NCHAN_I2S*ii+1]>>SHIFT;   
+          acqBuffer[NCHAN_ACQ*ii+1]= buffer[NCHAN_I2S*ii+1]>>shift;   
         #endif
         #if (NCHAN_ACQ>2)
-          acqBuffer[NCHAN_ACQ*ii+2]= buffer[NCHAN_I2S*ii+2]>>SHIFT;   
-          acqBuffer[NCHAN_ACQ*ii+3]= buffer[NCHAN_I2S*ii+3]>>SHIFT;   
+          acqBuffer[NCHAN_ACQ*ii+2]= buffer[NCHAN_I2S*ii+2]>>shift;   
+          acqBuffer[NCHAN_ACQ*ii+3]= buffer[NCHAN_I2S*ii+3]>>shift;   
         #endif
         #if (NCHAN_ACQ>4)
-          acqBuffer[NCHAN_ACQ*ii+4]= buffer[NCHAN_I2S*ii+4]>>SHIFT;   
-          acqBuffer[NCHAN_ACQ*ii+5]= buffer[NCHAN_I2S*ii+5]>>SHIFT;   
+          acqBuffer[NCHAN_ACQ*ii+4]= buffer[NCHAN_I2S*ii+4]>>shift;   
+          acqBuffer[NCHAN_ACQ*ii+5]= buffer[NCHAN_I2S*ii+5]>>shift;   
         #endif
         #if (NCHAN_ACQ>6)
-          acqBuffer[NCHAN_ACQ*ii+6]= buffer[NCHAN_I2S*ii+6]>>SHIFT;   
-          acqBuffer[NCHAN_ACQ*ii+7]= buffer[NCHAN_I2S*ii+7]>>SHIFT;   
+          acqBuffer[NCHAN_ACQ*ii+6]= buffer[NCHAN_I2S*ii+6]>>shift;   
+          acqBuffer[NCHAN_ACQ*ii+7]= buffer[NCHAN_I2S*ii+7]>>shift;   
         #endif
     }
   #else
-    for(int ii=0; ii<NSAMP; ii++) acqBuffer[ii]= buffer[NCHAN_I2S*ii+ICH]>>SHIFT;   
+    for(int ii=0; ii<NSAMP; ii++) acqBuffer[ii]= buffer[NCHAN_I2S*ii+ICH]>>shift;   
   #endif
 }
 

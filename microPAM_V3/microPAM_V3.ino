@@ -25,6 +25,7 @@
   logging of acoustic data 
   use of Teensy 4.1 or RP2040
   use if I2S Microphone or TLV320ADC6140 
+  working system T4.1 + TLV320ADC6140 
  */
  
 #include "Arduino.h"
@@ -86,18 +87,34 @@
   #else
     int usb_init_events(void) {return 0;}
     void resetMTP(void) {}
+
   #endif
 
   uint32_t getTeensySerial(void) { return (HW_OCOTP_MAC0 & 0xFFFFFF); }
-#endif
-
-
-  #if defined(TARGET_RP2040)
-  void resetUSB(void) {}
-  #endif
 
   void storage_configure();  
 
+  void lowPowerInit(void)
+  {
+    // keep memory powered during sleep
+    CCM_CGPR |= CCM_CGPR_INT_MEM_CLK_LPM;
+    // keep cpu clock on in wait mode (required for systick to trigger wake-up)
+    CCM_CLPCR &= ~(CCM_CLPCR_ARM_CLK_DIS_ON_LPM | CCM_CLPCR_LPM(3));
+    // set SoC low power mode to wait mode
+    CCM_CLPCR |= CCM_CLPCR_LPM(1);
+    // ensure above config is done before executing WFI
+    asm volatile("dsb");    
+  }
+
+#else
+  void resetUSB(void) {}
+  void reboot(void) {}
+  void storage_configure() {}
+
+  void storage_configure() {} 
+
+  void lowPowerInit(void) {}
+#endif
 
 /***************************************************************************/
 volatile int setup_ready=0;
@@ -117,7 +134,7 @@ void setup()
 {
   // put your setup code here, to run once:
   #if defined(__IMXRT1062__)
-    set_arm_clock(48'000'000);
+    set_arm_clock(24'000'000);
   #elif defined(TARGET_RP2040)
     set_sys_clock_khz(48'000, true);
   #endif
@@ -155,15 +172,20 @@ void setup()
     #endif
   #endif
 
-  usbPowerSetup();
+  #if defined(__IMXRT1062__)
+    usbPowerSetup();
+    lowPowerInit();
 
-  // configure disk storage
-  storage_configure();
-
+    // configure disk storage
+    storage_configure();
+  #endif
   // setup RT Clock
   Serial.println("rtcSetup");
   rtcSetup();
-  rtcSync();
+
+  #if defined(__IMXRT1062__)
+    rtcSync();
+  #endif
 
   datetime_t t;
   if(!rtc_get_datetime(&t)) Serial.println("failing get_datetime");
@@ -171,8 +193,11 @@ void setup()
                            t.year,t.month,t.day,t.hour,t.min,t.sec); 
   Serial.println();
   //
-  Serial.print("RV3028: ");
-  Serial.println(rtcGetTimestamp());
+
+  #if defined(__IMXRT1062__)
+    Serial.print("RV3028: ");
+    Serial.println(rtcGetTimestamp());
+  #endif
   //
   Serial.println("filing_init");
   filing_init();
@@ -259,6 +284,7 @@ void loop()
 
     t0=t1;
   }
+  asm("wfi");
 }
 /******************************************************************************e****/
 // rp2040 has two core. let acquisition run on its own core

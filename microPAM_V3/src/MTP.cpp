@@ -169,8 +169,8 @@ extern struct usb_string_descriptor_struct usb_string_serial_number;
     MTP_PROPERTY_PROTECTION_STATUS                      ,//0xDC03
     MTP_PROPERTY_OBJECT_SIZE                            ,//0xDC04
     MTP_PROPERTY_OBJECT_FILE_NAME                       ,//0xDC07
-//    MTP_PROPERTY_DATE_CREATED                           ,//0xDC08
-//    MTP_PROPERTY_DATE_MODIFIED                          ,//0xDC09
+    MTP_PROPERTY_DATE_CREATED                           ,//0xDC08
+    MTP_PROPERTY_DATE_MODIFIED                          ,//0xDC09
     MTP_PROPERTY_PARENT_OBJECT                          ,//0xDC0B
     MTP_PROPERTY_PERSISTENT_UID                         ,//0xDC41
     MTP_PROPERTY_NAME                                    //0xDC44
@@ -356,7 +356,8 @@ const uint16_t supported_events[] =
     char filename[MAX_FILENAME_LEN];
     uint32_t size, parent;
     uint16_t store;
-    storage_->GetObjectInfo(handle, filename, &size, &parent, &store);
+    char create[64],modify[64];
+    storage_->GetObjectInfo(handle, filename, &size, &parent, &store, create, modify);
 
     uint32_t storage = Store2Storage(store);
     write32(storage); // storage
@@ -375,8 +376,8 @@ const uint16_t supported_events[] =
     write32(0); // association description
     write32(0);  // sequence number
     writestring(filename);
-    writestring("");  // date created
-    writestring("");  // date modified
+    writestring(create);  // date created
+    writestring(modify);  // date modified
     writestring("");  // keywords
   }
 
@@ -531,7 +532,9 @@ const uint16_t supported_events[] =
       uint32_t size;
       uint32_t parent;
       uint16_t store;
-      storage_->GetObjectInfo(p1,name,&size,&parent, &store);
+      char create[64], modify[64];
+
+      storage_->GetObjectInfo(p1,name,&size,&parent, &store, create, modify);
       dir = size == 0xFFFFFFFFUL;
       uint32_t storage = Store2Storage(store);
       switch(p2)
@@ -553,10 +556,10 @@ const uint16_t supported_events[] =
           writestring(name);
           break;
         case MTP_PROPERTY_DATE_CREATED:       //0xDC08:
-          writestring("");
+          writestring(create);
           break;
         case MTP_PROPERTY_DATE_MODIFIED:      //0xDC09:
-          writestring("");
+          writestring(modify);
           break;
         case MTP_PROPERTY_PARENT_OBJECT:      //0xDC0B:
           write32((store==parent)? 0: parent);

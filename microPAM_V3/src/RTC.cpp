@@ -372,6 +372,7 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
     return seconds; 
   }
 
+  #if USE_EXT_RTC==1
   #include "RV-3028-C7.h"
   RV3028 rtc;
 
@@ -442,11 +443,24 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
     if (rtc.updateTime() == false) //Updates the time variables from RTC
     {
       Serial.println("RTC failed to update");
-      return 0;
+      return "";
     } else {
       return rtc.stringTimeStamp();
     }
   }
+  #else
+    int16_t rtcSetup(uint8_t sda, uint8_t scl)  { return 1;  }
+
+    bool rtc_get_datetime(datetime_t *t) { return 1;  }
+    bool rtc_set_datetime(datetime_t *t) { return 1;  }
+
+    void rtcSetDate(int year,int month,int day) {}
+    void rtcSetTime(int hour,int minutes,int seconds) {}
+
+    void rtcXferTime(void) {}
+
+    char * rtcGetTimestamp(void) {return 0;}
+  #endif
 
 #endif
     

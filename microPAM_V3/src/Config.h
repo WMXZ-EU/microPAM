@@ -139,5 +139,6 @@
     #define __not_in_flash_func(func_name) func_name
   #endif
 
+  #define USE_EXT_RTC 0
 
 #endif

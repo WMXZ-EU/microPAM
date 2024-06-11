@@ -179,12 +179,15 @@ void setup()
     // configure disk storage
     storage_configure();
   #endif
-  // setup RT Clock
-  Serial.println("rtcSetup");
-  rtcSetup();
 
-  #if defined(__IMXRT1062__)
-    rtcSync();
+  // setup RT Clock
+  #if USE_EXT_RTC==1
+    Serial.println("rtcSetup");
+    rtcSetup();
+
+    #if defined(__IMXRT1062__)
+      rtcSync();
+    #endif
   #endif
 
   datetime_t t;
@@ -194,7 +197,7 @@ void setup()
   Serial.println();
   //
 
-  #if defined(__IMXRT1062__)
+  #if USE_EXT_RTC==1
     Serial.print("RV3028: ");
     Serial.println(rtcGetTimestamp());
   #endif

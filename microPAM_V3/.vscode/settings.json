@@ -32,7 +32,8 @@
         "streambuf": "cpp",
         "algorithm": "cpp",
         "utility": "c",
-        "istream": "cpp"
+        "istream": "cpp",
+        "limits": "cpp"
     },
     "C_Cpp.dimInactiveRegions": true
 }

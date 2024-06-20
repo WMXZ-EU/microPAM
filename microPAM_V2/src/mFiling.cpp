@@ -33,7 +33,9 @@ volatile uint32_t t_on=600;
 volatile uint32_t t_off=0;
 
 #if SDFAT_FILE_TYPE != 3
- #error "SDFAT_FILE_TYPE != 3: edit SdFatConfig.h"
+ #error "SDFAT_FILE_TYPE != 3: edit SdFatConfig.h \
+ (e.g. C:\Users\...\AppData\Local\Arduino15\packages\rp2040\hardware\rp2040\3.9.3\libraries\ESP8266SdFat\src") 
+
 #endif
 
 #if defined(TARGET_RP2040)
@@ -105,7 +107,7 @@ int16_t filing_init(void)
     SPI.setSCK(_SCK);
     SPI.setCS(_CS);
 
-#    FsDateTime::callback = dateTime;
+    FsDateTime::callback = dateTime;
 
     flash_get_unique_id((uint8_t *) UniqueID);
     SerNum=UniqueID[1];
@@ -189,7 +191,7 @@ void writeHeader(char * wav_hdr)
   fpos = file.curPosition();
   Serial.printf(" fpos=%d ",fpos);
   file.seek(0);
-  file.write(wav_hdr,512);
+  file.write((const uint8_t*)wav_hdr,512);
   file.seek(fpos);
 }
 
@@ -365,7 +367,7 @@ int16_t storeData(int16_t status)
           makeHeader(fileHeader);
           hdr=(char *)fileHeader;
         }
-        if(file.write(hdr,512) < 512) 
+        if(file.write((const uint8_t*)hdr,512) < 512) 
         { status = DOCLOSE;
         } 
         else status=RUNNING;
@@ -373,7 +375,7 @@ int16_t storeData(int16_t status)
     //
     if(status==RUNNING) // file is open, header written: store data records
     {   uint32_t nd;
-        if((nd=file.write((const void *)diskBuffer,4*MAX_DISK_BUFFER)) < 4*MAX_DISK_BUFFER) 
+        if((nd=file.write((const uint8_t*)diskBuffer,4*MAX_DISK_BUFFER)) < 4*MAX_DISK_BUFFER) 
         { Serial.print(">"); Serial.print(nd); Serial.print(" "); Serial.println(status); status=DOCLOSE; }
         else
           nbuf++;

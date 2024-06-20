@@ -197,13 +197,14 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
     msetRTC(rtcBuffer, 7);
   }
 
+  uint16_t haveExtRTC=0;
   int16_t rtc_setup(uint8_t sda, uint8_t scl)
   {
     static datetime_t t;
     static uint8_t rtcBuffer[7] = {0,27,15,1,3,4,23}; // adapt to better time (secs,min, ...., year-2000)
 
     rtc_init(); // hardware rtc
-    initRTC(sda, scl); // external rtc clock
+    haveExtRTC=initRTC(sda, scl); // external rtc clock
     delay(10);
 
 // to set external rtc clock
@@ -211,20 +212,23 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
     msetRTC(rtcBuffer,7);
 #endif
 
-    mgetRTC(rtcBuffer,7);
-    t.year=rtcBuffer[6]+2000;
-    t.month=rtcBuffer[5]&0x7f;
-    t.day=rtcBuffer[4];
+    if(haveExtRTC)
+    {
+      mgetRTC(rtcBuffer,7);
+      t.year=rtcBuffer[6]+2000;
+      t.month=rtcBuffer[5]&0x7f;
+      t.day=rtcBuffer[4];
 
-    t.hour=rtcBuffer[2];
-    t.min=rtcBuffer[1];
-    t.sec=rtcBuffer[0] &0xff;
+      t.hour=rtcBuffer[2];
+      t.min=rtcBuffer[1];
+      t.sec=rtcBuffer[0] &0xff;
 
-    Serial.printf("RTC init: %4d-%02d-%02d %02d:%02d:%02d",
-                      t.year,t.month,t.day,t.hour,t.min,t.sec); Serial.println();
+      Serial.printf("RTC init: %4d-%02d-%02d %02d:%02d:%02d",
+                        t.year,t.month,t.day,t.hour,t.min,t.sec); Serial.println();
 
-    while(!rtc_set_datetime(&t));
-    delay(10); // give some time to settle
+      while(!rtc_set_datetime(&t));
+      delay(10); // give some time to settle
+    }
 
     return 1;
   }
@@ -233,13 +237,15 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
   {
     datetime_t t;
     rtc_get_datetime(&t);    
-    uint16_t day;
+    uint16_t days;
     days=date2days(t.year, t.month, t.day);
     return time2seconds(days,t.hour, t.min, t.sec);
   }
 
   void syncRTC(datetime_t *t, uint8_t *rtcBuffer)
   {
+    if(haveExtRTC)
+    {
       mgetRTC(rtcBuffer,7);
       t->year=rtcBuffer[6]+2000;
       t->month=rtcBuffer[5]&0x7f;
@@ -250,30 +256,37 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
       t->sec=rtcBuffer[0] &0xff;
 
       rtc_set_datetime(t);
+    }
   }
 
   void rtcSetDate(int year,int month,int day)
   {
     uint8_t rtcBuffer[7] = {0};//{0,27,15,1,3,4,23}; // adapt to better time (secs,min, ...., year)
     datetime_t t;
-    mgetRTC(rtcBuffer,7);
-    rtcBuffer[6]=year-2000;
-    rtcBuffer[5]=month;
-    rtcBuffer[4]=day;
-    msetRTC(rtcBuffer,7);
-    syncRTC(&t, rtcBuffer);
+    if(haveExtRTC)
+    {
+      mgetRTC(rtcBuffer,7);
+      rtcBuffer[6]=year-2000;
+      rtcBuffer[5]=month;
+      rtcBuffer[4]=day;
+      msetRTC(rtcBuffer,7);
+      syncRTC(&t, rtcBuffer);
+    }
   }
 
   void rtcSetTime(int hour,int minutes,int seconds)
   {
     uint8_t rtcBuffer[7] = {0};//{0,27,15,1,3,4,23}; // adapt to better time (secs,min, ...., year)
     datetime_t t;
-    mgetRTC(rtcBuffer,7);
-    rtcBuffer[2]=hour;
-    rtcBuffer[1]=minutes;
-    rtcBuffer[0]=seconds;
-    msetRTC(rtcBuffer,7);
-    syncRTC(&t, rtcBuffer);
+    if(haveExtRTC)
+    {
+      mgetRTC(rtcBuffer,7);
+      rtcBuffer[2]=hour;
+      rtcBuffer[1]=minutes;
+      rtcBuffer[0]=seconds;
+      msetRTC(rtcBuffer,7);
+      syncRTC(&t, rtcBuffer);
+    }
   }
 
 

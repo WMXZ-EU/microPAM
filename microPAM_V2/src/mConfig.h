@@ -24,7 +24,8 @@
   * Mic:
   *SD  -> GP0
   *SCK -> GP1
-  *L/R -> GP2
+  *WS  -> GP2
+  #L/R -> GND (left) or 3.3V (right)
   *
   * SD-Card:
   *Di  -> GP3

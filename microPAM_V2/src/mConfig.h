@@ -19,6 +19,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+ /*
+  * The connections for the RP2040 are
+  * Mic:
+  *SD  -> GP0
+  *SCK -> GP1
+  *L/R -> GP2
+  *
+  * SD-Card:
+  *Di  -> GP3
+  *DO  -> GP4
+  *CS  -> GP5
+  *SCK -> GP6
+  *
+  * RTC:
+  *SDA -> GP8
+  *SCL -> GP9
+  *
+  * for all:
+  *3V3/VCC/Vin -> 3.3V
+  *GND -> GND
+  *
+  * The connections for the Teensy 4.1 are
+  * MIC 
+  *SD  -> P8
+  *SCK -> P21
+  *L/R -> P20
+*/
+
 #ifndef mConfig_H
 #define mCONFIG_H
   #include <stdint.h>

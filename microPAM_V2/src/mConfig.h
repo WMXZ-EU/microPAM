@@ -45,6 +45,8 @@
   *SD  -> P8
   *SCK -> P21
   *L/R -> P20
+  *3V3 -> 3.3V
+  *GND -> GND
 */
 
 #ifndef mConfig_H

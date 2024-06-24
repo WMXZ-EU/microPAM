@@ -28,9 +28,9 @@
 #include "mRTC.h"
 #include "mFiling.h"
 
-volatile uint32_t t_acq=600;
-volatile uint32_t t_on=600;
-volatile uint32_t t_off=0;
+volatile uint32_t t_acq=T_ACQ;
+volatile uint32_t t_on=T_ON;
+volatile uint32_t t_off=T_OFF;
 
 #if SDFAT_FILE_TYPE != 3
  #error "SDFAT_FILE_TYPE != 3: edit SdFatConfig.h \

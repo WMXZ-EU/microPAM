@@ -55,7 +55,11 @@
   #include <stdint.h>
   
   #define START_MODE 0  // -1 is stopped; 0 is closed (ready to open file)
-  //#define ICS43434 0     // use 0 when Adafruit I2S MEMS
+  //#define ICS43434 0     // use 0 when Adafruit I2S MEMS;  1 when true ICS43434
+
+  #define T_ACQ 600 // size in seconds of each file
+  #define T_ON 600  // duration of each aquisition chunk >= T_ACQ (duty cycling not implemented)
+  #define T_OFF 0   // duration between acquisition chunks: 0 continuous recording (duty cycling not implemented)
 
   // for mAcq
   #define FSAMP 48000 // sampling frequency

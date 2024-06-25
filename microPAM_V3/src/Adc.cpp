@@ -27,11 +27,17 @@
 #if  (ADC_MODEL == TLV320ADC6140)
     #if defined(__IMXRT1062__)
         #define NPORT_I2S    1
-        #define ADC_SHDNZ   32
-        #define ADC_EN      33      // as of micoPAM-mare-2b
+        #if 0
+            #define ADC_SHDNZ   32
+            #define ADC_EN      33      // as of micoPAM-mare-2b
+            #define mWire       Wire1    // SDA1/SCL1
+        #else                           // as of micoPAM-mare 26-06-2024
+            #define ADC_SHDNZ    3
+            #define ADC_EN       2      
+            #define mWire       Wire    // SDA/SCL0
+        #endif
+        //
         #define USB_POWER    1
-//        #define mWire       Wire    // mare-2b
-        #define mWire       Wire1   // mare-3b
     #elif defined(TARGET_RP2040)
         #define NPORT_I2S 1
         #define ADC_SHDNZ 32

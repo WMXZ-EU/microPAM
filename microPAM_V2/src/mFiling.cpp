@@ -117,8 +117,9 @@ int16_t filing_init(void)
 
   FsDateTime::callback = dateTime;
 
+  sd.end();
   for(int ii=0; ii<5;ii++)
-  {
+  { Serial.println("sd-config");
     if (sd.begin(SD_CONFIG)) 
     { Serial.println("card initialized.");
       haveStore=1;
@@ -407,10 +408,7 @@ int16_t saveData(int16_t status)
       while(queue_isBusy()); //wait if acq writes to queue
       pullData((uint32_t*)tempBuffer1);
       for(int ii=0;ii<8;ii++) logBuffer[ii]=tempBuffer1[ii];
-      digitalWriteFast(13,HIGH);
     }
-    else
-      digitalWriteFast(13,LOW);
 
     if(status<CLOSED) return status; // we are stopped: don't do anything
 
@@ -418,7 +416,6 @@ int16_t saveData(int16_t status)
 
     if(getDataCount()>=nblocks)
     { 
-      digitalWriteFast(13,HIGH);
       if(proc==0)
       { 
         for(int ii=0; ii<nblocks; ii++)
@@ -484,8 +481,6 @@ int16_t saveData(int16_t status)
       if(haveStore)
         status=storeData(status);
     }
-    else
-      digitalWriteFast(13,LOW);
 
     return status;
 }

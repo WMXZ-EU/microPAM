@@ -53,11 +53,12 @@
 #ifndef mConfig_H
 #define mCONFIG_H
   #include <stdint.h>
+  #include "pins_arduino.h"
   
   #define START_MODE 0  // -1 is stopped; 0 is closed (ready to open file)
-  //#define ICS43434 0     // use 0 when Adafruit I2S MEMS;  1 when true ICS43434
+//  #define ICS43434 1     // use 0 when Adafruit I2S MEMS;  1 when true ICS43434
 
-  #define T_ACQ 600 // size in seconds of each file
+  #define T_ACQ 20  // size in seconds of each file
   #define T_ON 600  // duration of each aquisition chunk >= T_ACQ (duty cycling not implemented)
   #define T_OFF 0   // duration between acquisition chunks: 0 continuous recording (duty cycling not implemented)
 
@@ -74,7 +75,7 @@
   #define MIN_SPACE 2000  // number of disk clusters to keep free
   #define DirPrefix "D"   // prefix for directory
   #define FilePrefix "F"  // prefix fir fileName
-  #define NBITS 24
+  #define NBITS 32
   #define HourDir 1
 
   // for mQueue

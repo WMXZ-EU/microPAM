@@ -65,7 +65,7 @@ void setup()
 
   Serial.begin(115200);
   // wait for 10 s to allow USB-Serial connection
-  while(millis()<10000) if(Serial) { termon=1; break;}
+  while(millis()<3000) if(Serial) { termon=1; break;}
 
   // Teensy has a crash report
   #if defined(__IMXRT1062__)
@@ -100,8 +100,9 @@ void setup()
   // in case of single core teensy 4.1 start acquisition
   #if defined(__IMXRT1062__)
     setup1();
-    pinMode(13,OUTPUT);
   #endif
+  while(ready) {Serial.print('-'); delay(100);} // wait for setup1() to finish
+  pinMode(LED_BUILTIN,OUTPUT);
 }
 
 void loop() 
@@ -131,7 +132,9 @@ void loop()
   }
 
   // save data (filing will be handled inside saveData)
+  if(status>0) digitalWrite(LED_BUILTIN,HIGH);
   status=saveData(status);  
+  digitalWrite(LED_BUILTIN,LOW);
 
 //  if(status<0) return;
   // once a second provide some information to User
@@ -179,12 +182,13 @@ void loop()
 /**********************************************************************************/
 // rp2040 has dial core. let acq run on its own core
 void setup1()
-{ while(!ready) {delay(1);} // wait for setup() to finish
+{ while(!ready) {delay(100);} // wait for setup() to finish
   i2s_setup();
   //adc_setup();
   dma_setup();
 
   Serial.println("Setup1 done");
+  ready=0;
 }
 
 void loop1(){}  // nothing to be done here

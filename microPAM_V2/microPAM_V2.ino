@@ -123,8 +123,8 @@ void loop()
   if(Serial.available())
   {
     char ch=Serial.read();
-    if(ch=='s') status=CLOSED;
-    if(ch=='e') status=MUSTSTOP;
+    if(ch=='s') if(status<CLOSED) status=CLOSED;
+    if(ch=='e') if(status>STOPPED) status=MUSTSTOP;
     if(ch=='m') monitor=1-monitor;
     if(ch==':') menu1(); // returns only when menu1 gets not handled character
     if(ch=='?') menu2(); // returns only when menu2 gets not handled character

@@ -110,8 +110,6 @@ int16_t filing_init(void)
     digitalWrite(_CS,HIGH); // unselect
     SPI.transfer16(0xFF);  // Insure MISO goes to low Z.
     
-    FsDateTime::callback = dateTime;
-
     flash_get_unique_id((uint8_t *) UniqueID);
     SerNum=UniqueID[1];
   #else
@@ -119,7 +117,7 @@ int16_t filing_init(void)
   #endif
 
   FsDateTime::callback = dateTime;
-
+  
   for(int ii=0; ii<5;ii++)
   { Serial.println("sd-config");
     if (sd.begin(SD_CONFIG)) 

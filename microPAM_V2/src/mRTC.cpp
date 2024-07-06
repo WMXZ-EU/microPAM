@@ -197,7 +197,7 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
     msetRTC(rtcBuffer, 7);
   }
 
-  uint16_t haveExtRTC=0;
+  static volatile uint16_t haveExtRTC=0;
   int16_t rtc_setup(uint8_t sda, uint8_t scl)
   {
     static datetime_t t;
@@ -205,6 +205,7 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
 
     rtc_init(); // hardware rtc
     haveExtRTC=initRTC(sda, scl); // external rtc clock
+    Serial.print("extRTC "); Serial.println(haveExtRTC);
     delay(10);
 
 // to set external rtc clock

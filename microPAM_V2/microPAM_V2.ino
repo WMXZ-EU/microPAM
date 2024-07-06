@@ -89,7 +89,6 @@ void setup()
                         t.year,t.month,t.day,t.hour,t.min,t.sec); Serial.println();
     Serial.print("Week Day (may not be correct)"); Serial.println(t.dotw);
 
-    Serial.print("Bias "); Serial.println(BIAS);
   #endif
 
   Serial.println("filing_init");

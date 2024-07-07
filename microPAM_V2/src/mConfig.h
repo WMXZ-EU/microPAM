@@ -56,7 +56,6 @@
   #include "pins_arduino.h"
   
   #define START_MODE 0  // -1 is stopped; 0 is closed (ready to open file)
-//  #define ICS43434 1     // use 0 when Adafruit I2S MEMS;  1 when true ICS43434
 
   #define T_ACQ 20  // size in seconds of each file
   #define T_ON 600  // duration of each aquisition chunk >= T_ACQ (duty cycling not implemented)
@@ -72,11 +71,11 @@
   #define NBUF_I2S (2*NBUF_ACQ)
 
   // for mFiling
-  #define MIN_SPACE 2000  // number of disk clusters to keep free
+  #define MIN_SPACE 2000  // number of disk clusters to keep free (can be smaller)
   #define DirPrefix "D"   // prefix for directory
   #define FilePrefix "F"  // prefix fir fileName
-  #define NBITS_WAV 32
-  #define HourDir 1
+  #define NBITS_WAV 32    // bit depth in wav files (32/24/16) 
+  #define HourDir 1       // usse day/hour directories (if 0 use only day/)
 
   // for mQueue
   #define NDBL 12
@@ -90,18 +89,8 @@
   #if PROC_MODE==0
     #define SHIFT 0       // no shift is needed
   #else
-    #define SHIFT (8+4)   // shift data to right to improve compression
+    #define SHIFT (8+4)   // shift data to right to improve compression (8+4 meand top 20 bits are good)
   #endif
-
-/*
-  // correct I2S-MEMS bias (not for ICS43434) 
-  #if ICS43434==1
-    #define BIAS (0)
-  #else
-//    #define BIAS (-27000<<(8+4))
-    #define BIAS (-57'000'000)
-  #endif
-*/
 
   #if defined(__IMXRT1062__)
     #define __not_in_flash_func(func_name) func_name

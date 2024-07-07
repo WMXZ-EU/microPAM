@@ -64,7 +64,7 @@
 
   // for mAcq
   #define FSAMP 48000 // sampling frequency
-  #define MBIT 32     // number of bits / sample
+  #define MBIT 32     // number of bits / sample (do not change)
   #define NCH 1       // number of channels
   #define ICH 0       // selected channel
 
@@ -75,7 +75,7 @@
   #define MIN_SPACE 2000  // number of disk clusters to keep free
   #define DirPrefix "D"   // prefix for directory
   #define FilePrefix "F"  // prefix fir fileName
-  #define NBITS 32
+  #define NBITS_WAV 32
   #define HourDir 1
 
   // for mQueue

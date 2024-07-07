@@ -69,11 +69,11 @@ uint32_t diskSize=0;
 
 // define the number of audio blocks to load for writing to disk
 // data are acquired always with 32 bit
-#if NBITS==32
+#if NBITS_WAV==32
   const int nblocks=NDBL;
-#elif NBITS==24
+#elif NBITS_WAV==24
   const int nblocks=4*NDBL/3;
-#elif NBITS==16
+#elif NBITS_WAV==16
   const int nblocks=2*NDBL;
 #endif
     
@@ -361,7 +361,7 @@ int16_t storeData(int16_t status)
         char *hdr=0;
         if(proc==0)
         { 
-          hdr = headerInit(fsamp, NCH, NBITS, SerNum);
+          hdr = headerInit(fsamp, NCH, NBITS_WAV, SerNum);
         }  
         else
         {
@@ -440,13 +440,13 @@ int16_t saveData(int16_t status)
 
         for(int ii=0;ii<8;ii++) logBuffer[ii]=tempBuffer1[ii];
 
-        if(NBITS==32)
+        if(NBITS_WAV==32)
         {// wav mode; store original 32 bits
           for(int ii=0; ii<MAX_TEMP_BUFFER;ii++) 
           { diskBuffer[ii]=tempBuffer1[ii];
           }
         }
-        else if(NBITS==24)
+        else if(NBITS_WAV==24)
         { // wav mode; store only top 24 bits
 
           int jj=0;
@@ -459,14 +459,14 @@ int16_t saveData(int16_t status)
             outptr[jj++]=(inpp[ii]>>24) &0xff;
           }
         }
-        else if(NBITS==16)
-        { // wav mode; store only top 16 bits
+        else if(NBITS_WAV==16)
+        { // wav mode; store only bottom 16 bits
           int jj=0;
           uint16_t * outptr=(uint16_t *) diskBuffer;
           uint32_t *inpp=(uint32_t *) tempBuffer1;
           for(int ii=0; ii<MAX_TEMP_BUFFER;ii++)
           {
-            outptr[jj++]=(inpp[ii]>>16) &0xffff;
+            outptr[jj++]=(inpp[ii]>>8) &0xffff; 
           }
         }
       }

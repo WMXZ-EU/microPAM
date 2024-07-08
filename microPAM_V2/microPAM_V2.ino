@@ -131,9 +131,7 @@ void loop()
   }
 
   // save data (filing will be handled inside saveData)
-  if(status>0) digitalWrite(LED_BUILTIN,HIGH);
   status=saveData(status);  
-  digitalWrite(LED_BUILTIN,LOW);
 
 //  if(status<0) return;
   // once a second provide some information to User

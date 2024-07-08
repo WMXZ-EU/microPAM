@@ -74,7 +74,7 @@
   #define MIN_SPACE 2000  // number of disk clusters to keep free (can be smaller)
   #define DirPrefix "D"   // prefix for directory
   #define FilePrefix "F"  // prefix fir fileName
-  #define NBITS_WAV 32    // bit depth in wav files (32/24/16) 
+  #define NBITS_WAV 16    // bit depth in wav files (32/24/16) 
   #define HourDir 1       // usse day/hour directories (if 0 use only day/)
 
   // for mQueue

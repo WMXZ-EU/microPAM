@@ -479,7 +479,10 @@ int16_t saveData(int16_t status)
         for(int ii=0;ii<8;ii++) logBuffer[ii]=diskBuffer[ii];
       }
       if(haveStore)
+      { digitalWrite(LED_BUILTIN,HIGH);
         status=storeData(status);
+        digitalWrite(LED_BUILTIN,LOW);
+      }
     }
 
     return status;

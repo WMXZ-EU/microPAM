@@ -89,8 +89,10 @@
   #if PROC_MODE==0
     #define SHIFT 0       // no shift is needed
   #else
-    #define SHIFT (8+4)   // shift data to right to improve compression (8+4 meand top 20 bits are good)
+    #define SHIFT (8+4)   // shift data to right to improve compression (8+4 means top 20 bits are good)
   #endif
+
+  #define XRTC DS3231 // maybe NONE, DS1307, DS3231, PCF8523
 
   #if defined(__IMXRT1062__)
     #define __not_in_flash_func(func_name) func_name

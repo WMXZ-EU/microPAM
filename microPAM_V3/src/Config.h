@@ -34,11 +34,11 @@
     #define FSAMP 48000   // sampling frequency
   #endif
 
-  #define NCHAN_I2S  2    // number of I2S channels 
+  #define NCHAN_I2S  4    // number of I2S channels 
   #define NCHAN_ACQ  1    // number of channels
 
   #if NCHAN_ACQ == 1
-    #define ICH      0    // selected channel (set to -1 to disable monochannel extraction)
+    #define ICH      2    // selected channel (set to -1 to disable monochannel extraction)
   #else
     #define ICH     -1    // disable monochannel extraction
   #endif
@@ -66,7 +66,7 @@
 
   // for mFiling
   #define MIN_SPACE   2000  // number of disk clusters to keep free
-  #define DirPrefix    "D"  // prefix for directory
+  #define DirPrefix    "T"  // prefix for directory
   #define FilePrefix   "F"  // prefix fir fileName
   #define NBITS         32  // 32,24,16 number of bits in wav file (will be used in saveData)
   #define HourDir        1  // use date/hour/file structure (0 for date/file stucture)
@@ -74,7 +74,7 @@
   // for mQueue
 //  #define NDBL          12         // number of acuisition buffers fetched from queue for dist storaga
 //  #define MAXBUF        (16*NDBL)  // resulting queue length in multiple of disk buffer
-  #define NDBL          96         // number of acuisition buffers fetched from queue for dist storaga
+  #define NDBL          48         // number of acuisition buffers fetched from queue for dist storaga
   #define MAXBUF        (96*NDBL)  // resulting queue length in multiple of disk buffer
   
   // pocess mode

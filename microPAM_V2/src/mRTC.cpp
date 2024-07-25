@@ -75,7 +75,13 @@ static void i2c_read_data(uint8_t address, uint8_t reg, uint8_t *buffer, uint16_
   for(int ii=0;ii<nbuf;ii++) buffer[ii]=Wire.read();
 }
 
+
 /**************************************************************************************/
+
+#define DS1307_ADDRESS 0x68 ///< I2C address for DS1307
+#define DS1307_CONTROL 0x07 ///< Control register
+#define DS1307_NVRAM 0x08   ///< Start of RAM registers - 56 bytes, 0x08 to 0x3f
+
 #define DS3231_ADDRESS 0x68   ///< I2C address for DS3231
 #define DS3231_TIME 0x00      ///< Time register
 #define DS3231_ALARM1 0x07    ///< Alarm 1 register
@@ -84,41 +90,127 @@ static void i2c_read_data(uint8_t address, uint8_t reg, uint8_t *buffer, uint16_
 #define DS3231_STATUSREG 0x0F ///< Status register
 #define DS3231_TEMPERATUREREG 0x11 
 
-static uint8_t address = DS3231_ADDRESS;
+#define PCF8523_ADDRESS 0x68       ///< I2C address for PCF8523
+#define PCF8523_CLKOUTCONTROL 0x0F ///< Timer and CLKOUT control register
+#define PCF8523_CONTROL_1 0x00     ///< Control and status register 1
+#define PCF8523_CONTROL_2 0x01     ///< Control and status register 2
+#define PCF8523_CONTROL_3 0x02     ///< Control and status register 3
+#define PCF8523_TIMER_B_FRCTL 0x12 ///< Timer B source clock frequency control
+#define PCF8523_TIMER_B_VALUE 0x13 ///< Timer B value (number clock periods)
+#define PCF8523_OFFSET 0x0E        ///< Offset register
+#define PCF8523_STATUSREG 0x03     ///< Status register
 
 static uint8_t bin2bcd(uint8_t val) { return val + 6 * (val / 10); }
 static uint8_t bcd2bin(uint8_t val) { return val - 6 * (val >> 4); }
 
-int16_t initRTC(uint8_t sda, uint8_t scl)
-{
-  i2c_setup(sda,scl);
-  return i2c_exists(address);
-}
+#if XRTC==DS1307
 
-int16_t lostPowerRTC(void) 
-{
-  return i2c_read_register(address,DS3231_STATUSREG) >> 7;
-}
+  static uint8_t address = DS1307_ADDRESS;
+  static uint8_t status_reg = 0;
+  static uint8_t time_reg = 0;
 
-uint8_t *mgetRTC(uint8_t *buffer,uint16_t nbuf)
-{
-  i2c_read_data(address,DS3231_TIME,buffer,nbuf);
-  for(int ii=0;ii<nbuf;ii++) buffer[ii]=bcd2bin(buffer[ii]);
-  
-  return buffer;
-}
+  int16_t initXRTC(uint8_t sda, uint8_t scl)
+  {
+    i2c_setup(sda,scl);
+    return i2c_exists(address);
+  }
 
-uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
-{
-  for(int ii=0;ii<nbuf;ii++) buffer[ii]=bin2bcd(buffer[ii]);
-  i2c_write_data(address,DS3231_TIME,buffer,nbuf);
+  uint8_t *mgetXRTC(uint8_t *buffer,uint16_t nbuf)
+  {
+    i2c_read_data(address,time_reg,buffer,nbuf);
+    for(int ii=0;ii<nbuf;ii++) buffer[ii]=bcd2bin(buffer[ii]);
+    
+    return buffer;
+  }
+  uint8_t *msetXRTC(uint8_t *buffer, uint16_t nbuf)
+  {
+    for(int ii=0;ii<nbuf;ii++) buffer[ii]=bin2bcd(buffer[ii]);
+    i2c_write_data(address,time_reg,buffer,nbuf);
 
-  uint8_t statreg = i2c_read_register(address,DS3231_STATUSREG);
-  statreg &= ~0x80; // flip OSF bit
-  i2c_write_register(address, DS3231_STATUSREG, statreg);
+    return buffer;
+  }
 
-  return buffer;
-}
+#elif XRTC== DS3231
+  static uint8_t address = DS3231_ADDRESS;
+  static uint8_t status_reg = DS3231_STATUSREG;
+  static uint8_t time_reg = DS3231_TIME;
+  int16_t initXRTC(uint8_t sda, uint8_t scl)
+  {
+    i2c_setup(sda,scl);
+    return i2c_exists(address);
+  }
+
+  int16_t lostPowerXRTC(void) 
+  {
+    return i2c_read_register(address,status_reg) >> 7;
+  }
+
+  uint8_t *mgetXRTC(uint8_t *buffer,uint16_t nbuf)
+  {
+    i2c_read_data(address,time_reg,buffer,nbuf);
+    for(int ii=0;ii<nbuf;ii++) buffer[ii]=bcd2bin(buffer[ii]);
+    
+    return buffer;
+  }
+
+  uint8_t *msetXRTC(uint8_t *buffer, uint16_t nbuf)
+  {
+    for(int ii=0;ii<nbuf;ii++) buffer[ii]=bin2bcd(buffer[ii]);
+    i2c_write_data(address,time_reg,buffer,nbuf);
+
+    uint8_t status = i2c_read_register(address,status_reg);
+    status &= ~0x80; // flip OSF bit
+    i2c_write_register(address, status_reg, status);
+
+    return buffer;
+  }
+
+#elif XRTC==PCF8523
+  static uint8_t address = PCF8523_ADDRESS;
+  static uint8_t status_reg = PCF8523_STATUSREG;
+  static uint8_t time_reg = 3;
+  int16_t initXRTC(uint8_t sda, uint8_t scl)
+  {
+    i2c_setup(sda,scl);
+    return i2c_exists(address);
+  }
+
+  int16_t lostPowerXRTC(void) 
+  {
+    return i2c_read_register(address,status_reg) >> 7;
+  }
+
+  uint8_t *mgetXRTC(uint8_t *buffer,uint16_t nbuf)
+  {
+    static uint8_t rtcBuffer[7]
+    i2c_read_data(address,time_reg,rtcBuffer,7);
+    for(int ii=0;ii<nbuf;ii++) buffer[ii]=bcd2bin(rtcBuffer[6-ii]);
+    
+    return buffer;
+  }
+
+  uint8_t *msetXRTC(uint8_t *buffer, uint16_t nbuf)
+  {
+    static uint8_t rtcBuffer[7]
+    for(int ii=0;ii<nbuf;ii++) rtcBuffer[6-ii]=bin2bcd(buffer[ii]);
+    i2c_write_data(address,time_reg,buffer,nbuf);
+
+    // set to battery switchover mode
+    i2c_write_register(address,PCF8523_CONTROL_3, 0x00);
+    
+    //start ext. RTC in case it is stopped
+    uint8_t ctlreg = i2c_read_register(address,PCF8523_CONTROL_1);
+    if (ctlreg & (1 << 5))
+      i2c_write_register(address,PCF8523_CONTROL_1, ctlreg & ~(1 << 5));
+    return buffer;
+  }
+#else
+  int16_t initXRTC(uint8_t sda, uint8_t scl) {return 0;}
+  int16_t lostPowerXRTC(void) {return 0;}
+  uint8_t *mgetXRTC(uint8_t *buffer,uint16_t nbuf) {return 0;}
+  uint8_t *msetXRTC(uint8_t *buffer, uint16_t nbuf){return 0;}
+#endif
+
 
 /******************************************************************/
 #include "mConfig.h"
@@ -148,7 +240,7 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
     return 10 * v + *++p - '0';
   }
 
-  void adjustRTC(char *date, char *time)
+  void adjustXRTC(char *date, char *time)
   {
     //Mar 20 2023 17:34:05
     uint8_t rtcBuffer[7];
@@ -194,7 +286,7 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
 
     rtcBuffer[3] = 0;
 
-    msetRTC(rtcBuffer, 7);
+    msetXRTC(rtcBuffer, 7);
   }
 
   static volatile uint16_t haveExtRTC=0;
@@ -203,19 +295,19 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
     static datetime_t t;
     static uint8_t rtcBuffer[7] = {0,27,15,1,3,4,23}; // adapt to better time (secs,min, ...., year-2000)
 
-    rtc_init(); // hardware rtc
-    haveExtRTC=initRTC(sda, scl); // external rtc clock
+    rtc_init(); // MCU rtc
+    haveExtRTC=initXRTC(sda, scl); // external rtc clock
     Serial.print("extRTC "); Serial.println(haveExtRTC);
     delay(10);
 
 // to set external rtc clock
 #if 0
-    msetRTC(rtcBuffer,7);
+    msetXRTC(rtcBuffer,7);
 #endif
 
     if(haveExtRTC)
     {
-      mgetRTC(rtcBuffer,7);
+      mgetXRTC(rtcBuffer,7);
       t.year=rtcBuffer[6]+2000;
       t.month=rtcBuffer[5]&0x7f;
       t.day=rtcBuffer[4];
@@ -247,7 +339,7 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
   {
     if(haveExtRTC)
     {
-      mgetRTC(rtcBuffer,7);
+      mgetXRTC(rtcBuffer,7);
       t->year=rtcBuffer[6]+2000;
       t->month=rtcBuffer[5]&0x7f;
       t->day=rtcBuffer[4];
@@ -266,12 +358,12 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
     datetime_t t;
     if(haveExtRTC)
     {
-      mgetRTC(rtcBuffer,7);
+      mgetXRTC(rtcBuffer,7);  // get time from ExtRTC
       rtcBuffer[6]=year-2000;
       rtcBuffer[5]=month;
       rtcBuffer[4]=day;
-      msetRTC(rtcBuffer,7);
-      syncRTC(&t, rtcBuffer);
+      msetXRTC(rtcBuffer,7);  // set time to ExtRTC
+      syncRTC(&t, rtcBuffer); // syn MCU-RTC from ExtRTC
     }
   }
 
@@ -281,18 +373,18 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
     datetime_t t;
     if(haveExtRTC)
     {
-      mgetRTC(rtcBuffer,7);
+      mgetXRTC(rtcBuffer,7);  // read from ExtRTC
       rtcBuffer[2]=hour;
       rtcBuffer[1]=minutes;
       rtcBuffer[0]=seconds;
-      msetRTC(rtcBuffer,7);
-      syncRTC(&t, rtcBuffer);
+      msetXRTC(rtcBuffer,7);  // write to ExtRTC
+      syncRTC(&t, rtcBuffer); // sync MCU-RTC from ExtRTC
     }
   }
 
 
 #elif defined(__IMXRT1062__)
-
+  // use only MCU-RTC
   #define YEAR0 1970
   #define LEAP_YEAR(Y)  ( ((YEAR0+(Y))>0) && !((YEAR0+(Y))%4) && ( ((YEAR0+(Y))%100) || !((YEAR0+(Y))%400) ) )
 

@@ -27,7 +27,7 @@
 #if  (ADC_MODEL == TLV320ADC6140)
     #if defined(__IMXRT1062__)
         #define NPORT_I2S    1
-        #if 0
+        #if 1
             #define ADC_SHDNZ   32
             #define ADC_EN      33      // as of micoPAM-mare-2b
             #define mWire       Wire1    // SDA1/SCL1
@@ -49,8 +49,10 @@
 	#if (NCH <= 2)
 		//const  uint8_t chanMask[2] = {0b1001<<4, 0b1001<<4};
         //const  uint8_t chmap[2][4] = {{0,2,3,1}, {0,2,3,1}};
-		const  uint8_t chanMask[2] = {0b0011<<4, 0b0011<<4};
-        const  uint8_t chmap[2][4] = {{2,3,0,1}, {2,3,0,1}};
+//		const  uint8_t chanMask[2] = {0b0011<<4, 0b0011<<4}; 
+//        const  uint8_t chmap[2][4] = {{2,3,0,1}, {2,3,0,1}}; 
+		const  uint8_t chanMask[2] = {0b1111<<4, 0b1111<<4};
+        const  uint8_t chmap[2][4] = {{0,1,2,3}, {0,1,2,3}};
 	#else 
 		const  uint8_t chanMask[2] = {0b1111<<4, 0b1111<<4};
         const  uint8_t chmap[2][4] = {{0,1,2,3}, {0,1,2,3}};

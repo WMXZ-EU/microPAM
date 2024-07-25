@@ -375,9 +375,11 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
   #if USE_EXT_RTC==1
   #include "RV-3028-C7.h"
   RV3028 rtc;
+  #endif
 
   int16_t rtcSetup(uint8_t sda, uint8_t scl)
   {
+  #if USE_EXT_RTC==1
     Wire.begin();
     if (rtc.begin() == false) {
     Serial.println("RTC offline!");
@@ -386,8 +388,48 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
     {
       Serial.println("RTC online!");
     }
-
+    #endif
+    
     return 1;
+  }
+
+
+  void rtcXferTime(void)
+  {
+  #if USE_EXT_RTC==1
+    rtc.setUNIX(rtc_get());
+    datetime_t t;
+    rtc_get_datetime(&t);
+    if (rtc.setTime(t.sec, t.min, t.hour, t.day, t.day, t.month, t.year) == false) 
+    {
+          Serial.println("Something went wrong setting the time");
+    }
+    #endif
+  }
+  void rtcSync(void)
+  {
+  #if USE_EXT_RTC==1
+    uint32_t to;
+    to=rtc_get();
+    if (to<rtc.getUNIX()) rtc_set(rtc.getUNIX());
+  #endif
+  }
+
+  char * rtcGetTimestamp(void)
+  { 
+
+  #if USE_EXT_RTC==1
+    //PRINT TIME
+    if (rtc.updateTime() == false) //Updates the time variables from RTC
+    {
+      Serial.println("RTC failed to update");
+      return "";
+    } else {
+      return rtc.stringTimeStamp();
+    }
+    #else
+      return 0;
+    #endif
   }
 
   bool rtc_get_datetime(datetime_t *t)
@@ -419,48 +461,6 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
     t.sec=seconds;
     rtc_set_datetime(&t);
   }
-
-  void rtcXferTime(void)
-  {
-    rtc.setUNIX(rtc_get());
-    datetime_t t;
-    rtc_get_datetime(&t);
-    if (rtc.setTime(t.sec, t.min, t.hour, t.day, t.day, t.month, t.year) == false) 
-    {
-          Serial.println("Something went wrong setting the time");
-    }
-  }
-  void rtcSync(void)
-  {
-    uint32_t to;
-    to=rtc_get();
-    if (to<rtc.getUNIX()) rtc_set(rtc.getUNIX());
-  }
-
-  char * rtcGetTimestamp(void)
-  { 
-    //PRINT TIME
-    if (rtc.updateTime() == false) //Updates the time variables from RTC
-    {
-      Serial.println("RTC failed to update");
-      return "";
-    } else {
-      return rtc.stringTimeStamp();
-    }
-  }
-  #else
-    int16_t rtcSetup(uint8_t sda, uint8_t scl)  { return 1;  }
-
-    bool rtc_get_datetime(datetime_t *t) { return 1;  }
-    bool rtc_set_datetime(datetime_t *t) { return 1;  }
-
-    void rtcSetDate(int year,int month,int day) {}
-    void rtcSetTime(int hour,int minutes,int seconds) {}
-
-    void rtcXferTime(void) {}
-
-    char * rtcGetTimestamp(void) {return 0;}
-  #endif
 
 #endif
     

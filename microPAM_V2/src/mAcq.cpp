@@ -27,12 +27,16 @@
 #include "mCompress.h"
 #include "mAcq.h"
 
+#ifndef NSAMP        // should be defined in config.h
+  #define NSAMP 128
+#endif
+
 #ifndef NBUF_ACQ        // should be defined in config.h
-  #define NBUF_ACQ 128
+  #define NBUF_ACQ 2*NSAMP  //use stere as default
 #endif
 
 #ifndef NBUF_I2S        // should be defined in config.h
-  #define NBUF_I2S (2*NBUF_ACQ) //for stereo I2S
+  #define NBUF_I2S (2*NSAMP) //for stereo I2S
 #endif
 
 uint32_t procCount=0;
@@ -350,7 +354,12 @@ static void __not_in_flash_func(process)(int32_t * buffer)
 { procCount++;
 
   // extract data
-  for(int ii=0; ii<NBUF_ACQ; ii++) acqBuffer[ii]= buffer[2*ii+ICH]>>SHIFT;   
+  #if NCH==2
+    for(int ii=0; ii<NBUF_ACQ; ii++) acqBuffer[ii]= buffer[ii]>>SHIFT;   
+  #else
+    for(int ii=0; ii<NBUF_ACQ; ii++) acqBuffer[ii]= buffer[2*ii+ICH]>>SHIFT;   
+  #endif
+
   if(proc==0)
   {
     if(!pushData((uint32_t *)acqBuffer)) procMiss++;

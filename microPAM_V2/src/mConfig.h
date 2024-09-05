@@ -64,11 +64,12 @@
   // for mAcq
   #define FSAMP 48000 // sampling frequency
   #define MBIT 32     // number of bits / sample (do not change)
-  #define NCH 1       // number of channels
-  #define ICH 0       // selected channel
+  #define NCH 2       // number of channels
+  #define ICH 0       // selected channel (only used if NCH==1)
 
-  #define NBUF_ACQ 128  // number of samples in acq buffer
-  #define NBUF_I2S (2*NBUF_ACQ)
+  #define NSAMP  128
+  #define NBUF_ACQ (NCH*NSAMP)  // number of samples in acq buffer
+  #define NBUF_I2S (2*NSAMP)    // Use I2S, which is alway 2 channels
 
   // for mFiling
   #define MIN_SPACE 2000  // number of disk clusters to keep free (can be smaller)
@@ -79,7 +80,7 @@
 
   // for mQueue
   #define NDBL 12
-  #define MAXBUF (16*NDBL)       // Queue length
+  #define MAXBUF (12*NDBL)       // Queue length
   
   // pocess mode
   #define PROC_MODE 0     // 0: wav data 1; compress

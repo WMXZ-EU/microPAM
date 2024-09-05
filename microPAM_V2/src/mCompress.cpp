@@ -34,16 +34,10 @@
 
 
 #define NH 6
+#define NBLOCK NBUF_ACQ
 
-#if defined(NBUF_ACQ)
-  #define NSAMP NBUF_ACQ
-#else
-  #define NSAMP 128
-#endif
-#define NBLOCK NSAMP
-
-static uint32_t tempData[NSAMP];
-static uint32_t outData[NSAMP];
+static uint32_t tempData[NBUF_ACQ];
+static uint32_t outData[NBUF_ACQ];
 static uint32_t dout[NBLOCK];
 
 int32_t *tempDatai=(int32_t*) tempData;
@@ -65,11 +59,11 @@ int __not_in_flash_func(compress)(void *inp)
   for (int  ii = 0; ii < NCH; ii++) tempData0[ii] = tempDatai[ii] = din[ii];
   
   //differentiate (equiv 6 dB/Octave HP filter)
-  for (int  ii = NCH; ii < NSAMP; ii++) tempDatai[ii] = (din[ii] - din[ii - NCH]);
+  for (int  ii = NCH; ii < NBUF_ACQ; ii++) tempDatai[ii] = (din[ii] - din[ii - NCH]);
 
   // find maximum in filtered data
   int32_t mx = 0;
-  for (int ii = NCH; ii < NSAMP; ii++)
+  for (int ii = NCH; ii < NBUF_ACQ; ii++)
   {
     int32_t dd =  tempDatai[ii];
     if(dd<0)  dd = -dd;
@@ -85,10 +79,10 @@ int __not_in_flash_func(compress)(void *inp)
 
   // mask data (all but first sample) (mask needed for negative numbers)
   uint32_t msk = (1 << nb) - 1;
-  for (int ii = NCH; ii < NSAMP; ii++) { tempData[ii] &= (uint32_t)msk; }
+  for (int ii = NCH; ii < NBUF_ACQ; ii++) { tempData[ii] &= (uint32_t)msk; }
 
   // pack all data
-  int ncmp = (NSAMP*nb) / MBIT;
+  int ncmp = (NBUF_ACQ*nb) / MBIT;
   int ndat = NH+NCH + ncmp;
   int ndat0 = ndat; 
 
@@ -96,7 +90,7 @@ int __not_in_flash_func(compress)(void *inp)
   ndat= ((ndat>>1) + 1)<<1;
 
     // clean data store
-  for (int ii = 0; ii < NSAMP; ii++) outData[ii]=0;
+  for (int ii = 0; ii < NBUF_ACQ; ii++) outData[ii]=0;
 
   // prepare header
   uint32_t *iptr=(uint32_t *) outData;
@@ -113,7 +107,7 @@ int __not_in_flash_func(compress)(void *inp)
   // pack data
   // 
   int nx = MBIT;
-  for (int ii = 0; ii < NSAMP; ii ++)
+  for (int ii = 0; ii < NBUF_ACQ; ii ++)
   {   nx -= nb;
       if(nx > 0)
       {   outData[kk] |= (tempData[ii] << nx);

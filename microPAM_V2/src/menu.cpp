@@ -4,37 +4,34 @@
 #include "mRTC.h"
 #include "mAcq.h"
 
-static int menuGetInt16(int16_t *val)
-{ char buffer[40];
+static char * menuGetLine(void)
+{
+  static char buffer[40];
   while(!Serial.available()) continue;
+  Serial.setTimeout(5000);
   int count;
   count = Serial.readBytesUntil('\r',buffer,40);
   buffer[count]=0;
   Serial.println(buffer);
+  return buffer;
+}
+
+static int menuGetInt16(int16_t *val)
+{ char *buffer=menuGetLine();
   int tmp;
   sscanf(buffer,"%d",&tmp); *val=(int16_t) tmp;
   return 1;
 }
 
 static int menuGetInt32(int32_t *val)
-{ char buffer[40];
-  while(!Serial.available()) continue;
-  int count;
-  count = Serial.readBytesUntil('\r',buffer,40);
-  buffer[count]=0;
-  Serial.println(buffer);
+{ char *buffer=menuGetLine();
   int tmp;
   sscanf(buffer,"%d",&tmp); *val=(int32_t) tmp;
   return 1;
 }
 
 static int menuGet3Int(int *val1, int *val2, int *val3)
-{ char buffer[40];
-  while(!Serial.available()) continue;
-  int count;
-  count = Serial.readBytesUntil('\r',buffer,40);
-  buffer[count]=0;
-  Serial.println(buffer);
+{ char *buffer=menuGetLine();
   char c1,c2;
   return sscanf(buffer,"%d%c%d%c%d",val1,&c1,val2,&c2,val3);
 }

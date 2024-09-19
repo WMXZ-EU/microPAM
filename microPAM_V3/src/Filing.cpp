@@ -320,7 +320,7 @@ int16_t checkEndOfFile(int16_t state)
     if(state == DOCLOSE)                // in case of DOCLOSE
     {
       uint32_t dd=tt/(24*3600);
-      if(dd<(d_0+20000)) state=DOHIBERNATE;     // we are too early
+      if(dd<((uint32_t)d_0+20000)) state=DOHIBERNATE;     // we are too early
     }
   }
   return state;
@@ -588,9 +588,9 @@ uint32_t getAlarmTime(uint32_t secs)
     uint32_t dd = secs/(24*3600);       // full days so far
     uint32_t hh =(secs%(24*3600))/3600; // full hours into day
 
-    if(dd<(d_0+20000)) 
+    if(dd<((uint32_t)d_0+20000)) 
     { // we are too early
-      secs=(d_0+20000)*(24*3600);
+      secs=((uint32_t)d_0+20000)*(24*3600);
       return secs;
     }
     //

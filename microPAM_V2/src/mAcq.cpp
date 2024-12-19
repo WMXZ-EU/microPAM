@@ -52,8 +52,8 @@ static void __not_in_flash_func(process)(int32_t * buffer);
 /*======================================================================================*/
 #if defined(TARGET_RP2040)
 
-  pin_size_t _pinDOUT =0;
-  pin_size_t _pinBCLK =1;
+  pin_size_t _pinDOUT =I2S_DOUT;
+  pin_size_t _pinBCLK =I2S_BCLK;
 
   int _freq=fsamp;
   int _bps =MBIT;

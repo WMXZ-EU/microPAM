@@ -175,6 +175,7 @@ void loop()
 
     t0=t1;
   }
+  asm("wfi");
 }
 /**********************************************************************************/
 // rp2040 has dial core. let acq run on its own core
@@ -188,5 +189,5 @@ void setup1()
   ready=0;
 }
 
-void loop1(){}  // nothing to be done here
+void loop1(){asm("wfi");}  // nothing to be done here
 

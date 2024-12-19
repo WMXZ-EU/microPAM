@@ -56,7 +56,7 @@ volatile int16_t proc=PROC_MODE;
 static void __not_in_flash_func(process)(int32_t * buffer);
 
 /*======================================================================================*/
-#if defined(TARGET_RP2040)
+#if defined(ARDUINO_ARCH_RP2040)
 
   pin_size_t _pinDOUT =0;
   pin_size_t _pinBCLK =1;

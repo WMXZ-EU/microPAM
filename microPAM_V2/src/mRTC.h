@@ -22,17 +22,14 @@
 #ifndef mRTC_H
 #define mRTC_H
 
+#define SDA RTC_SDA
+#define SCL RTC_SCL
+
 #if defined(TARGET_RP2040)
 #include "hardware/rtc.h"
-  #define SDA 8
-  #define SCL 9
-
   uint32_t rtc_get(void);
 
 #elif defined(__IMXRT1062__)
-  #define SDA 18
-  #define SCL 19
-
 
   /** \struct datetime_t
   *  \ingroup util_datetime

@@ -204,7 +204,7 @@ static uint8_t bcd2bin(uint8_t val) { return val - 6 * (val >> 4); }
       i2c_write_register(address,PCF8523_CONTROL_1, ctlreg & ~(1 << 5));
     return buffer;
   }
-#else
+#else // no RTC
   int16_t initXRTC(uint8_t sda, uint8_t scl) {return 0;}
   int16_t lostPowerXRTC(void) {return 0;}
   uint8_t *mgetXRTC(uint8_t *buffer,uint16_t nbuf) {return 0;}

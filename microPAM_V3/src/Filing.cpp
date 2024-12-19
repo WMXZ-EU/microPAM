@@ -26,7 +26,7 @@
 #include "Queue.h"
 #include "Acq.h"
 #include "Adc.h"
-#include "RTC.h"
+#include "mRTC.h"
 #include "Menu.h"
 #include "Filing.h"
 
@@ -47,7 +47,7 @@ volatile  int16_t d_0  = D_0;
  #error "SDFAT_FILE_TYPE != 3: edit SdFatConfig.h"
 #endif
 
-#if defined(TARGET_RP2040)
+#if defined(ARDUINO_ARCH_RP2040)
   const int _MOSI = 3;
   const int _MISO = 4;
   const int _CS   = 5;
@@ -119,7 +119,7 @@ void dateTime(uint16_t* date, uint16_t* time, uint8_t* ms10)
 
 int16_t filing_init(void)
 {
-  #if defined(TARGET_RP2040)
+  #if defined(ARDUINO_ARCH_RP2040)
     SPI.setRX(_MISO);
     SPI.setTX(_MOSI);
     SPI.setSCK(_SCK);
@@ -478,7 +478,7 @@ int16_t storeData(int16_t status)
         else if(status==MUSTSTOP)
         {
           status=STOPPED;
-          digitalWriteFast(13,LOW);
+          digitalWrite(LED_BUILTIN,LOW);
         }
     }
     return status;
@@ -546,25 +546,26 @@ int16_t saveData(int16_t status)
         for(int ii=0;ii<8;ii++) logBuffer[ii]=diskBuffer[ii];
       }
       if(haveStore)
-      {
+      { digitalWrite(LED_BUILTIN,HIGH);
         status=storeData(status);
+        digitalWrite(LED_BUILTIN,LOW);
       }
     }
 
     return status;
 }
 
-#if defined(TARGET_RP2040)
+#if defined(ARDUINO_ARCH_RP2040)
 uint32_t getAlarmTime(uint32_t secs) {return 0;}
 
 void powerDown(void) {}
 
-void do_hibernate(uint32_t t_rep) {}
+void do_hibernate(void) {}
 
 void reboot(void);
 #else
 /*********************** hibernate ******************************/
-#include "core_pins.h"
+#include "Arduino.h"
 /*  hibernating is shutting down the power snvs mode
     only RTC continuoes to run (if there is a 3V battery or power)
     hipernation is controlled by t_rep (sec), t_1,t_2,t_3, t_4 (h)

@@ -39,10 +39,10 @@ volatile uint32_t t_off=T_OFF;
 #endif
 
 #if defined(TARGET_RP2040)
-  const int _MOSI = 3;
-  const int _MISO = 4;
-  const int _CS   = 5;
-  const int _SCK  = 6;
+  const int _MOSI = SPI_MOSI;
+  const int _MISO = SPI_MISO;
+  const int _CS   = SPI_CS;
+  const int _SCK  = SPI_SCK;
 
   #if ENABLE_DEDICATED_SPI !=1
   #error "ENABLE_DEDICATED_SPI !=1: edit SdFatConfig.h"

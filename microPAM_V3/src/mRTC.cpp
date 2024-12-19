@@ -77,11 +77,11 @@ static void i2c_read_data(uint8_t address, uint8_t reg, uint8_t *buffer, uint16_
 
 /**************************************************************************************/
 #define DS3231_ADDRESS  0x68   ///< I2C address for DS3231
-#define DS3231_TIME     0x00      ///< Time register
-#define DS3231_ALARM1   0x07    ///< Alarm 1 register
-#define DS3231_ALARM2   0x0B    ///< Alarm 2 register
+#define DS3231_TIME     0x00   ///< Time register
+#define DS3231_ALARM1   0x07   ///< Alarm 1 register
+#define DS3231_ALARM2   0x0B   ///< Alarm 2 register
 #define DS3231_CONTROL  0x0E   ///< Control register
-#define DS3231_STATUSREG 0x0F ///< Status register
+#define DS3231_STATUSREG 0x0F  ///< Status register
 #define DS3231_TEMPERATUREREG 0x11 
 
 static uint8_t address = DS3231_ADDRESS;
@@ -122,10 +122,107 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
 
 /******************************************************************/
 #include "Config.h"
-#include "RTC.h"
+#include "mRTC.h"
 
 /******************************************************************/
-#if defined(TARGET_RP2040)
+#if defined(ARDUINO_ARCH_RP2040)
+
+  #define YEAR0 1970
+  #define LEAP_YEAR(Y)  ( ((YEAR0+(Y))>0) && !((YEAR0+(Y))%4) && ( ((YEAR0+(Y))%100) || !((YEAR0+(Y))%400) ) )
+
+  //convenience macros to convert to and from tm years 
+  #define  tmYearToCalendar(Y) ((Y) + YEAR0)  // full four digit year 
+  #define  CalendarYrToTm(Y)   ((Y) - YEAR0)
+
+  #define SECS_PER_MIN  ((uint32_t)(60UL))
+  #define SECS_PER_HOUR ((uint32_t)(3600UL))
+  #define SECS_PER_DAY  ((uint32_t)(SECS_PER_HOUR * 24UL))
+
+  static  const uint8_t monthDays[]={31,28,31,30,31,30,31,31,30,31,30,31}; // API starts months from 1, this array starts from 0
+ 
+  void time2date(uint32_t time, datetime_t *tm)
+  {
+  // break the given time_t into time components
+  // this is a more compact version of the C library localtime function
+  // note that year is offset from YEAR0 !!!
+
+    uint8_t year;
+    uint8_t month, monthLength;
+    unsigned long days;
+
+    tm->sec  = time % 60; time /= 60; // now time is minutes
+    tm->min  = time % 60; time /= 60; // now time is hours
+    tm->hour = time % 24; time /= 24; // now time is days
+
+    tm->dotw = ((time + 4) % 7) ;  // Sunday is day 0 // 1-1-1970 was Thursday
+    
+    year = 0;  
+    days = 0;
+    while((unsigned)(days += (LEAP_YEAR(year) ? 366 : 365)) <= time) {
+      year++;
+    }
+    tm->year = year+YEAR0;
+    
+    days -= LEAP_YEAR(year) ? 366 : 365;
+    time -= days; // now time is days in this year, starting at 0
+    
+    days=0;
+    month=0;
+    monthLength=0;
+    for (month=0; month<12; month++) {
+      if (month==1) { // february
+        if (LEAP_YEAR(year)) {
+          monthLength=29;
+        } else {
+          monthLength=28;
+        }
+      } else {
+        monthLength = monthDays[month];
+      }
+      
+      if (time >= monthLength) {
+        time -= monthLength;
+      } else {
+          break;
+      }
+    }
+    tm->month = month + 1;  // jan is month 1  
+    tm->day = time + 1;     // day of month
+  }
+
+  uint32_t date2time(datetime_t *tm)
+  {
+    int ii;
+    uint32_t seconds;
+
+    uint8_t year;
+    year=tm->year-YEAR0; // year after 1-jan-1970 (YEAR0)
+    #if 0
+    seconds= year*(SECS_PER_DAY * 365);
+    for (ii = 0; ii < year; ii++) {
+      if (LEAP_YEAR(ii)) {
+        seconds += SECS_PER_DAY;   // add extra days for leap years
+      }
+    }
+    #endif
+    uint32_t days= year*365;
+    for (ii = 0; ii < year; ii++) if (LEAP_YEAR(ii)) days++;  // add extra days for leap years
+    seconds = days*SECS_PER_DAY;
+
+    // add days for this year, months start from 1
+    for (ii = 1; ii < tm->month; ii++) {
+      if ( (ii == 2) && LEAP_YEAR(year)) { 
+        seconds += SECS_PER_DAY * 29;
+      } else {
+        seconds += SECS_PER_DAY * monthDays[ii-1];  //monthDay array starts from 0
+      }
+    }
+    seconds+= (tm->day-1) * SECS_PER_DAY;
+    seconds+= tm->hour * SECS_PER_HOUR;
+    seconds+= tm->min * SECS_PER_MIN;
+    seconds+= tm->sec;
+    return seconds; 
+  }
 
   const uint8_t daysInMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
   uint16_t date2days(uint16_t y, uint8_t m, uint8_t d) 
@@ -147,6 +244,34 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
     if ('0' <= *p && *p <= '9')  v = *p - '0';
     return 10 * v + *++p - '0';
   }
+
+
+  #if defined(ARDUINO_RASPBERRY_PI_PICO_2)
+    int16_t rtcSetup(uint8_t sda, uint8_t scl)
+    {
+      return 0;
+    }  
+
+    uint32_t rtc_get(void)
+    { return 0;
+/*      datetime_t t;
+      rtc_get_datetime(&t);    
+      uint16_t day;
+      day=date2days(t.year, t.month, t.day);
+      return time2seconds(day,t.hour, t.min, t.sec);
+*/
+    }
+
+    bool rtc_get_datetime(datetime_t *t)
+    {
+      time2date(rtc_get(), t);
+      return 1;
+    }
+
+    void rtcSetTime(int hour,int minutes,int seconds){}
+    void rtcSetDate(int year,int month,int day) {}
+
+  #else
 
   void adjustRTC(char *date, char *time)
   {
@@ -238,6 +363,12 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
     return time2seconds(day,t.hour, t.min, t.sec);
   }
 
+/*  bool rtc_get_datetime(datetime_t *t)
+  {
+    time2date(rtc_get(), t);
+    return 1;
+  }
+  */
   void syncRTC(datetime_t *t, uint8_t *rtcBuffer)
   {
       mgetRTC(rtcBuffer,7);
@@ -275,7 +406,7 @@ uint8_t *msetRTC(uint8_t *buffer, uint16_t nbuf)
     msetRTC(rtcBuffer,7);
     syncRTC(&t, rtcBuffer);
   }
-
+  #endif
 
 #elif defined(__IMXRT1062__)
 

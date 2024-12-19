@@ -33,14 +33,14 @@
   #include <CrashReport.h>
 #endif
 
-#if defined(TARGET_RP2040)
+#if defined(ARDUINO_ARCH_RP2040)
   #include "pico/stdlib.h"
 #endif
 
 #include "src/Config.h"
 #include "src/Queue.h"
 #include "src/Acq.h"
-#include "src/RTC.h"
+#include "src/mRTC.h"
 #include "src/Compress.h"
 #include "src/Filing.h"
 #include "src/Menu.h"
@@ -111,8 +111,6 @@
   void reboot(void) {}
   void storage_configure() {}
 
-  void storage_configure() {} 
-
   void lowPowerInit(void) {}
 #endif
 
@@ -135,7 +133,7 @@ void setup()
   // put your setup code here, to run once:
   #if defined(__IMXRT1062__)
     set_arm_clock(48'000'000);
-  #elif defined(TARGET_RP2040)
+  #elif defined(ARDUINO_ARCH_RP2040)
     set_sys_clock_khz(48'000, true);
   #endif
 
@@ -181,6 +179,7 @@ void setup()
   #endif
 
   // setup RT Clock
+  Serial.println(USE_EXT_RTC);
   #if USE_EXT_RTC==1
     Serial.println("rtcSetup");
     rtcSetup();
@@ -191,13 +190,13 @@ void setup()
   #endif
 
   datetime_t t;
-  if(!rtc_get_datetime(&t)) Serial.println("failing get_datetime");
+//  if(!rtc_get_datetime(&t)) Serial.println("failing get_datetime");
   Serial.printf("RTC-main: %4d-%02d-%02d %02d:%02d:%02d",
                            t.year,t.month,t.day,t.hour,t.min,t.sec); 
   Serial.println();
   //
 
-  #if USE_EXT_RTC==1
+  #if USE_EXT_RTC==2
     Serial.print("RV3028: ");
     Serial.println(rtcGetTimestamp());
   #endif
@@ -211,8 +210,8 @@ void setup()
   // in case of single core teensy 4.1 start acquisition, which for rp2040 is in 2nd core
   #if defined(__IMXRT1062__)
     setup1();
-    pinMode(13,OUTPUT);
   #endif
+  pinMode(LED_BUILTIN,OUTPUT);
 }
 
 void loop() 
@@ -235,17 +234,12 @@ void loop()
     if(status<0)
     { mtpd.loop();
     }
-
+  #endif
     // 
     {
-      if(status>0) digitalWriteFast(13,HIGH);    
       // save data (filing will be handled inside saveData)
       status=saveData(status);  
-      if(status>0) digitalWriteFast(13,LOW);
     }
-  #else
-    status=saveData(status);  
-  #endif
 
   // once a second provide some information to User
   static uint32_t t0=0;
@@ -304,7 +298,7 @@ void setup1()
   Serial.println("Setup1 done");
 }
 
-void loop1(){}  // nothing to be done here
+void loop1(){asm("wfi");}  // nothing to be done here
 
 /************************************Device specific functions *****************************/
 #if defined(__IMXRT1062__)

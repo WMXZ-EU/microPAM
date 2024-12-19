@@ -22,7 +22,7 @@
  #include "Arduino.h"
 #include "Config.h"
 #include "Menu.h"
-#include "RTC.h"
+#include "mRTC.h"
 #include "Acq.h"
 
 static uint16_t store[16] = {0};
@@ -248,15 +248,15 @@ void menu3(void)
     } 
     else if(ch=='a')
     {
-      menuGetInt32((int32_t *)&t_acq);
+      menuGetInt16((int16_t *)&t_acq);
     }
     else if(ch=='o')
     {
-      menuGetInt32((int32_t *)&t_on);
+      menuGetInt16((int16_t *)&t_on);
     }
     else if(ch=='r')
     {
-      menuGetInt32((int32_t *)&t_rep);
+      menuGetInt16((int16_t *)&t_rep);
     }
     else if(ch=='f')
     {

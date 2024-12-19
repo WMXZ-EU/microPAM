@@ -27,6 +27,10 @@
 
   #define START_MODE 0      // -1 is stopped; 0 is closed (ready to open file)
 
+//ARDUINO_ARCH_RP2040
+//ARDUINO_RASPBERRY_PI_PICO
+//ARDUINO_RASPBERRY_PI_PICO_2
+
   // for mAcq
   #if defined(AUDIO_INTERFACE)
     #define FSAMP 44100   // for audio interface force 44100
@@ -34,11 +38,11 @@
     #define FSAMP 48000   // sampling frequency
   #endif
 
-  #define NCHAN_I2S  4    // number of I2S channels 
+  #define NCHAN_I2S  2    // number of I2S channels 
   #define NCHAN_ACQ  1    // number of channels
 
   #if NCHAN_ACQ == 1
-    #define ICH      2    // selected channel (set to -1 to disable monochannel extraction)
+    #define ICH      0    // selected channel (set to -1 to disable monochannel extraction)
   #else
     #define ICH     -1    // disable monochannel extraction
   #endif
@@ -62,7 +66,12 @@
   #define TLV320ADC6140 1   // ADC6140 ADC
 
 //  #define ADC_MODEL I2S
-  #define ADC_MODEL TLV320ADC6140
+//  #define ADC_MODEL TLV320ADC6140
+  #if defined(ARDUINO_ARCH_RP2040)
+    #define ADC_MODEL I2S
+  #else
+    #define ADC_MODEL TLV320ADC6140
+  #endif
 
   // for mFiling
   #define MIN_SPACE   2000  // number of disk clusters to keep free
@@ -72,10 +81,13 @@
   #define HourDir        1  // use date/hour/file structure (0 for date/file stucture)
 
   // for mQueue
-//  #define NDBL          12         // number of acuisition buffers fetched from queue for dist storaga
-//  #define MAXBUF        (16*NDBL)  // resulting queue length in multiple of disk buffer
-  #define NDBL          48         // number of acuisition buffers fetched from queue for dist storaga
-  #define MAXBUF        (96*NDBL)  // resulting queue length in multiple of disk buffer
+  #if defined(ARDUINO_ARCH_RP2040)
+    #define NDBL          12         // number of acuisition buffers fetched from queue for dist storaga
+    #define MAXBUF        (16*NDBL)  // resulting queue length in multiple of disk buffer
+  #else
+    #define NDBL          48         // number of acuisition buffers fetched from queue for dist storaga
+    #define MAXBUF        (96*NDBL)  // resulting queue length in multiple of disk buffer
+  #endif
   
   // pocess mode
   #define PROC_MODE      0  // 0: wav data 1; compress 
@@ -114,7 +126,7 @@
   #define H_4    24   // stop hour of second acquisition block
   #define D_ON    1   // duration in days  of acquisition
   #define D_REP   0   // repetition in days of acquisition (0 is continuous)
-  #define D_0     0   // start day of acquisition (counted from 1-1-1970 )
+  #define D_0     0   // start day of acquisition (counted from 1-10-2024 )
 
   // extern (global) parameters
   extern volatile int32_t fsamp;  // Acq.cpp 
@@ -124,7 +136,7 @@
   extern volatile int16_t dgain;  // Acq.cpp
 
   extern volatile uint16_t t_acq; // Filing.cpp 
-  extern volatile uint16_t t_on; // Filing.cpp 
+  extern volatile uint16_t t_on;  // Filing.cpp 
   extern volatile uint16_t t_rep; // Filing.cpp 
 
   extern volatile uint16_t h_1; // Filing.cpp 
@@ -132,9 +144,9 @@
   extern volatile uint16_t h_3; // Filing.cpp
   extern volatile uint16_t h_4; // Filing.cpp
 
-  extern volatile uint16_t d_on; // Filing.cpp 
+  extern volatile uint16_t d_on;  // Filing.cpp 
   extern volatile uint16_t d_rep; // Filing.cpp 
-  extern volatile  int16_t d_0; // Filing.cpp 
+  extern volatile  int16_t d_0;   // Filing.cpp 
 
   extern volatile uint16_t *params0; //menu.cpp
 
@@ -144,6 +156,13 @@
     #define __not_in_flash_func(func_name) func_name
   #endif
 
-  #define USE_EXT_RTC 0
+  #define USE_EXT_RTC 1
+
+  #if defined(ARDUINO_ARCH_RP2040)
+    #define MOSI 3
+    #define MISO 4
+    #define CS   5
+    #define SCK  6
+  #endif
 
 #endif

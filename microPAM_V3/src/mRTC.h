@@ -22,18 +22,35 @@
 #ifndef RTC_H
 #define RTC_H
 
-#if defined(TARGET_RP2040)
-#include "hardware/rtc.h"
+#if defined(ARDUINO_ARCH_RP2040)
+  #include "pico.h"
+    #if defined(ARDUINO_RASPBERRY_PI_PICO_2)
+      /** \struct datetime_t
+      *  \ingroup util_datetime
+      *  \brief Structure containing date and time information
+      *
+      *    When setting an RTC alarm, set a field to -1 tells
+      *    the RTC to not match on this field
+      */
+      typedef struct {
+          int16_t year;    ///< 0..4095
+          int8_t month;    ///< 1..12, 1 is January
+          int8_t day;      ///< 1..28,29,30,31 depending on month
+          int8_t dotw;     ///< 0..6, 0 is Sunday
+          int8_t hour;     ///< 0..23
+          int8_t min;      ///< 0..59
+          int8_t sec;      ///< 0..59
+      } datetime_t;
+    #else
+      #include "hardware/rtc.h"
+  #endif
   #define SDA 8
   #define SCL 9
 
   uint32_t rtc_get(void);
+  bool rtc_get_datetime(datetime_t *t);
 
 #elif defined(__IMXRT1062__)
-  #define SDA 18
-  #define SCL 19
-
-
   /** \struct datetime_t
   *  \ingroup util_datetime
   *  \brief Structure containing date and time information
@@ -50,6 +67,9 @@
       int8_t min;      ///< 0..59
       int8_t sec;      ///< 0..59
   } datetime_t;
+
+  #define SDA 18
+  #define SCL 19
 
   bool rtc_set_datetime(datetime_t *t);
   bool rtc_get_datetime(datetime_t *t);

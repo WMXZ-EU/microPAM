@@ -38,12 +38,12 @@
         #endif
         //
         #define USB_POWER    1
-    #elif defined(TARGET_RP2040)
+    #elif defined(ARDUINO_ARCH_RP2040)
         #define NPORT_I2S 1
         #define ADC_SHDNZ 32
         #undef ADC_EN
         #define USB_POWER 0
-        #define mWire       Wire
+        #define mWire Wire
     #endif
 
 	#if (NCH <= 2)

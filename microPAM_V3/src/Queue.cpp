@@ -19,6 +19,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+ /*
+  * File: Queue.cpp
+ */
  
 #include <stdint.h>
 //#include <string.h>
@@ -36,20 +39,29 @@
     #define MAXBUF 128      // Queue length
   #endif
 
-  volatile static int queue_busy=0;
-  #if defined(__IMXRT1062__)
+  static int queue_busy=0;
+
+  #if USE_PSRAM==1
     EXTMEM 
   #endif
   static uint32_t data_buffer[MAXBUF][NBUF_ACQ];
-  volatile static int head=0;
-  volatile static int tail=0;
+  static int head=0;
+  static int tail=0;
   
   uint16_t __not_in_flash_func(getDataCount)(void) { int num = tail-head; return num<0 ? num+MAXBUF : num; }
   int __not_in_flash_func(queue_isBusy)(void) { return queue_busy; }
 
+  inline void __not_in_flash_func(queue_lock)(void)
+  { // in case of RP2040 lock access to only one core as push and pull are from different cores
+    // for teensy lock would block higher priority access
+      #if defined(ARDUINO_ARCH_RP2040)
+        while(queue_busy); 
+      #endif
+  }
+
   uint16_t __not_in_flash_func(pushData)(uint32_t *data)
   {
-//    while(queue_busy); 
+    queue_lock();
     queue_busy=1;
     if ( (tail+1)%MAXBUF == head ) {queue_busy=0; return 0;} // signal full
     memcpy(data_buffer[tail],data,4*NBUF_ACQ);
@@ -60,7 +72,7 @@
   
   uint16_t __not_in_flash_func(pullData)(uint32_t *data)
   {
-//    while(queue_busy); 
+    queue_lock();
     queue_busy=1;
     if ( head==tail ) {queue_busy=0; return 0;} // signal empty
     memcpy(data,data_buffer[head],4*NBUF_ACQ);

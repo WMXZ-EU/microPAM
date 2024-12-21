@@ -19,9 +19,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+ /*
+  * File: Queue.h
+ */
  
 #ifndef QUEUE_H
 #define QUEUE_H
+  #define MB            24  // maximal bits for compression (only used for proc_mode == 1)
 
   int queue_isBusy(void);
   uint16_t getDataCount ();

@@ -101,7 +101,6 @@ void setup()
     setup1();
   #endif
   while(ready) {Serial.print('-'); delay(100);} // wait for setup1() to finish
-  pinMode(LED_BUILTIN,OUTPUT);
 }
 
 void loop() 

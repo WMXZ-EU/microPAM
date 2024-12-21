@@ -282,7 +282,7 @@ void mtp_lock_storage(bool lock) {}
     }
   }
 
-  void MTPStorage_SD::GetObjectInfo(uint32_t handle, char* name, uint32_t* size, uint32_t* parent, uint16_t *store, char *create, char *modify)
+  void MTPStorage_SD::GetObjectInfo(uint32_t handle, char* name, uint64_t* size, uint32_t* parent, uint16_t *store, char *create, char *modify)
   {
     Record r = ReadIndexRecord(handle);
     strcpy(name, r.name);
@@ -297,31 +297,58 @@ void mtp_lock_storage(bool lock) {}
           FS_HOUR(r.mptime),FS_MINUTE(r.mptime),FS_SECOND(r.mptime));
   }
 
+  void MTPStorage_SD::updateTimestamps(uint32_t handle,  char *create_str, char *modify_str)
+  {
+    uint16_t yy;
+    uint8_t mm,dd, hour,min,sec;
+
+    OpenFileByIndex(handle);
+    mtp_lock_storage(true);
+
+    Record r = ReadIndexRecord(handle);
+
+    sscanf(create_str,"%04hu%02hhu%02hhuT%02hhu%02hhu%02hhu",&yy,&mm,&dd,&hour,&min,&sec);
+    r.cptime = FS_TIME(hour, min, sec);
+    r.cpdate = FS_DATE(yy, mm, dd);
+
+    file_.timestamp(T_CREATE, yy, mm, dd, hour, min, sec);
+
+    sscanf(modify_str,"%04hu%02hhu%02hhuT%02hhu%02hhu%02hhu",&yy,&mm,&dd,&hour,&min,&sec);
+    r.mptime = FS_TIME(hour, min, sec);
+    r.mpdate = FS_DATE(yy, mm, dd);
+
+    file_.timestamp(T_WRITE, yy, mm, dd, hour, min, sec);
+
+    WriteIndexRecord(handle, r); 
+    mtp_lock_storage(false);
+  }
+
   uint32_t MTPStorage_SD::GetSize(uint32_t handle) 
   {
     return ReadIndexRecord(handle).child;
   }
 
-  void MTPStorage_SD::read(uint32_t handle, uint32_t pos, char* out, uint32_t bytes)
+  size_t MTPStorage_SD::read(uint32_t handle, uint32_t pos, char* out, uint32_t bytes)
   {
     OpenFileByIndex(handle);
     mtp_lock_storage(true);
     file_.seekSet(pos);
     file_.read(out,bytes);
     mtp_lock_storage(false);
+    return bytes;
   }
 
 void MTPStorage_SD::removeFile(uint32_t store, char *file)
 { 
-  char tname[MAX_FILENAME_LEN];
+  char tname[2*MAX_FILENAME_LEN];
   char fname[MAX_FILENAME_LEN];
   FsFile f1=sd_open(store,file,O_READ);
   if(f1.isDirectory())
   {
     FsFile f2;
-    while(f2=f1.openNextFile())
+    while((f2=f1.openNextFile()))
     { f2.getName(fname,MAX_FILENAME_LEN);
-      snprintf(tname,MAX_FILENAME_LEN,"%s/%s",file,fname);
+      snprintf(tname,strlen(tname),"%s/%s",file,fname);
       if(f2.isDirectory()) removeFile(store,tname); else sd_remove(store,tname);
     }
     sd_rmdir(store,file);
@@ -413,7 +440,7 @@ void MTPStorage_SD::removeFile(uint32_t store, char *file)
     return ret;
   }
 
-  size_t MTPStorage_SD::write(const char* data, uint32_t bytes)
+  size_t MTPStorage_SD::write(const uint8_t* data, uint32_t bytes)
   {
       mtp_lock_storage(true);
       size_t ret = file_.write(data,bytes);

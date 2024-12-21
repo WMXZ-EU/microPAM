@@ -22,15 +22,15 @@
 #ifndef AUDIOIF_H
 #define AUDIOIF_H
 
-  #if defined(__IMXRT1062__)
-    #include <Arduino.h>
-    #if defined(AUDIO_INTERFACE)
+  #if defined(AUDIO_INTERFACE)
+    #include "Config.h"
+
+    int16_t __not_in_flash_func(putAudio)(int32_t *data);
+    int16_t __not_in_flash_func(getAudio)(int32_t *data);
+
+    #if defined(__IMXRT1062__)
+      #include <Arduino.h>
       #include "AudioStream.h"
-
-      #include "Config.h"
-
-      int16_t __not_in_flash_func(putAudio)(int32_t *data);
-      int16_t __not_in_flash_func(getAudio)(int32_t *data);
 
       class AudioIF : public AudioStream
       {
@@ -42,5 +42,8 @@
         void extract(int16_t *dst1, int16_t *dst2, const int32_t *src);
       };
     #endif
+  #endif
+  #if 0
+    void usb_audio_setup(void);
   #endif
 #endif

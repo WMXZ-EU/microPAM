@@ -27,11 +27,13 @@
 #if  (ADC_MODEL == TLV320ADC6140)
     #if defined(__IMXRT1062__)
         #define NPORT_I2S    1
-        #if 1
+        #if 0
+            #define HP_ON       -1       // not used
             #define ADC_SHDNZ   32
             #define ADC_EN      33      // as of micoPAM-mare-2b
             #define mWire       Wire1    // SDA1/SCL1
         #else                           // as of micoPAM-mare 26-06-2024
+            #define HP_ON        4
             #define ADC_SHDNZ    3
             #define ADC_EN       2      
             #define mWire       Wire    // SDA/SCL0
@@ -43,7 +45,7 @@
         #define ADC_SHDNZ 32
         #undef ADC_EN
         #define USB_POWER 0
-        #define mWire Wire
+        #define mWire       Wire
     #endif
 
 	#if (NCH <= 2)
@@ -66,6 +68,7 @@
     static const uint8_t i2c_addr[2]= {I2C_ADDRESS1, I2C_ADDRESS2};
     static const uint8_t regs[4]={0x3C, 0x41, 0x46, 0x4B};
 
+    // use usb host 5V power (has 100uF capacitor)
     void usbPowerInit()
     {
       IOMUXC_SW_MUX_CTL_PAD_GPIO_EMC_40 = 5;
@@ -73,24 +76,25 @@
 
       GPIO8_GDIR |= 1<<26;
     }
-    void usbPowerOn()
+    void usbPowerExit()
     {
-      GPIO8_DR_SET = 1<<26;
+//      IOMUXC_SW_PAD_CTL_PAD_GPIO_EMC_40 = 0; // disable
+//      GPIO8_GDIR &= ~(1<<26);
+
     }
-    void usbPowerOff()
-    {
-      GPIO8_DR_CLEAR = 1<<26;
-    }
+    void usbPowerOn()  { GPIO8_DR_SET = 1<<26; }
+    void usbPowerOff() { GPIO8_DR_CLEAR = 1<<26; }
 
     void usbPowerSetup(void)
     {
       #if USB_POWER==1
         usbPowerInit();
         usbPowerOn();
-        delay(1000);
+        delay(100);
       #endif
     }
 
+    // enable ADC board LDO
     void acqPower(int flag)
     {   
         #if defined(ADC_EN)
@@ -101,20 +105,44 @@
         #endif
     }
 
-    void adcReset(void) 
-    { digitalWrite(ADC_SHDNZ,LOW); 
-    }
-    void adcStart(void) 
-    { digitalWrite(ADC_SHDNZ,HIGH); 
+    // enable ADC board LDO
+    void hpPower(int flag)
+    {
+      #if HP_ON>0
+        digitalWrite(HP_ON,flag);
+      #endif
     }
 
+    // handle ADC shutdown pin
+    void adcReset(void) { digitalWrite(ADC_SHDNZ,LOW);}
+    void adcStart(void) { digitalWrite(ADC_SHDNZ,HIGH);}
 
+    void adc_exit(void)
+    {
+        // reset ADC's 
+        adcReset();
+        acqPower(LOW);
+        
+        hpPower(LOW);
+        usbPowerOff();
+        usbPowerExit();
+    }
+
+    // initialize ADC
     void adc_init(void)
     {
-        #if defined(ADC_EN)
+      usbPowerSetup();
+        #if defined(ADC_EN) 
             pinMode(ADC_EN,OUTPUT);
         #endif
         acqPower(HIGH);
+
+        // preamp
+
+        #if HP_ON>0
+          pinMode(HP_ON,OUTPUT);
+        #endif
+        hpPower(HIGH);
 
         // reset ADC's 
         pinMode(ADC_SHDNZ,OUTPUT);
@@ -131,7 +159,7 @@
             if(i2c.exist(i2c_addr[ii]))
                 Serial.printf("found %x\n",i2c_addr[ii]);
             else
-                {  Serial.printf("ADC I2C %x not found\n",i2c_addr[ii]);/* while(1) ; */}
+                {  Serial.printf("ADC I2C %x not found\n",i2c_addr[ii]); continue;}
 
             i2c.write(i2c_addr[ii],0x02,0x81); // 1.8V AREG, not sleep
 
@@ -142,12 +170,17 @@
             {
                 i2c.write(i2c_addr[ii],0x0B+jj,chmap[ii][jj]); 
             }
-
-            //i2c.write(i2c_addr[ii],0x73,chanMask[ii]); 	//Enable Input Ch-1 to Ch-8 by I2C write into P0_R115 
-            i2c.write(i2c_addr[ii],0x73,0x30);	//Enable ASI Output Ch-1 to Ch-8 slots by I2C write into P0_R116
-            //i2c.write(i2c_addr[ii],0x74,chanMask[ii]);	//Enable ASI Output Ch-1 to Ch-8 slots by I2C write into P0_R116
-            i2c.write(i2c_addr[ii],0x74,0x20);	//Enable ASI Output Ch-1 to Ch-8 slots by I2C write into P0_R116
-            i2c.write(i2c_addr[ii],0x75,0xE0);			//Power-up ADC and PLL by I2C write into P0_R117 
+            //
+            //Enable Input Ch-1 to Ch-8 by I2C write into P0_R115
+            //i2c.write(i2c_addr[ii],0x73,chanMask[ii]); 	 
+            i2c.write(i2c_addr[ii],0x73,0x30);
+            //
+            //Enable ASI Output Ch-1 to Ch-8 slots by I2C write into P0_R116
+            //i2c.write(i2c_addr[ii],0x74,chanMask[ii]);	
+            i2c.write(i2c_addr[ii],0x74,0x20);	
+            //
+   			//Power-up ADC and PLL by I2C write into P0_R117 
+            i2c.write(i2c_addr[ii],0x75,0xE0);
 
             i2c.write(i2c_addr[ii],0x6B,(2<<4) | (1<<2) | (1<<0)); 	//LL-Filter and sum (1+2)/2; (3+4)/2
 
@@ -188,6 +221,8 @@
 #else
     // there is no ADC to be controlled
     void adc_init(void) {}
+    void adc_exit(void) {}
+    void usbPowerSetup(void){}
     void acqPower(int flag) {(void) flag;}
     void adcReset(void) {}
     void adcStart(void) {}

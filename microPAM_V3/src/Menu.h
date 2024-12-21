@@ -19,6 +19,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+/*
+  * File: Menu.h
+ */
  
 #ifndef _MENU_H
 #define _MENU_H
@@ -32,6 +35,8 @@
   void saveParameters(void);
   uint16_t *loadParameters(void) ;
   uint16_t *getStore(void) ;
+
+  void decodeConfigfromFile(char *configText);
 
 /*
   commands

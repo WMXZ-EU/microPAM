@@ -22,6 +22,7 @@
 // SOFTWARE.
 
 // modified for SDFS by WMXZ
+// nov 2024: modified from MTP_Teensy (PJRC) by WMXZ 
 
 #ifndef MTP_H
 #define MTP_H
@@ -34,6 +35,8 @@
   #include "core_pins.h"
   #include "usb_dev.h"
 
+  #define NEW_MTP 0
+  
   #include "Storage.h"
   // modify strings if needed (see MTP.cpp how they are used)
   #define MTP_MANUF "PJRC"
@@ -42,7 +45,7 @@
   #define MTP_SERNR "1234"
   #define MTP_NAME  "Teensy"
 
-  #define USE_EVENTS 0
+  #define USE_EVENTS 1
   #if USE_EVENTS==1
     extern "C" 	int usb_mtp_sendEvent(const void *buffer, uint32_t len, uint32_t timeout);
   #endif
@@ -58,14 +61,17 @@
   #define USE_EVENTS 0
 #endif
 
-// MTP Responder.
+#if NEW_MPT==0
+// old MTP Responder.
 class MTPD {
 public:
 
-  explicit MTPD(MTPStorageInterface* storage): storage_(storage) {}
+//  explicit MTPD(MTPStorageInterface* storage): storage_(storage) {}
+  MTPD(MTPStorage_SD *storage): storage_(storage) {}
 
 private:
-  MTPStorageInterface* storage_;
+//  MTPStorageInterface* storage_;
+  MTPStorage_SD *storage_;
 
   struct MTPHeader {
     uint32_t len;  // 0
@@ -82,6 +88,9 @@ private:
     uint32_t params[5];    // 12
   } __attribute__((__may_alias__)) ;
 
+  uint32_t mtp_rx_size_;
+  uint32_t mtp_tx_size_;
+
 #if defined(__MK20DX128__) || defined(__MK20DX256__) || defined(__MK64FX512__) || defined(__MK66FX1M0__)
   usb_packet_t *data_buffer_ = NULL;
   void get_buffer() ;
@@ -90,14 +99,19 @@ private:
 // possible events for T3.xx ?
 
 #elif defined(__IMXRT1062__)
-  #define MTP_RX_SIZE MTP_RX_SIZE_480 
-  #define MTP_TX_SIZE MTP_TX_SIZE_480 
-  
-  uint8_t rx_data_buffer[MTP_RX_SIZE] __attribute__ ((aligned(32)));
-  uint8_t tx_data_buffer[MTP_TX_SIZE] __attribute__ ((aligned(32)));
 
-  #define DISK_BUFFER_SIZE 8*1024
+  #define MTP_RX_SIZE MTP_RX_SIZE_480
+  #define MTP_TX_SIZE MTP_TX_SIZE_480
+
+  uint8_t tx_data_buffer[MTP_TX_SIZE] __attribute__((aligned(32))) = {0};
+  uint8_t rx_data_buffer[MTP_RX_SIZE] __attribute__((aligned(32))) = {0};
+
+  static const uint32_t DISK_BUFFER_SIZE = 4 * 1024; // used by MTP_Storage
+  static uint8_t disk_buffer_[DISK_BUFFER_SIZE] __attribute__((aligned(32)));
   uint8_t disk_buffer[DISK_BUFFER_SIZE] __attribute__ ((aligned(32)));
+  
+  uint16_t transmit_packet_size_mask = 0x01FF;
+
   uint32_t disk_pos=0;
 
   int push_packet(uint8_t *data_buffer, uint32_t len);
@@ -153,13 +167,22 @@ private:
 
   uint32_t setObjectPropValue(uint32_t p1, uint32_t p2) ;
 
+  static MTPD *g_pmtpd_interval;
+  static void _interval_timer_handler();
+  static IntervalTimer g_intervaltimer;
+  void processIntervalTimer();
+
   uint32_t deleteObject(uint32_t p1) ;
   uint32_t copyObject(uint32_t p1,uint32_t p2, uint32_t p3) ;
   uint32_t moveObject(uint32_t p1,uint32_t p2, uint32_t p3) ;
   void openSession(uint32_t id) ;
 
   uint32_t TID;  
+
+
+
 #if USE_EVENTS==1
+  int usb_init_events(void);
   int send_Event(uint16_t eventCode);
   int send_Event(uint16_t eventCode, uint32_t p1);
   int send_Event(uint16_t eventCode, uint32_t p1, uint32_t p2);
@@ -178,5 +201,164 @@ public:
   int send_DeviceResetEvent(void);
 #endif
 };
+#else //0
+/*************************************************************************/
+/*************************************************************************/
+class MTPD_class 
+{
+  struct MTPHeader {
+    uint32_t len;            // 0
+    uint16_t type;           // 4
+    uint16_t op;             // 6
+    uint32_t transaction_id; // 8
+  };
 
+  struct MTPContainer {
+    uint32_t len;            // 0
+    uint16_t type;           // 4
+    uint16_t op;             // 6
+    uint32_t transaction_id; // 8
+    uint32_t params[5];      // 12
+  };
+
+  typedef struct {
+    uint16_t len;   // number of data bytes
+    uint16_t index; // position in processing data
+    uint16_t size;  // total size of buffer
+    uint8_t *data;  // pointer to the data
+    void *usb;      // packet info (needed on Teensy 3)
+  } packet_buffer_t;
+
+public:
+  bool addFilesystem(SdFs &disk, const char *diskname) { return storage_.addFilesystem(disk, diskname); }
+  void loop(void);
+private:
+
+#if defined(__IMXRT1062__)
+  #define MTP_RX_SIZE MTP_RX_SIZE_480
+  #define MTP_TX_SIZE MTP_TX_SIZE_480
+
+  uint8_t tx_data_buffer[MTP_TX_SIZE] __attribute__((aligned(32))) = {0};
+  uint8_t rx_data_buffer[MTP_RX_SIZE] __attribute__((aligned(32))) = {0};
+#endif
+
+  #define DISK_BUFFER_SIZE  (4 * 1024) // used by MTP_Storage
+  static uint8_t disk_buffer_[DISK_BUFFER_SIZE] __attribute__((aligned(32)));
+  uint16_t transmit_packet_size_mask = 0x01FF;
+
+
+  packet_buffer_t receive_buffer  = {0, 0, 0, NULL, NULL};
+  packet_buffer_t transmit_buffer = {0, 0, 0, NULL, NULL};
+  packet_buffer_t event_buffer    = {0, 0, 0, NULL, NULL};
+
+  uint8_t usb_mtp_status;
+
+  static uint32_t sessionID_;
+  uint32_t object_id_ = 0;
+  uint32_t dtCreated_ = 0;
+  uint32_t dtModified_ = 0;
+  uint32_t TID;  
+
+  bool receive_bulk(uint32_t timeout);
+  void free_received_bulk();
+  void allocate_transmit_bulk();
+  int transmit_bulk();
+
+  bool read_init(struct MTPHeader *header=nullptr);
+  bool read(void *ptr, uint32_t size);
+
+  bool read8(char *n) { return read(n, 1); }
+  bool read16(uint16_t *n) { return read(n, 2); }
+  bool read32(uint32_t *n) { return read(n, 4); }
+
+  bool readstring(char *buffer, uint32_t buffer_size) ;
+  //bool readDateTimeString(uint32_t *pdt);
+
+  bool write_transfer_open = false;
+
+  void write_init(struct MTPContainer &container, uint32_t data_size);
+  void write_finish();
+  
+  size_t write(const void *ptr, size_t len);
+
+  void write8 (uint8_t  x) { write((char*)&x, sizeof(x)); }
+  void write16(uint16_t x) { write((char*)&x, sizeof(x)); }
+  void write32(uint32_t x) { write((char*)&x, sizeof(x)); }
+  void write64(uint64_t x) { write((char*)&x, sizeof(x)); }
+
+  void writestring(const char* str);
+
+
+  uint32_t getDeviceInfo(struct MTPContainer &cmd);
+  uint32_t getDevicePropValue(struct MTPContainer &cmd);
+  uint32_t getDevicePropDesc(struct MTPContainer &cmd) ;
+  uint32_t openSession(struct MTPContainer &cmd) ;
+  uint32_t getStorageIDs(struct MTPContainer &cmd);
+  uint32_t getStorageInfo(struct MTPContainer &cmd);
+  uint32_t getObjectInfo(struct MTPContainer &cmd) ;
+  uint32_t getNumObjects(struct MTPContainer &cmd);
+  uint32_t getObjectHandles(struct MTPContainer &cmd);
+  uint32_t getObjectPropsSupported(struct MTPContainer &cmd) ;
+  uint32_t getObjectPropDesc(struct MTPContainer &cmd) ;
+  uint32_t getObjectPropValue(struct MTPContainer &cmd) ;
+
+  uint32_t getObject(struct MTPContainer &cmd);
+  uint32_t getPartialObject(struct MTPContainer &cmd) ;
+  uint32_t deleteObject(struct MTPContainer &cmd) ;
+  uint32_t moveObject(struct MTPContainer &cmd) ;
+  uint32_t copyObject(struct MTPContainer &cmd) ;
+
+uint32_t formatStore(struct MTPContainer &cmd) ;
+
+uint32_t sendObjectInfo(struct MTPContainer &cmd) ;
+uint32_t sendObject(struct MTPContainer &cmd);
+
+uint32_t setObjectPropValue(struct MTPContainer &cmd);
+
+MTPStorage_SD storage_;
+
+#define MTP_MAX_FILENAME_LEN (MAX_FILENAME_LEN)
+
+char create[64],modify[64];
+
+public:
+#if USE_EVENTS==1
+  bool storage_ids_sent_ = false;
+
+  int usb_init_events(void);
+  int send_Event(uint16_t eventCode);
+  int send_Event(uint16_t eventCode, uint32_t p1);
+  int send_Event(uint16_t eventCode, uint32_t p1, uint32_t p2);
+  int send_Event(uint16_t eventCode, uint32_t p1, uint32_t p2, uint32_t p3);
+
+  int send_addObjectEvent(uint32_t p1);
+  int send_removeObjectEvent(uint32_t p1);
+  int send_StorageInfoChangedEvent(uint32_t p1);
+
+  // Send a device reset event, when processed by the host
+  // they will start a new session, at which point we will
+  // clear our file system store file as the object ids are
+  // only valid during  a sesion. 
+
+  int send_DeviceResetEvent(void);
+
+  // Send an event telling the host, that we added another storeage
+  // to our list.  Example:  USBHost detects a new USB device has
+  // been inserted, and we wish to show the new filesystem(s)
+  int send_StoreAddedEvent(uint32_t store);
+
+
+  // Send an event telling the host, that a file system is no longer
+  // available and for the host to remove it from their list. 
+  int send_StoreRemovedEvent(uint32_t store);
+
+  // higer level version of sending events
+  // unclear if should pass in pfs or store?
+  bool send_addObjectEvent(uint32_t store, const char *pathname);
+  bool send_removeObjectEvent(uint32_t store, const char *pathname);
+
+#endif
+
+};
+#endif //0
 #endif

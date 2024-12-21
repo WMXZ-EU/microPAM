@@ -19,6 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+  /*
+  * File: Filing.h
+ */
+
  #ifndef FILING_H
  #define FILING_H
 
@@ -61,6 +65,14 @@ int16_t saveData(int16_t status);
 extern uint32_t disk_count;
 extern volatile int32_t logBuffer[];
 
-void powerDown(void);
+int16_t loadConfigfromFile(void);
+
+#if defined(ARDUINO_ARCH_RP2040)
+  void spi_init(void);
+  void msc_setup(void);
+  void msc_activate(bool ready);
+#endif
+
+void stopSD();
 
 #endif

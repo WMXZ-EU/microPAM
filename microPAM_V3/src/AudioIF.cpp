@@ -19,8 +19,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#if defined(__IMXRT1062__) 
-  #include "Arduino.h"
   #if defined(AUDIO_INTERFACE)
     #include "Config.h"
     #include "AudioIF.h"
@@ -46,6 +44,10 @@
       head = (head+1)%MAUDIO;
       return 1;   // signal success.
     }
+
+
+  #if defined(__IMXRT1062__) 
+    #include "Arduino.h"
 
     /********************** Audio Interface **********************************/
     void AudioIF::extract(int16_t *dst1, int16_t *dst2, const int32_t *src)
@@ -77,4 +79,44 @@
       release(right);
     }
   #endif
+
+  #if 0
+  #include "Adafruit_TinyUSB.h"
+
+  Adafruit_USBD_Audio usb_audio;
+
+  size_t readCB(uint8_t* data, size_t len, Adafruit_USBD_Audio& ref) {
+    int16_t* data16 = (int16_t*)data;
+    size_t samples = len / sizeof(int16_t);
+    size_t result = 0;
+    // generate random stereo data
+    for (int j = 0; j < samples; j+=2) {
+      data16[j] = random(-32000, 32000);
+      data16[j+1] = random(-32000, 32000);;
+      result += sizeof(int16_t)*2;
+    }
+    return result;
+  }
+
+  void usb_audio_setup(void)
+  {
+    // Start USB device as Microphone
+    usb_audio.setReadCallback(readCB);
+    usb_audio.begin(44100, 2, 16);
+
+    // reconnect USB
+    if (TinyUSBDevice.mounted()) {
+      TinyUSBDevice.detach();
+      delay(10);
+      TinyUSBDevice.attach();
+    }
+  }
+
+  //void loop() {
+  //  // optionally use LED do display status
+  //  usb_audio.updateLED();
+  //}
 #endif
+
+#endif //AUDIO_INTERFACE
+

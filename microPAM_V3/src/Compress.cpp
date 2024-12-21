@@ -30,7 +30,7 @@
 #include "Queue.h"
 #include "ACQ.h"
 #include "Compress.h"
-#include "mRTC.h"
+#include "RTC.h"
 
 #define NH 6
 #define NBUF_OUT NBUF_ACQ
@@ -53,11 +53,11 @@ int __not_in_flash_func(compress)(void *inp)
 
   int32_t *din = (int32_t *) inp;
   //
-  // copy data 
-  for (int  ii = 0; ii < NBUF_ACQ; ii++) tempDatai[ii] = din[ii];
+  // copy first sample 
+  for (int  ii = 0; ii < NCHAN_ACQ; ii++) tempDatai[ii] = din[ii];
   
   //differentiate (equiv 6 dB/Octave HP filter) all but the first NCHAN_ACQ data
-  for (int  ii = NCHAN_ACQ; ii < NBUF_ACQ; ii++) tempDatai[ii] -=  din[ii - NCHAN_ACQ];
+  for (int  ii = NCHAN_ACQ; ii < NBUF_ACQ; ii++) tempDatai[ii] =  din[ii] - din[ii - NCHAN_ACQ];
 
   // find maximum in filtered data 
   int32_t mx = 0;
@@ -84,22 +84,17 @@ int __not_in_flash_func(compress)(void *inp)
   // pack all data
   int ncmp = (NBUF_ACQ*nb) / MBIT;
   int ndat = NH + NCHAN_ACQ + ncmp;
-  int ndat0 = ndat; 
-
-  // ensure that ndat is even (to allow fast access to header)
-  ndat= ((ndat>>1) + 1)<<1;
 
     // clean data store
   for (int ii = 0; ii < NSAMP; ii++) outData[ii]=0;
 
   // prepare header
-  uint32_t *iptr=(uint32_t *) outData;
-  *iptr++ = 0xA5A5A5A5;
-  *iptr++ = nb | shift<<16;
-  *iptr++ = to;
-  *iptr++ = t1;
-  *iptr++ = NCHAN_ACQ;
-  *iptr++ = NCHAN_ACQ+ncmp; // number of data after header
+  outData[0] = 0xA5A5A5A5;
+  outData[1] = nb | shift<<16;
+  outData[2] = to;
+  outData[3] = t1;
+  outData[4] = NCHAN_ACQ;
+  outData[5] = NCHAN_ACQ+ncmp; // number of data after header
   //
   int kk=NH;
   outData[kk++] = tempData[0]; tempData[0] = 0;
@@ -146,7 +141,9 @@ int __not_in_flash_func(compress)(void *inp)
           outData[kk] = (tempData[ii] << nx);
       }
   }
-
+  // kk should be NH+NCHAN_ACQ+ncmp
+  if(kk !=(NH+NCHAN_ACQ+ncmp)) Serial.println("compress error");
+  //------------------------------- Compression done -------------------------------
   // store actual data
   static int nout=0;
 
@@ -154,7 +151,7 @@ int __not_in_flash_func(compress)(void *inp)
   { // all data fit in current block
       for (int ii = 0; ii < ndat; ii++) dout[nout++] = outData[ii];
   }
-  else if ((nout + NH) > NBUF_OUT) //avoid partial header (special case)
+  else if ((nout + NH) >= NBUF_OUT) //avoid partial or only header (special case)
   {
       while(nout<NBUF_OUT) dout[nout++] = 0; // fill rest of block with zero
       // store data
@@ -168,19 +165,18 @@ int __not_in_flash_func(compress)(void *inp)
   { // data crosses two blocks
       int ii=0;
       int nr;
-      nr = NBUF_OUT-nout;  //remaining data
-      uint32_t *iptr = (uint32_t *) outData;
+      nr = NBUF_OUT-nout;  //remaining data in block
       // correct header
-      iptr[5] = (iptr[5]<<16) | (nr-NH);  //orig remaining data | actual remaining data after header 
+      outData[5] = (outData[5]<<16) | (nr-NH);  //orig remaining data | actual remaining data after header 
 
       while (nout < NBUF_OUT) dout[nout++] = outData[ii++];
       // store data
       if(!pushData(dout)) ret = 0;
       //
       // store rest in next block
-      nr=ndat0-ii; // for header
+      nr=ndat-ii; // for header
       // add blockHeader continuation
-      iptr[5]=(iptr[5] & 0xffff0000) | nr; //orig remaining data | actual remaining data after header
+      outData[5]=(outData[5] & 0xffff0000) | nr; //orig remaining data | actual remaining data after header
       // copy first header
       for(nout=0;nout<NH;nout++) dout[nout] = outData[nout];
       // followed by rest of data

@@ -47,11 +47,13 @@
         fsCount = 0;
       }
 
-      void sd_addFilesystem(SdFs &fs, const char *name) {
+      bool sd_addFilesystem(SdFs &fs, const char *name) {
         if (fsCount < MTPD_MAX_FILESYSTEMS) {
           sd_name[fsCount] = name;
           sdx[fsCount++] = &fs;
+          return true;
         }
+        return false;
       }
 
       uint32_t sd_getStoreID( const char *name)
@@ -93,7 +95,7 @@
 // We'll need to give the MTP responder a pointer to one of these.
 class MTPStorageInterface {
 public:
-  virtual void addFilesystem(SdFs &filesystem, const char *name)=0;
+  virtual bool addFilesystem(SdFs &filesystem, const char *name)=0;
   virtual uint32_t get_FSCount(void) = 0;
   virtual const char *get_FSName(uint32_t storage) = 0;
 
@@ -109,12 +111,12 @@ public:
   virtual void StartGetObjectHandles(uint32_t storage, uint32_t parent) = 0;
   virtual uint32_t GetNextObjectHandle(uint32_t  storage) = 0;
 
-  virtual void GetObjectInfo(uint32_t handle, char* name, uint32_t* size, uint32_t* parent, uint16_t *store, char *create, char *modify) = 0;
+  virtual void GetObjectInfo(uint32_t handle, char* name, uint64_t* size, uint32_t* parent, uint16_t *store, char *create, char *modify) = 0;
   virtual uint32_t GetSize(uint32_t handle) = 0;
 
   virtual uint32_t Create(uint32_t storage, uint32_t parent, bool folder, const char* filename) = 0;
-  virtual void read(uint32_t handle, uint32_t pos, char* buffer, uint32_t bytes) = 0;
-  virtual size_t write(const char* data, uint32_t size) = 0;
+  virtual size_t read(uint32_t handle, uint32_t pos, char* buffer, uint32_t bytes) = 0;
+  virtual size_t write(const uint8_t* data, uint32_t size) = 0;
   virtual void close() = 0;
   virtual bool DeleteObject(uint32_t object) = 0;
   virtual void CloseIndex() = 0;
@@ -145,14 +147,15 @@ public:
 
 
 // Storage implementation for SD. SD needs to be already initialized.
-class MTPStorage_SD : public MTPStorageInterface, mSD_Base
+//class MTPStorage_SD : public MTPStorageInterface, mSD_Base
+class MTPStorage_SD : public mSD_Base
 { 
 public:
-  void addFilesystem(SdFs &fs, const char *name) { sd_addFilesystem(fs, name);}
+  bool addFilesystem(SdFs &fs, const char *name) { return sd_addFilesystem(fs, name);}
   void dumpIndexList(void);
   uint32_t getStoreID(const char *name) {return sd_getStoreID(name);}
 
-private:
+//private:
   FsFile index_;
   FsFile file_;
   FsFile child_;
@@ -194,24 +197,28 @@ private:
   uint32_t get_FSCount(void) {return sd_getFSCount();}
   const char *get_FSName(uint32_t storage) { return sd_getFSName(storage);}
 
-  void StartGetObjectHandles(uint32_t storage, uint32_t parent) override ;
-  uint32_t GetNextObjectHandle(uint32_t  storage) override ;
-  void GetObjectInfo(uint32_t handle, char* name, uint32_t* size, uint32_t* parent, uint16_t *store, char *create, char *modify) override ;
-  uint32_t GetSize(uint32_t handle) override;
-  void read(uint32_t handle, uint32_t pos, char* out, uint32_t bytes) override ;
-  bool DeleteObject(uint32_t object) override ;
+  void StartGetObjectHandles(uint32_t storage, uint32_t parent) ;//override ;
+  uint32_t GetNextObjectHandle(uint32_t  storage) ;//override ;
+  void GetObjectInfo(uint32_t handle, char* name, uint64_t* size, uint32_t* parent, uint16_t *store, 
+                      char *create, char *modify) ;//override ;
+  uint32_t GetSize(uint32_t handle) ;//override;
+  size_t read(uint32_t handle, uint32_t pos, char* out, uint32_t bytes) ;//override ;
+  bool DeleteObject(uint32_t object) ;//override ;
 
-  uint32_t Create(uint32_t storage, uint32_t parent,  bool folder, const char* filename) override ;
+  uint32_t Create(uint32_t storage, uint32_t parent,  bool folder, const char* filename) ;//override ;
 
-  size_t write(const char* data, uint32_t bytes) override ;
-  void close() override ;
+  size_t write(const uint8_t* data, uint32_t bytes) ;//override ;
+  void close() ;//override ;
 
-  bool rename(uint32_t handle, const char* name) override ;
-  bool move(uint32_t handle, uint32_t newStorage, uint32_t newParent) override ;
-  uint32_t copy(uint32_t handle, uint32_t newStorage, uint32_t newParent) override ;
+  void updateTimestamps(uint32_t handle, char *create_str, char *modify_str);
 
-  bool CopyFiles(uint32_t storage, uint32_t handle, uint32_t newHandle) override ;
-  void ResetIndex() override ;
+  bool rename(uint32_t handle, const char* name) ;//override ;
+  bool move(uint32_t handle, uint32_t newStorage, uint32_t newParent) ;//override ;
+  uint32_t copy(uint32_t handle, uint32_t newStorage, uint32_t newParent);//override ;
+
+  bool CopyFiles(uint32_t storage, uint32_t handle, uint32_t newHandle) ;//override ;
+  void ResetIndex() ;//override ;
+
 };
 
 #endif

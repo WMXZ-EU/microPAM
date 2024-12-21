@@ -26,6 +26,7 @@
 #include "Queue.h"
 #include "Compress.h"
 #include "Acq.h"
+#include "Adc.h"
 
 #ifndef NSAMP         // should be defined in config.h
   #define NSAMP       128
@@ -46,8 +47,7 @@
 
 uint32_t procCount=0;
 uint32_t procMiss=0;
-//int32_t tmpBuffer[NBUF_ACQ]; 
-int32_t acqBuffer[NBUF_ACQ]; 
+static int32_t acqBuffer[NBUF_ACQ]; 
 
 volatile int32_t fsamp=FSAMP;
 volatile int16_t shift=SHIFT;
@@ -58,49 +58,53 @@ static void __not_in_flash_func(process)(int32_t * buffer);
 /*======================================================================================*/
 #if defined(ARDUINO_ARCH_RP2040)
 
-  pin_size_t _pinDOUT =0;
-  pin_size_t _pinBCLK =1;
+  pin_size_t _pinDOUT =I2S_DOUT;
+  pin_size_t _pinBCLK =I2S_BCLK;
 
   int _freq=fsamp;
   int _bps =MBIT;
   int off=0;
 
   PIOProgram *_i2s;
-  PIO _pio;
-  int _sm;
+  static PIO _pio;
+  static int _sm;
 
   #include "hardware/pio.h"
 
   #define pio_i2s_in_wrap_target 0
   #define pio_i2s_in_wrap 7
 
-  static uint16_t pio_i2s_in_program_instructions[] = {
-              //     .wrap_target
-      0xa022, //  0: mov    x, y            side 0     
-      0x4801, //  1: in     pins, 1         side 1     
-      0x0041, //  2: jmp    x--, 1          side 0     
-      0x5801, //  3: in     pins, 1         side 3     
-      0xb022, //  4: mov    x, y            side 2     
-      0x5801, //  5: in     pins, 1         side 3     
-      0x1045, //  6: jmp    x--, 5          side 2     
-      0x4801, //  7: in     pins, 1         side 1     
-              //     .wrap
+  // from actual I2S (ICS43434 shifts by 1)
+  static const uint16_t pio_i2s_in_program_instructions[] = {
+      //     .wrap_target
+      0xa022, //  0: mov    x, y            side 0
+      0x4801, //  1: in     pins, 1         side 1
+      0x0041, //  2: jmp    x--, 1          side 0
+      0x4801, //  3: in     pins, 1         side 1
+      0xb022, //  4: mov    x, y            side 2
+      0x5801, //  5: in     pins, 1         side 3
+      0x1045, //  6: jmp    x--, 5          side 2
+      0x5801, //  7: in     pins, 1         side 3
+      //     .wrap
   };
 
-  static struct pio_program pio_i2s_in_program = {
+  static struct pio_program pio_i2s_in_program = 
+  {
       .instructions = pio_i2s_in_program_instructions,
       .length = 8,
       .origin = -1,
   };
 
-  static inline pio_sm_config pio_i2s_in_program_get_default_config(uint offset) {
+  static inline pio_sm_config pio_i2s_in_program_get_default_config(uint offset) 
+  {
       pio_sm_config c = pio_get_default_sm_config();
       sm_config_set_wrap(&c, offset + pio_i2s_in_wrap_target, offset + pio_i2s_in_wrap);
       sm_config_set_sideset(&c, 2, false, false);
       return c;
   }
 
-  static inline void pio_i2s_in_program_init(PIO pio, uint sm, uint offset, uint data_pin, uint clock_pin_base, uint bits) {
+  static inline void pio_i2s_in_program_init(PIO pio, uint sm, uint offset, uint data_pin, uint clock_pin_base, uint bits) 
+  {
       pio_gpio_init(pio, data_pin);
       pio_gpio_init(pio, clock_pin_base);
       pio_gpio_init(pio, clock_pin_base + 1);
@@ -116,22 +120,32 @@ static void __not_in_flash_func(process)(int32_t * buffer);
       pio_sm_exec(pio, sm, pio_encode_set(pio_y, bits - 2));
   }
 
+  void i2s_start(void) { pio_sm_set_enabled(_pio, _sm, true); }
+  void i2s_stop(void)  { pio_sm_set_enabled(_pio, _sm, false); }
+  
+  void acqModifyFrequency(uint32_t fsamp)
+  { 
+    float bitClk = fsamp * _bps * 2.0 /* channels */ * 2.0 /* edges per clock */;
+    pio_sm_set_enabled(_pio, _sm, false);
+    pio_sm_set_clkdiv(_pio, _sm, (float)clock_get_hz(clk_sys) / bitClk);
+    pio_sm_set_enabled(_pio, _sm, true);
+  }
+
   void i2s_setup(void)
   {
-    float bitClk = _freq * _bps * 2.0 /* channels */ * 2.0 /* edges per clock */;
-
     _i2s = new PIOProgram( &pio_i2s_in_program);
     _i2s->prepare(&_pio, &_sm, &off);
 
     pio_i2s_in_program_init(_pio, _sm, off, _pinDOUT, _pinBCLK, _bps);
-    pio_sm_set_clkdiv(_pio, _sm, (float)clock_get_hz(clk_sys) / bitClk);
-    pio_sm_set_enabled(_pio, _sm, true);
+
+    acqModifyFrequency(_freq); // Will start I2S
   }
+
   /***************************************************************************/
   #include "hardware/dma.h"
 
   int _channelDMA[2];
-  int32_t i2s_buffer[2][NBUF_I2S];
+  static int32_t i2s_buffer[2][NBUF_I2S];
 
   int _wordsPerBuffer=NBUF_I2S;
 
@@ -162,7 +176,8 @@ static void __not_in_flash_func(process)(int32_t * buffer);
         dma_channel_set_irq0_enabled(_channelDMA[ii], true);
       }
 
-      irq_add_shared_handler(DMA_IRQ_0, dma_irq, PICO_SHARED_IRQ_HANDLER_DEFAULT_ORDER_PRIORITY);
+      //irq_add_shared_handler(DMA_IRQ_0, dma_irq, PICO_SHARED_IRQ_HANDLER_DEFAULT_ORDER_PRIORITY);
+      irq_add_shared_handler(DMA_IRQ_0, dma_irq, 0x60); // 0x80 is DEFAULT
       irq_set_enabled(DMA_IRQ_0, true);
 
       dma_channel_start(_channelDMA[0]);
@@ -176,21 +191,18 @@ static void __not_in_flash_func(process)(int32_t * buffer);
       dma_channel_acknowledge_irq0(_channelDMA[ii]);
 
       int32_t * src = i2s_buffer[ii];
-      for(int ii=0; ii<_wordsPerBuffer; ii++) 
-      { if(!(src[ii]>>30 ^ 0x1)) src[ii] <<= 1; // workaround to is2 bit error in pio
-        src[ii]  >>= shift;
-      }
+
+//      for(int ii=0; ii<_wordsPerBuffer; ii++) 
+//      { if(!(src[ii]>>30 ^ 0x1)) src[ii] <<= 1; // workaround to is2 bit error in pio
+//        src[ii]  >>= shift;
+//      }
 
       process(src);
 
       dma_channel_set_write_addr(_channelDMA[ii], src, false);
       dma_channel_set_trans_count(_channelDMA[ii], _wordsPerBuffer, false);
+      return;
     }
-  }
-
-  void acqModifyFrequency(uint32_t fsamp)
-  { // not implemented yet
-
   }
 
 /*======================================================================================*/
@@ -367,11 +379,18 @@ static void __not_in_flash_func(process)(int32_t * buffer);
     I2S1_RCSR |= I2S_RCSR_RE | I2S_RCSR_BCE;
   }
 
+  void i2s_start(void){    I2S1_RCSR |= I2S_RCSR_RE | I2S_RCSR_BCE;;}
+  void i2s_stop(void){    I2S1_RCSR &= ~(I2S_RCSR_RE | I2S_RCSR_BCE);}
+
 #endif
 
 /***************************************************************************/
 static void __not_in_flash_func(extractBuffer)(int32_t *acqBuffer, int32_t * buffer)
 {
+  #if defined(ARDUINO_ARCH_RP2040)
+    for(int ii=0;ii<NBUF_I2S;ii++) buffer[ii]=(buffer[ii]<<1); // needed for ICS43434 on RP2040
+  #endif
+
   #if ICH<0 // mono-channel extraction disabled
     for(int ii=0; ii<NSAMP; ii++) 
     {
@@ -402,10 +421,12 @@ static void __not_in_flash_func(process)(int32_t * buffer)
 
   // extract data
   extractBuffer(acqBuffer,buffer);
+  //int32_t nz=0;
+  //for(int ii=0;ii<NSAMP;ii++) if(acqBuffer[ii]==-1) nz++;
+  //if(nz>0) Serial.println(nz);
   //
   if(proc==0)
-  {
-    if(!pushData((uint32_t *)acqBuffer)) procMiss++;
+  { if(!pushData((uint32_t *)acqBuffer)) procMiss++;
   }
   else if(proc==1)
   {
@@ -417,3 +438,14 @@ static void __not_in_flash_func(process)(int32_t * buffer)
   #endif
 }
 
+  void acqStart(void)
+  {
+    i2s_start();
+    adc_init();
+  }
+
+  void acqStop(void)
+  {
+    i2s_stop();
+    adc_exit();
+  }

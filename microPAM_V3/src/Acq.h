@@ -25,6 +25,9 @@
 
 
   void i2s_setup(void);
+  void i2s_start(void);
+  void i2s_stop(void);
+  
   void dma_setup(void);
   void acqModifyFrequency(uint32_t fsamp);
 
@@ -33,4 +36,6 @@
 
   void usbPowerSetup(void);
 
+  void acqStart(void);
+  void acqStop(void);
 #endif

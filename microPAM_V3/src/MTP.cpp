@@ -1035,10 +1035,10 @@ const uint16_t supported_events[] =
             len=0;
           }
         }
-        if(len>0)
-        { push_packet(tx_data_buffer,MTP_TX_SIZE);
-          len=0;
-        }
+        //if(len>0)
+        //{ push_packet(tx_data_buffer,MTP_TX_SIZE);
+        //  len=0;
+        //}
       }
     }
     uint32_t MTPD::GetPartialObject(uint32_t object_id, uint32_t offset, uint32_t NumBytes) 
@@ -1418,6 +1418,7 @@ const uint16_t supported_events[] =
       }
     }
 #endif
+
 #if USE_EVENTS==1
 
  #if defined(__MK20DX128__) || defined(__MK20DX256__) || defined(__MK64FX512__) || defined(__MK66FX1M0__)
@@ -1816,13 +1817,13 @@ uint32_t MTPD_class::getDeviceInfo(struct MTPContainer &cmd)
     for (size_t i=0; i<10; i++) buf2[i] = usb_string_serial_number.wString[i];
     #pragma GCC diagnostic pop
 
-    uint32_t size=0;
-    size=2+4+2+strlen(msoft)+2+ \
+    uint32_t nbytes=0;
+    nbytes=2+4+2+strlen(msoft)+2+ \
         4+supported_op_num*2+4+supported_event_num*2+ \
         4+2+4+4+2+2+strlen(MTP_MANUF)+strlen(MTP_MODEL)+ \
         strlen(buf1)+strlen(buf2);
 
-    write_init(cmd,size);
+    write_init(cmd,nbytes);
     write16(100);  // MTP version
     write32(6);    // MTP extension
     write16(100);  // MTP version
@@ -1864,11 +1865,11 @@ uint32_t MTPD_class::getDeviceInfo(struct MTPContainer &cmd)
   uint32_t MTPD_class::getDevicePropDesc(struct MTPContainer &cmd) 
   {
     const uint32_t property = cmd.params[0];
-    uint32_t size=0;
+    uint32_t nbytes=0;
     switch (property) {
       case 0xd402: // friendly name
-        size=2+2+1+2*strlen(MTP_NAME)+1;
-        write_init(cmd,size);
+        nbytes=2+2+1+2*strlen(MTP_NAME)+1;
+        write_init(cmd,nbytes);
         write16(property);
         write16(0xFFFF); // string type
         write8(0);       // read-only
@@ -1878,7 +1879,7 @@ uint32_t MTPD_class::getDeviceInfo(struct MTPContainer &cmd)
         write_finish();
         return MTP_RESPONSE_OK;
     }
-    write_init(cmd,size);
+    write_init(cmd,nbytes);
     return MTP_RESPONSE_DEVICE_PROP_NOT_SUPPORTED;
   }
 
@@ -1902,8 +1903,8 @@ uint32_t MTPD_class::getDeviceInfo(struct MTPContainer &cmd)
     uint32_t num=storage_.get_FSCount();
 //    uint32_t size = 0;
 //    size= 4+num*4;
-
-    write_init(cmd,4+4*num);
+    uint32_t nbytes =  4+4*num ;
+    write_init(cmd,nbytes);
     write32(num); // number of storages (disks)
     for(uint32_t ii=0;ii<num;ii++)  write32(Store2Storage(ii)); // storage id
     write_finish();
@@ -1923,10 +1924,10 @@ uint32_t MTPD_class::getDeviceInfo(struct MTPContainer &cmd)
     uint64_t ntotal = storage_.totalSize(store) ; 
     uint64_t nused = storage_.usedSize(store) ; 
 
-    uint32_t size=0;
-    size=2+2+2+8+8+4+strlen(name)+strlen("");
+    uint32_t nbytes=0;
+    nbytes=2+2+2+8+8+4+strlen(name)+strlen("");
 
-    write_init(cmd,size);
+    write_init(cmd,nbytes);
     write16(storage_.readonly(store) ? 0x0001 : 0x0004);   // storage type (removable RAM)
     write16(storage_.has_directories(store) ? 0x0002: 0x0001);   // filesystem type (generic hierarchical)
     write16(0x0000);   // access capability (read-write)
@@ -2101,12 +2102,12 @@ uint32_t MTPD_class::getObjectPropValue(struct MTPContainer &cmd) {
   {
     uint32_t property = cmd.params[0];
 
-    uint32_t size=0;
+    uint32_t nbytes=0;
     switch(property)
     {
       case MTP_PROPERTY_STORAGE_ID:         //0xDC01:
-        size=2+2+1+4+4+1;
-        write_init(cmd,size);
+        nbytes=2+2+1+4+4+1;
+        write_init(cmd,nbytes);
         write16(0xDC01);
         write16(0x006);
         write8(0); //get
@@ -2115,8 +2116,8 @@ uint32_t MTPD_class::getObjectPropValue(struct MTPContainer &cmd) {
         write8(0);
         break;
       case MTP_PROPERTY_OBJECT_FORMAT:        //0xDC02:
-        size=2+2+1+2+4+1;
-        write_init(cmd,size);
+        nbytes=2+2+1+2+4+1;
+        write_init(cmd,nbytes);
         write16(0xDC02);
         write16(0x004);
         write8(0); //get
@@ -2125,8 +2126,8 @@ uint32_t MTPD_class::getObjectPropValue(struct MTPContainer &cmd) {
         write8(0);
         break;
       case MTP_PROPERTY_PROTECTION_STATUS:    //0xDC03:
-        size=2+2+1+2+4+1;
-        write_init(cmd,size);
+        nbytes=2+2+1+2+4+1;
+        write_init(cmd,nbytes);
         write16(0xDC03);
         write16(0x004);
         write8(0); //get
@@ -2135,8 +2136,8 @@ uint32_t MTPD_class::getObjectPropValue(struct MTPContainer &cmd) {
         write8(0);
         break;
       case MTP_PROPERTY_OBJECT_SIZE:        //0xDC04:
-        size=2+2+1+8+4+1;
-        write_init(cmd,size);
+        nbytes=2+2+1+8+4+1;
+        write_init(cmd,nbytes);
         write16(0xDC04);
         write16(0x008);
         write8(0); //get
@@ -2145,8 +2146,8 @@ uint32_t MTPD_class::getObjectPropValue(struct MTPContainer &cmd) {
         write8(0);
         break;
       case MTP_PROPERTY_OBJECT_FILE_NAME:   //0xDC07:
-        size=2+2+1+1+4+1;
-        write_init(cmd,size);
+        nbytes=2+2+1+1+4+1;
+        write_init(cmd,nbytes);
         write16(0xDC07);
         write16(0xFFFF);
         write8(1); //get/set
@@ -2155,8 +2156,8 @@ uint32_t MTPD_class::getObjectPropValue(struct MTPContainer &cmd) {
         write8(0);
         break;
       case MTP_PROPERTY_DATE_CREATED:       //0xDC08:
-        size=2+2+1+1+4+1;
-        write_init(cmd,size);
+        nbytes=2+2+1+1+4+1;
+        write_init(cmd,nbytes);
         write16(0xDC08);
         write16(0xFFFF);
         write8(0); //get
@@ -2165,8 +2166,8 @@ uint32_t MTPD_class::getObjectPropValue(struct MTPContainer &cmd) {
         write8(0);
         break;
       case MTP_PROPERTY_DATE_MODIFIED:      //0xDC09:
-        size=2+2+1+1+4+1;
-        write_init(cmd,size);
+        nbytes=2+2+1+1+4+1;
+        write_init(cmd,nbytes);
         write16(0xDC09);
         write16(0xFFFF);
         write8(0); //get
@@ -2175,8 +2176,8 @@ uint32_t MTPD_class::getObjectPropValue(struct MTPContainer &cmd) {
         write8(0);
         break;
       case MTP_PROPERTY_PARENT_OBJECT:    //0xDC0B:
-        size=2+2+1+4+4+1;
-        write_init(cmd,size);
+        nbytes=2+2+1+4+4+1;
+        write_init(cmd,nbytes);
         write16(0xDC0B);
         write16(6);
         write8(0); //get
@@ -2185,8 +2186,8 @@ uint32_t MTPD_class::getObjectPropValue(struct MTPContainer &cmd) {
         write8(0);
         break;
       case MTP_PROPERTY_PERSISTENT_UID:   //0xDC41:
-        size=2+2+1+8+8+4+1;
-        write_init(cmd,size);
+        nbytes=2+2+1+8+8+4+1;
+        write_init(cmd,nbytes);
         write16(0xDC41);
         write16(0x0A);
         write8(0); //get
@@ -2196,8 +2197,8 @@ uint32_t MTPD_class::getObjectPropValue(struct MTPContainer &cmd) {
         write8(0);
         break;
       case MTP_PROPERTY_NAME:             //0xDC44:
-        size=2+2+1+1+4+1;
-        write_init(cmd,size);
+        nbytes=2+2+1+1+4+1;
+        write_init(cmd,nbytes);
         write16(0xDC44);
         write16(0xFFFF);
         write8(0); //get
@@ -2207,7 +2208,7 @@ uint32_t MTPD_class::getObjectPropValue(struct MTPContainer &cmd) {
         break;
       default:
         size=0;
-        write_init(cmd,size);
+        write_init(cmd,nbytes);
         break;
     }
     write_finish();
@@ -2233,16 +2234,17 @@ uint32_t MTPD_class::getObjectPropValue(struct MTPContainer &cmd) {
     char create[64],modify[64];
     storage_.GetObjectInfo(handle, filename, &size, &parent, &store, create, modify);
 
+    uint32_t size32 =size & 0xffffffff;
     uint32_t storage = Store2Storage(store);
 
-    uint32_t num=0;
-    num=4+2+2+4+2+4+4+4+4+4+4+4+2+4+4+ \
+    uint32_t nbytes=0;
+    nbytes=4+2+2+4+2+4+4+4+4+4+4+4+2+4+4+ \
         strlen(filename)+strlen(create)+strlen(modify)+strlen("");
-    write_init(cmd,num);
+    write_init(cmd,nbytes);
     write32(storage); // storage
-    write16(size == 0xFFFFFFFFUL ? 0x3001 : 0x0000); // format
+    write16(size32 == 0xFFFFFFFFUL ? 0x3001 : 0x0000); // format
     write16(0);  // protection
-    write32(size); // size
+    write32(size32); // size
     write16(0); // thumb format
     write32(0); // thumb size
     write32(0); // thumb width
@@ -2251,7 +2253,7 @@ uint32_t MTPD_class::getObjectPropValue(struct MTPContainer &cmd) {
     write32(0); // pix height
     write32(0); // bit depth
     write32(parent); // parent
-    write16(size == 0xFFFFFFFFUL ? 1 : 0); // association type
+    write16(size32 == 0xFFFFFFFFUL ? 1 : 0); // association type
     write32(0); // association description
     write32(0);  // sequence number
     writestring(filename);
@@ -2273,9 +2275,13 @@ uint32_t MTPD_class::getObject(struct MTPContainer &cmd) {
 
   const int object_id = cmd.params[0];
   uint64_t size = storage_.GetSize(object_id);
-  uint64_t count_remaining = size;
 
-  write_init(cmd, (size > 0xfffffffful)?  0xfffffffful : size); // limit single size to 32 bit??
+  uint32_t size32= 0xffffffff;
+  uint32_t count_remaining =0;
+  
+  if (size < 0xfffffffful)  { size32=size; count_remaining= size32; ]
+
+  write_init(cmd, size32); 
 
   while (count_remaining) 
   {

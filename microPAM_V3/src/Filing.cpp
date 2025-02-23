@@ -22,6 +22,7 @@
  /*
   * File: Filing.cpp
  */
+#include <string.h>
 
 #include "SdFat.h"
 
@@ -109,7 +110,8 @@ uint32_t diskSize=0;
 #define MAX_DISK_BUFFER (NDBL*NBUF_ACQ)
 static int32_t diskBuffer[MAX_DISK_BUFFER];
 uint32_t disk_count=0;
-uint32_t nout_dat=0;
+uint32_t nout_dat=0;  // number of samples in diskBuffer to be written
+int32_t num_bytes=0; // count data bytes written to file
 
 uint32_t SerNum=0;
 
@@ -347,55 +349,7 @@ int16_t makeHeader(int32_t *header)
     return 1;
 }
 
-int16_t checkEndOfFile(int16_t state)
-{ 
-  static uint32_t dta=0;
-
-  if(state==RUNNING)
-  { 
-    uint32_t tt = rtc_get();
-    //
-    uint32_t dt1 = tt % t_acq;
-    if(dt1<dta) state = DOCLOSE;  	  	// should close file and continue
-    dta = dt1;
-    //
-    // if file should be closed
-    // check also if it should then hibernate 
-    if(state == DOCLOSE)                // in case of DOCLOSE
-    { 
-      if(t_rep>t_on)                      // and if foreseen  check for hibernation
-      { uint32_t dt2 = (tt % t_rep);
-        if(dt2>=t_on) state=DOHIBERNATE;  // should close file and hibernate
-      }
-    }
-    if(state == DOCLOSE)                // in case of DOCLOSE check dayly protocol
-    {
-      if(d_rep>d_on)                      // and if foreseen  check for hibernation
-      { int32_t dd=tt/(24*3600);
-        uint32_t dd2 = (dd % d_rep);
-        
-        if(dd2>=d_on) state=DOHIBERNATE;  // should close file and hibernate
-      }
-    }
-    if(state == DOCLOSE)                // in case of DOCLOSE check acquisition periods
-    {
-      uint32_t hh=(tt%((24*3600)/3600));
-      if(((hh>=h_1) && (hh<h_2)) || ((hh>=h_3) && (hh<h_4)))
-      { state=DOCLOSE;
-      }
-      else
-      { 
-        state=DOHIBERNATE;
-      }
-    }
-    if(state == DOCLOSE)                // in case of DOCLOSE check start day
-    {
-      uint32_t dd=tt/(24*3600);
-      if(dd<(uint32_t)(d_0+D_REF)) state=DOHIBERNATE;     // we are too early
-    }
-  }
-  return state;
-}
+int16_t checkEndOfFile(int16_t state);
 
 uint16_t checkDiskSpace(void)
 {   if((diskSize>0) && ((diskSpace=sd->freeClusterCount()) > MIN_SPACE)) return 1;
@@ -449,7 +403,6 @@ int16_t newFileName(char *fileName)
       sprintf(fileName, "%s%04d%02d%02d_%02d%02d%02d.bin", FilePrefix, t.year,t.month,t.day,t.hour,t.min,t.sec);
     //
     Serial.println(); Serial.print(": "); Serial.print(fileName);
-    Serial.print(" "); Serial.print(micros());
 
     return 1;
 }
@@ -472,7 +425,7 @@ int16_t storeData(int16_t status)
         }
         
         if(newFileName(fileName))
-        {   
+        {   uint32_t t0=millis();
             file = sd->open(fileName, FILE_WRITE); 
             if(file) 
             { status = OPENED; 
@@ -496,6 +449,7 @@ int16_t storeData(int16_t status)
         if(proc==0)
         { 
           hdr = wavHeaderInit(fsamp, NCHAN_ACQ, NBITS, SerNum);
+          num_bytes = 0; // reset byte counter for data
         }  
         else
         {
@@ -509,8 +463,9 @@ int16_t storeData(int16_t status)
         else status=RUNNING;
     }
     //
-    if(status==RUNNING) // file is open and header written: store data records
-    {   uint32_t nd;
+    if((status==RUNNING) || (status==DOCLOSE) || (status==MUSTSTOP))
+    { // file is open and header written: store data records  
+      uint32_t nd;
         if((nd=file.write((const uint8_t*)diskBuffer,4*nout_dat)) < 4*nout_dat) 
         { Serial.print(">"); 
           Serial.print(nd); 
@@ -519,21 +474,26 @@ int16_t storeData(int16_t status)
           status=DOCLOSE; 
         }
         else
+        {
+          num_bytes += 4*nout_dat;
           nbuf++;
+          if((nbuf % 1000)==0 ) file.flush();
+        }
         //
         disk_count++;
-        if((nbuf % 1000)==0 ) file.flush();
     }    
 
     // following is done independent of data availability
-    if((status==DOCLOSE) || (status==DOHIBERNATE) || (status==MUSTSTOP)) // should close file or stop acquisition
-    {   // first close file
+    if((status==DOCLOSE) || (status==DOHIBERNATE) || (status==MUSTSTOP)) 
+    {   // should close file or stop acquisition
+        // first close file
         if(file)
         {   if(proc==0)
             {
-              char *hdr = wavHeaderUpdate(nout_dat*4);
+              char *hdr = wavHeaderUpdate(num_bytes);
               wavHeaderWrite(hdr);
             }
+            //
             file.close();
         }
 
@@ -552,10 +512,10 @@ int16_t storeData(int16_t status)
         }
         else if(status==MUSTSTOP)
         { //msc_activate(true);
-          status=STOPPED;
           filing_exit();
           adc_exit();
           digitalWrite(LED,LOW);
+          status=STOPPED;
         }
     }
     return status;
@@ -573,134 +533,179 @@ int16_t saveData(int16_t status)
 
     status=checkEndOfFile(status);
 
-    if(getDataCount() >= NDBL)
-    { 
-      if(proc==0)
-      { 
+    if(getDataCount() < NDBL) return status;
+    //
+    // we have suficiend data on queue, so store them on disk
+    nout_dat=MAX_DISK_BUFFER;
+    if(proc==0)
+    { // uncompressed wav files
+      for(int ii=0; ii<NDBL; ii++)
+      { while(queue_isBusy()){continue;} //wait if acq writes to queue
+        while(!pullData((uint32_t *)&diskBuffer[ii*NBUF_ACQ])) delay(1);
+      }
+
+      for(int ii=0;ii<8;ii++) logBuffer[ii]=diskBuffer[ii];
+
+      if(NBITS==24)
+      { // wav mode; store only top 24 bits of each word
+        uint8_t * inpptr=(uint8_t *) diskBuffer;
+        uint8_t * outptr=(uint8_t *) diskBuffer;
+        for(int ii=0; ii<MAX_DISK_BUFFER;ii++)
+        {
+          outptr[3*ii]=inpptr[4*ii];
+          outptr[3*ii+1]=inpptr[4*ii+1];
+          outptr[3*ii+2]=inpptr[4*ii+2];
+        }
+        nout_dat=(MAX_DISK_BUFFER/4)*3;
+      }
+      else if(NBITS==16)
+      { // wav mode; store only top/bottom 16 bits of each word
+        int16_t * inpptr=(int16_t *) diskBuffer;
+        int16_t * outptr=(int16_t *) diskBuffer;
+        for(int ii=0; ii<MAX_DISK_BUFFER;ii++)
+        {
+          outptr[ii]=inpptr[WAVOFF+2*ii];
+        }
+        nout_dat=(MAX_DISK_BUFFER/4)*2;
+      }
+    }
+    else
+    { // compressed mode; store all 32 bits
+      if((status==RUNNING) || (status==CLOSED))
+      {
         for(int ii=0; ii<NDBL; ii++)
         { while(queue_isBusy()){continue;} //wait if acq writes to queue
           while(!pullData((uint32_t *)&diskBuffer[ii*NBUF_ACQ])) delay(1);
         }
-
-        for(int ii=0;ii<8;ii++) logBuffer[ii]=diskBuffer[ii];
-
-        nout_dat=MAX_DISK_BUFFER;
-        if(NBITS==24)
-        { // wav mode; store only top 24 bits of each word
-
-          int jj=0;
-          uint8_t * inpptr=(uint8_t *) diskBuffer;
-          uint8_t * outptr=(uint8_t *) diskBuffer;
-          for(int ii=0; ii<MAX_DISK_BUFFER;ii++)
-          {
-            outptr[3*ii]=inpptr[4*ii];
-            outptr[3*ii+1]=inpptr[4*ii+1];
-            outptr[3*ii+2]=inpptr[4*ii+2];
-          }
-          nout_dat=(MAX_DISK_BUFFER/4)*3;
-        }
-        else if(NBITS==16)
-        { // wav mode; store only top 16 bits of each word
-          int16_t * inpptr=(int16_t *) diskBuffer;
-          int16_t * outptr=(int16_t *) diskBuffer;
-          for(int ii=0; ii<MAX_DISK_BUFFER;ii++)
-          {
-            outptr[ii]=inpptr[2*ii];
-          }
-          nout_dat=(MAX_DISK_BUFFER/4)*2;
-        }
       }
-      else
-      { // compressed mode; store all 32 bits
-        for(int ii=0; ii<NDBL; ii++)
-        { while(queue_isBusy()){continue;} //wait if acq writes to queue
-          while(!pullData((uint32_t *)&diskBuffer[ii*NBUF_ACQ])) delay(1);
+      if((status==DOCLOSE) || (status==MUSTSTOP))
+      { // try to terminate cleanly
+        memset(diskBuffer,0,4*MAX_DISK_BUFFER);
+        int ii=0;
+        for(ii=0; ii<NDBL; ii++)
+        { uint32_t *dptr=(uint32_t *)&diskBuffer[ii*NBUF_ACQ];
+          while(queue_isBusy()){continue;} //wait if acq writes to queue
+          while(!pullData(dptr)) delay(1);
+          //
+          // if last block in buffer is also complete block, stop fetching buffers
+          uint32_t dindx=0;
+          for(int jj=0; jj<NBUF_ACQ-5;jj++) if((dptr[jj]==0xa5a5a5a5)) dindx=jj;
+          if((dptr[dindx+5]>>16)==0) break; 
         }
-        for(int ii=0;ii<8;ii++) logBuffer[ii]=diskBuffer[ii];
+        if(ii<NDBL) nout_dat=(ii+1)*NBUF_ACQ;
       }
-      //
-      if(haveStore)
-      { digitalWrite(LED,HIGH);
-        status=storeData(status);
-        digitalWrite(LED,LOW);
-      }
+      for(int ii=0;ii<8;ii++) logBuffer[ii]=diskBuffer[ii];
+    }
+    //
+    if(haveStore)
+    { digitalWrite(LED,HIGH);
+      status=storeData(status);
+      digitalWrite(LED,LOW);
     }
 
     return status;
 }
 
-  /*********************** hibernate ******************************/
-  /*  hibernating is shutting down the power snvs mode
-      only RTC continuoes to run (if there is a 3V battery or power)
-      hipernation is controlled by t_rep (sec), t_1,t_2,t_3, t_4 (h)
+/**********************acquisition management**************************/
+/* hibernation is controlled by d_0, d_rep,d_on, t_1,t_2,t_3,t_4, t_rep,t_on
 
-      for t_rep > t_on,  system will hibernate until next multiple of t_rep 
+    if actual day < d_0+D_REF, system will hibernate until d_0; D_REF= 20000 (or 4th October 2024) 
 
-      t_1 to t_4 describe 2 acquirition windows (unit hour)
-      acquisition happens from t_1 to t_2 and t_3 to t_4 
-      (0 <= t_1 <= t_2 <= t_3 <=t_4 <=24)
-      24 hour aquisition is ensured by t_1=0, t_2=12, t_3=12, t_4=24
+    if d_rep > d_on, system will hibernate after d_on until next multiple of d_rep
 
-      if actual day < d_0+D_REF, system will hibernate until d_0; D_REF= 20000 (or 4th October 2024) 
+    h_1 to h_4 describe 2 acquirition windows (unit hour)
+    acquisition happens from h_1 to h_2 and h_3 to h_4 
+    (0 <= h_1 <= h_2 <= h_3 <=h_4 <=24)
+    24 hour aquisition is ensured by h_1=0, h_2=12, h_3=12, h_4=24
 
-      if d_rep > d_on, system will hibernate after d_on until next multiple of d_rep
-      wakeup time is estimated by estAlarmTime
-  */
-  uint32_t estAlarmTime(uint32_t secs)
-  {   // estimate the wakup-time in seconds 
-      // input: actual time in s
-      // output: next wakup time in s
-      // wakeup is in absolute seconds
-      // 
-      // secs is actual time in s
-      uint32_t dd = secs/(24*3600);       // full days so far
-      uint32_t hh =(secs%(24*3600))/3600; // full hours into day
+    for t_rep > t_on,  system will hibernate until next multiple of t_rep 
+    alarm time is absolute seconds
 
-      uint32_t d_x = (d_0+D_REF);
+    sequence:
+    hibernate if we are
+      - too early
+      - in dail-by-day duty cycle
+      - between hourly recording periods
+      - in file-by-file duty cycling mode
+*/
+static uint32_t alarm=0;
+uint32_t estAlarmTime(uint32_t secs) { return (secs<alarm)? alarm: secs; } // will be called from do_hibernate
 
-      // wake-up at midnight of start date
-      if(0) // deactivate this function (comment to activate)
-      if(dd<(d_x)) 
-      { // we are too early
-        secs=(d_x)*(24*3600);
-        return secs;
+int16_t checkEndOfFile(int16_t state)
+{ 
+  static uint32_t dta=0;
+
+  if(state==RUNNING)
+  { 
+    uint32_t tt = rtc_get();
+    //
+    uint32_t dt1 = tt % t_acq;
+    if(dt1<dta) state = DOCLOSE;  	  	// should close file and continue
+    dta = dt1;
+    //
+    // if file should be closed
+    // check also if we should then hibernate 
+    // first using d_0 (we are too early: hibernate after first file)
+    if(state == DOCLOSE)                // in case of DOCLOSE check start day
+    { 
+      uint32_t dd=tt/(24*3600);
+      if(dd<(uint32_t)(d_0+D_REF))      // we are too early
+      { alarm=(uint32_t)(d_0+D_REF)*24*3600;
+        //state=DOHIBERNATE;
       }
-      //
-      if(d_rep> d_on)
-      {  // check if day is good for acqisition
-        if(dd % d_rep >=d_on)
+    }
+    //
+    // then using "d_rep"
+    if(state == DOCLOSE)                  // in case of DOCLOSE check dayly protocol
+    {
+      if(d_rep>d_on)                      // and if foreseen  check for hibernation
+      { int32_t dd = tt/(24*3600);        // today
+        uint32_t dd2 = (dd % d_rep); 
+        if(dd2>=d_on) 
         {
-          secs = ((dd/d_rep)+1)*d_rep*(24*3600);  
-          return secs;
+          alarm=((dd/d_rep)+1)*d_rep*(24*3600);
+          //state=DOHIBERNATE; 
         }
       }
-      //
-      if(((hh>=h_1) && (hh<h_2)) || ((hh>=h_3) && (hh<h_4)) )
-      { // are we between recording periods during acquisition day
-        if(t_rep>t_on)
-        { // normal hibernation for duty cycling 
-          secs = ((secs/t_rep)+1)*t_rep;
-          return secs;
+    }
+    //
+    // then using "h_x" intervals
+    if(state == DOCLOSE)                // in case of DOCLOSE check acquisition periods
+    {
+      uint32_t dd=tt/(24*3600);         // today
+      uint32_t hh=(tt%((24*3600)/3600));
+      if(hh<h_1)
+      {
+        alarm=dd*(24*3600)+h_1*3600;
+        //state=DOHIBERNATE;
+      }
+      if((hh>=h_2) && (hh < h_3))
+      {
+        alarm=dd*(24*3600)+h_3*3600;
+        //state=DOHIBERNATE;
+      }
+      if(hh>=h_4)
+      {
+        alarm=(dd+1)*(24*3600)+h_1*3600;
+        //state=DOHIBERNATE;
+      }
+    }
+    //
+    // finally using "t_rep"
+    if(state == DOCLOSE)                  // in case of DOCLOSE
+    { 
+      if(t_rep>t_on)                      // and if foreseen  check for hibernation
+      { uint32_t dt2 = (tt % t_rep);
+        if(dt2>=t_on) 
+        {
+          alarm=((tt/t_rep)+1)*t_rep;
+          //state=DOHIBERNATE;
         }
       }
-      //
-      if (hh<h_1)                // from mid-night to h_1 
-      {
-        secs = (dd*24+ h_1)*3600;     // next time is h1
-      }
-      else if ((hh>=h_2) && (hh<h_3)) // between the two recording periods
-      {
-        secs = (dd*24+h_3)*3600;      // next time is h3
-      }
-      else if (hh>=h_4) // after the second recording period (goes into next day)
-      {
-        dd++;
-        secs = (dd*24+h_1)*3600;  // next time is next day at h_1
-      }
-      //
-      // return start or actual time in seconds
-      return secs;
+    }
   }
+  return state;
+}
 
 
 #if 0

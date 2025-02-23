@@ -23,7 +23,7 @@ ifeq ($(BOARD_ID_),)
 endif
 BOARD_ID = T$(BOARD_ID_)
 
-TDVERSION 		:= 1.59.0
+TDVERSION 		:= 0.60.2
 
 #
 USB_DEVICE		:= USB_MTPDISK_SERIAL 				#<----- edit

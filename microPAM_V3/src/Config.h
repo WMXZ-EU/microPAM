@@ -28,7 +28,57 @@
   #include <stdint.h>
 
   // wait for serial (n seconds 0 continue immediately)
-  #define WAIT_SERIAL 0
+  #define WAIT_SERIAL 3
+
+  #define I2S           0   // I2S microphone
+  #define TLV320ADC6140 1   // ADC6140 ADC
+
+  #if defined(ARDUINO_ARCH_RP2040) // no ADC6140 ADC on RP2040
+    #define ADC_MODEL I2S
+    #define NCHAN_ACQ  1    // number of channels
+  #else
+    // select Sensor hardware
+    //#define ADC_MODEL I2S             // e.g. MEMS microphone
+    #define ADC_MODEL TLV320ADC6140 // e.g. LC-MARE
+    #define NCHAN_I2S  4    // number of I2S channels 
+    #define NCHAN_ACQ  4    // number of channels
+  #endif
+
+
+  #if NCHAN_ACQ == 1
+    #if ADC_MODEL== I2S
+      #define NCHAN_I2S  2    // number of I2S channels 
+        #define ICH      0    // selected channel (0,1; but set to -1 to disable monochannel extraction)
+    #else
+      #define NCHAN_I2S  4    // number of I2S channels 
+      #define ICH      2    // selected channel (set to -1 to disable monochannel extraction)
+    #endif
+  #else
+    #define ICH     -1    // disable monochannel extraction
+  #endif
+
+  // check validity of channel selection
+  #if NCHAN_ACQ > NCHAN_I2S
+    #error "NCHAN_ACQ > NCHAN_I2S"
+  #endif
+
+  #if ICH >= NCHAN_I2S
+    #error "ICH > NCHAN_I2S-1"
+  #endif
+
+  // Default parameter setup and configuration
+  // for mAcq
+  #if defined(AUDIO_INTERFACE)    // for Teensy 4.1
+    #define FSAMP 44100           // for audio interface force 44100
+  #else
+    #define FSAMP 96000           // general sampling frequency
+  #endif
+
+  #define MBIT      32      // number of bits / sample from ADC
+  #define MDIV       1      // MCLK divider (MCLK = 2*MDIV*BCLK)
+  #define NSAMP    128      // number of samples in acq buffer
+  #define NBUF_ACQ (NCHAN_ACQ*NSAMP)
+  #define NBUF_I2S (NCHAN_I2S*NSAMP)
 
   // use MTP 
   #if defined(ARDUINO_ARCH_RP2040)
@@ -39,65 +89,18 @@
 
   #define USE_SDIO  0             // faster SDIO for RP2040
 
-  // for mAcq
-  #if defined(AUDIO_INTERFACE)    // for Teensy 4.1
-    #define FSAMP 44100           // for audio interface force 44100
-  #else
-    #define FSAMP 48000           // general sampling frequency
-  #endif
-
-  #define I2S           0   // I2S microphone
-  #define TLV320ADC6140 1   // ADC6140 ADC
-
-  #if defined(ARDUINO_ARCH_RP2040) // no ADC6149 on RP2040
-    #define ADC_MODEL I2S
-  #else
-    #define ADC_MODEL I2S
-    //#define ADC_MODEL TLV320ADC6140
-  #endif
-
-  #define NCHAN_ACQ  1    // number of channels
-
-  #if NCHAN_ACQ == 1
-    #if ADC_MODEL== I2S
-      #define NCHAN_I2S  2    // number of I2S channels 
-        #define ICH      0    // selected channel (set to -1 to disable monochannel extraction)
-    #else
-      #define NCHAN_I2S  4    // number of I2S channels 
-        #define ICH      2    // selected channel (set to -1 to disable monochannel extraction)
-    #endif
-  #else
-    #define ICH     -1    // disable monochannel extraction
-  #endif
-
-
-  #if NCHAN_ACQ > NCHAN_I2S
-    #error "NCHAN_ACQ > NCHAN_I2S"
-  #endif
-
-  #if ICH >= NCHAN_I2S
-    #error "ICH > NCHAN_I2S-1"
-  #endif
-
-  #define MBIT      32      // number of bits / sample from ADC
-  #define MDIV       1      // MCLK divider (MCLK = 2*MDIV*BCLK)
-  #define NSAMP    128      // number of samples in acq buffer
-  #define NBUF_ACQ (NCHAN_ACQ*NSAMP)
-  #define NBUF_I2S (NCHAN_I2S*NSAMP)
-
   // for mFiling
-  #define MIN_SPACE   2000  // number of disk clusters to keep free  (e.g. 256 MB if cluster=128 kB)
-  #define DirPrefix    "T"  // prefix for directory
-  #define FilePrefix   "F"  // prefix fir fileName
-  #define HourDir        1  // use date/hour/file structure (0 for date/file stucture)
+  #define MIN_SPACE       2000  // number of disk clusters to keep free  (e.g. 256 MB if cluster=128 kB)
+  #define FilePrefix      "F"  // prefix fir fileName
+  #define HourDir         1  // use date/hour/file structure (0 for date/file stucture)
 
   // for mQueue
-  #define HAVE_PSRAM      0
+  #define HAVE_PSRAM      1
   // adapt to available memory
   #if defined(ARDUINO_ARCH_RP2040)
     #define USE_PSRAM     0
     #define NDBL          12         // number of acuisition buffers fetched from queue for disk storage
-    #define MAXBUF        (12*NDBL)  // resulting queue length in multiple of disk buffer
+    #define MAXBUF        (24*NDBL)  // resulting queue length in multiple of disk buffer
   #elif defined(__IMXRT1062__)
     #if HAVE_PSRAM==0
       #define USE_PSRAM     0
@@ -111,32 +114,28 @@
   #endif
   
   // pocess mode
-  #define PROC_MODE      0  // 0: wav data 1; compress 
+  #define PROC_MODE       0  // 0: wav data 1; compress 
   #if PROC_MODE==0
     #define SHIFT         0     // extraction is always from top bit
   #else
     #define SHIFT        (8+4)   // shift data to right to improve compression
   #endif
   
-  #define NBITS         32  // 32,24,16 number of bits in wav file (will be used in saveData)
-  #if PROC_MODE==1
-    #if NBITS<32 
-      #ERROR("wrong NBITS for compressed mode")
-    #endif
-  #endif
+  #define NBITS           32  // 32,24,16 number of bits in wav file (will be used in saveData)
+  #define WAVOFF          0   // int16 word offset (0: top int16; 1: bottom int16)
 
   // Acq
   #if ADC_MODEL == I2S
     #define AGAIN          0  // cannot be changed In MEMS
     #define DGAIN          0  // cannot be changed
   #else
-    #define AGAIN         10  // analog gain in dB   // 0:42
+    #define AGAIN         20  // analog gain in dB   // 0:42
     #define DGAIN          0  // digital gain in dB  // (-200:54)/2 
   #endif
 
 /******************** Acquisition scheduling *************************/
-  #define T_ACQ  20   // duration in sec of each acquisition file
-  #define T_ON   60   // duration in sec  of acquisition
+  #define T_ACQ  60   // duration in sec of each acquisition file
+  #define T_ON  300   // duration in sec  of acquisition
   #define T_REP   0   // repetition in sec of acquisition window (0 is continuous)
   #define H_1     0   // start hour of first acquisition block
   #define H_2    12   // stop hour of first acquisition block

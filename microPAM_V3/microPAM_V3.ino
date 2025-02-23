@@ -484,8 +484,11 @@ void loop1(){ asm("wfi"); }  // nothing to be done here; sleep (wait for interru
   #endif
 
   // needed for MTP
-  const char *sd_str[]={"sdio"};          // edit to reflect your configuration
-  const int cs[] = {BUILTIN_SDCARD};      // edit to reflect your configuration
+//  const char *sd_str[]={"sdio"};          // edit to reflect your configuration
+//  const int cs[] = {BUILTIN_SDCARD};      // edit to reflect your configuration
+
+  const char *sd_str[]={"sd"};          // edit to reflect your configuration
+  const int cs[] = {5};      // edit to reflect your configuration
 
   const int nsd = sizeof(sd_str)/sizeof(const char *);
   SdFs sdx[nsd];

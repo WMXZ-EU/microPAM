@@ -28,36 +28,33 @@
     #if defined(__IMXRT1062__)
         #define NPORT_I2S    1
         #if 0
-            #define HP_ON       -1       // not used
+            #define HP_ON       -1  
             #define ADC_SHDNZ   32
             #define ADC_EN      33      // as of micoPAM-mare-2b
             #define mWire       Wire1    // SDA1/SCL1
-        #else                           // as of micoPAM-mare 26-06-2024
-            #define HP_ON        4
+        #else                           // as of micoPAM-mare 26-06-2024 (e.g. LC-MARE)
+            #define HP_ON        4      // used for HPAB (does not harm otherwise)
             #define ADC_SHDNZ    3
             #define ADC_EN       2      
             #define mWire       Wire    // SDA/SCL0
         #endif
         //
         #define USB_POWER    1
+    #
     #elif defined(ARDUINO_ARCH_RP2040)
-        #define NPORT_I2S 1
-        #define ADC_SHDNZ 32
+        #define NPORT_I2S   1
+        #define ADC_SHDNZ   32
         #undef ADC_EN
-        #define USB_POWER 0
+        #define USB_POWER   0
         #define mWire       Wire
     #endif
 
 	#if (NCH <= 2)
-		//const  uint8_t chanMask[2] = {0b1001<<4, 0b1001<<4};
-        //const  uint8_t chmap[2][4] = {{0,2,3,1}, {0,2,3,1}};
-//		const  uint8_t chanMask[2] = {0b0011<<4, 0b0011<<4}; 
-//        const  uint8_t chmap[2][4] = {{2,3,0,1}, {2,3,0,1}}; 
 		const  uint8_t chanMask[2] = {0b1111<<4, 0b1111<<4};
-        const  uint8_t chmap[2][4] = {{0,1,2,3}, {0,1,2,3}};
+    const  uint8_t chmap[2][4] = {{0,1,2,3}, {0,1,2,3}};
 	#else 
 		const  uint8_t chanMask[2] = {0b1111<<4, 0b1111<<4};
-        const  uint8_t chmap[2][4] = {{0,1,2,3}, {0,1,2,3}};
+    const  uint8_t chmap[2][4] = {{0,1,2,3}, {0,1,2,3}};
 	#endif
     volatile int16_t again = AGAIN ;              // 0:42
     volatile int16_t dgain = DGAIN;               // (-200:54)/2
@@ -133,16 +130,15 @@
     {
       usbPowerSetup();
         #if defined(ADC_EN) 
-            pinMode(ADC_EN,OUTPUT);
+          pinMode(ADC_EN,OUTPUT);
+          acqPower(HIGH);
         #endif
-        acqPower(HIGH);
 
         // preamp
-
         #if HP_ON>0
           pinMode(HP_ON,OUTPUT);
+          hpPower(HIGH);
         #endif
-        hpPower(HIGH);
 
         // reset ADC's 
         pinMode(ADC_SHDNZ,OUTPUT);
@@ -172,24 +168,24 @@
             }
             //
             //Enable Input Ch-1 to Ch-8 by I2C write into P0_R115
-            //i2c.write(i2c_addr[ii],0x73,chanMask[ii]); 	 
-            i2c.write(i2c_addr[ii],0x73,0x30);
+            //i2c.write(i2c_addr[ii],0x73,0xf0); //0x30
+            i2c.write(i2c_addr[ii],0x73,chanMask[ii]); 	 
             //
             //Enable ASI Output Ch-1 to Ch-8 slots by I2C write into P0_R116
-            //i2c.write(i2c_addr[ii],0x74,chanMask[ii]);	
-            i2c.write(i2c_addr[ii],0x74,0x20);	
+            //i2c.write(i2c_addr[ii],0x74,0xf0);	//0x20
+            i2c.write(i2c_addr[ii],0x74,chanMask[ii]);	
             //
    			//Power-up ADC and PLL by I2C write into P0_R117 
             i2c.write(i2c_addr[ii],0x75,0xE0);
 
-            i2c.write(i2c_addr[ii],0x6B,(2<<4) | (1<<2) | (1<<0)); 	//LL-Filter and sum (1+2)/2; (3+4)/2
+            i2c.write(i2c_addr[ii],0x6B,(2<<4) /*| (1<<2)*/ | (1<<0)); 	//LL-Filter and sum (1+2)/2; (3+4)/2
 
             i2c.write(i2c_addr[ii],0x3B,0x60);  // 0: 2.75V; 1: 2.5V; 2: 1.375V
 
             for(int jj=0; jj<4; jj++)
             {   
                 i2c.write(i2c_addr[ii],regs[jj]+0, 0x88);  // CH1_CFG0 (Line in, 20 kOhm))
-                i2c.write(i2c_addr[ii],regs[jj]+1, again); // CH1_CFG1 (0dB gain)
+                i2c.write(i2c_addr[ii],regs[jj]+1, again<<2); // CH1_CFG1 (0dB gain)
                 i2c.write(i2c_addr[ii],regs[jj]+2, 201+dgain);   // CH1_CFG2
                 i2c.write(i2c_addr[ii],regs[jj]+3, 0x80);  // CH1_CFG3 (0dB decimal gain correction: +/- 0.8 dB) 
                 i2c.write(i2c_addr[ii],regs[jj]+4, 0x00);  // CH1_CFG4 (0bit)

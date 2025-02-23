@@ -71,61 +71,105 @@ static void __not_in_flash_func(process)(int32_t * buffer);
 
   #include "hardware/pio.h"
 
-  #define pio_i2s_in_wrap_target 0
-  #define pio_i2s_in_wrap 7
+// --------------- //
+// pio_i2s_in_left //
+// --------------- //
 
-  // from actual I2S (ICS43434 shifts by 1)
-  static const uint16_t pio_i2s_in_program_instructions[] = {
-      //     .wrap_target
-      0xa022, //  0: mov    x, y            side 0
-      0x4801, //  1: in     pins, 1         side 1
-      0x0041, //  2: jmp    x--, 1          side 0
-      0x4801, //  3: in     pins, 1         side 1
-      0xb022, //  4: mov    x, y            side 2
-      0x5801, //  5: in     pins, 1         side 3
-      0x1045, //  6: jmp    x--, 5          side 2
-      0x5801, //  7: in     pins, 1         side 3
-      //     .wrap
-  };
+#define pio_i2s_in_left_wrap_target 0
+#define pio_i2s_in_left_wrap 7
 
-  static struct pio_program pio_i2s_in_program = 
-  {
-      .instructions = pio_i2s_in_program_instructions,
-      .length = 8,
-      .origin = -1,
-  };
+static const uint16_t pio_i2s_in_left_program_instructions[] = {
+            //     .wrap_target
+    0xa022, //  0: mov    x, y            side 0     
+    0x4801, //  1: in     pins, 1         side 1     
+    0x0041, //  2: jmp    x--, 1          side 0     
+    0x5801, //  3: in     pins, 1         side 3     
+    0xb022, //  4: mov    x, y            side 2     
+    0x5861, //  5: in     null, 1         side 3     
+    0x1045, //  6: jmp    x--, 5          side 2     
+    0x4861, //  7: in     null, 1         side 1     
+            //     .wrap
+};
 
-  static inline pio_sm_config pio_i2s_in_program_get_default_config(uint offset) 
-  {
-      pio_sm_config c = pio_get_default_sm_config();
-      sm_config_set_wrap(&c, offset + pio_i2s_in_wrap_target, offset + pio_i2s_in_wrap);
-      sm_config_set_sideset(&c, 2, false, false);
-      return c;
-  }
+static const struct pio_program pio_i2s_in_left_program = {
+    .instructions = pio_i2s_in_left_program_instructions,
+    .length = 8,
+    .origin = -1,
+};
 
-  static inline void pio_i2s_in_program_init(PIO pio, uint sm, uint offset, uint data_pin, uint clock_pin_base, uint bits) 
-  {
-      pio_gpio_init(pio, data_pin);
-      pio_gpio_init(pio, clock_pin_base);
-      pio_gpio_init(pio, clock_pin_base + 1);
-      pio_sm_config sm_config = pio_i2s_in_program_get_default_config(offset);
-      sm_config_set_in_pins(&sm_config, data_pin);
-      sm_config_set_sideset_pins(&sm_config, clock_pin_base);
-      sm_config_set_in_shift(&sm_config, false, true, (bits <= 16) ? 2 * bits : bits);
-      sm_config_set_fifo_join(&sm_config, PIO_FIFO_JOIN_RX);
-      pio_sm_init(pio, sm, offset, &sm_config);
-      uint pin_mask = 3u << clock_pin_base;
-      pio_sm_set_pindirs_with_mask(pio, sm, pin_mask, pin_mask);
-      pio_sm_set_pins(pio, sm, 0); // clear pins
-      pio_sm_exec(pio, sm, pio_encode_set(pio_y, bits - 2));
-  }
+static inline pio_sm_config pio_i2s_in_left_program_get_default_config(uint offset) {
+    pio_sm_config c = pio_get_default_sm_config();
+    sm_config_set_wrap(&c, offset + pio_i2s_in_left_wrap_target, offset + pio_i2s_in_left_wrap);
+    sm_config_set_sideset(&c, 2, false, false);
+    return c;
+}
+
+// ----------------- //
+// pio_i2s_in_stereo //
+// ----------------- //
+
+#define pio_i2s_in_stereo_wrap_target 0
+#define pio_i2s_in_stereo_wrap 7
+
+static const uint16_t pio_i2s_in_stereo_program_instructions[] = {
+            //     .wrap_target
+    0xa022, //  0: mov    x, y            side 0     
+    0x4801, //  1: in     pins, 1         side 1     
+    0x0041, //  2: jmp    x--, 1          side 0     
+    0x5801, //  3: in     pins, 1         side 3     
+    0xb022, //  4: mov    x, y            side 2     
+    0x5801, //  5: in     pins, 1         side 3     
+    0x1045, //  6: jmp    x--, 5          side 2     
+    0x4801, //  7: in     pins, 1         side 1     
+            //     .wrap
+};
+
+static const struct pio_program pio_i2s_in_stereo_program = {
+    .instructions = pio_i2s_in_stereo_program_instructions,
+    .length = 8,
+    .origin = -1,
+};
+
+static inline pio_sm_config pio_i2s_in_stereo_program_get_default_config(uint offset) {
+    pio_sm_config c = pio_get_default_sm_config();
+    sm_config_set_wrap(&c, offset + pio_i2s_in_stereo_wrap_target, offset + pio_i2s_in_stereo_wrap);
+    sm_config_set_sideset(&c, 2, false, false);
+    return c;
+}
+
+
+static inline void pio_i2s_in_program_init(PIO pio, uint sm, uint offset, uint data_pin, uint clock_pin_base, uint bits, uint mono) {
+    pio_gpio_init(pio, data_pin);
+    pio_gpio_init(pio, clock_pin_base);
+    pio_gpio_init(pio, clock_pin_base + 1);
+    //
+
+    pio_sm_config sm_config;
+    if(mono==1)
+    	sm_config = pio_i2s_in_left_program_get_default_config(offset);
+    else
+	    sm_config = pio_i2s_in_stereo_program_get_default_config(offset);
+    //
+    sm_config_set_in_pins(&sm_config, data_pin);
+    sm_config_set_sideset_pins(&sm_config, clock_pin_base);
+    sm_config_set_in_shift(&sm_config, false, true, (bits <= 16) ? 2 * bits : bits);
+    sm_config_set_fifo_join(&sm_config, PIO_FIFO_JOIN_RX);
+    //
+    pio_sm_init(pio, sm, offset, &sm_config);
+    //
+    uint pin_mask = 3u << clock_pin_base;
+    pio_sm_set_pindirs_with_mask(pio, sm, pin_mask, pin_mask);
+    pio_sm_set_pins(pio, sm, 0); // clear pins
+    //
+    pio_sm_exec(pio, sm, pio_encode_set(pio_y, bits - 2));
+}
 
   void i2s_start(void) { pio_sm_set_enabled(_pio, _sm, true); }
   void i2s_stop(void)  { pio_sm_set_enabled(_pio, _sm, false); }
   
   void acqModifyFrequency(uint32_t fsamp)
   { 
-    float bitClk = fsamp * _bps * 2.0 /* channels */ * 2.0 /* edges per clock */;
+    float bitClk = fsamp * _bps * 2 /* channels */ * 2.0 /* edges per clock */;
     pio_sm_set_enabled(_pio, _sm, false);
     pio_sm_set_clkdiv(_pio, _sm, (float)clock_get_hz(clk_sys) / bitClk);
     pio_sm_set_enabled(_pio, _sm, true);
@@ -133,10 +177,15 @@ static void __not_in_flash_func(process)(int32_t * buffer);
 
   void i2s_setup(void)
   {
-    _i2s = new PIOProgram( &pio_i2s_in_program);
+    uint16_t mono = (ADC_MODEL == I2S)? 1:0;
+    if(mono==1)
+      _i2s = new PIOProgram( &pio_i2s_in_left_program);
+    else
+      _i2s = new PIOProgram( &pio_i2s_in_stereo_program);
+    //
     _i2s->prepare(&_pio, &_sm, &off);
 
-    pio_i2s_in_program_init(_pio, _sm, off, _pinDOUT, _pinBCLK, _bps);
+    pio_i2s_in_program_init(_pio, _sm, off, _pinDOUT, _pinBCLK, _bps, mono);
 
     acqModifyFrequency(_freq); // Will start I2S
   }
@@ -192,11 +241,6 @@ static void __not_in_flash_func(process)(int32_t * buffer);
 
       int32_t * src = i2s_buffer[ii];
 
-//      for(int ii=0; ii<_wordsPerBuffer; ii++) 
-//      { if(!(src[ii]>>30 ^ 0x1)) src[ii] <<= 1; // workaround to is2 bit error in pio
-//        src[ii]  >>= shift;
-//      }
-
       process(src);
 
       dma_channel_set_write_addr(_channelDMA[ii], src, false);
@@ -223,7 +267,7 @@ static void __not_in_flash_func(process)(int32_t * buffer);
     CCM_ANALOG_PLL_AUDIO_NUM   = nmult & CCM_ANALOG_PLL_AUDIO_NUM_MASK;
     CCM_ANALOG_PLL_AUDIO_DENOM = ndiv & CCM_ANALOG_PLL_AUDIO_DENOM_MASK;
     
-    CCM_ANALOG_PLL_AUDIO &= ~CCM_ANALOG_PLL_AUDIO_POWERDOWN;//Switch on PLL
+    CCM_ANALOG_PLL_AUDIO &= ~CCM_ANALOG_PLL_AUDIO_POWERDOWN;  //Switch on PLL
     while (!(CCM_ANALOG_PLL_AUDIO & CCM_ANALOG_PLL_AUDIO_LOCK)) {}; //Wait for pll-lock
     
     const int div_post_pll = 1; // other values: 2,4
@@ -231,7 +275,7 @@ static void __not_in_flash_func(process)(int32_t * buffer);
     if(div_post_pll>1) CCM_ANALOG_MISC2 |= CCM_ANALOG_MISC2_DIV_LSB;
     if(div_post_pll>3) CCM_ANALOG_MISC2 |= CCM_ANALOG_MISC2_DIV_MSB;
     
-    CCM_ANALOG_PLL_AUDIO &= ~CCM_ANALOG_PLL_AUDIO_BYPASS;//Disable Bypass
+    CCM_ANALOG_PLL_AUDIO &= ~CCM_ANALOG_PLL_AUDIO_BYPASS;   //Disable Bypass
   }
 
   void setAudioFrequency(int fs)
@@ -388,7 +432,10 @@ static void __not_in_flash_func(process)(int32_t * buffer);
 static void __not_in_flash_func(extractBuffer)(int32_t *acqBuffer, int32_t * buffer)
 {
   #if defined(ARDUINO_ARCH_RP2040)
+  if(fsamp>=96000)
+  {
     for(int ii=0;ii<NBUF_I2S;ii++) buffer[ii]=(buffer[ii]<<1); // needed for ICS43434 on RP2040
+  }
   #endif
 
   #if ICH<0 // mono-channel extraction disabled

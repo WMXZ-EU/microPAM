@@ -152,6 +152,9 @@ void printPar()
       Serial.print("d_on  (5) = "); Serial.println(d_on);
       Serial.print("d_rep (6) = "); Serial.println(d_rep);
       Serial.print("d_0   (0) = "); Serial.println(d_0);
+      Serial.print("b     (b) = "); Serial.println((char *)b_string); 
+      Serial.print("k     (k) = "); Serial.println((char *)k_string); 
+      Serial.print("n     (n) = "); Serial.println((char *)n_string); 
 }
 
 void menu2(void)
@@ -202,9 +205,9 @@ void menu2(void)
     else if(ch=='6') { Serial.print("d_rep (6) = "); Serial.println(d_rep); }
     else if(ch=='0') { Serial.print("d_0   (0) = "); Serial.println(d_0); }
     else if(ch=='w') { uint16_t *params=loadParameters(); Serial.print("params[0]  = "); Serial.println(params[0]); }
-    else if(ch=='b') { Serial.print("b   (b) = "); Serial.println((char *)b_string); }
-    else if(ch=='k') { Serial.print("k   (b) = "); Serial.println((char *)k_string); }
-    else if(ch=='n') { Serial.print("n   (b) = "); Serial.println((char *)n_string); }
+    else if(ch=='b') { Serial.print("b     (b) = "); Serial.println((char *)b_string); }
+    else if(ch=='k') { Serial.print("k     (k) = "); Serial.println((char *)k_string); }
+    else if(ch=='n') { Serial.print("n     (n) = "); Serial.println((char *)n_string); }
     //
     while(Serial.available()) ch=Serial.read();
 

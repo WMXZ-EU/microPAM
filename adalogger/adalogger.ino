@@ -11,7 +11,7 @@
 // implementation
 //-----------------------------------
 
-status_t status=CLOSED;
+status_t status=STOPPED;
 uint32_t loop_count=0;
 uint32_t data_count=0;
 
@@ -40,6 +40,7 @@ void setup() {
   i2s_setup();
   dma_setup();
   have_disk=SD_init();
+  if(have_disk) status=CLOSED;
 }
 
 void loop() {

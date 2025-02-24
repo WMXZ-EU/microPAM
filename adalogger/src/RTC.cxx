@@ -286,6 +286,41 @@
     Serial.printf("%02d:%02d:%02d\n",t->hour,t->min,t->sec);
   }
 
+/**************************************************************************************/  
+#if defined(ARDUINO_ADAFRUIT_FEATHER_RP2040_ADALOGGER)
+  uint32_t rtc_get(void)
+  { // get seconds since epoch time
+    datetime_t tm;
+    // get local time
+    rtc_get_datetime(&tm);    
+    return date2time(&tm, 2000);
+  }
+
+  void rtc_set(uint32_t tt)
+  {
+    datetime_t tm;
+    time2date(tt,&tm,2000);
+    // set local time
+    rtc_set_datetime(&tm);
+  }
+
+#else
+  void rtc_init(void) {}
+
+  bool rtc_get_datetime(datetime_t *t)
+  {
+    time2date(rtc_get(), t);
+    return 1;
+  }
+
+  bool rtc_set_datetime(datetime_t *t)
+  {
+    rtc_set(date2time(t));
+    return 1;
+  }
+
+#endif
+
   int16_t rtc_setup(void)
   {
     rtc_init(); // hardware (MCU) rtc
@@ -307,25 +342,7 @@
     }
     return 1;
   }
-
-
-#if defined(ARDUINO_ADAFRUIT_FEATHER_RP2040_ADALOGGER)
-  uint32_t rtc_get(void)
-  { // get seconds since epoch time
-    datetime_t tm;
-    // get local time
-    rtc_get_datetime(&tm);    
-    return date2time(&tm, 2000);
-  }
-
-  void rtc_set(uint32_t tt)
-  {
-    datetime_t tm;
-    time2date(tt,&tm,2000);
-    // set local time
-    rtc_set_datetime(&tm);
-  }
-
+  
   void rtcSetDatetime(datetime_t *t)
   {
       rtc_set_datetime(t);
@@ -336,4 +353,3 @@
     rtc_get_datetime(t);
   }    
 
-#endif

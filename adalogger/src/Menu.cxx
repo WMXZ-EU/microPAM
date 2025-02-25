@@ -2,6 +2,7 @@
 #include "global.h"
 #include "Menu.h"
 #include "RTC.h"
+#include "rp2040.h"
 
 // User Interface
 static char * menuGetLine(void)
@@ -48,6 +49,11 @@ status_t menu(status_t status)
       else if(ch=='e')  // stop aquisition
       { Serial.print("stop ");
         status=MUST_STOP;
+      }
+      else if(ch=='p')  // stop aquisition
+      { Serial.print("\nversion "); Serial.println(Version);
+        getUID();
+        Serial.print("UID "); Serial.println(uid_str);
       }
       else if(ch=='c')  // check and correct RTC time
       {

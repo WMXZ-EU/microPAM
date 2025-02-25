@@ -2,6 +2,7 @@
 #define GLOBAL_H
 
 #include "../config.h"
+  #define Version "1.00"
 
   // definitions for acquisition and filing
   #define NCH       1

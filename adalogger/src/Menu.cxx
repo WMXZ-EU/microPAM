@@ -53,7 +53,10 @@ status_t menu(status_t status)
       else if(ch=='p')  // stop aquisition
       { Serial.print("\nversion "); Serial.println(Version);
         getUID();
-        Serial.print("UID "); Serial.println(uid_str);
+        Serial.print("UID   "); Serial.println(uid_str);
+        Serial.print("T_ON  "); Serial.print(T_ON); Serial.println(" sec");
+        Serial.print("T_ACQ "); Serial.print(T_ACQ); Serial.println(" min");
+        Serial.print("T_REP "); Serial.print(T_REP); Serial.println(" min");
       }
       else if(ch=='c')  // check and correct RTC time
       {

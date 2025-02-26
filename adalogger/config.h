@@ -4,7 +4,7 @@
   // acquisition constants
   //------------------------------------
   #define T_ON      60  // seconds
-  #define T_ACQ     3   // minutes
+  #define T_ACQ     1   // minutes
   #define T_REP     5   // minutes (for continuous recording set t_rep < t_acq)
 
   // definitions for acquisition and filing

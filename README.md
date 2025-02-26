@@ -20,10 +20,4 @@ This code that is still under development
 ## adalogger
 This code is dedicated to pr2040 based Adalogger with ICS43434 microphone. The menu is minimized to start/end acquisition, correct external RTC and to print actual acquisition parameters. It is expected that the user adapts the acquisition parameters in config.h and recompiles the program.
 
-The menu commands are 
- . s: start acquisition
- . e: end acquisition
- . c: check and change RTC
- . p: print system and acquisition parameters
-
 ** See more detail in folders Readme file **

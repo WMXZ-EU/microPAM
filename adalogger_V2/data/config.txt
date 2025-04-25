@@ -1,13 +1,13 @@
 # configuration file
-# should end with '#' or ';'
+# should end with '#' or ';' comment may follow
 #
-!a 60	# file size (sec)
-!o 1	# on time (min)
-!r 0	# repetition intervall (min)
-!f 192	# sampling frequency (kHz)
-!g 0	# analog gain (dB)
-!s AS1-200	# (ISRC) source 
-!c WMXZ		# (ICMS) commissioning organisation 
+!a 60			# file size (sec)
+!o 1			# on time (min)
+!r 0			# repetition interval (min)
+!f 192		# sampling frequency (kHz)
+!g 0			# analog gain (dB)
+!s AS1-208		# (ISRC) source with sensitivity
+!c WMXZ		# (ICMS) commissioning organization 
 !n wmxz		# (IART) name of operator (creator)
 !p Development	# (IPRD) project 
 !e Home		# (ISBJ) area 

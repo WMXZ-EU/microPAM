@@ -13,4 +13,10 @@
 
   // program states
   enum status_t  {CLOSED, RECORDING, MUST_STOP, STOPPED};
+
+  // in filing.cxx
+  extern uint32_t t_acq;   // seconds (each file)
+  extern uint32_t t_on;    // minutes (each on period)
+  extern uint32_t t_rep;   // minutes (for continuous recording set t_rep < t_acq)
+
 #endif

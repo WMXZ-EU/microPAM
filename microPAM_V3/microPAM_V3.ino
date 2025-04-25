@@ -272,6 +272,7 @@ void setup()
   // wait for WAIT_SERIAL s to allow USB-Serial connection, otherwise start after setup
   while(millis()<(WAIT_SERIAL*1000)) if(Serial) { termon=1; break;}
   Serial.println("\nSetup");
+  Serial.println(millis());
   
   Serial.print("params[0] = "); Serial.println(params[0]);
   for(int ii=0;ii<16;ii++) {Serial.print(ii); Serial.print(" "); Serial.println(params[ii]);}

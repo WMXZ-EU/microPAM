@@ -4,8 +4,8 @@
 #include "rp2040.h"
 #include "RTC.h"
 
-uint32_t t_on = T_ON;     // seconds
-uint32_t t_acq = T_ACQ;   // minutes 
+uint32_t t_acq = T_ACQ;   // seconds
+uint32_t t_on  = T_ON;    // minutes
 uint32_t t_rep = T_REP;   // minutes (for continuous recording set t_rep < t_acq)
 
 // microSD card
@@ -130,6 +130,9 @@ uint32_t old_time = 0;
 extern uint32_t loop_count;
 extern uint32_t data_count;
 
+char dayDir[40];
+char hourDir[10];
+
 status_t logger(int32_t * buffer,status_t status)
 {
   if(status==CLOSED)
@@ -141,22 +144,24 @@ status_t logger(int32_t * buffer,status_t status)
     sprintf(time_str,"%02d%02d%02d",t.hour,t.min,t.sec);
     //
     if(t.day != old_day)
-    { char dirName[40];
-      sprintf(dirName,"/%s_%s",uid_str,date_str);
-      if(!sd.exists(dirName))
-      { sd.mkdir(dirName);
+    { 
+      sprintf(dayDir,"/%s_%s",uid_str,date_str);
+      if(!sd.exists(dayDir))
+      { sd.mkdir(dayDir);
       }
-      sd.chdir(dirName);
+      sd.chdir(dayDir);
       old_day=t.day;
     }
     //
     if(t.hour != old_hour)
-    { char dirName[40];
-      sprintf(dirName,"%02d",t.hour);
-      if(!sd.exists(dirName))
-      { sd.mkdir(dirName);
+    { 
+      sd.chdir(dayDir);
+
+      sprintf(hourDir,"%02d",t.hour);
+      if(!sd.exists(hourDir))
+      { sd.mkdir(hourDir);
       }
-      sd.chdir(dirName);        
+      sd.chdir(hourDir);        
       old_hour = t.hour;
     }
     //
@@ -182,7 +187,7 @@ status_t logger(int32_t * buffer,status_t status)
     
     // check to close file
     uint32_t tt = rtc_get();
-    uint32_t tmp_time=(tt % t_on );
+    uint32_t tmp_time=(tt % t_acq );
     if((tmp_time < old_time) || (status == MUST_STOP))
     {
       // create header for WAV file and write to SD card
@@ -214,12 +219,12 @@ status_t logger(int32_t * buffer,status_t status)
       {
         status = CLOSED;
         //
-        if(t_rep>t_acq)                      // if foreseen  check for hibernation
+        if(t_rep>t_on)                      // if foreseen  check for hibernation
         { uint32_t ttm=tt/60;
           //Serial.printf("%d %d %d %d\n",t_acq,t_rep,ttm,(ttm % t_rep));
 
           uint32_t dt2 = (ttm % t_rep);
-          if(dt2>=t_acq) 
+          if(dt2>=t_on) 
           {
             uint32_t alarm=((ttm/t_rep)+1)*t_rep*60;
             hibernate_until(alarm);

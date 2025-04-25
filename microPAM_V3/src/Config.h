@@ -28,7 +28,7 @@
   #include <stdint.h>
 
   // wait for serial (n seconds 0 continue immediately)
-  #define WAIT_SERIAL 3
+  #define WAIT_SERIAL 10
 
   #define I2S           0   // I2S microphone
   #define TLV320ADC6140 1   // ADC6140 ADC
@@ -129,7 +129,7 @@
     #define AGAIN          0  // cannot be changed In MEMS
     #define DGAIN          0  // cannot be changed
   #else
-    #define AGAIN         20  // analog gain in dB   // 0:42
+    #define AGAIN         0  // analog gain in dB   // 0:42
     #define DGAIN          0  // digital gain in dB  // (-200:54)/2 
   #endif
 

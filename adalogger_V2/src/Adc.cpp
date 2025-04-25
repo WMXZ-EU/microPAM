@@ -1,5 +1,5 @@
 /* microPAM 
- * Copyright (c) 2023/2024, Walter Zimmer
+ * Copyright (c) 2023/2024/2025, Walter Zimmer
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 #include "Wire.h"
-#include "Config.h"
+#include "global.h"
 #include "Adc.h"
 #include "I2C.h"
 
@@ -32,32 +32,46 @@
             #define ADC_SHDNZ   32
             #define ADC_EN      33      // as of micoPAM-mare-2b
             #define mWire       Wire1    // SDA1/SCL1
+            //
         #else                           // as of micoPAM-mare 26-06-2024 (e.g. LC-MARE)
             #define HP_ON        4      // used for HPAB (does not harm otherwise)
             #define ADC_SHDNZ    3
             #define ADC_EN       2      
-            #define mWire       Wire    // SDA/SCL0
+            #define mWire       Wire    // SDA0/SCL0
         #endif
         //
         #define USB_POWER    1
     #
     #elif defined(ARDUINO_ARCH_RP2040)
         #define NPORT_I2S   1
-        #define ADC_SHDNZ   32
-        #undef ADC_EN
-        #define USB_POWER   0
+        //#define ADC_SHDNZ   32
+        //#define USB_POWER   0
+        #define ADC_EN      5
+        #define ADC_SHDNZ   6
+        #define HP_ON       14      
         #define mWire       Wire
     #endif
 
-	#if (NCH <= 2)
+	#if (NCHAN_I2S ==1)
+		//const  uint8_t chanMask[2] = {0b1000<<4, 0b1000<<4};
+        //const  uint8_t chmap[2][4] = {{0,1,2,3}, {0,1,2,3}};
+		const  uint8_t chanMask[2] = {0b0100<<4, 0b0100<<4};
+        const  uint8_t chmap[2][4] = {{3,0,1,2}, {3,0,1,2}};
+	#elif (NCHAN_I2S ==2)
+		//const  uint8_t chanMask[2] = {0b1010<<4, 0b1010<<4};
+        //const  uint8_t chmap[2][4] = {{0,2,1,3}, {0,2,1,3}};
+		const  uint8_t chanMask[2] = {0b0110<<4, 0b0110<<4};
+        const  uint8_t chmap[2][4] = {{3,0,1,2}, {3,0,1,2}};
+	#elif (NCHAN_I2S ==4)
 		const  uint8_t chanMask[2] = {0b1111<<4, 0b1111<<4};
         const  uint8_t chmap[2][4] = {{0,1,2,3}, {0,1,2,3}};
 	#else 
 		const  uint8_t chanMask[2] = {0b1111<<4, 0b1111<<4};
         const  uint8_t chmap[2][4] = {{0,1,2,3}, {0,1,2,3}};
 	#endif
-    volatile int16_t again = AGAIN ;              // 0:42
-    volatile int16_t dgain = DGAIN;               // (-200:54)/2
+  //
+  uint32_t again = AGAIN ;                      // 0:42
+  volatile int32_t dgain = DGAIN;               // (-200:54)/2
 
 /******************************* TLV320ADC6140 ********************************************/
     #define I2C_ADDRESS1 0x4C // 0-0
@@ -68,19 +82,18 @@
     // use usb host 5V power (has 100uF capacitor)
     void usbPowerInit()
     {
-      IOMUXC_SW_MUX_CTL_PAD_GPIO_EMC_40 = 5;
-      IOMUXC_SW_PAD_CTL_PAD_GPIO_EMC_40 = 0x0008; // slow speed, weak 150 ohm drive
-
-      GPIO8_GDIR |= 1<<26;
+//      IOMUXC_SW_MUX_CTL_PAD_GPIO_EMC_40 = 5;
+//      IOMUXC_SW_PAD_CTL_PAD_GPIO_EMC_40 = 0x0008; // slow speed, weak 150 ohm drive
+//      GPIO8_GDIR |= 1<<26;
     }
     void usbPowerExit()
     {
 //      IOMUXC_SW_PAD_CTL_PAD_GPIO_EMC_40 = 0; // disable
 //      GPIO8_GDIR &= ~(1<<26);
-
     }
-    void usbPowerOn()  { GPIO8_DR_SET = 1<<26; }
-    void usbPowerOff() { GPIO8_DR_CLEAR = 1<<26; }
+
+    void usbPowerOn()  { /*GPIO8_DR_SET = 1<<26;*/ }
+    void usbPowerOff() { /*GPIO8_DR_CLEAR = 1<<26;*/ }
 
     void usbPowerSetup(void)
     {
@@ -94,7 +107,7 @@
     // enable ADC board LDO
     void acqPower(int flag)
     {   
-        #if defined(ADC_EN)
+        #if ADC_EN>0
             digitalWrite(ADC_EN,flag);
             delay(100);
         #else
@@ -104,15 +117,19 @@
 
     // enable ADC board LDO
     void hpPower(int flag)
-    {
+    { return;
       #if HP_ON>0
         digitalWrite(HP_ON,flag);
       #endif
     }
 
     // handle ADC shutdown pin
-    void adcReset(void) { digitalWrite(ADC_SHDNZ,LOW);}
-    void adcStart(void) { digitalWrite(ADC_SHDNZ,HIGH);}
+    void adcReset(void) 
+    { digitalWrite(ADC_SHDNZ,LOW);
+    }
+    void adcStart(void) 
+    { digitalWrite(ADC_SHDNZ,HIGH);
+    }
 
     void adc_exit(void)
     {
@@ -155,7 +172,7 @@
             if(i2c.exist(i2c_addr[ii]))
                 Serial.printf("found %x\n",i2c_addr[ii]);
             else
-                {  Serial.printf("ADC I2C %x not found\n",i2c_addr[ii]); continue;}
+            {  Serial.printf("ADC I2C %x not found\n",i2c_addr[ii]); continue;}
 
             i2c.write(i2c_addr[ii],0x02,0x81); // 1.8V AREG, not sleep
 

@@ -13,13 +13,18 @@
  - !a xx: set squisition (file length) to xx seconds
  - !o x: set on time to x minutes (sic!)
  - !r x: set repetition rate to x minutes (sic!)
- - !w x: set eeprom mode to x (0: not to be used, 1: to be  used on reboot)
+ - !f x: set sampling frequency in Hz
+ - !g x: set analog gain in dB
+ - !w x: set eeprom mode to x (0: stored but not to be used, 1: stored and to be used on reboot)
  
- ## Configuration
- The program configuration is controlled by config.h
+ ## Run configuration
+ The run configuration is controlled by config.h
+
+ ## Sytem configuration
+ System configuration is controlled by src/global.h
  
 ## UF2 file
  Direct link to uf2 file: 
- - https://github.com/WMXZ-EU/microPAM/blob/main/adalogger/build/rp2040.rp2040.adafruit_feather_adalogger/adalogger.ino.uf2
+ - https://github.com/WMXZ-EU/microPAM/blob/main/adalogger_V2/build/rp2040.rp2040.adafruit_feather_adalogger/adalogger_V2.ino.uf2
  
- 
+ ## 

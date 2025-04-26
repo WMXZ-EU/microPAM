@@ -33,7 +33,7 @@
   #define MBIT      32
   #define NBUF_I2S  (24*1024) // buffer in samples for acquisition and filing
 
-  #define WAIT      5     // seconds to wait for serial (0 do not wait)
+  #define WAIT      0     // seconds to wait for serial (0 do not wait)
 
   #define MEMS 0
   #define TLV320ADC6140 1

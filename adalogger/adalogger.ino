@@ -18,12 +18,13 @@ uint32_t data_count=0;
 uint16_t have_disk=0;
 void setup() {
   // put your setup code here, to run once:
-  parameterInit();
-
-  // reduce MCU clock
-  set_sys_clock_khz(48'000, true);
 
   neo_pixel_init();
+  // reduce MCU clock
+  if(!set_sys_clock_khz(48'000, true)) neo_pixel_show(255, 0, 0);
+
+  parameterInit();
+
   neo_pixel_show(10, 0, 0);
 
   while(millis()<(WAIT*1000)) if(Serial) { Serial.print(millis());break;}

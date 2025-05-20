@@ -23,25 +23,38 @@
 #define GLOBAL_H
 
 #include "../config.h"
-  #define Version "2.0.x"
-  #define Program "Adalogger_V2"
+  #define Version "2.0.x" 
+  #define PreAmp  0                   // 0: CMOS; 1: FET; 2 Mark
+  #define Program "Adalogger_V2a"
+
+  #define WAIT      1.5     // seconds to wait for serial (0 do not wait)
 
   // definitions for acquisition and filing
   #define NCHAN_I2S   1   // controls the I2S interface
   #define NCH         1   // for wav header (Mono or stereo)
 
+  #define PROC      0     // 0 Wav file; 1 compress (not aproved yet, so should be 0)
+
   #define MBIT      32
-  #define NBUF_I2S  (24*1024) // buffer in samples for acquisition and filing
+  #define MBUF      (8*6)           // should ne a multople of 6
+  #if PROC==0
+    #define NBUF_I2S  (MBUF/2*1024) // actual buffer length in samples for acquisition and filing (dual buffer)
+  #else
+    #define NBUF_I2S  (MBUF/3*1024) // actual buffer length in samples for acquisition and filing (triple buffer)
+  #endif
 
-  #define WAIT      0     // seconds to wait for serial (0 do not wait)
-
+  // Acoustic sensor
   #define MEMS 0
   #define TLV320ADC6140 1
 
   #define ADC_MODEL TLV320ADC6140
 
   #if ADC_MODEL==TLV320ADC6140
-    #define AGAIN 0
+    #if PreAmp==0
+      #define AGAIN 20
+    #else
+      #define AGAIN 0
+    #endif
     #define DGAIN 0
   #endif
 
@@ -51,8 +64,7 @@
   // program states
   enum status_t  {DO_START, CLOSED, RECORDING, MUST_STOP, JUST_STOPPED, STOPPED};
 
-  #define PROC 0  // 0 Wav file; 1 compress (does not work, so should be 0)
-
+  // RP2040 specific
   #define MC 1 // use second core for acquisition 
 
   // in filing.cxx
@@ -63,6 +75,8 @@
   extern uint32_t fsamp;  // sampling frequency (kHz)
   // in Adc.cxx
   extern uint32_t again;  // ADC gain
+
+  extern uint32_t alarm;  // initial wakeup time
 
   // in filing
   extern char ISRC[]; //  Source

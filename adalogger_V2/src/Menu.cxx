@@ -32,8 +32,14 @@ void eepromUpdate();
 void eepromList();
 static uint16_t eeprom=0;
 
+uint32_t alarm=0xffffffff;
+void eepromWrite32(byte a, uint32_t v);
+void eepromCommit();
+
 void parameterPrint(void)
-{ Serial.print("\nversion    "); Serial.println(Version);
+{ Serial.println("\n====================");
+  Serial.println(Program);
+  Serial.print("Version    "); Serial.println(Version);
   getUID();
   Serial.print("UID        "); Serial.println(uid_str);
   Serial.print("eeprom (w) "); Serial.print(eeprom); Serial.println();
@@ -42,6 +48,7 @@ void parameterPrint(void)
   Serial.print("t_rep  (r) "); Serial.print(t_rep);  Serial.println(" min");
   Serial.print("fsamp  (f) "); Serial.print(fsamp);  Serial.println(" Hz");
   Serial.print("again  (g) "); Serial.print(again);  Serial.println(" dB");
+  Serial.print("Processing "); Serial.println(PROC);
 
   eepromList();
 
@@ -108,6 +115,24 @@ status_t menu(status_t status)
       }
       else if(ch=='p')  // print parameters
       {  parameterPrint();
+      }
+      else if(ch=='x')  //exit and sleep until next hour
+      { uint16_t h_off; 
+        menuGetInt16(&h_off);
+        if(h_off>0)
+        { Serial.print(" hibernating "); Serial.print(h_off); Serial.print(" hours");
+          alarm = rtc_get();
+          alarm /= 3600;
+          alarm = (alarm+h_off)*3600;
+          Serial.print(" ("); Serial.print(alarm-rtc_get()); Serial.println(" sec)");
+          eepromWrite32(11,alarm);
+          eepromCommit();
+          hibernate_until(alarm);
+        }
+        else
+        {
+            reboot();
+        }
       }
       else if(ch=='?')  // get parameter
       {
@@ -195,6 +220,7 @@ status_t menu(status_t status)
 #include <EEPROM.h>
 
 void eepromInit() { EEPROM.begin(256);}
+void eepromCommit() {  EEPROM.commit();}
 
 void eepromWrite(byte a, uint32_t v)
 {
@@ -207,6 +233,23 @@ uint16_t eepromRead(byte a)
     v |= EEPROM.read(a+1)<<8;
     return v;
 }
+
+void eepromWrite32(byte a, uint32_t v)
+{
+    EEPROM.write(a,v&0xff);
+    EEPROM.write(a+1,(v>>8) &0xff);
+    EEPROM.write(a+2,(v>>16) &0xff);
+    EEPROM.write(a+3,(v>>24) &0xff);
+}
+uint32_t eepromRead32(byte a)
+{ uint32_t v;
+    v = EEPROM.read(a);
+    v |= EEPROM.read(a+1)<<8;
+    v |= EEPROM.read(a+2)<<16;
+    v |= EEPROM.read(a+3)<<24;
+    return v;
+}
+
 void eepromUpdate() 
 { 
   eepromWrite(1,t_acq);
@@ -218,12 +261,15 @@ void eepromUpdate()
   EEPROM.commit();
 }
 void eepromList(void)
-{  for(int ii=0;ii<11;ii++) {Serial.print(EEPROM.read(ii)); Serial.print(' ');} Serial.println();
+{  for(int ii=0;ii<16;ii++) {Serial.print(EEPROM.read(ii)); Serial.print(' ');} Serial.println();
 }
 
 uint16_t eepromLoad(void)
 { // load parameters from EEPROM
   eepromInit();
+  alarm = eepromRead32(11);
+  Serial.println(alarm,HEX);
+
   eeprom=EEPROM.read(0);
   if(eeprom==1)
   { 

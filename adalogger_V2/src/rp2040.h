@@ -22,6 +22,10 @@
 #ifndef RP2040_H
 #define RP2040_H
 
+  void usb_stop(void);
+  void reboot(void);
+  void sleep_power_up(void);
+
   // I2S
   void i2s_setup(void);
   void dma_setup(void);

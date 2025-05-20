@@ -445,7 +445,7 @@ uint32_t RV3028_getUNIX()
   int16_t initXRTC(uint8_t sda, uint8_t scl)
   { address=RV3028_ADDR;
     i2c_setup(sda,scl);
-    Serial.println(address,HEX);
+    Serial.print("XRTC: 0x"); Serial.println(address,HEX);
     delay(100);
     if(i2c_exists(address))
     {
@@ -552,9 +552,19 @@ static void enableAlarmInterrupt(uint8_t min, uint8_t hour, uint8_t date_or_week
 		clearBit(RV3028_INT_MASK, IMT_MASK_CAIE);
 }
 
-void XRTCclearAlarm(void){}
+void XRTCclearAlarm(void)
+{
+	disableAlarmInterrupt();
+	clearAlarmInterruptFlag();  
+}
 
-void XRTCsetAlarm(uint32_t secs){} 
+void XRTCsetAlarm(uint32_t secs)
+{ uint8_t min,hour,date;
+  datetime_t tm;
+  time2date(secs, &tm, 2000);
+  Serial.printf("%d %d %d %d %d\n",tm.year,tm.month,tm.day,tm.hour,tm.min);
+  enableAlarmInterrupt(tm.min, tm.hour, tm.day, false, 0, false); 
+} 
 
 
 // alm_mode=6

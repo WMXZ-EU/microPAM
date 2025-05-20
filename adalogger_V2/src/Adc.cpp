@@ -53,10 +53,13 @@
     #endif
 
 	#if (NCHAN_I2S ==1)
-		//const  uint8_t chanMask[2] = {0b1000<<4, 0b1000<<4};
-        //const  uint8_t chmap[2][4] = {{0,1,2,3}, {0,1,2,3}};
-		const  uint8_t chanMask[2] = {0b0100<<4, 0b0100<<4};
-        const  uint8_t chmap[2][4] = {{3,0,1,2}, {3,0,1,2}};
+        #if PreAmp==2
+            const  uint8_t chanMask[2] = {0b1000<<4, 0b1000<<4};
+            const  uint8_t chmap[2][4] = {{0,1,2,3}, {0,1,2,3}};
+        #else
+            const  uint8_t chanMask[2] = {0b0100<<4, 0b0100<<4};
+            const  uint8_t chmap[2][4] = {{3,0,1,2}, {3,0,1,2}};
+        #endif
 	#elif (NCHAN_I2S ==2)
 		//const  uint8_t chanMask[2] = {0b1010<<4, 0b1010<<4};
         //const  uint8_t chmap[2][4] = {{0,2,1,3}, {0,2,1,3}};
@@ -193,24 +196,26 @@
             i2c.write(i2c_addr[ii],0x74,chanMask[ii]);	
             //
    			//Power-up ADC and PLL by I2C write into P0_R117 
-            i2c.write(i2c_addr[ii],0x75,0xE0);
+            i2c.write(i2c_addr[ii],0x75,0xE0);      // 0xE0 = 1<<7: MIC; 1<<6: ADC; 1<<5: PLL
+
+            i2c.write(i2c_addr[ii],0x3B,(6<<4)      // micBias set to 6:AVDD
+                                        |(0<<0));   // ADC Full scale (VREF) // 0: 2.75V; 1: 2.5V; 2: 1.375V
 
             i2c.write(i2c_addr[ii],0x6B,(2<<4)      // 2:ultra low latency
                                         /*| (1<<2)    // sum (1,2) and (3,4)*/ 
                                         | (1<<0));  //0.00025*fs HP filter
-
-            i2c.write(i2c_addr[ii],0x3B,(6<<4)      // micBias set to AVDD
-                                        |(0<<0));   // ADC Full scale (VREF) // 0: 2.75V; 1: 2.5V; 2: 1.375V
 
             for(int jj=0; jj<4; jj++)
             {   
                 i2c.write(i2c_addr[ii],regs[jj]+0, 0x88);  // CH1_CFG0 (Line in, 20 kOhm))
                 i2c.write(i2c_addr[ii],regs[jj]+1, again<<2); // CH1_CFG1 (0dB gain)
                 i2c.write(i2c_addr[ii],regs[jj]+2, 201+dgain);   // CH1_CFG2
-                i2c.write(i2c_addr[ii],regs[jj]+3, 0x80);  // CH1_CFG3 (0dB decimal gain correction: +/- 0.8 dB) 
+                i2c.write(i2c_addr[ii],regs[jj]+3, 0x80);  // CH1_CFG3 (0dB decimal gain correction: +/- 0.8 dB) e
                 i2c.write(i2c_addr[ii],regs[jj]+4, 0x00);  // CH1_CFG4 (0bit)
             }
             Serial.print("0x15: "); Serial.println(i2c.read(i2c_addr[ii],0x15),HEX);
+            Serial.print("0x73: "); Serial.println(i2c.read(i2c_addr[ii],0x73),HEX);
+            Serial.print("0x74: "); Serial.println(i2c.read(i2c_addr[ii],0x74),HEX);
             Serial.print("0x76: "); Serial.println(i2c.read(i2c_addr[ii],0x76),HEX);
             
         }

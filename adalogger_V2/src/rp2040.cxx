@@ -454,6 +454,12 @@ static const uint16_t pio_tdm_in_program_instructions[] = {
   #include "hardware/xosc.h"
   #include "hardware/structs/rosc.h"
 
+
+  void usb_stop(void)
+  {
+      clock_stop(clk_usb);
+  }
+  
   inline static void rosc_clear_bad_write(void) {
       hw_clear_bits(&rosc_hw->status, ROSC_STATUS_BADWRITE_BITS);
   }
@@ -524,7 +530,7 @@ static const uint16_t pio_tdm_in_program_instructions[] = {
       // Can disable rosc
       rosc_disable();
   }
-
+  
   void sleep_goto_dormant_until_pin(uint32_t gpio_pin) 
   {
       uint32_t event = 0;
@@ -578,6 +584,7 @@ static const uint16_t pio_tdm_in_program_instructions[] = {
   {
     // 'switch-off' all I/O pins
     for(int p=0;p<30;p++)
+    if(p != XRTC_INT_PIN)
     { pinMode(p, INPUT); // best performance!
       gpio_set_input_enabled(p, false); // disable input gate
     }

@@ -42,13 +42,13 @@ uint16_t setup_ready=0;
 uint16_t setup1_ready=0;
 void setup() {
   // put your setup code here, to run once:
+  // reduce MCU clock
+  set_sys_clock_khz(4*12000, true);
+
   if(eepromLoad()==0)
   { // should load parameters from LFS or uSD (TBD)
     ;
   }
-
-  // reduce MCU clock
-  set_sys_clock_khz(5*12000, true);
 
   neo_pixel_init();
   neo_pixel_show(10, 0, 0);
@@ -64,6 +64,21 @@ void setup() {
   }
   
   rtc_setup();
+  if(alarm!=0xffffffff)
+  { delay(0.1);
+    uint32_t tt = rtc_get();
+    if(tt<alarm)
+    { hibernate_until(alarm);
+    }
+    else
+    { // clean-up initial alarm value
+      eepromWrite32(11,0xffffffff);
+      eepromCommit();
+    }
+  }
+
+  parameterPrint();
+
   #if MC==0
     i2s_setup();
     dma_setup();
@@ -72,11 +87,15 @@ void setup() {
     while(!setup1_ready) delay(10);
   #endif
 
-  parameterPrint();
-
   have_disk=SD_init();
   if(have_disk) configShow();
   if(have_disk) status=DO_START;
+  if(!have_disk)  neo_pixel_show(0, 0, 10);
+
+  if(!Serial)
+  { usb_stop();
+  }
+
 }
 
 void loop() {
@@ -106,16 +125,16 @@ void loop() {
 }
 
 #if MC==1
-void setup1(void)
-{ while(!setup_ready) delay(100);
-  Serial.println("setup1");
-  i2s_setup();
-  dma_setup();
-  setup1_ready=1;
-}
+  void setup1(void)
+  { while(!setup_ready) delay(100);
+    Serial.println("setup1");
+    i2s_setup();
+    dma_setup();
+    setup1_ready=1;
+  }
 
-void loop1(void)
-{
-  asm("wfi");
-}
+  void loop1(void)
+  {
+    asm("wfi");
+  }
 #endif

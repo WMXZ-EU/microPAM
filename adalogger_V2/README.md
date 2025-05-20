@@ -10,6 +10,9 @@
  - e: end acquisition
  - c: check and change RTC
  - p: print system and acquisition parameters 
+ - x: reboot system (adding to x a number hibernates the system [eg, x 1 hibernates and restarts at the next full hour] )
+
+    parameter settings
  - !a xx: set squisition (file length) to xx seconds
  - !o x: set on time to x minutes (sic!)
  - !r x: set repetition rate to x minutes (sic!)
@@ -22,7 +25,12 @@
 
  ## Sytem configuration
  System configuration is controlled by src/global.h
- 
+
+## Miscalaneous
+  program developed for TMS320ADC6140 ADC, but based on MEMS I2S microphone 
+  exxternal RTC is RV2038
+  integer compression (code is present but not finally tested)
+
 ## UF2 file
  Direct link to uf2 file: 
  - https://github.com/WMXZ-EU/microPAM/blob/main/adalogger_V2/build/rp2040.rp2040.adafruit_feather_adalogger/adalogger_V2.ino.uf2

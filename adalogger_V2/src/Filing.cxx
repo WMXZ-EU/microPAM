@@ -37,7 +37,6 @@ char IPRD[40]={' '}; // 'Product' (Activity)
 char ISBJ[40]={' '}; // 'subject' (Area)
 char INAM[40]={' '}; // 'Name' (location id)
 
-
 // microSD card
 #if SDFAT_FILE_TYPE != 3
  #error "SDFAT_FILE_TYPE != 3: edit SdFatConfig.h"
@@ -51,7 +50,7 @@ char INAM[40]={' '}; // 'Name' (location id)
   #define SPI_MISO  20
   #define SPI_CS    23
 
-
+  static uint16_t have_sd =0;
   void spi_init()
   { pinMode(SPI_CS, OUTPUT);
     digitalWrite(SPI_CS,HIGH);
@@ -133,22 +132,24 @@ void wavHeaderInit(int32_t fsamp, int32_t nchan, int32_t nbits)
   wav_hdr.nAvgBytesPerSec=fsamp*nbytes*nchan;
   wav_hdr.nBlockAlign=nchan*nbytes;
   wav_hdr.nBitsPerSamples=nbits;
+  //
+  wavInfoInit();
 }
 
 char datestring[80];
 char infotext[80];
-char * wavHeaderUpdate(int32_t nbytes)
+char * wavHeaderUpdate(int32_t nbytes, int16_t vsens)
 {
   char *wptr=wav_Info_ptr;
   wptr=insertChunk(wptr,"ICRD",datestring);
   //
-  sprintf(infotext,"%6d; %6d; %6d; %6d; %6d.",t_acq,t_on,t_rep,fsamp/1000,again);
+  sprintf(infotext,"%6d; %6d; %6d; %6d; %6d; %6d.",t_acq,t_on,t_rep,fsamp/1000,again, vsens);
   wptr=insertChunk(wptr,"IKEY",infotext);
   //
   if(missed_acq>0)
   {   uint32_t * ptr=get_missed_list(); 
       char *istr=infotext;
-      for(int ii=0; ii<missed_acq; ii++) {sprintf(istr,"%4d",ptr[ii%32]); istr+=4;} 
+      for(int ii=0; ii<missed_acq && ii<32; ii++) {sprintf(istr,"%4d",ptr[ii%32]); istr+=4;} 
       wptr=insertChunk(wptr,"ICMT",infotext);
   }
   else
@@ -190,6 +191,7 @@ uint16_t SD_init(void)
     // prepare wav header (const content)
     //prep_header(NCH, FSAMP, MBIT);
     wavHeaderInit(FSAMP, NCH, MBIT);
+    have_sd=1;
   }
   return 1;
 }
@@ -197,7 +199,8 @@ uint16_t SD_init(void)
 void SD_stop(void)
 {
 //https://github.com/greiman/SdFat/issues/401
-  sd.card()->syncDevice();
+  if(have_sd)
+    sd.card()->syncDevice();
 }
 
 uint32_t mdt=0;
@@ -214,13 +217,28 @@ uint32_t mdt=0;
       digitalWrite(LED_BUILTIN, LOW);
       return ndat;
   }
+  int32_t flash_disk(void) { return 0;}
+
 #elif PROC==1
   //compress and write to file
   #define MBIT 32
+  static int kko=0;
   static int32_t disk_buffer[NBUF_I2S];
+
+  int32_t flushBuffer(int32_t nbuf)
+  {
+    digitalWrite(LED_BUILTIN, HIGH);
+    uint32_t to=millis();
+    int ndat= file.write(disk_buffer,nbuf);
+    uint32_t dt=(millis()-to);
+    if(dt>mdt) mdt=dt;
+    digitalWrite(LED_BUILTIN, LOW);
+    return ndat;
+  }
+
   int32_t storeData(int32_t *buffer)
   {
-
+    int32_t ndat=0;
     for(int ii=0;ii<NBUF_I2S;ii++) buffer[ii]=buffer[ii]>>8;
     uint32_t amax=0;
     for(int ii=0;ii<NBUF_I2S;ii++) 
@@ -240,11 +258,17 @@ uint32_t mdt=0;
     // 
     uint32_t *tempData = (uint32_t *) buffer;
     uint32_t *outData  = (uint32_t *) disk_buffer;
-    for(int ii=0;ii<NBUF_I2S;ii++) outData[ii]=0;
+    for(int ii=kko;ii<NBUF_I2S;ii++) outData[ii]=0;
 
-    outData[0]=nb;
-    outData[1]=ncmp;
-    int kk=2;
+    int kk = kko;
+//    if(kk==NBUF_I2S-2)
+//    { uint32_t nbuf=NBUF_I2S*4;
+//      ndat += flushBuffer(nbuf);
+//      kk=0;
+//    }
+    outData[kk++]=nb;
+    outData[kk++]=ncmp;
+    //
     int nx = MBIT;
     for (int ii = 0; ii < NBUF_I2S; ii ++)
     {   nx -= nb;
@@ -254,21 +278,45 @@ uint32_t mdt=0;
         }
         else if(nx==0) 
         {   outData[kk++] |= tmp;
+            if(kk==NBUF_I2S)
+            { uint32_t nbuf=NBUF_I2S*4;
+              ndat += flushBuffer(nbuf);
+              kk=0;
+            }
             nx=MBIT;
         } 
         else    // nx is < 0
         {   outData[kk++] |= (tmp >> (-nx));
+            if(kk==NBUF_I2S)
+            { uint32_t nbuf=NBUF_I2S*4;
+              ndat += flushBuffer(nbuf);
+              kk=0;
+            }
             nx += MBIT;
             outData[kk] = (tmp << nx);
         }
     }
-    uint32_t nbuf=kk*4;
-    //Serial.printf("%08x %08x %08x %08x\n",disk_buffer[0],disk_buffer[1],disk_buffer[2],disk_buffer[3]);
-    digitalWrite(LED_BUILTIN, HIGH);
-    int ndat= file.write(disk_buffer,nbuf);
-    digitalWrite(LED_BUILTIN, LOW);
+    kko=kk;
+/*
+    uint32_t nbuf=(kk/128)*128*4;
+    //Serial.printf("%d %d %d %d %08x %08x %08x %08x\n",nb,ncmp,kk,kko,
+    //  disk_buffer[kko+0],disk_buffer[kko+1],disk_buffer[kko+2],disk_buffer[kko+3]);
+    ndat += flushBuffer(nbuf);
+    //
+    kko=kk % 128;
+    kk=(kk/128)*128;
+    for(int ii=0;ii<kko;ii++) disk_buffer[ii]=disk_buffer[kk++];
+*/
     return ndat;
   }
+
+  int32_t flash_disk(void)
+  {
+    uint32_t nbuf=kko*4;
+    kko=0;
+    return flushBuffer(nbuf);
+  }
+
 #endif
 
 // Filing
@@ -327,7 +375,7 @@ status_t logger(int32_t * buffer,status_t status)
     }
     //
     Serial.print(fileName); Serial.print("; ");
-    file.seekSet(512);
+    file.write(&wav_hdr,512);
     num_bytes_written=0;
     status=RECORDING;
   }
@@ -341,10 +389,13 @@ status_t logger(int32_t * buffer,status_t status)
     uint32_t tmp_time=(tt % t_acq );
     if((tmp_time < old_time) || (status == MUST_STOP))
     {
-      // create header for WAV file and write to SD card
-      char *wav_header=wavHeaderUpdate(num_bytes_written);
-      //update_header(num_bytes_written);
+      // flash last buffer
+      num_bytes_written += flash_disk();
 
+      int16_t vsens=analogRead(A1);
+      // create header for WAV file and write to SD card
+      char *wav_header=wavHeaderUpdate(num_bytes_written,vsens);
+  	  //
       uint64_t fpos;
       fpos = file.curPosition();
       //Serial.printf(" fpos=%d ",fpos);
@@ -356,12 +407,12 @@ status_t logger(int32_t * buffer,status_t status)
       //
       uint32_t num_samples = num_bytes_written / (4 * NCH);
       if(Serial)
-      { Serial.printf("\t%5d %8d %3d %2d %4d\t%8x %8x %8x %8x\n", 
-                        loop_count, num_samples, data_count, missed_acq, mdt,
+      { Serial.printf("\t%5d %8d %3d %2d %4d %6d\t%8x %8x %8x %8x\n", 
+                        loop_count, num_samples, data_count, missed_acq, mdt, vsens,
                                             buffer[0],buffer[1],buffer[2],buffer[3]);
         if(missed_acq>0) 
         { uint32_t * ptr=get_missed_list(); 
-          Serial.print("Missed: ");
+          Serial.print("Missed "); Serial.print(missed_acq); Serial.print(": ");
           for(int ii=0; ii<missed_acq; ii++) {Serial.print(ptr[ii % 32]); Serial.print(' ');} Serial.println();
         }
       }
@@ -400,7 +451,7 @@ status_t logger(int32_t * buffer,status_t status)
 
 /*************************Configuration file ****************************************/
 static char configText[16*80]={0};  // maximal 16 lines of 80 characters each
-static int configIndex[16]={0};     // maximal 16 parameters
+static int configIndex[16]={0};     // maximal 16 parameters (actual 11 entries)
 int16_t loadConfigfromFile(void)
 {
   const int nmax=sizeof(configText);

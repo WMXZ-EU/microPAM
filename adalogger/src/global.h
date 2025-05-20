@@ -2,7 +2,8 @@
 #define GLOBAL_H
 
 #include "../config.h"
-  #define Version "1.00"
+  //#define Version "1.00"
+  #define Version "1.01" // changed adalogger.int to first change cpu frequency
 
   // definitions for acquisition and filing
   #define NCH       1

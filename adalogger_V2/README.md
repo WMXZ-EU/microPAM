@@ -27,8 +27,8 @@
  System configuration is controlled by src/global.h
 
 ## Miscalaneous
-  program developed for TMS320ADC6140 ADC, but based on MEMS I2S microphone 
-  exxternal RTC is RV2038
+  program developed for TMS320ADC6140 ADC, but derived from program for MEMS I2S microphone 
+  external RTC is RV2038
   integer compression (code is present but not finally tested)
 
 ## UF2 file

@@ -198,7 +198,7 @@ uint16_t SD_init(void)
 
 void SD_stop(void)
 {
-//https://github.com/greiman/SdFat/issues/401
+  //https://github.com/greiman/SdFat/issues/401
   if(have_sd)
     sd.card()->syncDevice();
 }

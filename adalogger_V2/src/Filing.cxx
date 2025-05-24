@@ -25,6 +25,7 @@
 #include "rp2040.h"
 #include "RTC.h"
 #include "Filing.h"
+#include "Adc.h"
 
 uint32_t t_acq = T_ACQ;   // seconds
 uint32_t t_on  = T_ON;    // minutes
@@ -485,8 +486,8 @@ int16_t loadConfigfromFile(void)
           case 'a': sscanf(txt2,"%d",&t_acq); break;
           case 'o': sscanf(txt2,"%d",&t_on); break;
           case 'r': sscanf(txt2,"%d",&t_rep); break;
-          case 'f': sscanf(txt2,"%d",&fsamp); fsamp *=1000; break;
-          case 'g': sscanf(txt2,"%d",&again); break;
+          case 'f': sscanf(txt2,"%d",&fsamp); fsamp *=1000; acqModifyFrequency(fsamp); break;
+          case 'g': sscanf(txt2,"%d",&again); setAGain((int8_t)again&0xff); break;
           case 's': sscanf(txt2,"%s",&ISRC[0]); break; // source (AS1-200)
           case 'c': sscanf(txt2,"%s",&ICMS[0]); break; // commissioning organisation (WMXZ)
           case 'n': sscanf(txt2,"%s",&IART[0]); break; // name of operator (creator) (WMXZ)

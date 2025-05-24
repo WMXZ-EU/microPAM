@@ -27,7 +27,7 @@
   #define PreAmp  0                   // 0: CMOS; 1: FET; 2 Mark
   #define Program "Adalogger_V2a"
 
-  #define WAIT      1.5     // seconds to wait for serial (0 do not wait)
+  #define WAIT      0.5     // seconds to wait for serial (0 do not wait)
 
   // definitions for acquisition and filing
   #define NCHAN_I2S   1   // controls the I2S interface

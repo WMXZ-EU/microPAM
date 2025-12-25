@@ -20,12 +20,13 @@ TARGET_NAME     := $(PROJECT)_$(BOARD_ID)
 $(info Target is : $(TARGET_NAME))
 
 # adjust the following for the arduino path
+TDVERSION = 0.60.5
 ROOT0 = $(ROOT)\..\..
 #
-ROOTX = $(ROOT0)\..\..\AppData\Local\Arduino15.0\packages\teensy
-ROOT1 = $(ROOTX)\hardware\avr\1.58.1
-ROOT2 = $(ROOTX)\tools\teensy-compile\1.56.1
-ROOT3 = $(ROOTX)\tools\teensy-tools\1.58.0
+ROOTX = $(ROOT0)\..\..\AppData\Local\Arduino15\packages\teensy
+ROOT1 = $(ROOTX)\hardware\avr\$(TDVERSION)
+ROOT2 = $(ROOTX)\tools\teensy-compile\11.3.1
+ROOT3 = $(ROOTX)\tools\teensy-tools\$(TDVERSION)
 
 LIBS_LOCAL_BASE := $(ROOT0)\libraries
 LIBS_LOCAL      := 

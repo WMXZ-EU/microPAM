@@ -24,7 +24,7 @@
 
 #include "src/global.h"
 #include "src/rp2040.h"
-#include "src/RTC.h"
+#include "src/mRTC.h"
 #include "src/Menu.h"
 #include "src/Filing.h"
 #include "src/Adc.h"

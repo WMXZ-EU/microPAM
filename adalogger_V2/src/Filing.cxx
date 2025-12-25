@@ -23,7 +23,7 @@
 
 #include "global.h"
 #include "rp2040.h"
-#include "RTC.h"
+#include "mRTC.h"
 #include "Filing.h"
 #include "Adc.h"
 
@@ -338,6 +338,8 @@ status_t logger(int32_t * buffer,status_t status)
 {
   if(status==CLOSED)
   { // open new file
+    neo_pixel_show(10, 10, 10);
+
     datetime_t t;
     rtcGetDatetime(&t);
     //
@@ -372,6 +374,7 @@ status_t logger(int32_t * buffer,status_t status)
     file=sd.open(fileName, FILE_WRITE);
     if(!file)
     { status=JUST_STOPPED; 
+      neo_pixel_show(0, 0, 10);
       return status;
     }
     //
@@ -379,6 +382,7 @@ status_t logger(int32_t * buffer,status_t status)
     file.write(&wav_hdr,512);
     num_bytes_written=0;
     status=RECORDING;
+    neo_pixel_show(0, 0, 0);
   }
   //
   if((status==RECORDING) || (status==MUST_STOP))

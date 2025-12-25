@@ -38,3 +38,30 @@ From linker file:
     } > FLASH
 
 So look at 0x10002ff0 for FS_START, 0x10002ff4 for FS_END. In this case, FS_START = 0x100ff000 and FS_END = 0x101ff000
+
+
+
+
+Scripts
+
+LittleFS Filesystem Uploader v1.5.4 -- https://github.com/earlephilhower/arduino-littlefs-upload
+
+ Sketch Path: C:\Users\zimme\Documents\Arduino\microPAM\adalogger_V2
+   Data Path: C:\Users\zimme\Documents\Arduino\microPAM\adalogger_V2\data
+      Device: RP2040 series
+Upload Using: default
+ Serial Port: COM9
+
+Building LittleFS filesystem
+Command Line: C:\Users\zimme\AppData\Local\Arduino15\packages\rp2040\tools\pqt-mklittlefs\4.0.1-8ec9d6f\mklittlefs.exe -c C:\Users\zimme\Documents\Arduino\microPAM\adalogger_V2\data -p 256 -b 4096 -s 1048576 C:\Users\zimme\AppData\Local\Temp\tmp-10012-1LcgiSkRoldm-.littlefs.bin
+/config.txt
+
+Uploading LittleFS filesystem
+Command Line: C:\Users\zimme\AppData\Local\Arduino15\packages\rp2040\tools\pqt-python3\1.0.1-base-3a57aed-1\python3.exe C:\Users\zimme\AppData\Local\Arduino15\packages\rp2040\hardware\rp2040\4.5.0\tools\uf2conv.py --base 275771392 --serial COM9 --family RP2040 C:\Users\zimme\AppData\Local\Temp\tmp-10012-1LcgiSkRoldm-.littlefs.bin
+Resetting COM9
+Converting to uf2, output size: 2097152, start address: 0x106ff000
+Scanning for RP2040 devices
+Flashing D: (RPI-RP2)
+Wrote 2097152 bytes to D:/NEW.UF2
+
+Completed upload.

@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef RTC_H
-#define RTC_H
+#ifndef mRTC_H
+#define mRTC_H
 
 #if defined(ARDUINO_ADAFRUIT_FEATHER_RP2040_ADALOGGER)
   #include "hardware/rtc.h"

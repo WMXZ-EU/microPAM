@@ -421,7 +421,7 @@ static const uint16_t pio_tdm_in_program_instructions[] = {
   }
 
 /************************************** Hibernate *******************************************************/
-  #include "RTC.h"
+  #include "mRTC.h"
 
 /*
   #include "tusb.h"

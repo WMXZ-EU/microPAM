@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 #include <Wire.h>
-#include "RTC.h"
+#include "mRTC.h"
 
 #if USE_EXT_RTC > 0
   #define mWire Wire

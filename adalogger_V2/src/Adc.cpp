@@ -213,6 +213,7 @@
                 i2c.write(i2c_addr[ii],regs[jj]+3, 0x80);  // CH1_CFG3 (0dB decimal gain correction: +/- 0.8 dB) e
                 i2c.write(i2c_addr[ii],regs[jj]+4, 0x00);  // CH1_CFG4 (0bit)
             }
+            delay(10); // give time to settle before reading back (0x76 sometimes reads 0x00)
             Serial.print("0x15: "); Serial.println(i2c.read(i2c_addr[ii],0x15),HEX);
             Serial.print("0x73: "); Serial.println(i2c.read(i2c_addr[ii],0x73),HEX);
             Serial.print("0x74: "); Serial.println(i2c.read(i2c_addr[ii],0x74),HEX);

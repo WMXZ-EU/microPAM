@@ -15,7 +15,7 @@
     parameter settings
  - !a xx: set squisition (file length) to xx seconds
  - !o x: set on time to x minutes (sic!)
- - !r x: set repetition rate to x minutes (sic!)
+ - !r x: set repetition rate to x minutes (sic!) continuous if "rep rate" < "on time"
  - !f x: set sampling frequency in Hz
  - !g x: set analog gain in dB
  - !w x: set eeprom mode to x (0: stored but not to be used, 1: stored and to be used on reboot)

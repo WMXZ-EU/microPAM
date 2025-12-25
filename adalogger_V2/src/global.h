@@ -23,7 +23,7 @@
 #define GLOBAL_H
 
 #include "../config.h"
-  #define Version "2.0.x" 
+  #define Version "2.0.x.1" 
   #define PreAmp  0                   // 0: CMOS; 1: FET; 2 Mark
   #define Program "Adalogger_V2a"
 
@@ -36,7 +36,7 @@
   #define PROC      0     // 0 Wav file; 1 compress (not aproved yet, so should be 0)
 
   #define MBIT      32
-  #define MBUF      (8*6)           // should ne a multople of 6
+  #define MBUF      (8*6)           // should be a multople of 6
   #if PROC==0
     #define NBUF_I2S  (MBUF/2*1024) // actual buffer length in samples for acquisition and filing (dual buffer)
   #else

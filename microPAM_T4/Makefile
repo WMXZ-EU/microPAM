@@ -20,8 +20,23 @@ TARGET_NAME     := $(PROJECT)_$(BOARD_ID)
 $(info Target is : $(TARGET_NAME))
 
 # adjust the following for the arduino path
-ROOT0 = $(ROOT)\..\..\..
-ARDUINO		:= $(ROOT0)\arduino-1.8.19\hardware
+TDVERSION = 0.60.5
+ROOT0 = $(ROOT)\..\..
+#
+ROOTX = $(ROOT0)\..\..\AppData\Local\Arduino15\packages\teensy
+ROOT1 = $(ROOTX)\hardware\avr\$(TDVERSION)
+ROOT2 = $(ROOTX)\tools\teensy-compile\11.3.1
+ROOT3 = $(ROOTX)\tools\teensy-tools\$(TDVERSION)
+
+#ROOT0 = $(ROOT)\..\..\..
+#ARDUINO		:= $(ROOT0)\arduino-0.60.5\hardware
+
+LIBS_LOCAL_BASE := $(ROOT0)\libraries
+LIBS_LOCAL      := 
+
+LIBS_SHARED_BASE  := $(ROOT1)\libraries
+LIBS_SHARED       := Audio SerialFlash Time Wire SPI SD SdFat
+
 
 USB_DEVICE		:= USB_MIDI_AUDIO_SERIAL
 
@@ -69,17 +84,22 @@ endif
 
 DEFINES     	+= -D$(USB_DEVICE)
 $(info $(DEFINES))
-DEFINES     	+= -DTEENSYDUINO=156 -DARDUINO=10819 -DLAYOUT_US_ENGLISH
+DEFINES     	+= -DTEENSYDUINO=0605 -DARDUINO=20306 -DLAYOUT_US_ENGLISH
 
-LIBS_LOCAL_BASE := $(ROOT0)\Arduino\libraries
-LIBS_LOCAL      := 
+#LIBS_LOCAL_BASE := $(ROOT0)\Arduino\libraries
+#LIBS_LOCAL      := 
 
-LIBS_SHARED_BASE  := $(ARDUINO)\teensy\avr\libraries
-LIBS_SHARED       := Audio SerialFlash Time Wire SPI SD SdFat
+#LIBS_SHARED_BASE  := $(ARDUINO)\teensy\avr\libraries
+#LIBS_SHARED       := Audio SerialFlash Time Wire SPI SD SdFat
 
-CORE_BASE        := $(ARDUINO)\teensy\avr\cores\$(Family)
-GCC_BASE         := $(ARDUINO)\tools\arm\bin
-UPL_PJRC_B       := $(ARDUINO)\tools
+#CORE_BASE        := $(ARDUINO)\teensy\avr\cores\$(Family)
+#GCC_BASE         := $(ARDUINO)\tools\arm\bin
+#UPL_PJRC_B       := $(ARDUINO)\tools
+
+CORE_BASE        := $(ROOT1)\cores\$(Family)
+GCC_BASE         := $(ROOT2)\arm\bin
+UPL_PJRC_B       := $(ROOT3)
+
 
 $(info GCC base = $(GCC_BASE))
 #CORE_BASE		 := $(RROT0)\Arduino\PJRC_cores\teensy4
@@ -91,7 +111,7 @@ FLAGS_OPT   := -O2
 FLAGS_COM   := -g -Wall -ffunction-sections -fdata-sections -nostdlib -MMD
 FLAGS_LSP   := 
 
-FLAGS_CPP   := -std=gnu++14 -fno-exceptions -fpermissive -fno-rtti -fno-threadsafe-statics
+FLAGS_CPP   := -std=gnu++17 -fno-exceptions -fpermissive -fno-rtti -fno-threadsafe-statics
 FLAGS_CPP   += -felide-constructors -Wno-error=narrowing
 FLAGS_C     := 
 FLAGS_S     := -x assembler-with-cpp
@@ -107,6 +127,7 @@ S_FLAGS     := $(FLAGS_CPU) $(FLAGS_OPT) $(FLAGS_COM) $(DEFINES) $(FLAGS_S)
 LD_FLAGS    := $(FLAGS_CPU) $(FLAGS_OPT) $(FLAGS_LSP) $(FLAGS_LD)
 AR_FLAGS    := rcs
 
+$(info CPP_FLAGS= $(CPP_FLAGS))
 
 #******************************************************************************
 # Folders and Files
